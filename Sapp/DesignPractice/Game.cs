@@ -12,13 +12,16 @@ namespace DesignPractice
     {
         private string title;
         private List<string> genre;
+        private int appID;
+
+        //these might be looked up at run time
         private int playTime;
         private int lastTimePlayed;
         private bool downloadableContent;
         private bool singlePlayer;
         private bool multiplayer;
         private bool cooperative;
-        private int appID;
+        
 
         //start with just title and either build the rest in later, or add them here
         public Game(string title, int appid)

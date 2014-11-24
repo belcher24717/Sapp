@@ -61,7 +61,9 @@ namespace DesignPractice
         private void PopulateGames()
         {
             //the username will have to be entered by the user manually the first time.
-            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/id/belcher24717/games?tab=all&xml=1");
+            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/76561198027181438/games?tab=all&xml=1");
+            //76561198027181438 JOHNNY
+            //76561198054602483 NICKS
 
             //the first text node will be a large int, do not want
             bool firstTextEaten = false;
