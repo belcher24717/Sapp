@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -75,6 +76,7 @@ namespace DesignPractice
 
                 if (XmlNodeType.Text == reader.NodeType && TestIfAppID(reader.Value))
                 {
+                    
                     int appid = int.Parse(reader.Value);
                     reader.Read();
                     reader.Read();
@@ -82,7 +84,8 @@ namespace DesignPractice
                     reader.Read();
                     string gameName = reader.Value;
 
-                    gamePool.Add(new Game(gameName, appid));
+                    if(IsInstalled(appid))
+                        gamePool.Add(new Game(gameName, appid));
                 }
             }
 
@@ -90,6 +93,15 @@ namespace DesignPractice
             gamePool.Sort();
             foreach(Game g in gamePool)
                 lstbxGamePool.Items.Add(g);
+        }
+
+        private bool IsInstalled(int id)
+        {
+            var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App " + id);
+
+            if(key == null)
+                return false;
+            return true;
         }
 
         //there are other text nodes that are all doubles, dont know what they are for
