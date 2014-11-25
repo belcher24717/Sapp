@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,13 +61,19 @@ namespace DesignPractice
 
         private void PopulateGames()
         {
+            Settings settings = Settings.GetInstance(this);
+
+            if (settings == null)
+                return;
+
             //the username will have to be entered by the user manually the first time.
-            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/76561198027181438/games?tab=all&xml=1");
+            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + settings.GetUserID() + "/games?tab=all&xml=1");
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
 
             //the first text node will be a large int, do not want
             bool firstTextEaten = false;
+            bool gameAdded = false;
 
             while (reader.Read())
             {
@@ -76,7 +83,7 @@ namespace DesignPractice
                     firstTextEaten = true;
                 }
 
-                if (XmlNodeType.Text == reader.NodeType && TestIfAppID(reader.Value))
+                else if (XmlNodeType.Text == reader.NodeType && TestIfAppID(reader.Value, gameAdded))
                 {
                     
                     int appid = int.Parse(reader.Value);
@@ -86,15 +93,45 @@ namespace DesignPractice
                     reader.Read();
                     string gameName = reader.Value;
 
-                    if(IsInstalled(appid))
+
+                    if (CheckIfDLC(appid) && (IsInstalled(appid) || !settings.OnlyAllowInstalled()))
+                    {
                         gamePool.Add(new Game(gameName, appid));
+                        gameAdded = true;
+                    }
+                    else
+                        gameAdded = false;
                 }
             }
+
+            //I'm finished, return the instance
+            settings.ReturnInstance(ref settings);
+
 
             //get everything into the list
             gamePool.Sort();
             foreach(Game g in gamePool)
                 lstbxGamePool.Items.Add(g);
+        }
+
+        //very inefficient. Find another way to do this
+        private bool CheckIfDLC(int appid)
+        {
+            return true;
+
+            WebClient wc = new WebClient();
+            string data = wc.DownloadString("http://steamcommunity.com/app/" + appid);
+
+            int i = data.IndexOf("http://steamcommunity.com/app/") + 30;
+
+            int j = i;
+            while (!data[j].Equals('\"'))
+                j++;
+            j = j - i;
+
+            string temp = data.Substring(i, j);
+
+            return appid.ToString().Equals(temp);
         }
 
         private bool IsInstalled(int id)
@@ -108,7 +145,7 @@ namespace DesignPractice
 
         //there are other text nodes that are all doubles, dont know what they are for
         //but we want to skip them
-        private bool TestIfAppID(string value)
+        private bool TestIfAppID(string value, bool gameAdded)
         {
             try
             {
@@ -117,6 +154,10 @@ namespace DesignPractice
             }
             catch
             {
+                if (gameAdded)
+                {
+                    gamePool[gamePool.Count - 1].AddGameTime(value);
+                }
                 return false;
             }
         }
@@ -241,6 +282,12 @@ namespace DesignPractice
             if (e.Key == Key.Right)
                 btnRemoveGame_Click(sender, e);
 
+        }
+
+        private void btnOpenSettings(object sender, RoutedEventArgs e)
+        {
+            SettingsScreen ss = new SettingsScreen();
+            ss.ShowDialog();
         }
 
         

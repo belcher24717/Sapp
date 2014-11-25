@@ -31,9 +31,13 @@
         <Button Background="#4B000000" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" Content="Sort" FlowDirection="LeftToRight" Height="25" 
                 HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" Name="btnSortLists" SnapsToDevicePixels="True" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnSortLists_Click" />
-
+        <Button Background="#4B000000" BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
+        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,49" x:Name="btnSortLists_Copy" SnapsToDevicePixels="True" 
+        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings" />
+        
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" Name="chkbxRPG" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" Name="chkbxMMO" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
+        
     </Grid>
 </Window>

@@ -13,9 +13,11 @@ namespace DesignPractice
         private string title;
         private List<string> genre;
         private int appID;
+        private double totalPlayTime;
+        private double lastTwoWeeksPlayTime;
 
         //these might be looked up at run time
-        private int playTime;
+        
         private int lastTimePlayed;
         private bool downloadableContent;
         private bool singlePlayer;
@@ -28,6 +30,9 @@ namespace DesignPractice
         {
             this.title = title;
             this.appID = appid;
+
+            this.lastTwoWeeksPlayTime = 0;
+            this.totalPlayTime = 0;
 
             genre = new List<string>();
             PopulateGenres();
@@ -66,6 +71,27 @@ namespace DesignPractice
              * */
         }
 
+        public void AddGameTime(string gameTime)
+        {
+            double timeTest = 0.0;
+
+            try
+            {
+                timeTest = double.Parse(gameTime);
+            }
+            catch
+            {
+                
+            }
+
+            if (totalPlayTime == 0)
+                totalPlayTime = timeTest;
+            else
+            {
+                lastTwoWeeksPlayTime = totalPlayTime;
+                totalPlayTime = timeTest;
+            }
+        }
 
         //This method will have 2 behaviors based on settings
         public bool IsGenres(string genreList)
