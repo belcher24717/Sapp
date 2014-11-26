@@ -23,22 +23,23 @@ namespace DesignPractice
             InitializeComponent();
             Settings reference = Settings.GetInstance(this);
 
-            if (reference == null)
-                return;
+            if (reference != null)
+            {
+                txtUserID.Text = reference.UserID;
+                cbOnlyInstalled.IsChecked = reference.OnlyAllowInstalled;
 
-            txtUserID.Text = reference.GetUserID();
-            cbOnlyInstalled.IsChecked = reference.OnlyAllowInstalled();
-
-            reference.ReturnInstance(ref reference);
+                reference.ReturnInstance(ref reference);
+            }
         }
 
         private void btnAcceptClicked(object sender, RoutedEventArgs e)
         {
             Settings reference = Settings.GetInstance(this);
 
-            reference.SetInstalledGamesOnly((bool)cbOnlyInstalled.IsChecked);
-            reference.SetUserID(txtUserID.Text);
+            reference.OnlyAllowInstalled = (bool)cbOnlyInstalled.IsChecked;
+            reference.UserID = txtUserID.Text;
 
+            reference.Save();
             reference.ReturnInstance(ref reference);
 
             this.Close();
@@ -58,6 +59,11 @@ namespace DesignPractice
         {
             MainRectangle.Height = this.Height + 2;
             MainRectangle.Width = this.Width + 2;
+        }
+
+        private void btnCancelClicked(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -1,15 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows;
 
 namespace DesignPractice
 {
+    [Serializable()]
     public class Settings
     {
-        private static string userID;
-        private static bool onlyAllowInstalled;
+
+        #region Properties
+
+        private string userID;
+        public string UserID
+        {
+            get { return userID; }
+            set
+            {
+                if (writeAccess)
+                    userID = value;
+            }
+        }
+
+        private bool onlyAllowInstalled;
+        public bool OnlyAllowInstalled
+        {
+            get { return onlyAllowInstalled; }
+            set
+            {
+                if (writeAccess)
+                    onlyAllowInstalled = value;
+            }
+        }
+
+        #endregion
 
         private static bool writeAccess;
         private static bool inUse;
@@ -20,8 +48,6 @@ namespace DesignPractice
         {
             writeAccess = false;
             inUse = false;
-            userID = "76561198027181438";
-            onlyAllowInstalled = false;
         }
 
         public static Settings GetInstance(Window reciever)
@@ -36,33 +62,60 @@ namespace DesignPractice
             return thisInstance;
         }
 
+        public static void Initialize()
+        {
+            Stream sr;
+            try
+            {
+                sr = new FileStream(@".\settings.bin", FileMode.Open);
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                //file not found, open settings screen (first launch or if it isnt there)
+                SettingsScreen ss = new SettingsScreen();
+                ss.ShowDialog();
+
+                Initialize();
+
+                return;
+            }
+
+            try
+            {
+                IFormatter formatter = new BinaryFormatter();
+                thisInstance = (Settings)formatter.Deserialize(sr);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                sr.Close();
+
+                //file was corrupted, open settings screen
+                SettingsScreen ss = new SettingsScreen();
+                ss.ShowDialog();
+
+                Initialize();
+
+                return;
+
+            }
+
+            sr.Close();
+        }
+
+        public void Save()
+        {
+            Stream sw = new FileStream(@".\settings.bin", FileMode.Create);
+            IFormatter formatter = new BinaryFormatter();
+
+            formatter.Serialize(sw, thisInstance);
+            sw.Close();
+        }
+
         public void ReturnInstance(ref Settings theSettingsObject)
         {
             theSettingsObject = null;
             inUse = false;
             writeAccess = false;
-        }
-
-        public void SetUserID(string id)
-        {
-            if (writeAccess)
-                userID = id;
-        }
-
-        public void SetInstalledGamesOnly(bool tf)
-        {
-            if (writeAccess)
-                onlyAllowInstalled = tf;
-        }
-
-        public string GetUserID()
-        {
-            return userID;
-        }
-
-        public bool OnlyAllowInstalled()
-        {
-            return onlyAllowInstalled;
         }
 
     }

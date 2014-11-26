@@ -30,6 +30,8 @@ namespace DesignPractice
         {
             InitializeComponent();
 
+            Settings.Initialize();
+
             checkboxesActive = false;
             gamePool = new List<Game>();
             removedPool = new List<Game>();
@@ -66,8 +68,13 @@ namespace DesignPractice
             if (settings == null)
                 return;
 
+            lstbxNotInGamePool.Items.Clear();
+            lstbxGamePool.Items.Clear();
+            gamePool.Clear();
+            removedPool.Clear();
+
             //the username will have to be entered by the user manually the first time.
-            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + settings.GetUserID() + "/games?tab=all&xml=1");
+            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + settings.UserID + "/games?tab=all&xml=1");
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
 
@@ -94,7 +101,7 @@ namespace DesignPractice
                     string gameName = reader.Value;
 
 
-                    if (CheckIfDLC(appid) && (IsInstalled(appid) || !settings.OnlyAllowInstalled()))
+                    if (CheckIfDLC(appid) && (IsInstalled(appid) || !settings.OnlyAllowInstalled))
                     {
                         gamePool.Add(new Game(gameName, appid));
                         gameAdded = true;
@@ -190,6 +197,8 @@ namespace DesignPractice
                 removedPool.Add(gameToSwap);
                 lstbxNotInGamePool.Items.Add(gameToSwap);
 
+                FixSelection(lstbxGamePool);
+
                 //remove it from the playable list
                 gamePool.RemoveAt(index);
                 lstbxGamePool.Items.RemoveAt(index);
@@ -203,10 +212,21 @@ namespace DesignPractice
                 gamePool.Add(gameToSwap);
                 lstbxGamePool.Items.Add(gameToSwap);
 
+                FixSelection(lstbxNotInGamePool);
+
                 //remove it from the playable list
                 removedPool.RemoveAt(index);
                 lstbxNotInGamePool.Items.RemoveAt(index);
             }
+        }
+
+        private void FixSelection(ListBox container)
+        {
+            if (container.Items.Count > 1)
+                if (container.SelectedIndex == container.Items.Count - 1)
+                    container.SelectedIndex = container.Items.Count - 2;
+                else
+                    container.SelectedIndex += 1;
         }
 
         private void btnSortLists_Click(object sender, RoutedEventArgs e)
@@ -288,6 +308,11 @@ namespace DesignPractice
         {
             SettingsScreen ss = new SettingsScreen();
             ss.ShowDialog();
+        }
+
+        private void btnRefreshClick(object sender, RoutedEventArgs e)
+        {
+            PopulateGames();
         }
 
         

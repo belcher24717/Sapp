@@ -13,12 +13,16 @@
         <Button Content="Accept" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Canvas.Left="478" Canvas.Top="320" 
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
                 Width="65" Name="btnAccept2" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnAcceptClicked" />
+        <Button Content="Cancel" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+        	HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+        	Width="65" x:Name="btnCancel" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,104,12" Click="btnCancelClicked" />
         
-        <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="80,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="202"/>
+        <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="80,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="202"/>
         
         <Label Content="SteamID64:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         
-        <CheckBox x:Name="cbOnlyInstalled" Content="Only Include Installed Games" HorizontalAlignment="Left" Margin="12,41,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="cbOnlyInstalled" Content="Only Include Installed Games" HorizontalAlignment="Left" Margin="12,41,0,0" VerticalAlignment="Top" IsChecked="True"/>
+       
 
     </Grid>
 </Window>
