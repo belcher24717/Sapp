@@ -79,59 +79,42 @@ namespace Sapp
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
 
-            //the first text node will be a large int, do not want
-            bool firstTextEaten = false;
             bool gameAdded = false;
             bool hadStats = false;
             //bool firstPass = true; // this is needed so that the first pass will work for hadStats
 
             while (reader.Read())
             {
-                //eat up that first text node
-                if (!firstTextEaten && XmlNodeType.Text == reader.NodeType)
+
+                if(XmlNodeType.Element == reader.NodeType)
                 {
-                    firstTextEaten = true;
-                }
-
-                else if (XmlNodeType.Text == reader.NodeType && TestIfAppID(reader, gameAdded))
-                {
-                    string s = reader.Value;
-                    int appid = int.Parse(s);
-
-                    //if (appid == 22)
-                      //  hadStats= false;
-
-                    reader.Read();
-                    reader.Read();
-                    reader.Read();
-                    reader.Read();
-                    string gameName = reader.Value;
-
-
-                    if (CheckIfDLC(appid) && (IsInstalled(appid) || !settings.OnlyAllowInstalled))
+                    if (reader.Name.Equals("appID"))
                     {
-                        //there are games that dont have stats. or achievements and are not DLC, fuck
-                        //if (!hadStats && !firstPass)
-                        //gamePool.RemoveAt(gamePool.Count - 1);
-                        //else
-                        //hadStats = false;
 
+                        reader.Read();
 
-                        gamePool.Add(new Game(gameName, appid));
-                        gameAdded = true;
-                        //firstPass = false;
+                        //might throw try/catch here
+                        int appid = int.Parse(reader.Value);
 
+                        reader.Read();
+                        reader.Read();
+                        reader.Read();
+                        reader.Read();
+                        string gameName = reader.Value;
+
+                        //might need to use game added if DLC can EVER have hours tied to it.
+                        if (CheckIfDLC(appid))
+                        {
+                            gamePool.Add(new Game(gameName, appid, IsInstalled(appid)));
+                        }
                     }
-                    else
-                        gameAdded = false;
+
+                    else if (reader.Name.Contains("hours"))
+                    {
+                        reader.Read();
+                        gamePool[gamePool.Count - 1].AddGameTime(reader.Value);
+                    }
                 }
-
-                //else if (gameAdded && XmlNodeType.CDATA == reader.NodeType)
-                //{
-                //if (reader.Value.Contains("/stats/"))
-                //hadStats = true;
-                //}
-
 
             }
 

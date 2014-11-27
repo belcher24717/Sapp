@@ -15,7 +15,7 @@ namespace Sapp
         private int appID;
         private double totalPlayTime;
         private double lastTwoWeeksPlayTime;
-
+        private bool isInstalled;
         //these might be looked up at run time
 
         private int lastTimePlayed;
@@ -26,10 +26,11 @@ namespace Sapp
 
 
         //start with just title and either build the rest in later, or add them here
-        public Game(string title, int appid)
+        public Game(string title, int appid, bool installed)
         {
             this.title = title;
             this.appID = appid;
+            this.isInstalled = installed;
 
             this.lastTwoWeeksPlayTime = 0;
             this.totalPlayTime = 0;
