@@ -82,7 +82,7 @@ namespace Sapp
             //the first text node will be a large int, do not want
             bool firstTextEaten = false;
             bool gameAdded = false;
-            //bool hadStats = false;
+            bool hadStats = false;
             //bool firstPass = true; // this is needed so that the first pass will work for hadStats
 
             while (reader.Read())
@@ -93,10 +93,14 @@ namespace Sapp
                     firstTextEaten = true;
                 }
 
-                else if (XmlNodeType.Text == reader.NodeType && TestIfAppID(reader.Value, gameAdded))
+                else if (XmlNodeType.Text == reader.NodeType && TestIfAppID(reader, gameAdded))
                 {
+                    string s = reader.Value;
+                    int appid = int.Parse(s);
 
-                    int appid = int.Parse(reader.Value);
+                    //if (appid == 22)
+                      //  hadStats= false;
+
                     reader.Read();
                     reader.Read();
                     reader.Read();
@@ -136,7 +140,7 @@ namespace Sapp
 
 
             //get everything into the list
-            gamePool.Sort();
+            //gamePool.Sort();
             foreach (Game g in gamePool)
                 lstbxGamePool.Items.Add(g);
         }
@@ -144,8 +148,8 @@ namespace Sapp
         //very inefficient. Find another way to do this
         private bool CheckIfDLC(int appid)
         {
-            //return true;
-
+            return true;
+            /*
             WebClient wc = new WebClient();
             string data = wc.DownloadString("http://steamcommunity.com/app/" + appid);
 
@@ -159,6 +163,26 @@ namespace Sapp
             string temp = data.Substring(i, j);
 
             return appid.ToString().Equals(temp);
+             * */
+            //if (appid == 98421)
+                //appid = appid;
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://steamcommunity.com/app/" + appid);
+
+                request.Method = "HEAD";
+                request.AllowAutoRedirect = true;
+                //request.Timeout = 5000;
+
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse; //request.
+                
+                return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private bool IsInstalled(int id)
@@ -172,18 +196,20 @@ namespace Sapp
 
         //there are other text nodes that are all doubles, dont know what they are for
         //but we want to skip them
-        private bool TestIfAppID(string value, bool gameAdded)
+        private bool TestIfAppID(XmlReader reader, bool gameAdded)
         {
             try
             {
-                int test = int.Parse(value);
+
+                int test = int.Parse(reader.Value);
+
                 return true;
             }
             catch
             {
                 if (gameAdded)
                 {
-                    gamePool[gamePool.Count - 1].AddGameTime(value);
+                    gamePool[gamePool.Count - 1].AddGameTime(reader.Value);
                 }
                 return false;
             }
