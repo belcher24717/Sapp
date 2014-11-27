@@ -1,4 +1,4 @@
-﻿<Window x:Class="DesignPractice.MainWindow"
+﻿<Window x:Class="Sapp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="510" Width="510" WindowStyle = "None" 
@@ -6,16 +6,16 @@
     <Grid>
 
         <Rectangle HorizontalAlignment="Stretch" Name="MainRectangle" Stroke="#00000000" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" Canvas.Left="0" Canvas.Top="0" Fill="#FF939393">
-         
+
         </Rectangle>
-        
+
         <ListBox HorizontalAlignment="Right" Margin="0,79,12,49" Name="lstbxNotInGamePool" Width="289"/>
         <ListBox HorizontalAlignment="Right" Margin="0,79,355,49" Name="lstbxGamePool" Width="289"/>
-        
+
         <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,431,0" Name="label1" VerticalAlignment="Top" />
         <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,65,0" Name="label2" VerticalAlignment="Top" />
         <Label Content="Genres To Play" Height="28" HorizontalAlignment="Left" Margin="10,45,0,0" Name="label3" VerticalAlignment="Top" />
-        
+
         <Button Content="Play!" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Canvas.Left="478" Canvas.Top="320" 
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
                 Width="65" Name="btnPlay" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnPlay_Click" />
@@ -37,12 +37,12 @@
         <Button Background="#4B000000" BorderThickness="0" Content="Refresh" FlowDirection="LeftToRight" Height="25" 
         	HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,79" x:Name="btnRefresh" SnapsToDevicePixels="True" 
         	Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnRefreshClick" />
-        
-        
+
+
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" Name="chkbxRPG" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" Name="chkbxMMO" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
-        
+
 
     </Grid>
 </Window>

@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 
-namespace DesignPractice
+namespace Sapp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -61,6 +61,7 @@ namespace DesignPractice
             this.Close();
         }
 
+        //make a game manager to do a lot of this logic
         private void PopulateGames()
         {
             Settings settings = Settings.GetInstance(this);
@@ -81,6 +82,8 @@ namespace DesignPractice
             //the first text node will be a large int, do not want
             bool firstTextEaten = false;
             bool gameAdded = false;
+            //bool hadStats = false;
+            //bool firstPass = true; // this is needed so that the first pass will work for hadStats
 
             while (reader.Read())
             {
@@ -92,7 +95,7 @@ namespace DesignPractice
 
                 else if (XmlNodeType.Text == reader.NodeType && TestIfAppID(reader.Value, gameAdded))
                 {
-                    
+
                     int appid = int.Parse(reader.Value);
                     reader.Read();
                     reader.Read();
@@ -103,12 +106,29 @@ namespace DesignPractice
 
                     if (CheckIfDLC(appid) && (IsInstalled(appid) || !settings.OnlyAllowInstalled))
                     {
+                        //there are games that dont have stats. or achievements and are not DLC, fuck
+                        //if (!hadStats && !firstPass)
+                        //gamePool.RemoveAt(gamePool.Count - 1);
+                        //else
+                        //hadStats = false;
+
+
                         gamePool.Add(new Game(gameName, appid));
                         gameAdded = true;
+                        //firstPass = false;
+
                     }
                     else
                         gameAdded = false;
                 }
+
+                //else if (gameAdded && XmlNodeType.CDATA == reader.NodeType)
+                //{
+                //if (reader.Value.Contains("/stats/"))
+                //hadStats = true;
+                //}
+
+
             }
 
             //I'm finished, return the instance
@@ -117,14 +137,14 @@ namespace DesignPractice
 
             //get everything into the list
             gamePool.Sort();
-            foreach(Game g in gamePool)
+            foreach (Game g in gamePool)
                 lstbxGamePool.Items.Add(g);
         }
 
         //very inefficient. Find another way to do this
         private bool CheckIfDLC(int appid)
         {
-            return true;
+            //return true;
 
             WebClient wc = new WebClient();
             string data = wc.DownloadString("http://steamcommunity.com/app/" + appid);
@@ -145,7 +165,7 @@ namespace DesignPractice
         {
             var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App " + id);
 
-            if(key == null)
+            if (key == null)
                 return false;
             return true;
         }
@@ -171,7 +191,7 @@ namespace DesignPractice
 
         private void btnRemoveGame_Click(object sender, RoutedEventArgs e)
         {
-            if(lstbxGamePool.SelectedIndex == -1)
+            if (lstbxGamePool.SelectedIndex == -1)
                 return;
 
             Game itemToRemove = gamePool[lstbxGamePool.SelectedIndex];
@@ -245,7 +265,7 @@ namespace DesignPractice
 
             foreach (Game s in removedPool)
                 lstbxNotInGamePool.Items.Add(s);
-                
+
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
@@ -315,6 +335,6 @@ namespace DesignPractice
             PopulateGames();
         }
 
-        
+
     }
 }

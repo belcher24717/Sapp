@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows;
 
-namespace DesignPractice
+namespace Sapp
 {
     [Serializable()]
     public class Settings
@@ -55,12 +55,14 @@ namespace DesignPractice
             if (inUse)
                 return null;
 
-            if(reciever.Title.Equals("SettingsScreen"))
+            if (reciever.Title.Equals("SettingsScreen"))
                 writeAccess = true;
 
             inUse = true;
             return thisInstance;
         }
+
+        #region Load Settings
 
         public static void Initialize()
         {
@@ -101,6 +103,8 @@ namespace DesignPractice
 
             sr.Close();
         }
+
+        #endregion
 
         public void Save()
         {

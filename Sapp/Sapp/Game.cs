@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Diagnostics;
 
-namespace DesignPractice
+namespace Sapp
 {
     public class Game : IComparable<Game>
     {
@@ -17,13 +17,13 @@ namespace DesignPractice
         private double lastTwoWeeksPlayTime;
 
         //these might be looked up at run time
-        
+
         private int lastTimePlayed;
         private bool downloadableContent;
         private bool singlePlayer;
         private bool multiplayer;
         private bool cooperative;
-        
+
 
         //start with just title and either build the rest in later, or add them here
         public Game(string title, int appid)
@@ -81,7 +81,7 @@ namespace DesignPractice
             }
             catch
             {
-                
+
             }
 
             if (totalPlayTime == 0)
@@ -99,8 +99,8 @@ namespace DesignPractice
             int matching = 0;
 
             //foreach (string s in genreList)
-                if (genre.Contains(genreList))
-                    matching++;
+            if (genre.Contains(genreList))
+                matching++;
 
             return matching == genre.Count;
         }
