@@ -25,6 +25,7 @@ namespace Sapp
         private List<Game> gamePool;
         private List<Game> removedPool;
         private bool checkboxesActive;
+        private bool sortSwitch;
 
         public MainWindow()
         {
@@ -33,6 +34,7 @@ namespace Sapp
             Settings.Initialize();
 
             checkboxesActive = false;
+            sortSwitch = false;
             gamePool = new List<Game>();
             removedPool = new List<Game>();
 
@@ -260,8 +262,22 @@ namespace Sapp
 
         private void btnSortLists_Click(object sender, RoutedEventArgs e)
         {
+            // ------------------------------------------ THIS WILL BE REMOVED ---------------------------------------------------
             gamePool.Sort();
+            //Optimization: potentially add logic to only sort IF removedPool is visible
             removedPool.Sort();
+
+            if (!sortSwitch)
+            {
+                gamePool.Reverse();
+                //Optimization: potentially add logic to only sort IF removedPool is visible
+                removedPool.Reverse();
+                sortSwitch = true;
+            }
+            else
+                sortSwitch = false;
+
+            // ------------------------------------------ THIS WILL BE REMOVED ---------------------------------------------------
 
             while (lstbxNotInGamePool.Items.Count != 0)
                 lstbxNotInGamePool.Items.RemoveAt(0);
