@@ -63,6 +63,7 @@ namespace Sapp
             this.Close();
         }
 
+        //move to util, return the list
         //make a game manager to do a lot of this logic
         private void PopulateGames()
         {
@@ -80,10 +81,6 @@ namespace Sapp
             XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + settings.UserID + "/games?tab=all&xml=1");
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
-
-            bool gameAdded = false;
-            bool hadStats = false;
-            //bool firstPass = true; // this is needed so that the first pass will work for hadStats
 
             while (reader.Read())
             {
@@ -107,7 +104,7 @@ namespace Sapp
                         //might need to use game added if DLC can EVER have hours tied to it.
                         if (CheckIfDLC(appid))
                         {
-                            gamePool.Add(new Game(gameName, appid, IsInstalled(appid)));
+                            gamePool.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
                         }
                     }
 
@@ -166,36 +163,6 @@ namespace Sapp
             }
             catch
             {
-                return false;
-            }
-        }
-
-        private bool IsInstalled(int id)
-        {
-            var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App " + id);
-
-            if (key == null)
-                return false;
-            return true;
-        }
-
-        //there are other text nodes that are all doubles, dont know what they are for
-        //but we want to skip them
-        private bool TestIfAppID(XmlReader reader, bool gameAdded)
-        {
-            try
-            {
-
-                int test = int.Parse(reader.Value);
-
-                return true;
-            }
-            catch
-            {
-                if (gameAdded)
-                {
-                    gamePool[gamePool.Count - 1].AddGameTime(reader.Value);
-                }
                 return false;
             }
         }
@@ -293,6 +260,7 @@ namespace Sapp
 
         }
 
+        //maybe move this logic into util?
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
             Random rand = new Random((DateTime.Now.Millisecond * DateTime.Now.Minute));
