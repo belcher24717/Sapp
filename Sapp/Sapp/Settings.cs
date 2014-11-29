@@ -64,6 +64,8 @@ namespace Sapp
 
         #endregion
 
+        private static string lastUsersSteamID64;
+
         private static bool writeAccess;
         private static bool inUse;
 
@@ -73,6 +75,7 @@ namespace Sapp
         {
             writeAccess = false;
             inUse = false;
+            lastUsersSteamID64 = "";
         }
 
         public static Settings GetInstance(Window reciever)
@@ -185,15 +188,9 @@ namespace Sapp
                 }
 
                 //if the user name is contained, try and see if the actual name is the one given
-                if (walker.Contains(uid))
-                {
-                    walker = walker.Trim('\"', '\t', '\\');
-                    walker = walker.Substring(11, walker.Length - 11);
-                    walker = walker.Trim('\"', '\t', '\\');
-
-                    if (walker.Equals(uid))
-                        foundName = true;
-                }
+                if (walker.Equals("\t\t\"accountname\"\t\t\"" + uid + "\""))
+                    foundName = true;
+                
             }
             steamConfig.Close();
 
@@ -203,14 +200,21 @@ namespace Sapp
                 return false;
             }
 
-            steamID64 = steamID64.Substring(2, steamID64.Length - 2);
-
-            int i = steamID64.IndexOf('\"');
-
-            //76561198027181438
-            steamID64 = steamID64.Substring(0, i);
+            steamID64 = steamID64.Trim('\"', ' ', '\t');
 
             return true;
+        }
+
+        public bool ShouldRefresh()
+        {
+            if (steamID64.Equals(lastUsersSteamID64))
+                return false;
+            
+            else
+                lastUsersSteamID64 = steamID64;
+
+            return true;
+            
         }
 
     }

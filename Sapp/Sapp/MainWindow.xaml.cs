@@ -237,8 +237,14 @@ namespace Sapp
             SettingsScreen ss = new SettingsScreen();
             ss.ShowDialog();
 
-            // currently, this will happen even when 'Cancel' is clicked
-            PopulateGames();
+            Settings testForRefresh = Settings.GetInstance(this);
+            bool refresh = testForRefresh.ShouldRefresh();
+            testForRefresh.ReturnInstance(ref testForRefresh);
+
+            if (refresh)
+                PopulateGames();
+
+            
         }
 
         /* button no longer exists currently

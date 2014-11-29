@@ -55,10 +55,9 @@ namespace Sapp
 
             reference.UserID = txtUserID.Text;
 
+            //save in mainwindow after we check if it should be refreshed
             reference.Save();
             reference.ReturnInstance(ref reference);
-
-           // PopulateGames();
 
             this.Close();
         }
@@ -91,9 +90,8 @@ namespace Sapp
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
                 testPath = dialog.SelectedPath;
-            }
+            
 
             txtSteamPath.Text = testPath;
             if (!File.Exists(testPath + @"\config\loginusers.vdf"))
