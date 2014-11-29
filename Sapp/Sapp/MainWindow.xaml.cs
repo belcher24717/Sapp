@@ -144,10 +144,15 @@ namespace Sapp
         private void FixSelection(ListBox container)
         {
             if (container.Items.Count > 1)
+            {
                 if (container.SelectedIndex == container.Items.Count - 1)
                     container.SelectedIndex = container.Items.Count - 2;
                 else
                     container.SelectedIndex += 1;
+
+                container.Focus();
+            }
+
         }
 
         private void btnSortLists_Click(object sender, RoutedEventArgs e)
@@ -169,19 +174,6 @@ namespace Sapp
 
             // ------------------------------------------ THIS WILL BE REMOVED ---------------------------------------------------
 
-            /*
-            while (lstbxNotInGamePool.Items.Count != 0)
-                lstbxNotInGamePool.Items.RemoveAt(0);
-
-            while (lstbxGamePool.Items.Count != 0)
-                lstbxGamePool.Items.RemoveAt(0);
-
-            foreach (Game s in gamePool)
-                lstbxGamePool.Items.Add(s);
-
-            foreach (Game s in removedPool)
-                lstbxNotInGamePool.Items.Add(s);
-            */
         }
 
         //maybe move this logic into util?
@@ -189,9 +181,6 @@ namespace Sapp
         {
             Random rand = new Random((DateTime.Now.Millisecond * DateTime.Now.Minute));
             int choiceGame = rand.Next(gamePool.Count);
-
-            //launch game from choice game
-            //MessageBox.Show(gamePool[choiceGame].ToString());
 
             gamePool[choiceGame].Launch();
 
