@@ -22,8 +22,8 @@ namespace Sapp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Game> gamePool;
-        private List<Game> removedPool;
+        private GamesList gamePool;
+        private GamesList removedPool;
         private bool checkboxesActive;
         private bool sortSwitch;
 
@@ -35,11 +35,11 @@ namespace Sapp
 
             checkboxesActive = false;
             sortSwitch = false;
-            gamePool = new List<Game>();
-            removedPool = new List<Game>();
+            gamePool = new GamesList();
+            removedPool = new GamesList();
 
             SetRectangleSize();
-            PopulateGames();
+            
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
@@ -68,103 +68,30 @@ namespace Sapp
         private void PopulateGames()
         {
             Settings settings = Settings.GetInstance(this);
-
             if (settings == null)
                 return;
+            
+            //Populate, attach event
+            gamePool = GameUtilities.PopulateGames(settings.UserID);
+            gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
 
-            lstbxNotInGamePool.Items.Clear();
-            lstbxGamePool.Items.Clear();
-            gamePool.Clear();
-            removedPool.Clear();
-
-            //the username will have to be entered by the user manually the first time.
-            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + settings.UserID + "/games?tab=all&xml=1");
-            //76561198027181438 JOHNNY
-            //76561198054602483 NICKS
-
-            while (reader.Read())
-            {
-
-                if(XmlNodeType.Element == reader.NodeType)
-                {
-                    if (reader.Name.Equals("appID"))
-                    {
-
-                        reader.Read();
-
-                        //might throw try/catch here
-                        int appid = int.Parse(reader.Value);
-
-                        reader.Read();
-                        reader.Read();
-                        reader.Read();
-                        reader.Read();
-                        string gameName = reader.Value;
-
-                        //might need to use game added if DLC can EVER have hours tied to it.
-                        if (CheckIfDLC(appid))
-                        {
-                            gamePool.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
-                        }
-                    }
-
-                    else if (reader.Name.Contains("hours"))
-                    {
-                        reader.Read();
-                        gamePool[gamePool.Count - 1].AddGameTime(reader.Value);
-                    }
-                }
-
-            }
-
-            //I'm finished, return the instance
             settings.ReturnInstance(ref settings);
 
+            lstbxGamePool.ItemsSource = gamePool;
 
-            //get everything into the list
-            //gamePool.Sort();
-            foreach (Game g in gamePool)
-                lstbxGamePool.Items.Add(g);
+
+            removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
+            lstbxNotInGamePool.ItemsSource = removedPool;
         }
 
-        //very inefficient. Find another way to do this
-        private bool CheckIfDLC(int appid)
+        private void gamePool_Changed(object sender, EventArgs e)
         {
-            return true;
-            /*
-            WebClient wc = new WebClient();
-            string data = wc.DownloadString("http://steamcommunity.com/app/" + appid);
+            lstbxGamePool.Items.Refresh();
+        }
 
-            int i = data.IndexOf("http://steamcommunity.com/app/") + 30;
-
-            int j = i;
-            while (!data[j].Equals('\"'))
-                j++;
-            j = j - i;
-
-            string temp = data.Substring(i, j);
-
-            return appid.ToString().Equals(temp);
-             * */
-            //if (appid == 98421)
-                //appid = appid;
-
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://steamcommunity.com/app/" + appid);
-
-                request.Method = "HEAD";
-                request.AllowAutoRedirect = true;
-                //request.Timeout = 5000;
-
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse; //request.
-                
-                return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
-            }
-            catch
-            {
-                return false;
-            }
+        private void removedPool_Changed(object sender, EventArgs e)
+        {
+            lstbxNotInGamePool.Items.Refresh();
         }
 
         private void btnRemoveGame_Click(object sender, RoutedEventArgs e)
@@ -193,13 +120,11 @@ namespace Sapp
 
                 //add it to removed list
                 removedPool.Add(gameToSwap);
-                lstbxNotInGamePool.Items.Add(gameToSwap);
 
                 FixSelection(lstbxGamePool);
 
                 //remove it from the playable list
                 gamePool.RemoveAt(index);
-                lstbxGamePool.Items.RemoveAt(index);
             }
 
             else if (lstbxNotInGamePool.Items.Contains(gameToSwap))
@@ -208,13 +133,11 @@ namespace Sapp
 
                 //add it to removed list
                 gamePool.Add(gameToSwap);
-                lstbxGamePool.Items.Add(gameToSwap);
 
                 FixSelection(lstbxNotInGamePool);
 
                 //remove it from the playable list
                 removedPool.RemoveAt(index);
-                lstbxNotInGamePool.Items.RemoveAt(index);
             }
         }
 
@@ -246,6 +169,7 @@ namespace Sapp
 
             // ------------------------------------------ THIS WILL BE REMOVED ---------------------------------------------------
 
+            /*
             while (lstbxNotInGamePool.Items.Count != 0)
                 lstbxNotInGamePool.Items.RemoveAt(0);
 
@@ -257,7 +181,7 @@ namespace Sapp
 
             foreach (Game s in removedPool)
                 lstbxNotInGamePool.Items.Add(s);
-
+            */
         }
 
         //maybe move this logic into util?
@@ -289,7 +213,7 @@ namespace Sapp
             CheckBoxChanged(ref gamePool, ((CheckBox)sender).Content.ToString());
         }
 
-        private void CheckBoxChanged(ref List<Game> pool, string checkboxChanged)
+        private void CheckBoxChanged(ref GamesList pool, string checkboxChanged)
         {
             List<Game> tempForRemoval = new List<Game>();
 
@@ -304,6 +228,8 @@ namespace Sapp
 
         private void formLoaded(object sender, RoutedEventArgs e)
         {
+            PopulateGames();
+
             checkboxesActive = true;
         }
 
