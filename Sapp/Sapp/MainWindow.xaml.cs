@@ -72,7 +72,7 @@ namespace Sapp
                 return;
             
             //Populate, attach event
-            gamePool = GameUtilities.PopulateGames(settings.UserID);
+            gamePool = GameUtilities.PopulateGames(settings.SteamID64);
             gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
 
             settings.ReturnInstance(ref settings);

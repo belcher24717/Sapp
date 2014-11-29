@@ -22,7 +22,10 @@ namespace Sapp
             set
             {
                 if (writeAccess)
+                {
                     userID = value;
+                    GetSteamID64();
+                }
             }
         }
 
@@ -37,10 +40,36 @@ namespace Sapp
             }
         }
 
+        private string steamID64;
+        public string SteamID64
+        {
+            get { return steamID64; }
+            //set
+            //{
+             //   GetSteamID64();
+                //if (writeAccess)
+                    //steamID64 = value;
+            //}
+        }
+
+        private string steamLocation;
+        public string SteamLocation
+        {
+            get { return steamLocation; }
+            set
+            {
+                if (writeAccess && Directory.Exists(value))
+                    steamLocation = value;
+            }
+        }
+
         #endregion
 
         private static bool writeAccess;
         private static bool inUse;
+
+        
+        
 
         private static Settings thisInstance = new Settings();
 
@@ -87,7 +116,7 @@ namespace Sapp
                 IFormatter formatter = new BinaryFormatter();
                 thisInstance = (Settings)formatter.Deserialize(sr);
             }
-            catch (InvalidOperationException ioe)
+            catch (Exception ioe)
             {
                 sr.Close();
 
@@ -120,6 +149,43 @@ namespace Sapp
             theSettingsObject = null;
             inUse = false;
             writeAccess = false;
+        }
+
+        //make run only when needed (only when username changes)
+        private void GetSteamID64()
+        {
+            string walker = "";
+            StreamReader steamConfig;
+
+            try
+            {
+                steamConfig = new StreamReader(steamLocation + @"\config\loginusers.vdf");
+            }
+            catch
+            {
+                return;
+            }
+
+            while (!walker.Contains(userID))
+            {
+                if (!walker.Contains("{"))
+                {
+                    steamID64 = walker;
+                    walker = steamConfig.ReadLine();
+                }
+                else
+                {
+                    walker = steamConfig.ReadLine();
+                }
+            }
+            steamConfig.Close();
+
+            steamID64 = steamID64.Substring(2, steamID64.Length - 2);
+
+            int i = steamID64.IndexOf('\"');
+
+            //76561198027181438
+            steamID64 = steamID64.Substring(0, i);
         }
 
     }

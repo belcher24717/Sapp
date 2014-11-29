@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -27,6 +28,15 @@ namespace Sapp
             {
                 txtUserID.Text = reference.UserID;
                 cbOnlyInstalled.IsChecked = reference.OnlyAllowInstalled;
+                txtSteamPath.Text = reference.SteamLocation;
+
+                //only try and fill it with something if the settings file is not there, or corrupted
+                if (reference.UserID == null)
+                {
+                    string testPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam";
+                    if(File.Exists(testPath + @"\config\loginusers.vdf"))
+                        txtSteamPath.Text = testPath;
+                }
 
                 reference.ReturnInstance(ref reference);
             }
@@ -36,7 +46,13 @@ namespace Sapp
         {
             Settings reference = Settings.GetInstance(this);
 
+            //get rid of this when we move this CB
             reference.OnlyAllowInstalled = (bool)cbOnlyInstalled.IsChecked;
+
+            //only save it if its valid
+            if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))
+                reference.SteamLocation = txtSteamPath.Text;
+
             reference.UserID = txtUserID.Text;
 
             reference.Save();
@@ -64,6 +80,11 @@ namespace Sapp
         private void btnCancelClicked(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void btnBrowseClicked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
