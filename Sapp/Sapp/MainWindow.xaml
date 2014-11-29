@@ -34,9 +34,6 @@
         <Button Background="#4B000000" BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
         	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,49" x:Name="btnSettings" SnapsToDevicePixels="True" 
         	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings" />
-        <Button Background="#4B000000" BorderThickness="0" Content="Refresh" FlowDirection="LeftToRight" Height="25" 
-        	HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,79" x:Name="btnRefresh" SnapsToDevicePixels="True" 
-        	Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnRefreshClick" />
 
 
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>

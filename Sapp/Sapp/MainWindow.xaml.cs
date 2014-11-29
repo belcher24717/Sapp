@@ -236,13 +236,17 @@ namespace Sapp
         {
             SettingsScreen ss = new SettingsScreen();
             ss.ShowDialog();
+
+            // currently, this will happen even when 'Cancel' is clicked
+            PopulateGames();
         }
 
+        /* button no longer exists currently
         private void btnRefreshClick(object sender, RoutedEventArgs e)
         {
             PopulateGames();
         }
-
+        */
 
     }
 }
