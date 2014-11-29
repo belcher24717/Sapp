@@ -21,10 +21,9 @@ namespace Sapp
             get { return userID; }
             set
             {
-                if (writeAccess)
+                if (writeAccess && GetSteamID64(value))
                 {
                     userID = value;
-                    GetSteamID64();
                 }
             }
         }
@@ -67,9 +66,6 @@ namespace Sapp
 
         private static bool writeAccess;
         private static bool inUse;
-
-        
-        
 
         private static Settings thisInstance = new Settings();
 
@@ -137,11 +133,18 @@ namespace Sapp
 
         public void Save()
         {
-            Stream sw = new FileStream(@".\settings.bin", FileMode.Create);
-            IFormatter formatter = new BinaryFormatter();
+            try
+            {
+                Stream sw = new FileStream(@".\settings.bin", FileMode.Create);
+                IFormatter formatter = new BinaryFormatter();
 
-            formatter.Serialize(sw, thisInstance);
-            sw.Close();
+                formatter.Serialize(sw, thisInstance);
+                sw.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Settings not saved, an error occured");
+            }
         }
 
         public void ReturnInstance(ref Settings theSettingsObject)
@@ -152,7 +155,7 @@ namespace Sapp
         }
 
         //make run only when needed (only when username changes)
-        private void GetSteamID64()
+        private bool GetSteamID64(string uid)
         {
             string walker = "";
             StreamReader steamConfig;
@@ -163,10 +166,13 @@ namespace Sapp
             }
             catch
             {
-                return;
+                MessageBox.Show("User Name could not be found. Be sure to login to Steam.");
+                return false;
             }
 
-            while (!walker.Contains(userID))
+            bool foundName = false;
+
+            while (!foundName && !steamConfig.EndOfStream)
             {
                 if (!walker.Contains("{"))
                 {
@@ -177,8 +183,25 @@ namespace Sapp
                 {
                     walker = steamConfig.ReadLine();
                 }
+
+                //if the user name is contained, try and see if the actual name is the one given
+                if (walker.Contains(uid))
+                {
+                    walker = walker.Trim('\"', '\t', '\\');
+                    walker = walker.Substring(11, walker.Length - 11);
+                    walker = walker.Trim('\"', '\t', '\\');
+
+                    if (walker.Equals(uid))
+                        foundName = true;
+                }
             }
             steamConfig.Close();
+
+            if (!foundName)
+            {
+                MessageBox.Show("User Name could not be found. Be sure to login to Steam.");
+                return false;
+            }
 
             steamID64 = steamID64.Substring(2, steamID64.Length - 2);
 
@@ -186,6 +209,8 @@ namespace Sapp
 
             //76561198027181438
             steamID64 = steamID64.Substring(0, i);
+
+            return true;
         }
 
     }

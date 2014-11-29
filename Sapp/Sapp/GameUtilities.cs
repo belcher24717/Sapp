@@ -70,6 +70,8 @@ namespace Sapp
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
 
+
+
             while (reader.Read())
             {
 
