@@ -171,7 +171,7 @@ namespace Sapp
                 }
 
                 //if the user name is contained, try and see if the actual name is the one given
-                if (walker.Equals("\t\t\"accountname\"\t\t\"" + uid + "\""))
+                if (string.Compare(walker, "\t\t\"accountname\"\t\t\"" + uid + "\"", true) == 0)
                     foundName = true;
                 
             }

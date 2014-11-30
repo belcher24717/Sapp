@@ -39,6 +39,16 @@ namespace Sapp
             PopulateGenres();
         }
 
+        public int GetAppID()
+        {
+            return appID;
+        }
+
+        public double GetHoursPlayed()
+        {
+            return totalPlayTime;
+        }
+
         public override string ToString()
         {
             return this.title;

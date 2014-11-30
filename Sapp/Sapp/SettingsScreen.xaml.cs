@@ -45,7 +45,7 @@ namespace Sapp
         {
             Settings reference = Settings.GetInstance(this);
 
-            //only save it if its valid
+            //only save it if its valid --SOMETHING IS HOLDING SETTINGS AND THIS IS BLOWING UP
             if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))
                 reference.SteamLocation = txtSteamPath.Text;
 

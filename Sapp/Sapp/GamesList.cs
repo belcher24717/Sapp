@@ -68,6 +68,21 @@ namespace Sapp
             }
         }
 
+        public Game GetGame(int appID)
+        {
+            foreach (Game g in this)
+            {
+                if (g.GetAppID() == appID)
+                    return g;
+            }
+            return null;
+        }
+
+        public void RemoveNoNotify(Game value)
+        {
+            base.Remove(value);
+        }
+
     }
 
 }

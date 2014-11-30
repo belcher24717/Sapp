@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,14 +23,18 @@ namespace Sapp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GamesList gamePool;
+        private static GamesList gamePool;
         private GamesList removedPool;
         private bool checkboxesActive;
         private bool sortSwitch;
 
+        private static MainWindow thisInstance;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            thisInstance = this;
 
             Settings.Initialize();
 
@@ -72,16 +77,66 @@ namespace Sapp
                 return;
             
             //Populate, attach event
-            gamePool = GameUtilities.PopulateGames(settings.SteamID64);
-            gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
-
+            string steamid64 = settings.SteamID64;
             settings.ReturnInstance(ref settings);
+
+            gamePool = GameUtilities.PopulateGames(steamid64);
+            gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
 
             lstbxGamePool.ItemsSource = gamePool;
 
 
             removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
             lstbxNotInGamePool.ItemsSource = removedPool;
+
+            //weed out DLC here-------------------------------------
+            /*for (int i = 0; i < gamePool.Count; i++)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    //for (int i = 0; i < gamePool.Count; i++)
+                    //{
+                        try
+                        {
+                            WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + gamePool[i].GetAppID());
+
+                            request.Method = "HEAD";
+                            //request.AllowAutoRedirect = true;
+                            //request.Timeout = 15000;
+
+                            WebResponse response = request.GetResponse() as HttpWebResponse; //request.
+
+                            //this dlc never comes through?
+
+
+                            //return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
+                            if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + gamePool[i].GetAppID()))
+                            {
+                                //somehow remove the dlc
+                                gamePool.Remove(gamePool[i]);
+                                i--;
+                            }
+
+
+                            response.Close();
+
+                        }
+                        catch
+                        {
+
+                        }
+                    //}
+                }));
+            }*/
+
+        }
+
+        public static void RemoveDlc(int id)
+        {
+            lock (gamePool)
+            {
+                gamePool.RemoveNoNotify(gamePool.GetGame(id));
+            }
         }
 
         private void gamePool_Changed(object sender, EventArgs e)
@@ -171,6 +226,8 @@ namespace Sapp
             }
             else
                 sortSwitch = false;
+
+            //lstbxGamePool.Items.Refresh();
 
             // ------------------------------------------ THIS WILL BE REMOVED ---------------------------------------------------
 

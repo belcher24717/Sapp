@@ -22,75 +22,29 @@ namespace Sapp
         
         }
 
-        //very inefficient. Find another way to do this
-        public static void CheckIfDLC(int appid)
-        {
-            return true;
-            /*
-            WebClient wc = new WebClient();
-            string data = wc.DownloadString("http://steamcommunity.com/app/" + appid);
-
-            int i = data.IndexOf("http://steamcommunity.com/app/") + 30;
-
-            int j = i;
-            while (!data[j].Equals('\"'))
-                j++;
-            j = j - i;
-
-            string temp = data.Substring(i, j);
-
-            return appid.ToString().Equals(temp);
-             * */
-            //if (appid == 98421)
-            //appid = appid;
-
-
-            if (appid == 214933)
-            {
-            }
-            //ThreadPool.SetMaxThreads(9, 9);
-            ThreadPool.QueueUserWorkItem(ThreadTesting, appid);
-            /*
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://steamcommunity.com/app/" + appid);
-
-                request.Method = "HEAD";
-                request.AllowAutoRedirect = true;
-                request.Timeout = 15000;
-
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse; //request.
-
-
-                return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
-            }
-            catch
-            {
-                return false;
-            }*/
-        }
-
-        
         private static void ThreadTesting(object appID)
         {
             int appid = (int)appID;
+
             try
             {
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://steamcommunity.com/app/" + appid);
 
                 request.Method = "HEAD";
                 request.AllowAutoRedirect = true;
-                request.Timeout = 15000;
+                //request.Timeout = 15000;
 
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse; //request.
 
                 //this dlc never comes through?
-                if (appid == 214933)
-                {
-                }
+                
 
                 //return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
-                if (!response.ResponseUri.Equals("http://steamcommunity.com/app/" + appid))
+                if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + appid))
+                {
+
+                }
+                else
                 {
 
                 }
@@ -132,12 +86,8 @@ namespace Sapp
                         reader.Read();
                         string gameName = reader.Value;
 
-                        //might need to use game added if DLC can EVER have hours tied to it.
-                        //if (GameUtilities.CheckIfDLC(appid))
-                        //{
-                            games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
-                            GameUtilities.CheckIfDLC(appid);
-                        //}
+                        games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
+                        
                     }
 
                     else if (reader.Name.Contains("hours"))
@@ -146,10 +96,93 @@ namespace Sapp
                         games[games.Count - 1].AddGameTime(reader.Value);
                     }
                 }
+            }
+
+            Task[] tasks = new Task[games.Count];
+            WeedOutDLCThread.theList = games;
+
+            //gets rid of dlc, using multiple threads (tasks)
+            int number = 0;
+            foreach (Game g in games)
+            {
+
+                if (g.GetHoursPlayed() == 0)
+                {
+                    tasks[number] = Task.Factory.StartNew(() =>
+                    {
+                        var sacThread = new WeedOutDLCThread(g.GetAppID());
+                        //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);'
+                        sacThread.ThreadStart(null);
+                    });
+                    number++;
+                }
+            }
+
+            int counter = 0;
+            while (tasks[counter] != null)
+                counter++;
+
+            Task[] noNullTasks = new Task[counter];
+
+            for (int i = 0; i < counter; i++)
+                noNullTasks[i] = tasks[i];
+
+            Task.WaitAll(noNullTasks);
+
+            WeedOutDLCThread.theList = null;
+
+            return games;
+        }
+
+
+
+    }
+
+    class WeedOutDLCThread
+    {
+        private int appID;
+        public static GamesList theList;
+
+        internal WeedOutDLCThread(int appid)
+        {
+            this.appID = appid;
+        }
+
+        internal void ThreadStart(object state)
+        {
+
+            try
+            {
+                WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + appID);
+
+                request.Method = "HEAD";
+                //request.AllowAutoRedirect = true;
+                //request.Timeout = 15000;
+
+                WebResponse response = request.GetResponse() as HttpWebResponse; //request.
+
+                //this dlc never comes through?
+
+                
+                //return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
+                if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + appID))
+                {
+                    lock (theList)
+                    {
+                        theList.Remove(theList.GetGame(appID));
+                    }
+                    //MainWindow.RemoveDlc(appID);
+                }
+
+
+                response.Close();
+
+            }
+            catch
+            {
 
             }
 
-            return games;
         }
 
     }
