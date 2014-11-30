@@ -27,7 +27,6 @@ namespace Sapp
             if (reference != null)
             {
                 txtUserID.Text = reference.UserID;
-                cbOnlyInstalled.IsChecked = reference.OnlyAllowInstalled;
                 txtSteamPath.Text = reference.SteamLocation;
 
                 //only try and fill it with something if the settings file is not there, or corrupted
@@ -45,9 +44,6 @@ namespace Sapp
         private void btnAcceptClicked(object sender, RoutedEventArgs e)
         {
             Settings reference = Settings.GetInstance(this);
-
-            //get rid of this when we move this CB
-            reference.OnlyAllowInstalled = (bool)cbOnlyInstalled.IsChecked;
 
             //only save it if its valid
             if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))

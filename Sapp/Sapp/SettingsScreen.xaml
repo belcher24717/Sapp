@@ -18,15 +18,13 @@
         	Width="65" x:Name="btnCancel" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,104,12" Click="btnCancelClicked" />
         <Button Content="Browse" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
         	HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-        	Width="65" x:Name="btnAccept2_Copy" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,18,182" Click="btnBrowseClicked" />
+        	Width="65" x:Name="btnAccept2_Copy" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,18,196" Click="btnBrowseClicked" />
         
         <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="80,10,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
-        <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="80,62,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
+        <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="80,48,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
         
         <Label Content="User Name:" HorizontalAlignment="Left" Margin="4,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="4,62,0,0" VerticalAlignment="Top"/>
-
-        <CheckBox x:Name="cbOnlyInstalled" Content="Only Include Installed Games" HorizontalAlignment="Left" Margin="12,41,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="4,48,0,0" VerticalAlignment="Top"/>
 
 
     </Grid>

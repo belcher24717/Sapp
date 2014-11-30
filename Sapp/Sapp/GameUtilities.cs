@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -22,7 +23,7 @@ namespace Sapp
         }
 
         //very inefficient. Find another way to do this
-        public static bool CheckIfDLC(int appid)
+        public static void CheckIfDLC(int appid)
         {
             return true;
             /*
@@ -43,21 +44,61 @@ namespace Sapp
             //if (appid == 98421)
             //appid = appid;
 
+
+            if (appid == 214933)
+            {
+            }
+            //ThreadPool.SetMaxThreads(9, 9);
+            ThreadPool.QueueUserWorkItem(ThreadTesting, appid);
+            /*
             try
             {
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://steamcommunity.com/app/" + appid);
 
                 request.Method = "HEAD";
                 request.AllowAutoRedirect = true;
-                //request.Timeout = 5000;
+                request.Timeout = 15000;
 
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse; //request.
+
 
                 return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
             }
             catch
             {
                 return false;
+            }*/
+        }
+
+        
+        private static void ThreadTesting(object appID)
+        {
+            int appid = (int)appID;
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://steamcommunity.com/app/" + appid);
+
+                request.Method = "HEAD";
+                request.AllowAutoRedirect = true;
+                request.Timeout = 15000;
+
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse; //request.
+
+                //this dlc never comes through?
+                if (appid == 214933)
+                {
+                }
+
+                //return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
+                if (!response.ResponseUri.Equals("http://steamcommunity.com/app/" + appid))
+                {
+
+                }
+
+            }
+            catch
+            {
+                
             }
         }
 
@@ -92,10 +133,11 @@ namespace Sapp
                         string gameName = reader.Value;
 
                         //might need to use game added if DLC can EVER have hours tied to it.
-                        if (GameUtilities.CheckIfDLC(appid))
-                        {
+                        //if (GameUtilities.CheckIfDLC(appid))
+                        //{
                             games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
-                        }
+                            GameUtilities.CheckIfDLC(appid);
+                        //}
                     }
 
                     else if (reader.Name.Contains("hours"))

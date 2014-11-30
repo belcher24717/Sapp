@@ -39,6 +39,7 @@
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" Name="chkbxRPG" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" Name="chkbxMMO" IsChecked="True" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
+        <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="12,258,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled"/>
 
 
     </Grid>

@@ -44,6 +44,11 @@ namespace Sapp
             return this.title;
         }
 
+        public bool IsInstalled()
+        {
+            return isInstalled;
+        }
+
         public int CompareTo(Game other)
         {
             return this.ToString().CompareTo(other.ToString());

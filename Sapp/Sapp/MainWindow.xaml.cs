@@ -244,15 +244,32 @@ namespace Sapp
             if (refresh)
                 PopulateGames();
 
-            
         }
 
-        /* button no longer exists currently
-        private void btnRefreshClick(object sender, RoutedEventArgs e)
+        private void cbChecked_OnlyInstalled(object sender, RoutedEventArgs e)
         {
-            PopulateGames();
+            //once more filters are added we will need a method that will sort based off all of them
+            if ((bool)chkbxOnlyInstalled.IsChecked)
+            {
+                for (int i = 0; i < gamePool.Count; i++)
+                {
+                    if (!gamePool[i].IsInstalled())
+                    {
+                        PutGameIntoOtherPool(gamePool[i]);
+                        i--;
+                    }
+
+                }
+
+            }
+            else
+            {
+                while (removedPool.Count > 0)
+                {
+                    PutGameIntoOtherPool(removedPool[0]);
+                }
+            }
         }
-        */
 
     }
 }

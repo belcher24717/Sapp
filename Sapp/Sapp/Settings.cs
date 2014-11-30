@@ -28,27 +28,10 @@ namespace Sapp
             }
         }
 
-        private bool onlyAllowInstalled;
-        public bool OnlyAllowInstalled
-        {
-            get { return onlyAllowInstalled; }
-            set
-            {
-                if (writeAccess)
-                    onlyAllowInstalled = value;
-            }
-        }
-
         private string steamID64;
         public string SteamID64
         {
             get { return steamID64; }
-            //set
-            //{
-             //   GetSteamID64();
-                //if (writeAccess)
-                    //steamID64 = value;
-            //}
         }
 
         private string steamLocation;
