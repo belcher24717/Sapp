@@ -64,9 +64,6 @@ namespace Sapp
                 }
             }
 
-            LoadingBar loadBar = new LoadingBar(games.Count);
-            loadBar.Show();
-
             Task[] tasks = new Task[games.Count];
             WeedOutDLCThread.theList = games;
 
@@ -87,13 +84,14 @@ namespace Sapp
                     number++;
                     
                 }
-                else
-                    loadBar.Progress();
             }
 
             int counter = 0;
             while (tasks[counter] != null)
                 counter++;
+
+            LoadingBar loadBar = new LoadingBar(counter);
+            loadBar.Show();
 
             Task[] noNullTasks = new Task[counter];
 

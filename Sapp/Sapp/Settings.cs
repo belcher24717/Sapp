@@ -58,7 +58,7 @@ namespace Sapp
         {
             writeAccess = false;
             inUse = false;
-            lastUsersSteamID64 = "";
+            lastUsersSteamID64 = null;
         }
 
         public static Settings GetInstance(Window reciever)
@@ -158,11 +158,13 @@ namespace Sapp
 
             bool foundName = false;
 
+            string temp = "";
+
             while (!foundName && !steamConfig.EndOfStream)
             {
                 if (!walker.Contains("{"))
                 {
-                    steamID64 = walker;
+                    temp = walker;
                     walker = steamConfig.ReadLine();
                 }
                 else
@@ -183,16 +185,23 @@ namespace Sapp
                 return false;
             }
 
+            steamID64 = temp;
             steamID64 = steamID64.Trim('\"', ' ', '\t');
+
+            if (lastUsersSteamID64 == null)
+                lastUsersSteamID64 = steamID64;
 
             return true;
         }
 
         public bool ShouldRefresh()
         {
-            if (steamID64.Equals(lastUsersSteamID64))
+            if (lastUsersSteamID64 == null || steamID64.Equals(lastUsersSteamID64))
+            {
+                lastUsersSteamID64 = steamID64;
                 return false;
-            
+            }
+
             else
                 lastUsersSteamID64 = steamID64;
 
