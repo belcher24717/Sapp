@@ -56,10 +56,17 @@
     </ApplicationDefinition>
     <Compile Include="GamesList.cs" />
     <Compile Include="GameUtilities.cs" />
+    <Compile Include="LoadingBar.xaml.cs">
+      <DependentUpon>LoadingBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsScreen.xaml.cs">
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
+    <Page Include="LoadingBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

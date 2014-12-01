@@ -89,46 +89,6 @@ namespace Sapp
             removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
             lstbxNotInGamePool.ItemsSource = removedPool;
 
-            //weed out DLC here-------------------------------------
-            /*for (int i = 0; i < gamePool.Count; i++)
-            {
-                this.Dispatcher.Invoke((Action)(() =>
-                {
-                    //for (int i = 0; i < gamePool.Count; i++)
-                    //{
-                        try
-                        {
-                            WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + gamePool[i].GetAppID());
-
-                            request.Method = "HEAD";
-                            //request.AllowAutoRedirect = true;
-                            //request.Timeout = 15000;
-
-                            WebResponse response = request.GetResponse() as HttpWebResponse; //request.
-
-                            //this dlc never comes through?
-
-
-                            //return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
-                            if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + gamePool[i].GetAppID()))
-                            {
-                                //somehow remove the dlc
-                                gamePool.Remove(gamePool[i]);
-                                i--;
-                            }
-
-
-                            response.Close();
-
-                        }
-                        catch
-                        {
-
-                        }
-                    //}
-                }));
-            }*/
-
         }
 
         public static void RemoveDlc(int id)

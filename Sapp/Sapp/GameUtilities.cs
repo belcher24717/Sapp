@@ -22,40 +22,6 @@ namespace Sapp
         
         }
 
-        private static void ThreadTesting(object appID)
-        {
-            int appid = (int)appID;
-
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://steamcommunity.com/app/" + appid);
-
-                request.Method = "HEAD";
-                request.AllowAutoRedirect = true;
-                //request.Timeout = 15000;
-
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse; //request.
-
-                //this dlc never comes through?
-                
-
-                //return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
-                if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + appid))
-                {
-
-                }
-                else
-                {
-
-                }
-
-            }
-            catch
-            {
-                
-            }
-        }
-
         public static GamesList PopulateGames(string userID)
         {
             GamesList games = new GamesList();
@@ -98,6 +64,9 @@ namespace Sapp
                 }
             }
 
+            LoadingBar loadBar = new LoadingBar(games.Count);
+            loadBar.Show();
+
             Task[] tasks = new Task[games.Count];
             WeedOutDLCThread.theList = games;
 
@@ -113,9 +82,13 @@ namespace Sapp
                         var sacThread = new WeedOutDLCThread(g.GetAppID());
                         //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);'
                         sacThread.ThreadStart(null);
+                        
                     });
                     number++;
+                    
                 }
+                else
+                    loadBar.Progress();
             }
 
             int counter = 0;
@@ -127,7 +100,23 @@ namespace Sapp
             for (int i = 0; i < counter; i++)
                 noNullTasks[i] = tasks[i];
 
-            Task.WaitAll(noNullTasks);
+            List<Task> taskWatcher = new List<Task>();
+            taskWatcher.AddRange(noNullTasks);
+
+            while (taskWatcher.Count > 0)
+            {
+                for (int j = 0; j < taskWatcher.Count; j++)
+                {
+                    if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
+                    {
+                        taskWatcher.RemoveAt(j);
+                        j--;
+                        loadBar.Progress();
+                    }
+                }
+            }
+
+            //Task.WaitAll(noNullTasks);
 
             WeedOutDLCThread.theList = null;
 
@@ -156,8 +145,6 @@ namespace Sapp
                 WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + appID);
 
                 request.Method = "HEAD";
-                //request.AllowAutoRedirect = true;
-                //request.Timeout = 15000;
 
                 WebResponse response = request.GetResponse() as HttpWebResponse; //request.
 
