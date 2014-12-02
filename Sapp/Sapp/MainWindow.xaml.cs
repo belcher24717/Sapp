@@ -231,6 +231,7 @@ namespace Sapp
             int choiceGame = rand.Next(gamePool.Count);
 
             gamePool[choiceGame].Launch();
+            this.WindowState = WindowState.Minimized;
 
         }
 

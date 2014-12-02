@@ -11,6 +11,27 @@ namespace Sapp
 {
     public abstract class GameUtilities
     {
+
+        public enum Tags
+        {
+            Action,
+            Indie,
+            Adventure,
+            Strategy,
+            RPG,
+            Simulation,
+            Casual,
+            FreeToPlay,
+            Singleplayer,
+            Multiplayer,
+            MMO,
+            Racing,
+            Sports,
+            Shooter,
+            FPS,
+            SciFi
+        };
+
         public static bool IsInstalled(int id)
         {
 
@@ -52,7 +73,10 @@ namespace Sapp
                         reader.Read();
                         string gameName = reader.Value;
 
-                        games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
+                        List<string> tags = new List<string>();
+                        /* >>> add tags to list here <<< */
+
+                        games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid), tags));
                         
                     }
 
