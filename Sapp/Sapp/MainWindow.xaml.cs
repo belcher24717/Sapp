@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -36,14 +37,44 @@ namespace Sapp
 
             thisInstance = this;
 
-            Settings.Initialize();
+            bool settingsLoaded = false;
+            Nullable<bool> windowAccepted = true;
 
-            checkboxesActive = false;
-            sortSwitch = false;
-            gamePool = new GamesList();
-            removedPool = new GamesList();
+            while (!settingsLoaded)
+            {
 
-            SetRectangleSize();
+                try
+                {
+                    Settings.Initialize();
+
+                    checkboxesActive = false;
+                    sortSwitch = false;
+                    gamePool = new GamesList();
+                    removedPool = new GamesList();
+
+                    SetRectangleSize();
+
+                    settingsLoaded = true;
+                }
+                catch (FileNotFoundException fileNotFound)
+                {
+                    SettingsScreen ss = new SettingsScreen();
+                    windowAccepted = ss.ShowDialog();
+                }
+                catch (SerializationException serializationFailed)
+                {
+                    SettingsScreen ss = new SettingsScreen();
+                    windowAccepted = ss.ShowDialog();
+                }
+
+                if (windowAccepted != null && !(bool)windowAccepted)
+                {
+                    settingsLoaded = true;
+                    this.Close();
+                }
+            }
+
+            
             
         }
 

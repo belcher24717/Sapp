@@ -55,6 +55,7 @@ namespace Sapp
             reference.Save();
             reference.ReturnInstance(ref reference);
 
+            DialogResult = true;
             this.Close();
         }
 
@@ -76,7 +77,8 @@ namespace Sapp
 
         private void btnCancelClicked(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            DialogResult = false;
+            this.Close(); 
         }
 
         private void btnBrowseClicked(object sender, RoutedEventArgs e)

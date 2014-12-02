@@ -77,41 +77,18 @@ namespace Sapp
 
         public static void Initialize()
         {
-            Stream sr;
-            try
-            {
-                sr = new FileStream(@".\settings.bin", FileMode.Open);
-            }
-            catch (FileNotFoundException fnfe)
-            {
-                //file not found, open settings screen (first launch or if it isnt there)
-                SettingsScreen ss = new SettingsScreen();
-                ss.ShowDialog();
-
-                Initialize();
-
-                return;
-            }
+            Stream sr = new FileStream(@".\settings.bin", FileMode.Open);
 
             try
             {
                 IFormatter formatter = new BinaryFormatter();
                 thisInstance = (Settings)formatter.Deserialize(sr);
             }
-            catch (Exception ioe)
+            catch (SerializationException se)
             {
                 sr.Close();
-
-                //file was corrupted, open settings screen
-                SettingsScreen ss = new SettingsScreen();
-                ss.ShowDialog();
-
-                Initialize();
-
-                return;
-
+                throw new SerializationException();
             }
-
             sr.Close();
         }
 
