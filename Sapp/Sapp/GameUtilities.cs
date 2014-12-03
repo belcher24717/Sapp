@@ -206,7 +206,7 @@ namespace Sapp
             taskWatcher.AddRange(tasks);
 
             LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Adding Tags To Games...");
-            loadBar.Show();
+            loadBarTags.Show();
 
             while (taskWatcher.Count > 0)
             {
@@ -246,19 +246,11 @@ namespace Sapp
         {
             try
             {
-                //WebBrowser wb = new WebBrowser();
-                //wb.Navigate("http://store.steampowered.com/app/" + appID + "/");
-
-                //HtmlDocument doc = wb.Document;
-
-                //HtmlElementCollection collection = doc.GetElementsByTagName("glance_tags popular_tags\\");
-
-                //return;
-                //WebClient client = new WebClient();
+                WebClient client = new WebClient();
                 
-                //string xmlString = client.DownloadString("http://store.steampowered.com/app/" + appID + "/");
+                string xmlString = client.DownloadString("http://store.steampowered.com/app/" + appID + "/");
 
-                //client.Dispose();
+                client.Dispose();
             }
             catch
             {
