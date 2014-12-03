@@ -28,7 +28,7 @@ namespace Sapp
 
 
         //start with just title and either build the rest in later, or add them here
-        public Game(string title, int appid, bool installed, List<string> tags)
+        public Game(string title, int appid, bool installed)
         {
             this.title = title;
             this.appID = appid;
@@ -38,7 +38,7 @@ namespace Sapp
             this.totalPlayTime = 0;
 
             tagList = new List<GameUtilities.Tags>();
-            PopulateTags(tags);
+ //           PopulateTags(tags);
         }
 
         public int GetAppID()
@@ -71,6 +71,7 @@ namespace Sapp
             Process.Start("steam://run/" + appID);
         }
 
+        /*
         private void PopulateTags(List<string> tags)
         {
             foreach (string tag in tags)
@@ -79,43 +80,15 @@ namespace Sapp
                 CreateTag(tag);
             }
         }
+        */
 
-        private void CreateTag(string tag) // beautiful if block!
+        public void AddTag(string tag)
         {
-            if (tag.Equals("Action"))
-                tagList.Add(GameUtilities.Tags.Action);
-            else if (tag.Equals("Indie"))
-                tagList.Add(GameUtilities.Tags.Indie);
-            else if (tag.Equals("Adventure"))
-                tagList.Add(GameUtilities.Tags.Adventure);
-            else if (tag.Equals("Strategy"))
-                tagList.Add(GameUtilities.Tags.Strategy);
-            else if (tag.Equals("RPG"))
-                tagList.Add(GameUtilities.Tags.RPG);
-            else if (tag.Equals("Simulation"))
-                tagList.Add(GameUtilities.Tags.Simulation);
-            else if (tag.Equals("Casual"))
-                tagList.Add(GameUtilities.Tags.Casual);
-            else if (tag.Equals("Free to Play"))
-                tagList.Add(GameUtilities.Tags.FreeToPlay);
-            else if (tag.Equals("Singleplayer"))
-                tagList.Add(GameUtilities.Tags.Singleplayer);
-            else if (tag.Equals("Massively Multiplayer"))
-                tagList.Add(GameUtilities.Tags.MMO);
-            else if (tag.Equals("Multiplayer"))
-                tagList.Add(GameUtilities.Tags.Multiplayer);
-            else if (tag.Equals("Racing"))
-                tagList.Add(GameUtilities.Tags.Racing);
-            else if (tag.Equals("Sports"))
-                tagList.Add(GameUtilities.Tags.Sports);
-            else if (tag.Equals("Shooter"))
-                tagList.Add(GameUtilities.Tags.Shooter);
-            else if (tag.Equals("FPS"))
-                tagList.Add(GameUtilities.Tags.FPS);
-            else if (tag.Equals("Sci-Fi"))
-                tagList.Add(GameUtilities.Tags.SciFi);
-            // else tag is not recognized, won't be added
-        } // end CreateTag
+            GameUtilities.Tags newTag = GameUtilities.CreateTag(tag);
+
+            if (newTag != GameUtilities.Tags.NullTag)
+                tagList.Add(GameUtilities.CreateTag(tag));
+        }
 
         public void AddGameTime(string gameTime)
         {

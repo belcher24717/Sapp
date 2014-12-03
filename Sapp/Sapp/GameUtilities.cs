@@ -14,6 +14,7 @@ namespace Sapp
 
         public enum Tags
         {
+            NullTag,
             Action,
             Indie,
             Adventure,
@@ -31,6 +32,45 @@ namespace Sapp
             FPS,
             SciFi
         };
+
+        public static GameUtilities.Tags CreateTag(string tag) // beautiful if block!
+        {
+            if (tag.Equals("Action"))
+                return GameUtilities.Tags.Action;
+            else if (tag.Equals("Indie"))
+                return GameUtilities.Tags.Indie;
+            else if (tag.Equals("Adventure"))
+                return GameUtilities.Tags.Adventure;
+            else if (tag.Equals("Strategy"))
+                return GameUtilities.Tags.Strategy;
+            else if (tag.Equals("RPG"))
+                return GameUtilities.Tags.RPG;
+            else if (tag.Equals("Simulation"))
+                return GameUtilities.Tags.Simulation;
+            else if (tag.Equals("Casual"))
+                return GameUtilities.Tags.Casual;
+            else if (tag.Equals("Free to Play"))
+                return GameUtilities.Tags.FreeToPlay;
+            else if (tag.Equals("Singleplayer"))
+                return GameUtilities.Tags.Singleplayer;
+            else if (tag.Equals("Massively Multiplayer"))
+                return GameUtilities.Tags.MMO;
+            else if (tag.Equals("Multiplayer"))
+                return GameUtilities.Tags.Multiplayer;
+            else if (tag.Equals("Racing"))
+                return GameUtilities.Tags.Racing;
+            else if (tag.Equals("Sports"))
+                return GameUtilities.Tags.Sports;
+            else if (tag.Equals("Shooter"))
+                return GameUtilities.Tags.Shooter;
+            else if (tag.Equals("FPS"))
+                return GameUtilities.Tags.FPS;
+            else if (tag.Equals("Sci-Fi"))
+                return GameUtilities.Tags.SciFi;
+            else // tag is not recognized, won't be added
+                return GameUtilities.Tags.NullTag;
+
+        } // end CreateTag
 
         public static bool IsInstalled(int id)
         {
@@ -73,10 +113,7 @@ namespace Sapp
                         reader.Read();
                         string gameName = reader.Value;
 
-                        List<string> tags = new List<string>();
-                        /* >>> add tags to list here <<< */
-
-                        games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid), tags));
+                        games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
                         
                     }
 
