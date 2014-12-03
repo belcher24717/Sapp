@@ -19,6 +19,7 @@ namespace Sapp
         private bool isInstalled;
         private int lastTimePlayed;
         private bool downloadableContent;
+        private bool isDLC;
         //these might be looked up at run time
 
         private List<GameUtilities.Tags> tagList;
@@ -87,7 +88,7 @@ namespace Sapp
             GameUtilities.Tags newTag = GameUtilities.CreateTag(tag);
 
             if (newTag != GameUtilities.Tags.NullTag)
-                tagList.Add(GameUtilities.CreateTag(tag));
+                tagList.Add(newTag);
         }
 
         public void AddGameTime(string gameTime)

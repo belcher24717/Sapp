@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Sapp
@@ -87,6 +88,8 @@ namespace Sapp
         {
             GamesList games = new GamesList();
 
+            #region Read In Game Data
+
             //the username will have to be entered by the user manually the first time.
             XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
             //76561198027181438 JOHNNY
@@ -125,8 +128,12 @@ namespace Sapp
                 }
             }
 
+            #endregion
+
+            #region Weed Out DLC
+
             Task[] tasks = new Task[games.Count];
-            WeedOutDLCThread.theList = games;
+            HelperThread.theList = games;
 
             //gets rid of dlc, using multiple threads (tasks)
             int number = 0;
@@ -137,9 +144,9 @@ namespace Sapp
                 {
                     tasks[number] = Task.Factory.StartNew(() =>
                     {
-                        var sacThread = new WeedOutDLCThread(g.GetAppID());
+                        var sacThread = new HelperThread(g.GetAppID());
                         //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);'
-                        sacThread.ThreadStart(null);
+                        sacThread.WeedOutDLC(null);
                         
                     });
                     number++;
@@ -151,7 +158,7 @@ namespace Sapp
             while (tasks[counter] != null)
                 counter++;
 
-            LoadingBar loadBar = new LoadingBar(counter);
+            LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Games List...");
             loadBar.Show();
 
             Task[] noNullTasks = new Task[counter];
@@ -175,9 +182,46 @@ namespace Sapp
                 }
             }
 
-            //Task.WaitAll(noNullTasks);
+            taskWatcher.Clear();
+            HelperThread.theList = null;
 
-            WeedOutDLCThread.theList = null;
+            #endregion
+
+            #region Load Tags
+
+            tasks = new Task[games.Count];
+            HelperThread.theList = games;
+            number = 0;
+
+            foreach (Game game in games)
+            {
+                tasks[number] = Task.Factory.StartNew(() =>
+                {
+                    var sacThread = new HelperThread(game.GetAppID());
+                    sacThread.AddTags(null);
+                });
+                number++;
+            }
+
+            taskWatcher.AddRange(tasks);
+
+            LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Adding Tags To Games...");
+            loadBar.Show();
+
+            while (taskWatcher.Count > 0)
+            {
+                for (int j = 0; j < taskWatcher.Count; j++)
+                {
+                    if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
+                    {
+                        taskWatcher.RemoveAt(j);
+                        j--;
+                        loadBarTags.Progress();
+                    }
+                }
+            }
+
+            #endregion
 
             return games;
         }
@@ -186,47 +230,72 @@ namespace Sapp
 
     }
 
-    class WeedOutDLCThread
+    class HelperThread
     {
         private int appID;
+
         public static GamesList theList;
 
-        internal WeedOutDLCThread(int appid)
+
+        internal HelperThread(int appid)
         {
             this.appID = appid;
         }
 
-        internal void ThreadStart(object state)
+        internal void AddTags(object state)
         {
+            try
+            {
+                //WebBrowser wb = new WebBrowser();
+                //wb.Navigate("http://store.steampowered.com/app/" + appID + "/");
 
+                //HtmlDocument doc = wb.Document;
+
+                //HtmlElementCollection collection = doc.GetElementsByTagName("glance_tags popular_tags\\");
+
+                //return;
+                //WebClient client = new WebClient();
+                
+                //string xmlString = client.DownloadString("http://store.steampowered.com/app/" + appID + "/");
+
+                //client.Dispose();
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        
+
+        internal void WeedOutDLC(object state)
+        {
+            WebResponse response = null;
             try
             {
                 WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + appID);
 
                 request.Method = "HEAD";
 
-                WebResponse response = request.GetResponse() as HttpWebResponse; //request.
-
-                //this dlc never comes through?
-
+                response = request.GetResponse() as HttpWebResponse; //request.
                 
-                //return response.ResponseUri.AbsolutePath.Equals("http://steamcommunity.com/app/" + appid);
+
                 if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + appID))
                 {
                     lock (theList)
                     {
                         theList.Remove(theList.GetGame(appID));
                     }
-                    //MainWindow.RemoveDlc(appID);
                 }
-
 
                 response.Close();
 
             }
             catch
             {
-
+                if(response != null)
+                    response.Close();
             }
 
         }

@@ -74,7 +74,7 @@ namespace Sapp
                 }
             }
 
-            
+            PopulateGames();
             
         }
 
@@ -266,8 +266,6 @@ namespace Sapp
 
         private void formLoaded(object sender, RoutedEventArgs e)
         {
-            PopulateGames();
-
             checkboxesActive = true;
         }
 

@@ -24,10 +24,11 @@ namespace Sapp
         private delegate void UpdateProgressBarDelegate(System.Windows.DependencyProperty dp, Object value);
         private UpdateProgressBarDelegate updatePbDelegate;
 
-        public LoadingBar(int numGames)
+        public LoadingBar(int numGames, string message)
         {
             InitializeComponent();
 
+            lblMessage.Content = message;
             pbGamesLoaded.Maximum = numGames;
             updatePbDelegate = new UpdateProgressBarDelegate(pbGamesLoaded.SetValue);
 
