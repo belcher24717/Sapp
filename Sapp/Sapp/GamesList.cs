@@ -9,6 +9,7 @@ namespace Sapp
 {
     public delegate void ChangedEventHandler(object sender, EventArgs e);
 
+    [Serializable()]
     public class GamesList : List<Game>
     {
         public event ChangedEventHandler Changed;
@@ -81,6 +82,16 @@ namespace Sapp
         public void RemoveNoNotify(Game value)
         {
             base.Remove(value);
+        }
+
+        public bool ContainsId(int appID)
+        {
+            foreach (Game g in this)
+            {
+                if (g.GetAppID() == appID)
+                    return true;
+            }
+            return false;
         }
 
     }

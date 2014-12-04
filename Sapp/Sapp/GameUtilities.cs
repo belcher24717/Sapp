@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -84,9 +87,69 @@ namespace Sapp
         
         }
 
+        private static void SaveGameList(GamesList games, string userID)
+        {
+            try
+            {
+                Stream sw = new FileStream(@".\" + userID + ".games", FileMode.Create);
+                IFormatter formatter = new BinaryFormatter();
+
+                formatter.Serialize(sw, games);
+                sw.Close();
+            }
+            catch
+            {
+                //MessageBox.Show("Settings not saved, an error occured");
+            }
+        }
+
+        private static GamesList LoadGameList(string userID)
+        {
+
+            if (File.Exists(@".\" + userID + ".games"))
+            {
+                Stream sr = null;
+                try
+                {
+                    GamesList gl;
+
+                    sr = new FileStream(@".\" + userID + ".games", FileMode.Open);
+
+                    IFormatter formatter = new BinaryFormatter();
+                    gl = (GamesList)formatter.Deserialize(sr);
+                    sr.Close();
+
+                    return gl;
+                }
+                catch
+                {
+                    if (sr != null)
+                        sr.Close();
+                }
+            }
+            
+            return new GamesList();
+        }
+
+        private static double TryParseDouble(string s)
+        {
+            try
+            {
+                double ds = double.Parse(s);
+                return ds;
+            }
+            catch
+            {
+                return 0.0;
+            }
+        }
+
         public static GamesList PopulateGames(string userID)
         {
-            GamesList games = new GamesList();
+            
+            GamesList games = LoadGameList(userID);
+
+            bool UpdateInformationOnly = games.Count != 0;
 
             #region Read In Game Data
 
@@ -96,7 +159,9 @@ namespace Sapp
             //76561198054602483 NICKS
 
 
-
+            int appid = 0;
+            bool addedNewGames = false;
+            bool addedLastGame = false;
             while (reader.Read())
             {
 
@@ -104,11 +169,11 @@ namespace Sapp
                 {
                     if (reader.Name.Equals("appID"))
                     {
-
+                        addedLastGame = false;
                         reader.Read();
 
                         //might throw try/catch here
-                        int appid = int.Parse(reader.Value);
+                        appid = int.Parse(reader.Value);
 
                         reader.Read();
                         reader.Read();
@@ -116,112 +181,160 @@ namespace Sapp
                         reader.Read();
                         string gameName = reader.Value;
 
-                        games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
-                        
+                        if (!UpdateInformationOnly || !games.ContainsId(appid))
+                        {
+                            games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
+                            addedLastGame = true;
+                            addedNewGames = true;
+                        }
                     }
 
-                    else if (reader.Name.Contains("hours"))
+                    else if (reader.Name.Equals("hoursLast2Weeks"))
                     {
                         reader.Read();
-                        games[games.Count - 1].AddGameTime(reader.Value);
-                    }
-                }
-            }
 
-            #endregion
-
-            #region Weed Out DLC
-
-            Task[] tasks = new Task[games.Count];
-            HelperThread.theList = games;
-
-            //gets rid of dlc, using multiple threads (tasks)
-            int number = 0;
-            foreach (Game g in games)
-            {
-
-                if (g.GetHoursPlayed() == 0)
-                {
-                    tasks[number] = Task.Factory.StartNew(() =>
-                    {
-                        var sacThread = new HelperThread(g.GetAppID());
-                        //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);'
-                        sacThread.WeedOutDLC(null);
+                        if (!UpdateInformationOnly || addedLastGame)
+                            games[games.Count - 1].HoursLastTwoWeeks = TryParseDouble(reader.Value);
+                        else
+                            games.GetGame(appid).HoursLastTwoWeeks = TryParseDouble(reader.Value);
                         
-                    });
-                    number++;
-                    
-                }
-            }
-
-            int counter = 0;
-            while (tasks[counter] != null)
-                counter++;
-
-            LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Games List...");
-            loadBar.Show();
-
-            Task[] noNullTasks = new Task[counter];
-
-            for (int i = 0; i < counter; i++)
-                noNullTasks[i] = tasks[i];
-
-            List<Task> taskWatcher = new List<Task>();
-            taskWatcher.AddRange(noNullTasks);
-
-            while (taskWatcher.Count > 0)
-            {
-                for (int j = 0; j < taskWatcher.Count; j++)
-                {
-                    if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
-                    {
-                        taskWatcher.RemoveAt(j);
-                        j--;
-                        loadBar.Progress();
                     }
-                }
-            }
-
-            taskWatcher.Clear();
-            HelperThread.theList = null;
-
-            #endregion
-
-            #region Load Tags
-
-            tasks = new Task[games.Count];
-            HelperThread.theList = games;
-            number = 0;
-
-            foreach (Game game in games)
-            {
-                tasks[number] = Task.Factory.StartNew(() =>
-                {
-                    var sacThread = new HelperThread(game.GetAppID());
-                    sacThread.AddTags(null);
-                });
-                number++;
-            }
-
-            taskWatcher.AddRange(tasks);
-
-            LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Adding Tags To Games...");
-            loadBarTags.Show();
-
-            while (taskWatcher.Count > 0)
-            {
-                for (int j = 0; j < taskWatcher.Count; j++)
-                {
-                    if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
+                    else if (reader.Name.Equals("hoursOnRecord"))
                     {
-                        taskWatcher.RemoveAt(j);
-                        j--;
-                        loadBarTags.Progress();
+                        reader.Read();
+
+                        if (!UpdateInformationOnly || addedLastGame)
+                            games[games.Count - 1].HoursOnRecord = TryParseDouble(reader.Value);
+                        else
+                            games.GetGame(appid).HoursOnRecord = TryParseDouble(reader.Value);
+                       
                     }
                 }
             }
 
             #endregion
+
+            //OPTIMIZE, Keep track of new games added (if the list loads correctly) and then only update those
+            if (addedNewGames)
+            {
+
+                #region Weed Out DLC
+
+                Task[] tasks = new Task[games.Count];
+                HelperThread.theList = games;
+
+                //gets rid of dlc, using multiple threads (tasks)
+                int number = 0;
+
+                foreach (Game g in games)
+                {
+
+                    if (g.GetHoursPlayed() == 0)
+                    {
+                        tasks[number] = Task.Factory.StartNew(() =>
+                        {
+                            var sacThread = new HelperThread(g.GetAppID());
+                            //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);'
+                            sacThread.WeedOutDLC(null);
+
+                        });
+                        number++;
+
+                    }
+                }
+
+                int counter = 0;
+                while (tasks[counter] != null)
+                    counter++;
+
+                LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Games List...");
+                loadBar.Show();
+
+                Task[] noNullTasks = new Task[counter];
+
+                for (int i = 0; i < counter; i++)
+                    noNullTasks[i] = tasks[i];
+
+                List<Task> taskWatcher = new List<Task>();
+                taskWatcher.AddRange(noNullTasks);
+
+                while (taskWatcher.Count > 0)
+                {
+                    for (int j = 0; j < taskWatcher.Count; j++)
+                    {
+                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
+                        {
+                            taskWatcher.RemoveAt(j);
+                            j--;
+                            loadBar.Progress();
+                        }
+                    }
+                }
+
+                taskWatcher.Clear();
+                HelperThread.theList = null;
+
+                #endregion
+
+                #region Load Tags
+
+                int numDLC = 0;
+
+                foreach (Game g in games)
+                    if (g.IsDLC)
+                        numDLC++;
+
+                //- counter to count the dlc we will skip
+                tasks = new Task[games.Count - numDLC];
+                HelperThread.theList = games;
+                number = 0;
+
+                foreach (Game game in games)
+                {
+                    if (!game.IsDLC)
+                    {
+                        tasks[number] = Task.Factory.StartNew(() =>
+                        {
+                            var sacThread = new HelperThread(game.GetAppID());
+                            sacThread.AddTags(null);
+                        });
+                        number++;
+                    }
+
+                }
+
+                taskWatcher.AddRange(tasks);
+
+                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Adding Tags To Games...");
+                loadBarTags.Show();
+
+                while (taskWatcher.Count > 0)
+                {
+                    for (int j = 0; j < taskWatcher.Count; j++)
+                    {
+                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
+                        {
+                            taskWatcher.RemoveAt(j);
+                            j--;
+                            loadBarTags.Progress();
+                        }
+                    }
+                }
+
+                #endregion
+
+            }
+
+            SaveGameList(games, userID);
+
+            for (int i = 0; i < games.Count; i++)
+            {
+                if (games[i].IsDLC)
+                {
+                    games.RemoveAt(i);
+                    i--;
+                }
+            }
 
             return games;
         }
@@ -277,7 +390,7 @@ namespace Sapp
                 {
                     lock (theList)
                     {
-                        theList.Remove(theList.GetGame(appID));
+                        theList.GetGame(appID).IsDLC = true;
                     }
                 }
 

@@ -8,25 +8,41 @@ using System.Diagnostics;
 
 namespace Sapp
 {
+    [Serializable()]
     public class Game : IComparable<Game>
     {
         // maybe consolidate these attributes into a GameProperties object?
         private string title;
 //        private List<string> genre;
         private int appID;
-        private double totalPlayTime;
-        private double lastTwoWeeksPlayTime;
+        
         private bool isInstalled;
         private int lastTimePlayed;
         private bool downloadableContent;
-        private bool isDLC;
+        
         //these might be looked up at run time
 
         private List<GameUtilities.Tags> tagList;
 //        private bool singlePlayer;
 //        private bool multiplayer;
 //        private bool cooperative;
+        public bool IsDLC
+        {
+            get;
+            set;
+        }
 
+        public double HoursLastTwoWeeks
+        {
+            get;
+            set;
+        }
+
+        public double HoursOnRecord
+        {
+            get;
+            set;
+        }
 
         //start with just title and either build the rest in later, or add them here
         public Game(string title, int appid, bool installed)
@@ -35,8 +51,9 @@ namespace Sapp
             this.appID = appid;
             this.isInstalled = installed;
 
-            this.lastTwoWeeksPlayTime = 0;
-            this.totalPlayTime = 0;
+            this.HoursLastTwoWeeks = 0;
+            this.HoursOnRecord = 0;
+            IsDLC = false;
 
             tagList = new List<GameUtilities.Tags>();
  //           PopulateTags(tags);
@@ -49,7 +66,7 @@ namespace Sapp
 
         public double GetHoursPlayed()
         {
-            return totalPlayTime;
+            return HoursOnRecord;
         }
 
         public override string ToString()
@@ -90,29 +107,6 @@ namespace Sapp
             if (newTag != GameUtilities.Tags.NullTag)
                 tagList.Add(newTag);
         }
-
-        public void AddGameTime(string gameTime)
-        {
-            double timeTest = 0.0;
-
-            try
-            {
-                timeTest = double.Parse(gameTime);
-            }
-            catch
-            {
-
-            }
-
-            if (totalPlayTime == 0)
-                totalPlayTime = timeTest;
-            else
-            {
-                lastTwoWeeksPlayTime = totalPlayTime;
-                totalPlayTime = timeTest;
-            }
-        }
-
 
         //This method will have 2 behaviors based on settings
         public bool IsGenres(string genreList)
