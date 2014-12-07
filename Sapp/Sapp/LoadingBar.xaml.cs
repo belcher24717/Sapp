@@ -56,7 +56,7 @@ namespace Sapp
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            //this.DragMove();
         }
     }
 }

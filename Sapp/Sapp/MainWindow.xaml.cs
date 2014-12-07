@@ -75,6 +75,9 @@ namespace Sapp
             }
 
             PopulateGames();
+
+            //TODO: Make all the checkboxes, and then all references to a list here.
+            //This list will make management of all checkboxes easy (seperate by type, like: tag filters, intalled only, hours played, etc)
             
         }
 
@@ -246,7 +249,7 @@ namespace Sapp
             if (!checkboxesActive)
                 return;
 
-            CheckBoxChanged(ref removedPool, ((CheckBox)sender).Content.ToString());
+            CheckBoxChanged(ref gamePool, ((CheckBox)sender).Content.ToString());
         }
 
         private void checkboxUnchecked(object sender, RoutedEventArgs e)
@@ -254,20 +257,52 @@ namespace Sapp
             if (!checkboxesActive)
                 return;
 
-            CheckBoxChanged(ref gamePool, ((CheckBox)sender).Content.ToString());
+            CheckBoxChanged(ref removedPool, ((CheckBox)sender).Content.ToString());
         }
 
         private void CheckBoxChanged(ref GamesList pool, string checkboxChanged)
         {
             List<Game> tempForRemoval = new List<Game>();
 
-            foreach (Game g in pool)
-                if (g.IsGenres(checkboxChanged))
+            Settings grabTagAppMethod = Settings.GetInstance(this);
+            TagApplicationMethod tam = grabTagAppMethod.TagApplication;
+            grabTagAppMethod.ReturnInstance(ref grabTagAppMethod);
+
+            List<GameUtilities.Tags> checkedTags = GetCheckboxInTags();
+
+
+            //TODO: Must also go through removed list and re-add games to list if necesarry.
+
+            foreach (Game g in pool)//-> this method will explicity visit game pool and removed pool instead.
+                if (!g.ContainsTag(checkedTags, tam))
                     tempForRemoval.Add(g);
 
             //this is so we dont edit the list while looking through it
             foreach (Game g in tempForRemoval)
                 PutGameIntoOtherPool(g);
+        }
+
+        private List<GameUtilities.Tags> GetCheckboxInTags()
+        {
+            List<GameUtilities.Tags> tagsOn = new List<GameUtilities.Tags>();
+
+            //TODO: This will handle a list of checkboxes and just go through a foreach
+            if ((bool)chkbxFPS.IsChecked)
+            {
+                tagsOn.Add(GameUtilities.CreateTag((string)chkbxFPS.Content));
+            }
+            if ((bool)chkbxMMO.IsChecked)
+            {
+                tagsOn.Add(GameUtilities.CreateTag((string)chkbxMMO.Content));
+            }
+            if ((bool)chkbxRPG.IsChecked)
+            {
+                tagsOn.Add(GameUtilities.CreateTag((string)chkbxRPG.Content));
+            }
+
+
+
+            return tagsOn;
         }
 
         private void formLoaded(object sender, RoutedEventArgs e)

@@ -89,17 +89,6 @@ namespace Sapp
             Process.Start("steam://run/" + appID);
         }
 
-        /*
-        private void PopulateTags(List<string> tags)
-        {
-            foreach (string tag in tags)
-            {
-                // seperated this logic for ease of reading and in case we add extra logic
-                CreateTag(tag);
-            }
-        }
-        */
-
         public void AddTag(string tag)
         {
             GameUtilities.Tags newTag = GameUtilities.CreateTag(tag);
@@ -108,18 +97,35 @@ namespace Sapp
                 tagList.Add(newTag);
         }
 
-        //This method will have 2 behaviors based on settings
-        public bool IsGenres(string genreList)
+        public List<GameUtilities.Tags> GetTags()
         {
- //           int matching = 0;
+            return tagList;
+        }
 
- //           foreach (string s in genreList)
- //           if (tagList.Contains(genreList))
- //               matching++;
+        //This method will have 2 behaviors based on settings
+        public bool ContainsTag(List<GameUtilities.Tags> tagsApplied, TagApplicationMethod method)
+        {
+            if (method == TagApplicationMethod.ContainsAll)
+            {
+                foreach (GameUtilities.Tags tag in tagsApplied)
+                {
+                    if (!tagList.Contains(tag))
+                        return false;
+                }
+                return true;
+            }
 
- //           return matching == genre.Count;
+            else if (method == TagApplicationMethod.ContainsOne)
+            {
+                foreach (GameUtilities.Tags tag in tagsApplied)
+                    if (tagList.Contains(tag))
+                        return true;
+            }
+
             return false;
         }
+
+
 
     }
 }

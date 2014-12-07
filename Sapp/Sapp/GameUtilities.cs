@@ -18,7 +18,9 @@ namespace Sapp
 
         public enum Tags
         {
-            NullTag,
+            NullTag,//used for nullification
+            NoTags,//used for games that have no tags (game no longer on steam)
+
             Action,
             Indie,
             Adventure,
@@ -34,44 +36,72 @@ namespace Sapp
             Sports,
             Shooter,
             FPS,
-            SciFi
+            SciFi,
+            Survival,
+            Horror,
+            MassivelyMultiplayer,
+            CoOp,
+            Sandbox,
+            OpenWorld,
+            Stealth
+
+            
+
         };
 
         //TODO: Add more tags
         public static GameUtilities.Tags CreateTag(string tag) // beautiful if block!
         {
             if (tag.Equals("Action"))
-                return GameUtilities.Tags.Action;
+                return Tags.Action;
             else if (tag.Equals("Indie"))
-                return GameUtilities.Tags.Indie;
+                return Tags.Indie;
             else if (tag.Equals("Adventure"))
-                return GameUtilities.Tags.Adventure;
+                return Tags.Adventure;
             else if (tag.Equals("Strategy"))
-                return GameUtilities.Tags.Strategy;
+                return Tags.Strategy;
             else if (tag.Equals("RPG"))
-                return GameUtilities.Tags.RPG;
+                return Tags.RPG;
             else if (tag.Equals("Simulation"))
-                return GameUtilities.Tags.Simulation;
+                return Tags.Simulation;
             else if (tag.Equals("Casual"))
-                return GameUtilities.Tags.Casual;
+                return Tags.Casual;
             else if (tag.Equals("Free to Play"))
-                return GameUtilities.Tags.FreeToPlay;
+                return Tags.FreeToPlay;
             else if (tag.Equals("Singleplayer"))
-                return GameUtilities.Tags.Singleplayer;
-            else if (tag.Equals("Massively Multiplayer"))
-                return GameUtilities.Tags.MMO;
+                return Tags.Singleplayer;
+            else if (tag.Equals("MMO"))
+                return Tags.MMO;
             else if (tag.Equals("Multiplayer"))
-                return GameUtilities.Tags.Multiplayer;
+                return Tags.Multiplayer;
             else if (tag.Equals("Racing"))
-                return GameUtilities.Tags.Racing;
+                return Tags.Racing;
             else if (tag.Equals("Sports"))
-                return GameUtilities.Tags.Sports;
+                return Tags.Sports;
             else if (tag.Equals("Shooter"))
-                return GameUtilities.Tags.Shooter;
+                return Tags.Shooter;
             else if (tag.Equals("FPS"))
-                return GameUtilities.Tags.FPS;
+                return Tags.FPS;
             else if (tag.Equals("Sci-fi"))
-                return GameUtilities.Tags.SciFi;
+                return Tags.SciFi;
+            else if (tag.Equals("Survival"))
+                return Tags.Survival;
+            else if (tag.Equals("Horror"))
+                return Tags.Horror;
+            else if (tag.Equals("Massively Multiplayer"))
+                return Tags.MassivelyMultiplayer;
+            else if (tag.Equals("Co-op"))
+                return Tags.CoOp;
+            else if (tag.Equals("Open World"))
+                return Tags.OpenWorld;
+            else if (tag.Equals("Sandbox"))
+                return Tags.Sandbox;
+            else if (tag.Equals("Stealth"))
+                return Tags.Stealth;
+
+
+            else if (tag.Equals("No Tags"))//Game no longer on steam (under that appid)
+                return Tags.NoTags;
             else // tag is not recognized, won't be added
                 return GameUtilities.Tags.NullTag;
 
@@ -149,8 +179,6 @@ namespace Sapp
         {
             
             GamesList games = LoadGameList(userID);
-
-            bool UpdateInformationOnly = games.Count != 0;
             GamesList newlyAddedGames = new GamesList();
 
             #region Read In Game Data
@@ -163,7 +191,6 @@ namespace Sapp
 
             int appid = 0;
             bool addedNewGames = false;
-            bool addedLastGame = false;
             while (reader.Read())
             {
 
@@ -171,7 +198,6 @@ namespace Sapp
                 {
                     if (reader.Name.Equals("appID"))
                     {
-                        addedLastGame = false;
                         reader.Read();
 
                         //might throw try/catch here
@@ -183,41 +209,30 @@ namespace Sapp
                         reader.Read();
                         string gameName = reader.Value;
 
-                        if (!UpdateInformationOnly || !games.ContainsId(appid))
+                        if (!games.ContainsId(appid))
                         {
-                            games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
-                            addedLastGame = true;
+                            Game gameToAdd = new Game(gameName, appid, GameUtilities.IsInstalled(appid));
+                            games.Add(gameToAdd);
+                            newlyAddedGames.Add(gameToAdd);
                             addedNewGames = true;
-
                         }
                     }
 
                     else if (reader.Name.Equals("hoursLast2Weeks"))
                     {
                         reader.Read();
-
-                        if (!UpdateInformationOnly || addedLastGame)
-                            games[games.Count - 1].HoursLastTwoWeeks = TryParseDouble(reader.Value);
-                        else
-                            games.GetGame(appid).HoursLastTwoWeeks = TryParseDouble(reader.Value);
-                        
+                        games.GetGame(appid).HoursLastTwoWeeks = TryParseDouble(reader.Value);
                     }
                     else if (reader.Name.Equals("hoursOnRecord"))
                     {
                         reader.Read();
-
-                        if (!UpdateInformationOnly || addedLastGame)
-                            games[games.Count - 1].HoursOnRecord = TryParseDouble(reader.Value);
-                        else
-                            games.GetGame(appid).HoursOnRecord = TryParseDouble(reader.Value);
-                       
+                        games.GetGame(appid).HoursOnRecord = TryParseDouble(reader.Value);
                     }
                 }
             }
 
             #endregion
 
-            //TODO: OPTIMIZE, Keep track of new games added (if the list loads correctly) and then only update those
             if (addedNewGames)
             {
 
@@ -229,7 +244,7 @@ namespace Sapp
                 //gets rid of dlc, using multiple threads (tasks)
                 int number = 0;
 
-                foreach (Game g in games)
+                foreach (Game g in newlyAddedGames)
                 {
 
                     if (g.GetHoursPlayed() == 0)
@@ -292,7 +307,7 @@ namespace Sapp
                 HelperThread.theList = games;
                 number = 0;
 
-                foreach (Game game in games)
+                foreach (Game game in newlyAddedGames)
                 {
                     if (!game.IsDLC)
                     {
@@ -341,6 +356,8 @@ namespace Sapp
 
             return games;
         }
+
+
 
 
 
@@ -414,7 +431,7 @@ namespace Sapp
             {
                 //If it comes here the store page probably does not exist due to
                 //some kind of removal from steam, Mark as untagged.
-                MessageBox.Show(theList.GetGame(appID).ToString());
+                theList.GetGame(appID).AddTag("No Tags");
             }
 
         }
