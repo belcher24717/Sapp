@@ -37,6 +37,7 @@ namespace Sapp
             SciFi
         };
 
+        //TODO: Add more tags
         public static GameUtilities.Tags CreateTag(string tag) // beautiful if block!
         {
             if (tag.Equals("Action"))
@@ -150,6 +151,7 @@ namespace Sapp
             GamesList games = LoadGameList(userID);
 
             bool UpdateInformationOnly = games.Count != 0;
+            GamesList newlyAddedGames = new GamesList();
 
             #region Read In Game Data
 
@@ -186,6 +188,7 @@ namespace Sapp
                             games.Add(new Game(gameName, appid, GameUtilities.IsInstalled(appid)));
                             addedLastGame = true;
                             addedNewGames = true;
+
                         }
                     }
 
@@ -234,7 +237,7 @@ namespace Sapp
                         tasks[number] = Task.Factory.StartNew(() =>
                         {
                             var sacThread = new HelperThread(g.GetAppID());
-                            //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);'
+                            //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);
                             sacThread.WeedOutDLC(null);
 
                         });
@@ -349,7 +352,6 @@ namespace Sapp
 
         public static GamesList theList;
 
-
         internal HelperThread(int appid)
         {
             this.appID = appid;
@@ -357,6 +359,7 @@ namespace Sapp
 
         internal void AddTags(object state)
         {
+            //Done for debugging purposes
             string htmlToParse;
             int startIndex;
             int endIndex;
@@ -371,12 +374,10 @@ namespace Sapp
 
                 // Obtain a 'Stream' object associated with the response object.
 	            Stream ReceiveStream = response.GetResponseStream();
-	        	
 	            Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
 
                 // Pipe the stream to a higher level stream reader with the required encoding format. 
 	            StreamReader readStream = new StreamReader( ReceiveStream, encode );
-
 
                 htmlToParse = readStream.ReadToEnd();
                 ReceiveStream.Close();
@@ -390,6 +391,7 @@ namespace Sapp
                 while (true)
                 {
                     index = htmlToParse.IndexOf("http://store.steampowered.com/tag");
+
                     //no tags left
                     if (index == -1)
                         break;
@@ -410,7 +412,9 @@ namespace Sapp
             }
             catch
             {
-
+                //If it comes here the store page probably does not exist due to
+                //some kind of removal from steam, Mark as untagged.
+                MessageBox.Show(theList.GetGame(appID).ToString());
             }
 
         }

@@ -227,6 +227,12 @@ namespace Sapp
         //maybe move this logic into util?
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
+            if (gamePool.Count == 0)
+            {
+                MessageBox.Show("No games in game pool!");
+                return;
+            }
+
             Random rand = new Random((DateTime.Now.Millisecond * DateTime.Now.Minute));
             int choiceGame = rand.Next(gamePool.Count);
 

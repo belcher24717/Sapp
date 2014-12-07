@@ -53,5 +53,10 @@ namespace Sapp
             if (pbGamesLoaded.Maximum == pbGamesLoaded.Value)
                 this.Close();
         }
+
+        private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }
