@@ -9,6 +9,14 @@ using System.Windows;
 
 namespace Sapp
 {
+
+    [Serializable()]
+    public enum TagApplicationMethod
+    {
+        ContainsAll,
+        ContainsOne
+    }
+
     [Serializable()]
     public class Settings
     {
@@ -45,6 +53,17 @@ namespace Sapp
             }
         }
 
+        private TagApplicationMethod tagApplication;
+        public TagApplicationMethod TagApplication
+        {
+            get { return tagApplication; }
+            set
+            {
+                if (writeAccess)
+                    tagApplication = value;
+            }
+        }
+
         #endregion
 
         private static string lastUsersSteamID64;
@@ -59,6 +78,7 @@ namespace Sapp
             writeAccess = false;
             inUse = false;
             lastUsersSteamID64 = null;
+            tagApplication = TagApplicationMethod.ContainsOne;
         }
 
         public static Settings GetInstance(Window reciever)
