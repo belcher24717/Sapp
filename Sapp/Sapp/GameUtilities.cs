@@ -69,7 +69,7 @@ namespace Sapp
                 return GameUtilities.Tags.Shooter;
             else if (tag.Equals("FPS"))
                 return GameUtilities.Tags.FPS;
-            else if (tag.Equals("Sci-Fi"))
+            else if (tag.Equals("Sci-fi"))
                 return GameUtilities.Tags.SciFi;
             else // tag is not recognized, won't be added
                 return GameUtilities.Tags.NullTag;
@@ -357,6 +357,10 @@ namespace Sapp
 
         internal void AddTags(object state)
         {
+            string htmlToParse;
+            int startIndex;
+            int endIndex;
+            int index;
             try
             {
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("http://store.steampowered.com/app/" + appID + "/");
@@ -364,7 +368,6 @@ namespace Sapp
                 wr.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com"));
 
                 WebResponse response = wr.GetResponse();
-
 
                 // Obtain a 'Stream' object associated with the response object.
 	            Stream ReceiveStream = response.GetResponseStream();
@@ -375,17 +378,34 @@ namespace Sapp
 	            StreamReader readStream = new StreamReader( ReceiveStream, encode );
 
 
-                string htmlToParse = readStream.ReadToEnd();
+                htmlToParse = readStream.ReadToEnd();
                 ReceiveStream.Close();
                 readStream.Close();
 
-                int startIndex = htmlToParse.IndexOf("glance_tags popular_tags");
-                int endIndex = htmlToParse.IndexOf("app_tag add_button");
+                startIndex = htmlToParse.IndexOf("glance_tags popular_tags");
+                endIndex = htmlToParse.IndexOf("app_tag add_button");
 
                 htmlToParse = htmlToParse.Substring(startIndex, (endIndex - startIndex));
 
-                //TODO: PARSE HERE!!!!! Then add the tags to the game that corresponds to this appid
-                //gameslist.getgame(appid).AddTag(TheTagToAdd)
+                while (true)
+                {
+                    index = htmlToParse.IndexOf("http://store.steampowered.com/tag");
+                    //no tags left
+                    if (index == -1)
+                        break;
+
+                    htmlToParse = htmlToParse.Substring(index);
+                    index = htmlToParse.IndexOf('>');
+                    htmlToParse = htmlToParse.Substring(index);
+
+                    index = htmlToParse.IndexOf('<');
+
+                    string tagToAdd = htmlToParse.Substring(1, index - 1);
+
+                    htmlToParse = htmlToParse.Substring(index);
+
+                    theList.GetGame(appID).AddTag(tagToAdd.Trim());
+                }
 
             }
             catch
