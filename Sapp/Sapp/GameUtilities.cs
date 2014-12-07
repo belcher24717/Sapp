@@ -214,7 +214,7 @@ namespace Sapp
 
             #endregion
 
-            //OPTIMIZE, Keep track of new games added (if the list loads correctly) and then only update those
+            //TODO: OPTIMIZE, Keep track of new games added (if the list loads correctly) and then only update those
             if (addedNewGames)
             {
 
@@ -359,11 +359,34 @@ namespace Sapp
         {
             try
             {
-                WebClient client = new WebClient();
-                
-                string xmlString = client.DownloadString("http://store.steampowered.com/app/" + appID + "/");
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("http://store.steampowered.com/app/" + appID + "/");
+                wr.CookieContainer = new CookieContainer();
+                wr.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com"));
 
-                client.Dispose();
+                WebResponse response = wr.GetResponse();
+
+
+                // Obtain a 'Stream' object associated with the response object.
+	            Stream ReceiveStream = response.GetResponseStream();
+	        	
+	            Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+
+                // Pipe the stream to a higher level stream reader with the required encoding format. 
+	            StreamReader readStream = new StreamReader( ReceiveStream, encode );
+
+
+                string htmlToParse = readStream.ReadToEnd();
+                ReceiveStream.Close();
+                readStream.Close();
+
+                int startIndex = htmlToParse.IndexOf("glance_tags popular_tags");
+                int endIndex = htmlToParse.IndexOf("app_tag add_button");
+
+                htmlToParse = htmlToParse.Substring(startIndex, (endIndex - startIndex));
+
+                //TODO: PARSE HERE!!!!! Then add the tags to the game that corresponds to this appid
+                //gameslist.getgame(appid).AddTag(TheTagToAdd)
+
             }
             catch
             {
