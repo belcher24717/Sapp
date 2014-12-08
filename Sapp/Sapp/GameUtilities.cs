@@ -103,7 +103,7 @@ namespace Sapp
             else if (tag.Equals("No Tags"))//Game no longer on steam (under that appid)
                 return Tags.NoTags;
             else // tag is not recognized, won't be added
-                return GameUtilities.Tags.NullTag;
+                return Tags.NullTag;
 
         } // end CreateTag
 

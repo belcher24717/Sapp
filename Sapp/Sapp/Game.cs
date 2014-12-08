@@ -125,6 +125,14 @@ namespace Sapp
             return false;
         }
 
+        public bool ContainsTag(GameUtilities.Tags tag) // overload
+        {
+            if (tagList.Contains(tag))
+                return true;
+
+            return false;
+        }
+
 
 
     }
