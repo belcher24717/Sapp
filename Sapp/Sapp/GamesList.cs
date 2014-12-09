@@ -13,6 +13,9 @@ namespace Sapp
     public class GamesList : List<Game>
     {
         public event ChangedEventHandler Changed;
+        //TODO: Consider only doing a pull once per day
+        //Issue: if they use the application and then buy a game, and want it in the pool
+
 
         protected virtual void OnChanged(EventArgs e)
         {

@@ -188,6 +188,8 @@ namespace Sapp
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
 
+            LoadingBar initLoadBar = new LoadingBar(1, "Updating play time...", false);
+            initLoadBar.Show();
 
             int appid = 0;
             bool addedNewGames = false;
@@ -231,6 +233,8 @@ namespace Sapp
                 }
             }
 
+            initLoadBar.ForceClose();
+
             #endregion
 
             if (addedNewGames)
@@ -265,7 +269,7 @@ namespace Sapp
                 while (tasks[counter] != null)
                     counter++;
 
-                LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Games List...");
+                LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Games List...", true);
                 loadBar.Show();
 
                 Task[] noNullTasks = new Task[counter];
@@ -298,12 +302,12 @@ namespace Sapp
 
                 int numDLC = 0;
 
-                foreach (Game g in games)
+                foreach (Game g in newlyAddedGames)
                     if (g.IsDLC)
                         numDLC++;
 
                 //- counter to count the dlc we will skip
-                tasks = new Task[games.Count - numDLC];
+                tasks = new Task[newlyAddedGames.Count - numDLC];
                 HelperThread.theList = games;
                 number = 0;
 
@@ -323,7 +327,7 @@ namespace Sapp
 
                 taskWatcher.AddRange(tasks);
 
-                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Adding Tags To Games...");
+                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Adding Tags To Games...", true);
                 loadBarTags.Show();
 
                 while (taskWatcher.Count > 0)

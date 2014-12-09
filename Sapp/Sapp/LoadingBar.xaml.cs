@@ -24,14 +24,21 @@ namespace Sapp
         private delegate void UpdateProgressBarDelegate(System.Windows.DependencyProperty dp, Object value);
         private UpdateProgressBarDelegate updatePbDelegate;
 
-        public LoadingBar(int numGames, string message)
+        public LoadingBar(int numGames, string message, bool realProgress)
         {
             InitializeComponent();
+
+            //TODO: make this an actual marquee progress bar. Animation not playing
+            if (!realProgress)
+            {
+                pbGamesLoaded.IsIndeterminate = true;
+                lblPercent.Visibility = System.Windows.Visibility.Hidden;
+                pbGamesLoaded.BeginInit();
+            }
 
             lblMessage.Content = message;
             pbGamesLoaded.Maximum = numGames;
             updatePbDelegate = new UpdateProgressBarDelegate(pbGamesLoaded.SetValue);
-
         }
 
         public void Progress()
@@ -39,7 +46,10 @@ namespace Sapp
             lock (pbGamesLoaded)
             {
                 if (pbGamesLoaded.Value < pbGamesLoaded.Maximum)
+                {
                     pbGamesLoaded.Value++;
+                    lblPercent.Content = "" + (int)( (pbGamesLoaded.Value / pbGamesLoaded.Maximum) * 100 ) + "%";
+                }
 
                 Dispatcher.Invoke(updatePbDelegate,
                     System.Windows.Threading.DispatcherPriority.Background,
@@ -52,6 +62,11 @@ namespace Sapp
         {
             if (pbGamesLoaded.Maximum == pbGamesLoaded.Value)
                 this.Close();
+        }
+
+        public void ForceClose()
+        {
+            this.Close();
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
