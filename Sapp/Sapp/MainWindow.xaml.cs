@@ -400,7 +400,11 @@ namespace Sapp
             testForRefresh.ReturnInstance(ref testForRefresh);
 
             if (refresh)
+            {
+                gamePool.Clear();
+                removedPool.Clear();
                 PopulateGames();
+            }
 
         }
 

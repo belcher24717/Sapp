@@ -185,15 +185,15 @@ namespace Sapp
             steamID64 = temp;
             steamID64 = steamID64.Trim('\"', ' ', '\t');
 
-            if (lastUsersSteamID64 == null)
-                lastUsersSteamID64 = steamID64;
+            //if (lastUsersSteamID64 == null)
+                //lastUsersSteamID64 = steamID64;
 
             return true;
         }
 
         public bool ShouldRefresh()
         {
-            if (lastUsersSteamID64 == null || steamID64.Equals(lastUsersSteamID64))
+            if (steamID64.Equals(lastUsersSteamID64))
             {
                 lastUsersSteamID64 = steamID64;
                 return false;
