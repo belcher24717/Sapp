@@ -26,7 +26,7 @@ namespace Sapp
     {
         private static GamesList gamePool;
         private GamesList removedPool;
-        private List<GameUtilities.Tags> checkboxesChecked;
+        private List<GameUtilities.Tags> tagsChecked;
         private bool checkboxesActive;
         private bool sortSwitch;
 
@@ -52,7 +52,7 @@ namespace Sapp
                     sortSwitch = false;
                     gamePool = new GamesList();
                     removedPool = new GamesList();
-                    checkboxesChecked = new List<GameUtilities.Tags>();
+                    tagsChecked = new List<GameUtilities.Tags>();
 
                     SetRectangleSize();
 
@@ -253,13 +253,11 @@ namespace Sapp
 
             GameUtilities.Tags tag = GameUtilities.CreateTag(((CheckBox)sender).Content.ToString());
 
-            Settings grabTagAppMethod = Settings.GetInstance(this);
-            TagApplicationMethod method = grabTagAppMethod.TagApplication;
-            grabTagAppMethod.ReturnInstance(ref grabTagAppMethod);
+            TagApplicationMethod method = GetTagApplicationMethod();
 
             //CheckBoxChanged(ref gamePool, ((CheckBox)sender).Content.ToString()); 
-            checkboxesChecked.Add(tag);
-            RemoveTaggedGames(tag, method);
+            tagsChecked.Add(tag);
+            RemoveTaggedGames(method);
         }
 
         private void checkboxUnchecked(object sender, RoutedEventArgs e)
@@ -269,24 +267,25 @@ namespace Sapp
 
             GameUtilities.Tags tag = GameUtilities.CreateTag(((CheckBox)sender).Content.ToString());
 
-            Settings grabTagAppMethod = Settings.GetInstance(this);
-            TagApplicationMethod method = grabTagAppMethod.TagApplication;
-            grabTagAppMethod.ReturnInstance(ref grabTagAppMethod);
+            TagApplicationMethod method = GetTagApplicationMethod();
 
             //CheckBoxChanged(ref removedPool, ((CheckBox)sender).Content.ToString());
-            checkboxesChecked.Remove(tag);
-            AddTaggedGames(tag, method);
+            tagsChecked.Remove(tag);
+            AddTaggedGames(method);
         }
 
-        private void RemoveTaggedGames(GameUtilities.Tags tag, TagApplicationMethod method) // tag checked, remove appropriate games.
+        private void RemoveTaggedGames(TagApplicationMethod method) // tag checked, remove appropriate games.
         {
             List<int> indexToRemove = new List<int>();
             int index = 0;
 
             foreach (Game game in gamePool)
             {
-                if (!game.ContainsTag(tag))
+                if (!game.ContainsTag(tagsChecked, method))
                     indexToRemove.Add(index);
+                else if ((bool)chkbxOnlyInstalled.IsChecked)
+                    if (!game.IsInstalled())
+                        indexToRemove.Add(index);
 
                 index++;
             }
@@ -300,7 +299,7 @@ namespace Sapp
 
         }
 
-        private void AddTaggedGames(GameUtilities.Tags tag, TagApplicationMethod method) // tag unchecked, re-add appropriate games.
+        private void AddTaggedGames(TagApplicationMethod method) // tag unchecked, re-add appropriate games.
         {
             List<Game> tempToBeAdded = new List<Game>();
             bool addGame = true;
@@ -308,15 +307,14 @@ namespace Sapp
             foreach (Game game in removedPool)
             {
                 //TODO: Need to add logic for filters other than tags, such as isInstalled.
-                foreach (GameUtilities.Tags currentTag in checkboxesChecked)
-                {
-                    if (!game.ContainsTag(currentTag))
-                    {
-                        addGame = false;
-                        break;
-                    }
-                }
 
+                // potentially have filter list that we check here with && like below...
+                if (!game.ContainsTag(tagsChecked, method) /* && !game.ContainsFilter(filter list) */ )
+                    addGame = false;
+                else if ((bool)chkbxOnlyInstalled.IsChecked)
+                    if (!game.IsInstalled())
+                        addGame = false;
+               
                 if (addGame)
                     tempToBeAdded.Add(game);
                 else
@@ -408,6 +406,14 @@ namespace Sapp
 
         private void cbChecked_OnlyInstalled(object sender, RoutedEventArgs e)
         {
+            TagApplicationMethod method = GetTagApplicationMethod();
+
+            if ((bool)chkbxOnlyInstalled.IsChecked)
+                RemoveTaggedGames(method);
+            else
+                AddTaggedGames(method);
+
+            /*
             //once more filters are added we will need a method that will sort based off all of them
             if ((bool)chkbxOnlyInstalled.IsChecked)
             {
@@ -429,6 +435,16 @@ namespace Sapp
                     PutGameIntoOtherPool(removedPool[0]);
                 }
             }
+             */
+        } // end cbChecked_OnlyInstalled()
+
+        private TagApplicationMethod GetTagApplicationMethod()
+        {
+            Settings grabTagAppMethod = Settings.GetInstance(this);
+            TagApplicationMethod method = grabTagAppMethod.TagApplication;
+            grabTagAppMethod.ReturnInstance(ref grabTagAppMethod);
+
+            return method;
         }
 
     }
