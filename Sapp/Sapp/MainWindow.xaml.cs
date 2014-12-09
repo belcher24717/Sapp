@@ -276,26 +276,27 @@ namespace Sapp
 
         private void RemoveTaggedGames(TagApplicationMethod method) // tag checked, remove appropriate games.
         {
-            List<int> indexToRemove = new List<int>();
-            int index = 0;
+            List<Game> gameToRemove = new List<Game>();
 
             foreach (Game game in gamePool)
             {
                 if (!game.ContainsTag(tagsChecked, method))
-                    indexToRemove.Add(index);
+                    gameToRemove.Add(game);
                 else if ((bool)chkbxOnlyInstalled.IsChecked)
                     if (!game.IsInstalled())
-                        indexToRemove.Add(index);
+                        gameToRemove.Add(game);
 
-                index++;
             }
 
             // could do this with games instead of indexes
-            for (int x = indexToRemove.Count-1; x > -1; x--)
+            foreach (Game game in gameToRemove)
             {
-                removedPool.Add(gamePool.ElementAt(indexToRemove[x]));
-                gamePool.RemoveAt(indexToRemove[x]);
+                removedPool.Add(game);
+                gamePool.Remove(game);
             }
+
+            // TEMPORARY
+            removedPool.Sort();
 
         }
 
@@ -326,6 +327,9 @@ namespace Sapp
                 gamePool.Add(game);
                 removedPool.Remove(game);
             }
+
+            // TEMPORARY
+            gamePool.Sort();
         }
 
 
@@ -404,8 +408,23 @@ namespace Sapp
                 gamePool.Clear();
                 removedPool.Clear();
                 PopulateGames();
+                tagsChecked.Clear();
+
+                ResetCheckboxes();
             }
 
+        }
+
+        // helper method for btnOpenSettings -> if (refresh)
+        private void ResetCheckboxes()
+        {
+            chkbxFPS.IsChecked = false;
+            chkbxMMO.IsChecked = false;
+            chkbxMulti.IsChecked = false;
+            chkbxOnlyInstalled.IsChecked = false;
+            chkbxRPG.IsChecked = false;
+            chkbxSingle.IsChecked = false;
+            chkbxSurvival.IsChecked = false;
         }
 
         private void cbChecked_OnlyInstalled(object sender, RoutedEventArgs e)
