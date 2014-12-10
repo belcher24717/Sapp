@@ -407,10 +407,11 @@ namespace Sapp
             {
                 gamePool.Clear();
                 removedPool.Clear();
+                ResetCheckboxes();
                 PopulateGames();
                 tagsChecked.Clear();
 
-                ResetCheckboxes();
+                
             }
 
         }

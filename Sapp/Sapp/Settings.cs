@@ -66,7 +66,7 @@ namespace Sapp
 
         #endregion
 
-        private static string lastUsersSteamID64;
+        private static bool userWasChanged;
 
         private static bool writeAccess;
         private static bool inUse;
@@ -77,8 +77,8 @@ namespace Sapp
         {
             writeAccess = false;
             inUse = false;
-            lastUsersSteamID64 = null;
-            tagApplication = TagApplicationMethod.ContainsOne;
+            userWasChanged = false;
+            tagApplication = TagApplicationMethod.ContainsAll;
         }
 
         public static Settings GetInstance(Window reciever)
@@ -182,27 +182,25 @@ namespace Sapp
                 return false;
             }
 
-            steamID64 = temp;
-            steamID64 = steamID64.Trim('\"', ' ', '\t');
+            temp = temp.Trim('\"', ' ', '\t');
 
-            //if (lastUsersSteamID64 == null)
-                //lastUsersSteamID64 = steamID64;
+            if(!steamID64.Equals(temp))
+                userWasChanged = true;
+
+            steamID64 = temp;
 
             return true;
         }
 
         public bool ShouldRefresh()
         {
-            if (steamID64.Equals(lastUsersSteamID64))
+            if (userWasChanged)
             {
-                lastUsersSteamID64 = steamID64;
-                return false;
+                userWasChanged = false;
+                return true;
             }
 
-            else
-                lastUsersSteamID64 = steamID64;
-
-            return true;
+            return false;
             
         }
 

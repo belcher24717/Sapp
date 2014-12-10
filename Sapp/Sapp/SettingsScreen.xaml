@@ -1,30 +1,36 @@
-﻿<Window x:Class="Sapp.SettingsScreen"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Sapp" x:Class="Sapp.SettingsScreen"
         Title="SettingsScreen" Height="300" Width="300" WindowStyle = "None" 
         AllowsTransparency="True" ResizeMode="CanResizeWithGrip" SizeChanged="WindowSizeChanged" >
 
     <Grid>
-        <Rectangle HorizontalAlignment="Stretch" Name="MainRectangle" Stroke="#00000000" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
-                   Canvas.Left="0" Canvas.Top="0" Fill="#FF939393">
-
-        </Rectangle>
+        <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="#00000000" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
+			Canvas.Left="0" Canvas.Top="0" Fill="#FF939393"/>
 
         <Button Content="Accept" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Canvas.Left="478" Canvas.Top="320" 
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-                Width="65" Name="btnAccept2" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnAcceptClicked" />
+			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="65" x:Name="btnAccept2" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnAcceptClicked" />
         <Button Content="Cancel" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-        	HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-        	Width="65" x:Name="btnCancel" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,104,12" Click="btnCancelClicked" />
+			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="65" x:Name="btnCancel" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,104,12" Click="btnCancelClicked" />
         <Button Content="Browse" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-        	HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-        	Width="65" x:Name="btnAccept2_Copy" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,18,196" Click="btnBrowseClicked" />
-        
+			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="65" x:Name="btnAccept2_Copy" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,18,167" Click="btnBrowseClicked" />
+
         <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="80,10,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
-        <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="80,48,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
-        
+        <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="80,77,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
+
         <Label Content="User Name:" HorizontalAlignment="Left" Margin="4,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="4,48,0,0" VerticalAlignment="Top"/>
+        <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top"/>
+        <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="4,42,0,0" VerticalAlignment="Top"/>
+
+        <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="148,45,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged">
+            <local:TagApplicationMethod>ContainsAll</local:TagApplicationMethod>
+            <local:TagApplicationMethod>ContainsOne</local:TagApplicationMethod>
+        </ComboBox>
+
 
 
     </Grid>
