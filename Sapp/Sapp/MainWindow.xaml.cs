@@ -511,5 +511,10 @@ namespace Sapp
             return method;
         }
 
+        private void btnMinimizeClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
     }
 }

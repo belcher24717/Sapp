@@ -28,6 +28,9 @@
         <Button Background="#4B000000" BorderThickness="0" Content="x" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
                 HorizontalContentAlignment="Center" Name="btnExit" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 VerticalAlignment="Top" Click="btnExit_Click" />
+        <Button Background="#4B000000" BorderThickness="0" Content="-" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
+        	HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+        	VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" />        
         <Button Background="#4B000000" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" Content="Sort" FlowDirection="LeftToRight" Height="25" 
                 HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" Name="btnSortLists" SnapsToDevicePixels="True" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnSortLists_Click" />
@@ -43,6 +46,7 @@
         <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="12,144,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="Singleplayer" HorizontalAlignment="Left" Margin="12,165,0,0" x:Name="chkbxSingle" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
         <CheckBox Content="Multiplayer" HorizontalAlignment="Left" Margin="12,186,0,0" x:Name="chkbxMulti" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
+        
 
 
     </Grid>

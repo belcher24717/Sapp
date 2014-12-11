@@ -28,7 +28,7 @@ namespace Sapp
             {
                 txtUserID.Text = reference.UserID;
                 txtSteamPath.Text = reference.SteamLocation;
-                cbxTagMethod.SelectedItem = reference.TagApplication;
+                cbxTagMethod.SelectedIndex = (int)reference.TagApplication;
 
                 //only try and fill it with something if the settings file is not there, or corrupted
                 if (reference.UserID == null)
@@ -51,9 +51,7 @@ namespace Sapp
                 reference.SteamLocation = txtSteamPath.Text;
 
             reference.UserID = txtUserID.Text;
-
-
-            reference.TagApplication = (TagApplicationMethod)cbxTagMethod.SelectedItem;
+            reference.TagApplication = (TagApplicationMethod)cbxTagMethod.SelectedIndex;
 
             //save in mainwindow after we check if it should be refreshed
             reference.Save();
