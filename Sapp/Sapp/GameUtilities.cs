@@ -228,7 +228,7 @@ namespace Sapp
                     else if (reader.Name.Equals("hoursOnRecord"))
                     {
                         reader.Read();
-                        games.GetGame(appid).HoursOnRecord = TryParseDouble(reader.Value);
+                        games.GetGame(appid).HoursPlayed = TryParseDouble(reader.Value);
                     }
                 }
             }
@@ -251,7 +251,7 @@ namespace Sapp
                 foreach (Game g in newlyAddedGames)
                 {
 
-                    if (g.GetHoursPlayed() == 0)
+                    if (g.HoursPlayed == 0)
                     {
                         tasks[number] = Task.Factory.StartNew(() =>
                         {

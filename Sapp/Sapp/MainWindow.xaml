@@ -9,8 +9,24 @@
 
         </Rectangle>
 
-        <ListBox HorizontalAlignment="Right" Margin="0,79,12,49" Name="lstbxNotInGamePool" Width="289"/>
-        <ListBox HorizontalAlignment="Right" Margin="0,79,355,49" Name="lstbxGamePool" Width="289"/>
+        <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Right" Margin="0,79,355,49" Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+
+        <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Right" Margin="0,79,12,49" Name="dgRemovedPool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        
+        <!--<ListBox HorizontalAlignment="Right" Margin="0,79,12,49" Name="lstbxNotInGamePool" Width="289"/>
+        <ListBox HorizontalAlignment="Right" Margin="0,79,355,49" Name="lstbxGamePool" Width="289"/>-->
 
         <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,431,0" Name="label1" VerticalAlignment="Top" />
         <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,65,0" Name="label2" VerticalAlignment="Top" />
@@ -29,8 +45,8 @@
                 HorizontalContentAlignment="Center" Name="btnExit" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 VerticalAlignment="Top" Click="btnExit_Click" />
         <Button Background="#4B000000" BorderThickness="0" Content="-" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-        	HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-        	VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" />        
+        	    HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+        	    VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" />        
         <Button Background="#4B000000" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" Content="Sort" FlowDirection="LeftToRight" Height="25" 
                 HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" Name="btnSortLists" SnapsToDevicePixels="True" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnSortLists_Click" />

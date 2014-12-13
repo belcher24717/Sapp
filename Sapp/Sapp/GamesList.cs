@@ -97,6 +97,23 @@ namespace Sapp
             return false;
         }
 
+        public void RemoveList(List<Game> games)
+        {
+            foreach (Game game in games)
+                base.Remove(game);
+
+            OnChanged(EventArgs.Empty);
+        }
+
+        public void AddList(List<Game> games)
+        {
+            foreach (Game game in games)
+                base.Add(game);
+            
+
+            OnChanged(EventArgs.Empty);
+        }
+
     }
 
 }

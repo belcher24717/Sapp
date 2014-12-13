@@ -12,7 +12,7 @@ namespace Sapp
     public class Game : IComparable<Game>
     {
         // maybe consolidate these attributes into a GameProperties object?
-        private string title;
+        
 //        private List<string> genre;
         private int appID;
         
@@ -38,10 +38,16 @@ namespace Sapp
             set;
         }
 
-        public double HoursOnRecord
+        public double HoursPlayed
         {
             get;
             set;
+        }
+
+        private string title;
+        public string Title
+        {
+            get { return title; }
         }
 
         //start with just title and either build the rest in later, or add them here
@@ -52,7 +58,7 @@ namespace Sapp
             this.isInstalled = installed;
 
             this.HoursLastTwoWeeks = 0;
-            this.HoursOnRecord = 0;
+            this.HoursPlayed = 0;
             IsDLC = false;
 
             tagList = new List<GameUtilities.Tags>();
@@ -62,11 +68,6 @@ namespace Sapp
         public int GetAppID()
         {
             return appID;
-        }
-
-        public double GetHoursPlayed()
-        {
-            return HoursOnRecord;
         }
 
         public override string ToString()

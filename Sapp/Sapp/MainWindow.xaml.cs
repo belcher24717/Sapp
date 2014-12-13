@@ -30,6 +30,9 @@ namespace Sapp
         private bool checkboxesActive;
         private bool sortSwitch;
 
+        private DataGridHandler gamePoolDataGrid;
+        private DataGridHandler removedPoolDataGrid;
+
         private static MainWindow thisInstance;
 
         public MainWindow()
@@ -76,6 +79,9 @@ namespace Sapp
                 }
             }
 
+            gamePoolDataGrid = new DataGridHandler(ref dgGamePool);
+            removedPoolDataGrid = new DataGridHandler(ref dgRemovedPool);
+
             PopulateGames();
 
             //TODO: Make all the checkboxes, and then all references to a list here.
@@ -118,12 +124,16 @@ namespace Sapp
 
             gamePool = GameUtilities.PopulateGames(steamid64);
             gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
-
-            lstbxGamePool.ItemsSource = gamePool;
-
+            gamePoolDataGrid.Bind(gamePool);
+            gamePoolDataGrid.AddColumn("Title");
 
             removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
-            lstbxNotInGamePool.ItemsSource = removedPool;
+            removedPoolDataGrid.Bind(removedPool);
+            removedPoolDataGrid.AddColumn("Title");
+
+            //TODO: REMOVE THIS, IT WILL BE DYNAMICALLY SET IN THE SETTINGS SCREEN
+            gamePoolDataGrid.AddColumn("HoursPlayed");
+            removedPoolDataGrid.AddColumn("HoursPlayed");
 
         }
 
@@ -137,59 +147,34 @@ namespace Sapp
 
         private void gamePool_Changed(object sender, EventArgs e)
         {
-            lstbxGamePool.Items.Refresh();
+            gamePoolDataGrid.Refresh();
         }
 
         private void removedPool_Changed(object sender, EventArgs e)
         {
-            lstbxNotInGamePool.Items.Refresh();
+            removedPoolDataGrid.Refresh();
         }
 
         private void btnRemoveGame_Click(object sender, RoutedEventArgs e)
         {
-            if (lstbxGamePool.SelectedIndex == -1)
+            Game itemToRemove = gamePoolDataGrid.GetSelectedItem();
+
+            if (itemToRemove == null)
                 return;
 
-            Game itemToRemove = gamePool[lstbxGamePool.SelectedIndex];
-            PutGameIntoOtherPool(itemToRemove);
+            removedPool.Add(itemToRemove);
+            gamePool.Remove(itemToRemove);
         }
 
         private void btnAddGame_Click(object sender, RoutedEventArgs e)
         {
-            if (lstbxNotInGamePool.SelectedIndex == -1)
+            Game itemToRemove = removedPoolDataGrid.GetSelectedItem();
+
+            if (itemToRemove == null)
                 return;
 
-            Game itemToAdd = removedPool[lstbxNotInGamePool.SelectedIndex];
-            PutGameIntoOtherPool(itemToAdd);
-        }
-
-        private void PutGameIntoOtherPool(Game gameToSwap)
-        {
-            if (lstbxGamePool.Items.Contains(gameToSwap))
-            {
-                int index = lstbxGamePool.Items.IndexOf(gameToSwap);
-
-                //add it to removed list
-                removedPool.Add(gameToSwap);
-
-                FixSelection(lstbxGamePool);
-
-                //remove it from the playable list
-                gamePool.RemoveAt(index);
-            }
-
-            else if (lstbxNotInGamePool.Items.Contains(gameToSwap))
-            {
-                int index = lstbxNotInGamePool.Items.IndexOf(gameToSwap);
-
-                //add it to removed list
-                gamePool.Add(gameToSwap);
-
-                FixSelection(lstbxNotInGamePool);
-
-                //remove it from the playable list
-                removedPool.RemoveAt(index);
-            }
+            gamePool.Add(itemToRemove);
+            removedPool.Remove(itemToRemove);
         }
 
         private void FixSelection(ListBox container)
@@ -362,7 +347,7 @@ namespace Sapp
         private void BlanketUpdate(TagApplicationMethod method)
         {
             // ensures a game cannot be added multiple times if it fails multiple checks (tags, is installed, etc...)
-            bool gameAdded = false;
+            bool gameRemoved = false;
 
             foreach (Game game in removedPool)
                 gamePool.Add(game);
@@ -378,34 +363,34 @@ namespace Sapp
                     if (!game.ContainsTag(tagsChecked, method))
                     {
                         gamesToRemove.Add(game);
-                        gameAdded = true;
+                        gameRemoved = true;
+                        continue; //This makes it go to the next iteration of the loop
                     }
                 }
 
                 if ((bool)chkbxOnlyInstalled.IsChecked)
                 {
                     if (!game.IsInstalled())
-                        if (!gameAdded)
-                        {
-                            gamesToRemove.Add(game);
-                            gameAdded = true; // in case we add more logic that requires this after
-                        }
+                    {
+                        gamesToRemove.Add(game);
+                        gameRemoved = true; // in case we add more logic that requires this after
+                        continue;
+                    }
                 }
 
                 //if (!games hours < OR > chosen hours), etc...
 
-                gameAdded = false;
+                gameRemoved = false;
             }
 
-            foreach (Game game in gamesToRemove)
-            {
-                removedPool.Add(game);
-                gamePool.Remove(game);
-            }
+            //only 1 refresh per datagrid this way
+            removedPool.AddList(gamesToRemove);
+            gamePool.RemoveList(gamesToRemove);
 
-            // TEMPORARY
-            gamePool.Sort();
-            removedPool.Sort();
+
+            // TEMPORARY - No longer needed because the datagrid and gamepool will never be in the same order
+            //gamePool.Sort();
+            //removedPool.Sort();
         }
 
         private void CheckBoxChanged(ref GamesList pool, string checkboxChanged)
@@ -427,7 +412,10 @@ namespace Sapp
 
             //this is so we dont edit the list while looking through it
             foreach (Game g in tempForRemoval)
-                PutGameIntoOtherPool(g);
+            {
+                removedPool.Add(g);
+                gamePool.Remove(g);
+            }
         }
 
         private List<GameUtilities.Tags> GetCheckboxInTags()
