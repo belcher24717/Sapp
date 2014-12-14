@@ -31,8 +31,7 @@ namespace Sapp
             //TODO: make this an actual marquee progress bar. Animation not playing
             if (!realProgress)
             {
-                pbGamesMarquee.Visibility = System.Windows.Visibility.Visible;
-                pbGamesLoaded.Visibility = System.Windows.Visibility.Hidden;
+                pbGamesLoaded.IsIndeterminate = true;
                 lblPercent.Visibility = System.Windows.Visibility.Hidden;
             }
 
@@ -50,11 +49,11 @@ namespace Sapp
                     pbGamesLoaded.Value++;
                     lblPercent.Content = "" + (int)( (pbGamesLoaded.Value / pbGamesLoaded.Maximum) * 100 ) + "%";
                 }
-
+            }
                 Dispatcher.Invoke(updatePbDelegate,
                     System.Windows.Threading.DispatcherPriority.Background,
                     new object[] { ProgressBar.ValueProperty, pbGamesLoaded.Value });
-            }
+            
             ShouldClose();
         }
 

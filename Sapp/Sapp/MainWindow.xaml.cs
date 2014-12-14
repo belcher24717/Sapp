@@ -132,11 +132,9 @@ namespace Sapp
             gamePool = GameUtilities.PopulateGames(steamid64);
             gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
             gamePoolDataGrid.Bind(gamePool);
-            gamePoolDataGrid.AddColumn("Title");
 
             removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
             removedPoolDataGrid.Bind(removedPool);
-            removedPoolDataGrid.AddColumn("Title");
 
             //TODO: REMOVE THIS, IT WILL BE DYNAMICALLY SET IN THE SETTINGS SCREEN
             gamePoolDataGrid.AddColumn("HoursPlayed");

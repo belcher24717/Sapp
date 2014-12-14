@@ -12,6 +12,9 @@
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Right" Margin="0,79,355,49" 
                   Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+            </DataGrid.Columns>
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="BorderThickness" Value="0"/>
@@ -21,6 +24,9 @@
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Right" Margin="0,79,12,49" 
                   Name="dgRemovedPool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+            </DataGrid.Columns>
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="BorderThickness" Value="0"/>
