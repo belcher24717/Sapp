@@ -458,8 +458,10 @@ namespace Sapp
 
         private void btnOpenSettings(object sender, RoutedEventArgs e)
         {
+            TagApplicationMethod preMethod = GetTagApplicationMethod();
             SettingsScreen ss = new SettingsScreen();
             ss.ShowDialog();
+            TagApplicationMethod postMethod = GetTagApplicationMethod();
 
             Settings testForRefresh = Settings.GetInstance(this);
             bool refresh = testForRefresh.ShouldRefresh();
@@ -472,10 +474,12 @@ namespace Sapp
                 ResetCheckboxes();
                 PopulateGames();
                 tagsChecked.Clear();
-
-                
             }
 
+            else if (preMethod != postMethod) // if they change contains method, update list occordingly. 
+            {
+                BlanketUpdate(postMethod);
+            }
         }
 
         // helper method for btnOpenSettings -> if (refresh)
