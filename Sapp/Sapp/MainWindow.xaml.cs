@@ -40,6 +40,8 @@ namespace Sapp
         {
             InitializeComponent();
 
+            Logger.Log("Main Application Started", true);
+
             thisInstance = this;
 
             bool settingsLoaded = false;
@@ -83,7 +85,11 @@ namespace Sapp
             gamePoolDataGrid = new DataGridHandler(ref dgGamePool);
             removedPoolDataGrid = new DataGridHandler(ref dgRemovedPool);
 
+            Logger.Log("START: Populating Games", true);
+
             PopulateGames();
+
+            Logger.Log("END: Populating Games", true);
 
             //TODO: Make all the checkboxes, and then all references to a list here.
             //This list will make management of all checkboxes easy (seperate by type, like: tag filters, intalled only, hours played, etc)

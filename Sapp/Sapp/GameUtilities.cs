@@ -239,6 +239,7 @@ namespace Sapp
 
             if (addedNewGames)
             {
+                Logger.Log("START: DLC Removal", true);
 
                 #region Weed Out DLC
 
@@ -298,6 +299,10 @@ namespace Sapp
 
                 #endregion
 
+                Logger.Log("END: DLC Removal", true);
+
+                Logger.Log("START: Tag Loading", true);
+
                 #region Load Tags
 
                 int numDLC = 0;
@@ -344,6 +349,8 @@ namespace Sapp
                 }
 
                 #endregion
+
+                Logger.Log("END: Tag Loading", true);
 
             }
 
@@ -465,8 +472,10 @@ namespace Sapp
                 response.Close();
 
             }
-            catch
+            catch(Exception e)
             {
+                Logger.Log("In HelperThread.WeedOutDLC: " + e.ToString(), true);
+
                 if(response != null)
                     response.Close();
             }
