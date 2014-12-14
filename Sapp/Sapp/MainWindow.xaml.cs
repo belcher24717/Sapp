@@ -24,8 +24,9 @@ namespace Sapp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static GamesList gamePool;
+        private static GamesList gamePool;  
         private GamesList removedPool;
+
         private List<GameUtilities.Tags> tagsChecked;
         private bool checkboxesActive;
         private bool sortSwitch;
@@ -349,8 +350,7 @@ namespace Sapp
             // ensures a game cannot be added multiple times if it fails multiple checks (tags, is installed, etc...)
             bool gameRemoved = false;
 
-            foreach (Game game in removedPool)
-                gamePool.Add(game);
+            gamePool.AddList(removedPool);
 
             removedPool.Clear();
 

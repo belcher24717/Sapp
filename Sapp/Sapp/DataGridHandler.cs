@@ -15,6 +15,7 @@ namespace Sapp
         public DataGridHandler(ref DataGrid binding)
         {
             theGrid = binding;
+            
         }
 
         public void Bind(GamesList games)
@@ -27,7 +28,16 @@ namespace Sapp
             int temp = theGrid.SelectedIndex;
             int oldCount = theGrid.Items.Count;
 
+
+            if (theGrid.Items.Count != ((GamesList)theGrid.Items.SourceCollection).Count)
+            {
+                GamesList correctList = (GamesList)theGrid.Items.SourceCollection;
+                theGrid.ItemsSource = null;
+                theGrid.ItemsSource = correctList;
+            }
+
             theGrid.Items.Refresh();
+            
             FixSelection(temp, oldCount);
         }
 
@@ -69,7 +79,7 @@ namespace Sapp
                 theGrid.SelectedIndex = prevIndex;
 
             //focus if it was the grid removed from
-            if (theGrid.Items.Count < oldCount)
+            //if (theGrid.Items.Count < oldCount)
                 theGrid.Focus();
         }
 
