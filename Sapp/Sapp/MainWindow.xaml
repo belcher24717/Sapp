@@ -70,11 +70,11 @@
         <CheckBox Content="Multiplayer" HorizontalAlignment="Left" Margin="12,186,0,0" x:Name="chkbxMulti" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
         <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="12,279,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed"/>
         <Label x:Name="label1_HoursPlayed" Content="Only show games with" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
-        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" IsEnabled="False" FontSize="8" SelectionChanged="HoursPlayedCBSelectionChanged">
+        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" IsEnabled="False" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
             <ComboBoxItem Content="More than" FontSize="9"/>
             <ComboBoxItem Content="Less than" FontSize="9"/>
         </ComboBox>
-        <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" IsEnabled="False" Visibility="Hidden" TextChanged="HoursPlayedCBSelectionChanged"/>
+        <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" IsEnabled="False" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
         <Label x:Name="label2_HoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="12,338,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
 
 

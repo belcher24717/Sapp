@@ -548,11 +548,9 @@ namespace Sapp
 
                 combobox_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
                 combobox_HoursPlayed.IsEnabled = flag;
-                combobox_HoursPlayed.SelectedIndex = 0;
 
                 textbox_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
                 textbox_HoursPlayed.IsEnabled = flag;
-                textbox_HoursPlayed.Text = "30";
             }
             else // unchecked
             {
@@ -574,16 +572,21 @@ namespace Sapp
 
         private void HoursPlayedCBSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BlanketUpdate(GetTagApplicationMethod());
+            if (removedPool != null) // this should only happen on load
+                BlanketUpdate(GetTagApplicationMethod());
         }
 
         private void HoursPlayedCBSelectionChanged(object sender, TextChangedEventArgs e)
         {
             // this may proc when textbox is disabled? That would be bad because it would double BlanketUpdate then...
-            BlanketUpdate(GetTagApplicationMethod());
 
-            if (textbox_HoursPlayed.Focusable)
-                Keyboard.Focus(textbox_HoursPlayed);
+            if (removedPool != null) // this should only happen on load
+            {
+                BlanketUpdate(GetTagApplicationMethod());
+
+                if (textbox_HoursPlayed.Focusable)
+                    Keyboard.Focus(textbox_HoursPlayed);
+            }
         }
 
         #endregion
