@@ -351,9 +351,6 @@ namespace Sapp
 
         private void BlanketUpdate(TagApplicationMethod method)
         {
-            // ensures a game cannot be added multiple times if it fails multiple checks (tags, is installed, etc...)
-            bool gameRemoved = false;
-
             gamePool.AddList(removedPool);
 
             removedPool.Clear();
@@ -367,8 +364,7 @@ namespace Sapp
                     if (!game.ContainsTag(tagsChecked, method))
                     {
                         gamesToRemove.Add(game);
-                        gameRemoved = true;
-                        continue; //This makes it go to the next iteration of the loop
+                        continue; 
                     }
                 }
 
@@ -377,15 +373,45 @@ namespace Sapp
                     if (!game.IsInstalled())
                     {
                         gamesToRemove.Add(game);
-                        gameRemoved = true; // in case we add more logic that requires this after
                         continue;
                     }
-                }
+                } // end onlyinstalled checkbox if
 
-                //if (!games hours < OR > chosen hours), etc...
+                // this will be different, this is just a quick way to get the feature working... It will not use a textbox for hours for instance.
+                if ((bool)chkbxHoursPlayed.IsChecked)
+                {
+                    bool greaterThan = (combobox_HoursPlayed.SelectedIndex == 0) ? true : false;
+                    int hours;
 
-                gameRemoved = false;
-            }
+                    try 
+                    {
+                        hours = int.Parse(textbox_HoursPlayed.Text);
+                    }
+                    catch (FormatException fe)
+                    {        
+                        continue;
+                    }
+
+                    if (greaterThan)
+                    {
+                        if (game.HoursPlayed < hours)
+                        {
+                            gamesToRemove.Add(game);
+                            continue;
+                        }
+                    }
+                    else // lessThan
+                    {
+                        if (game.HoursPlayed > hours)
+                        {
+                            gamesToRemove.Add(game);
+                            continue;
+                        }
+                    } // end hours if/else
+
+                } // end hoursplayed checkbox if
+
+            } // end foreach
 
             //only 1 refresh per datagrid this way
             removedPool.AddList(gamesToRemove);
@@ -511,6 +537,56 @@ namespace Sapp
         {
             this.WindowState = WindowState.Minimized;
         }
+
+        private void cbChecked_HoursPlayed(object sender, RoutedEventArgs e)
+        {
+            bool flag = (bool)chkbxHoursPlayed.IsChecked;
+            if (flag) // checked
+            {
+                label1_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
+                label2_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
+
+                combobox_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
+                combobox_HoursPlayed.IsEnabled = flag;
+                combobox_HoursPlayed.SelectedIndex = 0;
+
+                textbox_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
+                textbox_HoursPlayed.IsEnabled = flag;
+                textbox_HoursPlayed.Text = "30";
+            }
+            else // unchecked
+            {
+                label1_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
+                label2_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
+
+                combobox_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
+                combobox_HoursPlayed.IsEnabled = flag;
+
+                textbox_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
+                textbox_HoursPlayed.IsEnabled = flag;
+            }
+
+            BlanketUpdate(GetTagApplicationMethod());
+        }
+
+        // these may end up being removed
+        #region HoursHelperEvents
+
+        private void HoursPlayedCBSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BlanketUpdate(GetTagApplicationMethod());
+        }
+
+        private void HoursPlayedCBSelectionChanged(object sender, TextChangedEventArgs e)
+        {
+            // this may proc when textbox is disabled? That would be bad because it would double BlanketUpdate then...
+            BlanketUpdate(GetTagApplicationMethod());
+
+            if (textbox_HoursPlayed.Focusable)
+                Keyboard.Focus(textbox_HoursPlayed);
+        }
+
+        #endregion
 
     }
 }

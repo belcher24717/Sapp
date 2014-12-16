@@ -52,12 +52,12 @@
                 VerticalAlignment="Top" Click="btnExit_Click" />
         <Button Background="#4B000000" BorderThickness="0" Content="-" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
         	    HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-        	    VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" />        
+        	    VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" />
         <Button Background="#4B000000" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" Content="Sort" FlowDirection="LeftToRight" Height="25" 
                 HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" Name="btnSortLists" SnapsToDevicePixels="True" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnSortLists_Click" />
         <Button Background="#4B000000" BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
-        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,49" x:Name="btnSettings" SnapsToDevicePixels="True" 
+        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,12" x:Name="btnSettings" SnapsToDevicePixels="True" 
         	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings" />
 
 
@@ -68,7 +68,15 @@
         <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="12,144,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="Singleplayer" HorizontalAlignment="Left" Margin="12,165,0,0" x:Name="chkbxSingle" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
         <CheckBox Content="Multiplayer" HorizontalAlignment="Left" Margin="12,186,0,0" x:Name="chkbxMulti" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
-        
+        <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="12,279,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed"/>
+        <Label x:Name="label1_HoursPlayed" Content="Only show games with" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
+        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" IsEnabled="False" FontSize="8" SelectionChanged="HoursPlayedCBSelectionChanged">
+            <ComboBoxItem Content="More than" FontSize="9"/>
+            <ComboBoxItem Content="Less than" FontSize="9"/>
+        </ComboBox>
+        <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" IsEnabled="False" Visibility="Hidden" TextChanged="HoursPlayedCBSelectionChanged"/>
+        <Label x:Name="label2_HoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="12,338,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
+
 
 
     </Grid>
