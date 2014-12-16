@@ -34,15 +34,11 @@ namespace Sapp
         private DataGridHandler gamePoolDataGrid;
         private DataGridHandler removedPoolDataGrid;
 
-        private static MainWindow thisInstance;
-
         public MainWindow()
         {
             InitializeComponent();
 
             Logger.Log("Main Application Started", true);
-
-            thisInstance = this;
 
             bool settingsLoaded = false;
             Nullable<bool> windowAccepted = true;
@@ -66,11 +62,13 @@ namespace Sapp
                 }
                 catch (FileNotFoundException fileNotFound)
                 {
+                    Logger.Log("Settings File Not Found", true);
                     SettingsScreen ss = new SettingsScreen();
                     windowAccepted = ss.ShowDialog();
                 }
                 catch (SerializationException serializationFailed)
                 {
+                    Logger.Log("Settings File Corrupted", true);
                     SettingsScreen ss = new SettingsScreen();
                     windowAccepted = ss.ShowDialog();
                 }
@@ -193,29 +191,6 @@ namespace Sapp
 
                 container.Focus();
             }
-
-        }
-
-        private void btnSortLists_Click(object sender, RoutedEventArgs e)
-        {
-            // ------------------------------------------ THIS WILL BE REMOVED ---------------------------------------------------
-            gamePool.Sort();
-            //Optimization: potentially add logic to only sort IF removedPool is visible
-            removedPool.Sort();
-
-            if (!sortSwitch)
-            {
-                gamePool.Reverse();
-                //Optimization: potentially add logic to only sort IF removedPool is visible
-                removedPool.Reverse();
-                sortSwitch = true;
-            }
-            else
-                sortSwitch = false;
-
-            //lstbxGamePool.Items.Refresh();
-
-            // ------------------------------------------ THIS WILL BE REMOVED ---------------------------------------------------
 
         }
 

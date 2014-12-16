@@ -84,7 +84,10 @@ namespace Sapp
         public static Settings GetInstance(Window reciever)
         {
             if (inUse)
+            {
+                Logger.Log("Settings was in use, null was returned", true);
                 return null;
+            }
 
             if (reciever.Title.Equals("SettingsScreen"))
                 writeAccess = true;

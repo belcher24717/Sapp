@@ -32,7 +32,7 @@ namespace Sapp
                         logFile.Write(" -- " + DateTime.Now);
 
                     logFile.WriteLine();
-
+                    logFile.Flush();
                     logFile.Close();
                 }
                 catch

@@ -45,6 +45,8 @@ namespace Sapp
         private void btnAcceptClicked(object sender, RoutedEventArgs e)
         {
             Settings reference = Settings.GetInstance(this);
+            if (reference == null)
+                Logger.Log("Settings reference is null");
 
             //only save it if its valid --SOMETHING IS HOLDING SETTINGS AND THIS IS BLOWING UP
             if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))
@@ -54,8 +56,10 @@ namespace Sapp
             reference.TagApplication = (TagApplicationMethod)cbxTagMethod.SelectedIndex;
 
             //save in mainwindow after we check if it should be refreshed
+            Logger.Log("Saving Settings");
             reference.Save();
             reference.ReturnInstance(ref reference);
+            Logger.Log("Successful Save");
 
             DialogResult = true;
             this.Close();
