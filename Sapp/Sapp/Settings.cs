@@ -187,7 +187,7 @@ namespace Sapp
 
             temp = temp.Trim('\"', ' ', '\t');
 
-            if(!steamID64.Equals(temp))
+            if(steamID64 == null || !steamID64.Equals(temp))
                 userWasChanged = true;
 
             steamID64 = temp;
