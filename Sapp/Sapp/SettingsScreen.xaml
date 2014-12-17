@@ -25,11 +25,14 @@
         <Label Content="User Name:" HorizontalAlignment="Left" Margin="4,10,0,0" VerticalAlignment="Top"/>
         <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top"/>
         <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="4,42,0,0" VerticalAlignment="Top"/>
+        <Label Content="Show Columns:" HorizontalAlignment="Left" Margin="4,127,0,0" VerticalAlignment="Top"/>
 
         <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="148,45,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" Background="#4B000000" BorderThickness="0">
             <ComboBoxItem>Contains All</ComboBoxItem>
             <ComboBoxItem>Contains One</ComboBoxItem>
         </ComboBox>
+        
+        <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="26,153,0,0" VerticalAlignment="Top" Unchecked="cbChanged" Checked="cbChanged"/>
 
 
 

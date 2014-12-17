@@ -30,6 +30,10 @@ namespace Sapp
                 txtSteamPath.Text = reference.SteamLocation;
                 cbxTagMethod.SelectedIndex = (int)reference.TagApplication;
 
+                //going to have to add this for each new checkbox...
+                cbHoursPlayed.IsChecked = reference.GetColumnsToShow().Contains(cbHoursPlayed.Content.ToString());
+
+
                 //only try and fill it with something if the settings file is not there, or corrupted
                 if (reference.UserID == null)
                 {
@@ -106,6 +110,23 @@ namespace Sapp
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void cbChanged(object sender, RoutedEventArgs e)
+        {
+            Settings settings = Settings.GetInstance(this);
+            if (settings == null)
+                return;
+
+            CheckBox tempCB = (CheckBox)sender;
+            
+            if ((bool)tempCB.IsChecked)
+                settings.AddColumn(tempCB.Content.ToString());
+            else
+                settings.RemoveColumn(tempCB.Content.ToString());
+
+            settings.ReturnInstance(ref settings);
+                
         }
     }
 }

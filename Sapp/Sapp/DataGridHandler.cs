@@ -28,24 +28,26 @@ namespace Sapp
             int temp = theGrid.SelectedIndex;
             int oldCount = theGrid.Items.Count;
 
-
             if (theGrid.Items.Count != ((GamesList)theGrid.Items.SourceCollection).Count)
-            {
-                GamesList correctList = (GamesList)theGrid.Items.SourceCollection;
-                theGrid.ItemsSource = null;
-                theGrid.ItemsSource = correctList;
-            }
+                ForceRefresh();
 
             theGrid.Items.Refresh();
             
             FixSelection(temp, oldCount);
         }
 
+        public void ForceRefresh()
+        {
+            GamesList correctList = (GamesList)theGrid.Items.SourceCollection;
+            theGrid.ItemsSource = null;
+            theGrid.ItemsSource = correctList;
+        }
+
         public void AddColumn(string colName)
         {
             DataGridTextColumn c1 = new DataGridTextColumn();
             c1.Header = AddSpaces(colName);
-            c1.Binding = new Binding(colName);
+            c1.Binding = new Binding(colName.Replace(" ", String.Empty));
             theGrid.Columns.Add(c1);
         }
 
@@ -85,7 +87,7 @@ namespace Sapp
 
         private string AddSpaces(string s)
         {
-            string toWorkOn = s;
+            string toWorkOn = s.Replace(" ", String.Empty); ;
 
             for (int i = 1; i < toWorkOn.Length; i++)
             {
@@ -98,6 +100,18 @@ namespace Sapp
                 }
             }
             return toWorkOn;
+        }
+
+        public void ClearColumns()
+        {
+            for(int i = 0; i < theGrid.Columns.Count; i++)
+            {
+                if (!theGrid.Columns[i].Header.Equals("Title"))
+                {
+                    theGrid.Columns.Remove(theGrid.Columns[i]);
+                    i--;
+                }
+            }
         }
     }
 }

@@ -70,6 +70,7 @@ namespace Sapp
 
         private static bool writeAccess;
         private static bool inUse;
+        private static List<string> columnsToShow;
 
         private static Settings thisInstance = new Settings();
 
@@ -205,6 +206,25 @@ namespace Sapp
 
             return false;
             
+        }
+
+        public void AddColumn(string col)
+        {
+            if (columnsToShow == null)
+                columnsToShow = new List<string>();
+            columnsToShow.Add(col);
+        }
+
+        public void RemoveColumn(string col)
+        {
+            columnsToShow.Remove(col);
+        }
+
+        public List<string> GetColumnsToShow()
+        {
+            if (columnsToShow == null)
+                columnsToShow = new List<string>();
+            return columnsToShow;
         }
 
     }

@@ -134,10 +134,6 @@ namespace Sapp
             removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
             removedPoolDataGrid.Bind(removedPool);
 
-            //TODO: REMOVE THIS, IT WILL BE DYNAMICALLY SET IN THE SETTINGS SCREEN
-            gamePoolDataGrid.AddColumn("HoursPlayed");
-            removedPoolDataGrid.AddColumn("HoursPlayed");
-
         }
 
         public static void RemoveDlc(int id)
@@ -470,7 +466,16 @@ namespace Sapp
 
             Settings testForRefresh = Settings.GetInstance(this);
             bool refresh = testForRefresh.ShouldRefresh();
+            List<string> colsToShow = testForRefresh.GetColumnsToShow();
             testForRefresh.ReturnInstance(ref testForRefresh);
+
+            gamePoolDataGrid.ClearColumns();
+            removedPoolDataGrid.ClearColumns();
+            foreach (string s in colsToShow)
+            {
+                gamePoolDataGrid.AddColumn(s);
+                removedPoolDataGrid.AddColumn(s);
+            }
 
             if (refresh)
             {
