@@ -74,6 +74,18 @@
         </ComboBox>
         <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" IsEnabled="False" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
         <Label x:Name="label2_HoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="12,338,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
+        <CheckBox Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="12,365,0,0" x:Name="chkbxHoursPlayedLast2Weeks" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayedLast2Weeks" Checked="cbChecked_HoursPlayedLast2Weeks"/>
+        <Label x:Name="label1_HoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="8,383,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
+        <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" IsEnabled="False" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
+            <ComboBoxItem Content="More than" FontSize="9"/>
+            <ComboBoxItem Content="Less than" FontSize="9"/>
+        </ComboBox>
+        <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="73,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" IsEnabled="False" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
+        <Label x:Name="label2_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,421,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Height="40" Width="97">
+            <TextBlock TextWrapping="WrapWithOverflow">
+                hours of play time in the last 2 weeks. 
+            </TextBlock>
+        </Label>
 
 
 

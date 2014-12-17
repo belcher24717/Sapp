@@ -33,6 +33,7 @@
         </ComboBox>
         
         <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="26,153,0,0" VerticalAlignment="Top" Unchecked="cbChanged" Checked="cbChanged"/>
+        <CheckBox x:Name="cbHoursPlayedLast2Weeks" Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="26,169,0,0" VerticalAlignment="Top" Unchecked="cbChanged" Checked="cbChanged"/>
 
 
 

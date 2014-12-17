@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 
+
 namespace Sapp
 {
     /// <summary>
@@ -330,6 +331,7 @@ namespace Sapp
 
             foreach (Game game in gamePool)
             {
+                #region Tags
                 if (tagsChecked.Count >= 1)
                 {
                     if (!game.ContainsTag(tagsChecked, method))
@@ -338,7 +340,9 @@ namespace Sapp
                         continue; 
                     }
                 }
+                #endregion
 
+                #region Only Installed
                 if ((bool)chkbxOnlyInstalled.IsChecked)
                 {
                     if (!game.IsInstalled())
@@ -347,7 +351,9 @@ namespace Sapp
                         continue;
                     }
                 } // end onlyinstalled checkbox if
+                #endregion
 
+                #region Hours Played
                 // this will be different, this is just a quick way to get the feature working... It will not use a textbox for hours for instance.
                 if ((bool)chkbxHoursPlayed.IsChecked)
                 {
@@ -381,6 +387,43 @@ namespace Sapp
                     } // end hours if/else
 
                 } // end hoursplayed checkbox if
+                #endregion 
+
+                #region Hours Played Last 2 Weeks
+                // this will be different, this is just a quick way to get the feature working... It will not use a textbox for hours for instance.
+                if ((bool)chkbxHoursPlayedLast2Weeks.IsChecked)
+                {
+                    bool greaterThan = (combobox_HoursPlayedLast2Weeks.SelectedIndex == 0) ? true : false;
+                    int hours;
+
+                    try 
+                    {
+                        hours = int.Parse(textbox_HoursPlayedLast2Weeks.Text);
+                    }
+                    catch (FormatException fe)
+                    {        
+                        continue;
+                    }
+
+                    if (greaterThan)
+                    {
+                        if (game.HoursLastTwoWeeks < hours)
+                        {
+                            gamesToRemove.Add(game);
+                            continue;
+                        }
+                    }
+                    else // lessThan
+                    {
+                        if (game.HoursLastTwoWeeks > hours)
+                        {
+                            gamesToRemove.Add(game);
+                            continue;
+                        }
+                    } // end hours if/else
+
+                } // end hoursplayedLast2Weeks checkbox if
+                #endregion
 
             } // end foreach
 
@@ -518,33 +561,58 @@ namespace Sapp
             this.WindowState = WindowState.Minimized;
         }
 
-        private void cbChecked_HoursPlayed(object sender, RoutedEventArgs e)
+        private void HoursPlayedUpdate(List<Control> controlList)
         {
-            bool flag = (bool)chkbxHoursPlayed.IsChecked;
+            bool flag = (bool)((CheckBox)controlList[0]).IsChecked;
+            
             if (flag) // checked
             {
-                label1_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
-                label2_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
+                controlList[1].Visibility = System.Windows.Visibility.Visible;
+                controlList[2].Visibility = System.Windows.Visibility.Visible;
 
-                combobox_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
-                combobox_HoursPlayed.IsEnabled = flag;
+                controlList[3].Visibility = System.Windows.Visibility.Visible;
+                controlList[3].IsEnabled = flag;
 
-                textbox_HoursPlayed.Visibility = System.Windows.Visibility.Visible;
-                textbox_HoursPlayed.IsEnabled = flag;
+                controlList[4].Visibility = System.Windows.Visibility.Visible;
+                controlList[4].IsEnabled = flag;
             }
             else // unchecked
             {
-                label1_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
-                label2_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
+                controlList[1].Visibility = System.Windows.Visibility.Hidden;
+                controlList[2].Visibility = System.Windows.Visibility.Hidden;
 
-                combobox_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
-                combobox_HoursPlayed.IsEnabled = flag;
+                controlList[3].Visibility = System.Windows.Visibility.Hidden;
+                controlList[3].IsEnabled = flag;
 
-                textbox_HoursPlayed.Visibility = System.Windows.Visibility.Hidden;
-                textbox_HoursPlayed.IsEnabled = flag;
+                controlList[4].Visibility = System.Windows.Visibility.Hidden;
+                controlList[4].IsEnabled = flag;
             }
 
             BlanketUpdate(GetTagApplicationMethod());
+        }
+
+        private void cbChecked_HoursPlayed(object sender, RoutedEventArgs e)
+        {
+            List<Control> controls = new List<Control>();
+            controls.Add(chkbxHoursPlayed);
+            controls.Add(label1_HoursPlayed);
+            controls.Add(label2_HoursPlayed);
+            controls.Add(combobox_HoursPlayed);
+            controls.Add(textbox_HoursPlayed);
+
+            HoursPlayedUpdate(controls);
+        }
+
+        private void cbChecked_HoursPlayedLast2Weeks(object sender, RoutedEventArgs e)
+        {
+            List<Control> controls = new List<Control>();
+            controls.Add(chkbxHoursPlayedLast2Weeks);
+            controls.Add(label1_HoursPlayedLast2Weeks);
+            controls.Add(label2_HoursPlayedLast2Weeks);
+            controls.Add(combobox_HoursPlayedLast2Weeks);
+            controls.Add(textbox_HoursPlayedLast2Weeks);
+
+            HoursPlayedUpdate(controls);
         }
 
         // these may end up being removed
@@ -564,8 +632,18 @@ namespace Sapp
             {
                 BlanketUpdate(GetTagApplicationMethod());
 
-                if (textbox_HoursPlayed.Focusable)
-                    Keyboard.Focus(textbox_HoursPlayed);
+                TextBox tb = (TextBox)sender;
+
+                if (tb.Name.Equals("textbox_HoursPlayedLast2Weeks"))
+                {
+                    if (textbox_HoursPlayedLast2Weeks.Focusable)
+                        Keyboard.Focus(textbox_HoursPlayedLast2Weeks);
+                }
+                else if (tb.Name.Equals("textbox_HoursPlayed"))
+                {
+                    if (textbox_HoursPlayed.Focusable)
+                        Keyboard.Focus(textbox_HoursPlayed);
+                }
             }
         }
 
