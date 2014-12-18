@@ -649,5 +649,14 @@ namespace Sapp
 
         #endregion
 
+        private void btnClickRemoveAll(object sender, RoutedEventArgs e)
+        {
+            foreach (Game game in gamePool)
+                removedPool.Add(game);
+
+            gamePool.Clear();
+        }
+
+
     }
 }

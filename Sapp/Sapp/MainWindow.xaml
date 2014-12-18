@@ -86,8 +86,8 @@
                 hours of play time in the last 2 weeks. 
             </TextBlock>
         </Label>
-
-
-
+        <Button Background="#4B000000" BorderThickness="0" Content="Remove All" FlowDirection="LeftToRight" Height="25" 
+        	HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" x:Name="btnRemoveAll" SnapsToDevicePixels="True" 
+        	Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnClickRemoveAll" />
     </Grid>
 </Window>
