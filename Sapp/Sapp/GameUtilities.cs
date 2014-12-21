@@ -180,6 +180,7 @@ namespace Sapp
             
             GamesList games = LoadGameList(userID);
             GamesList newlyAddedGames = new GamesList();
+            bool addedNewGames = false;
 
             #region Read In Game Data
 
@@ -192,7 +193,6 @@ namespace Sapp
             initLoadBar.Show();
 
             int appid = 0;
-            bool addedNewGames = false;
             while (reader.Read())
             {
 
@@ -231,6 +231,7 @@ namespace Sapp
                         games.GetGame(appid).HoursPlayed = TryParseDouble(reader.Value);
                     }
                 }
+                Application.DoEvents(); 
             }
 
             initLoadBar.ForceClose();
@@ -264,6 +265,7 @@ namespace Sapp
                         number++;
 
                     }
+                    
                 }
 
                 int counter = 0;
@@ -292,6 +294,7 @@ namespace Sapp
                             loadBar.Progress();
                         }
                     }
+                    Application.DoEvents();
                 }
 
                 taskWatcher.Clear();
@@ -346,6 +349,7 @@ namespace Sapp
                             loadBarTags.Progress();
                         }
                     }
+                    Application.DoEvents();
                 }
 
                 #endregion

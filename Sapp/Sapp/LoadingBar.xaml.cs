@@ -22,7 +22,9 @@ namespace Sapp
     public partial class LoadingBar : Window
     {
         private delegate void UpdateProgressBarDelegate(System.Windows.DependencyProperty dp, Object value);
+        private delegate void MarqueeProgressBarDelegate();
         private UpdateProgressBarDelegate updatePbDelegate;
+        private MarqueeProgressBarDelegate marqueePbDelagate;
 
         public LoadingBar(int numGames, string message)
         {
@@ -39,6 +41,7 @@ namespace Sapp
 
             lblPercent.Visibility = System.Windows.Visibility.Hidden;
             lblMessage.Content = message;
+            pbGamesLoaded.IsIndeterminate = true;
         }
 
         public void Progress()
@@ -71,7 +74,7 @@ namespace Sapp
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
         {
-            //this.DragMove();
+            this.DragMove();
         }
     }
 }
