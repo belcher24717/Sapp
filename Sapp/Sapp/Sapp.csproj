@@ -57,6 +57,7 @@
     <Compile Include="DataGridHandler.cs" />
     <Compile Include="GamesList.cs" />
     <Compile Include="GameUtilities.cs" />
+    <Compile Include="HoursHandler.cs" />
     <Compile Include="LoadingBar.xaml.cs">
       <DependentUpon>LoadingBar.xaml</DependentUpon>
     </Compile>

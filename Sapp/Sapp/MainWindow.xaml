@@ -34,17 +34,25 @@
             </DataGrid.CellStyle>
         </DataGrid>
 
+        <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="8,383,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="12,338,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="lblPreHoursPlayed" Content="Only show games with" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
         <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,431,0" Name="label1" VerticalAlignment="Top" />
         <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,65,0" Name="label2" VerticalAlignment="Top" />
         <Label Content="Genres To Play" Height="28" HorizontalAlignment="Left" Margin="10,45,0,0" Name="label3" VerticalAlignment="Top" />
-
+        <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,421,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Height="40" Width="97">
+            <TextBlock TextWrapping="WrapWithOverflow">
+                hours of play time in the last 2 weeks.
+            </TextBlock>
+        </Label>
+        
         <Button Content="Play!" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Canvas.Left="478" Canvas.Top="320" 
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
                 Width="65" Name="btnPlay" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnPlay_Click" />
-        <Button Background="#4B000000" BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="25" HorizontalAlignment="Right" 
-                HorizontalContentAlignment="Center" Margin="0,281,307,165" Name="btnAddGame" SnapsToDevicePixels="True" 
+        <Button Background="#4B000000" BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right" 
+                HorizontalContentAlignment="Center" Margin="0,291,307,195" Name="btnAddGame" SnapsToDevicePixels="True" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="42" Click="btnAddGame_Click" />
-        <Button Background="#4B000000" BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="25" HorizontalAlignment="Right"
+        <Button Background="#4B000000" BorderThickness="0" Content="&gt;" FlowDirection="LeftToRight" Height="25" HorizontalAlignment="Right"
                 HorizontalContentAlignment="Center" Margin="0,194,307,252" Name="btnRemoveGame" SnapsToDevicePixels="True" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Width="42" Click="btnRemoveGame_Click" />
         <Button Background="#4B000000" BorderThickness="0" Content="x" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
@@ -56,8 +64,13 @@
         <Button Background="#4B000000" BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
         	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,12" x:Name="btnSettings" SnapsToDevicePixels="True" 
         	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings" />
-
-
+        <Button Background="#4B000000" BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Right" 
+        	HorizontalContentAlignment="Center" Margin="0,320,307,164" x:Name="btnAddGame_Copy" SnapsToDevicePixels="True" 
+        	Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="42" Click="btnClickAddAll" />
+        <Button Background="#4B000000" BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right"
+        	HorizontalContentAlignment="Center" Margin="0,244,307,242" x:Name="btnRemoveGame_Copy" SnapsToDevicePixels="True" 
+        	Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Width="42" Click="btnClickRemoveAll" />
+        
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
         <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChanged"/>
         <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" Name="chkbxMMO" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
@@ -65,29 +78,25 @@
         <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="12,144,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked"/>
         <CheckBox Content="Singleplayer" HorizontalAlignment="Left" Margin="12,165,0,0" x:Name="chkbxSingle" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
         <CheckBox Content="Multiplayer" HorizontalAlignment="Left" Margin="12,186,0,0" x:Name="chkbxMulti" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
-        <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="12,279,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed"/>
         <CheckBox Content="Stealth" HorizontalAlignment="Left" Margin="12,207,0,0" x:Name="chkbxStealth" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged"/>
-        <Label x:Name="label1_HoursPlayed" Content="Only show games with" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
-        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" IsEnabled="False" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
-            <ComboBoxItem Content="More than" FontSize="9"/>
-            <ComboBoxItem Content="Less than" FontSize="9"/>
-        </ComboBox>
-        <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" IsEnabled="False" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
-        <Label x:Name="label2_HoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="12,338,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
+
         <CheckBox Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="12,365,0,0" x:Name="chkbxHoursPlayedLast2Weeks" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayedLast2Weeks" Checked="cbChecked_HoursPlayedLast2Weeks"/>
-        <Label x:Name="label1_HoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="8,383,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden"/>
-        <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" IsEnabled="False" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
+        <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="12,279,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed"/>
+        
+        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
             <ComboBoxItem Content="More than" FontSize="9"/>
             <ComboBoxItem Content="Less than" FontSize="9"/>
         </ComboBox>
-        <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="73,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" IsEnabled="False" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
-        <Label x:Name="label2_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,421,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Height="40" Width="97">
-            <TextBlock TextWrapping="WrapWithOverflow">
-                hours of play time in the last 2 weeks. 
-            </TextBlock>
-        </Label>
-        <Button Background="#4B000000" BorderThickness="0" Content="Remove All" FlowDirection="LeftToRight" Height="25" 
-        	HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" x:Name="btnRemoveAll" SnapsToDevicePixels="True" 
-        	Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnClickRemoveAll" />
+        
+
+        <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
+            <ComboBoxItem Content="More than" FontSize="9"/>
+            <ComboBoxItem Content="Less than" FontSize="9"/>
+        </ComboBox>
+        
+        <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="73,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
+        <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
+
+
     </Grid>
 </Window>

@@ -32,8 +32,11 @@ namespace Sapp
         private bool checkboxesActive;
         private bool sortSwitch;
 
-        private DataGridHandler gamePoolDataGrid;
-        private DataGridHandler removedPoolDataGrid;
+        private DataGridHandler gamePoolHandler;
+        private DataGridHandler removedPoolHandler;
+
+        private HoursHandler hoursPlayedHandler;
+        private HoursHandler hoursLast2WeeksHandler;
 
         public MainWindow()
         {
@@ -81,8 +84,8 @@ namespace Sapp
                 }
             }
 
-            gamePoolDataGrid = new DataGridHandler(ref dgGamePool);
-            removedPoolDataGrid = new DataGridHandler(ref dgRemovedPool);
+            gamePoolHandler = new DataGridHandler(ref dgGamePool);
+            removedPoolHandler = new DataGridHandler(ref dgRemovedPool);
 
             Logger.Log("START: Populating Games", true);
 
@@ -92,7 +95,11 @@ namespace Sapp
 
             //TODO: Make all the checkboxes, and then all references to a list here.
             //This list will make management of all checkboxes easy (seperate by type, like: tag filters, intalled only, hours played, etc)
-            
+
+            hoursPlayedHandler = new HoursHandler(ref chkbxHoursPlayed, ref lblPreHoursPlayed, ref lblPostHoursPlayed, ref combobox_HoursPlayed, ref textbox_HoursPlayed);
+            hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks, 
+                ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
+
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
@@ -130,10 +137,10 @@ namespace Sapp
 
             gamePool = GameUtilities.PopulateGames(steamid64);
             gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
-            gamePoolDataGrid.Bind(gamePool);
+            gamePoolHandler.Bind(gamePool);
 
             removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
-            removedPoolDataGrid.Bind(removedPool);
+            removedPoolHandler.Bind(removedPool);
 
         }
 
@@ -147,17 +154,17 @@ namespace Sapp
 
         private void gamePool_Changed(object sender, EventArgs e)
         {
-            gamePoolDataGrid.Refresh();
+            gamePoolHandler.Refresh();
         }
 
         private void removedPool_Changed(object sender, EventArgs e)
         {
-            removedPoolDataGrid.Refresh();
+            removedPoolHandler.Refresh();
         }
 
         private void btnRemoveGame_Click(object sender, RoutedEventArgs e)
         {
-            Game itemToRemove = gamePoolDataGrid.GetSelectedItem();
+            Game itemToRemove = gamePoolHandler.GetSelectedItem();
 
             if (itemToRemove == null)
                 return;
@@ -168,7 +175,7 @@ namespace Sapp
 
         private void btnAddGame_Click(object sender, RoutedEventArgs e)
         {
-            Game itemToRemove = removedPoolDataGrid.GetSelectedItem();
+            Game itemToRemove = removedPoolHandler.GetSelectedItem();
 
             if (itemToRemove == null)
                 return;
@@ -512,12 +519,13 @@ namespace Sapp
             List<string> colsToShow = testForRefresh.GetColumnsToShow();
             testForRefresh.ReturnInstance(ref testForRefresh);
 
-            gamePoolDataGrid.ClearColumns();
-            removedPoolDataGrid.ClearColumns();
+            gamePoolHandler.ClearColumns();
+            removedPoolHandler.ClearColumns();
+
             foreach (string s in colsToShow)
             {
-                gamePoolDataGrid.AddColumn(s);
-                removedPoolDataGrid.AddColumn(s);
+                gamePoolHandler.AddColumn(s);
+                removedPoolHandler.AddColumn(s);
             }
 
             if (refresh)
@@ -529,7 +537,7 @@ namespace Sapp
                 tagsChecked.Clear();
             }
 
-            else if (preMethod != postMethod) // if they change contains method, update list occordingly. 
+            else if (!refresh && preMethod != postMethod) // if they change contains method, update list occordingly. 
             {
                 BlanketUpdate(postMethod);
             }
@@ -561,6 +569,9 @@ namespace Sapp
             this.WindowState = WindowState.Minimized;
         }
 
+        #region OLD CODE
+
+        /*
         private void HoursPlayedUpdate(List<Control> controlList)
         {
             bool flag = (bool)((CheckBox)controlList[0]).IsChecked;
@@ -590,29 +601,40 @@ namespace Sapp
 
             BlanketUpdate(GetTagApplicationMethod());
         }
-
-        private void cbChecked_HoursPlayed(object sender, RoutedEventArgs e)
-        {
+        */
+        /*
             List<Control> controls = new List<Control>();
             controls.Add(chkbxHoursPlayed);
-            controls.Add(label1_HoursPlayed);
-            controls.Add(label2_HoursPlayed);
+            controls.Add(lblPreHoursPlayed);
+            controls.Add(lblPostHoursPlayed);
             controls.Add(combobox_HoursPlayed);
             controls.Add(textbox_HoursPlayed);
 
             HoursPlayedUpdate(controls);
-        }
-
-        private void cbChecked_HoursPlayedLast2Weeks(object sender, RoutedEventArgs e)
-        {
+             */
+        /*
             List<Control> controls = new List<Control>();
             controls.Add(chkbxHoursPlayedLast2Weeks);
-            controls.Add(label1_HoursPlayedLast2Weeks);
-            controls.Add(label2_HoursPlayedLast2Weeks);
+            controls.Add(lblPreHoursPlayedLast2Weeks);
+            controls.Add(lblPostHoursPlayedLast2Weeks);
             controls.Add(combobox_HoursPlayedLast2Weeks);
             controls.Add(textbox_HoursPlayedLast2Weeks);
 
             HoursPlayedUpdate(controls);
+            */
+
+        #endregion
+
+        private void cbChecked_HoursPlayed(object sender, RoutedEventArgs e)
+        {
+            hoursPlayedHandler.Update();
+            BlanketUpdate(GetTagApplicationMethod());
+        }
+
+        private void cbChecked_HoursPlayedLast2Weeks(object sender, RoutedEventArgs e)
+        {
+            hoursLast2WeeksHandler.Update();
+            BlanketUpdate(GetTagApplicationMethod());
         }
 
         // these may end up being removed
@@ -655,6 +677,14 @@ namespace Sapp
                 removedPool.Add(game);
 
             gamePool.Clear();
+        }
+
+        private void btnClickAddAll(object sender, RoutedEventArgs e)
+        {
+            foreach (Game game in removedPool)
+                gamePool.Add(game);
+
+            removedPool.Clear();
         }
 
 

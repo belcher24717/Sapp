@@ -24,20 +24,21 @@ namespace Sapp
         private delegate void UpdateProgressBarDelegate(System.Windows.DependencyProperty dp, Object value);
         private UpdateProgressBarDelegate updatePbDelegate;
 
-        public LoadingBar(int numGames, string message, bool realProgress)
+        public LoadingBar(int numGames, string message)
         {
             InitializeComponent();
-
-            //TODO: make this an actual marquee progress bar. Animation not playing
-            if (!realProgress)
-            {
-                pbGamesLoaded.IsIndeterminate = true;
-                lblPercent.Visibility = System.Windows.Visibility.Hidden;
-            }
 
             lblMessage.Content = message;
             pbGamesLoaded.Maximum = numGames;
             updatePbDelegate = new UpdateProgressBarDelegate(pbGamesLoaded.SetValue);
+        }
+
+        public LoadingBar(string message)
+        {
+            InitializeComponent();
+
+            lblPercent.Visibility = System.Windows.Visibility.Hidden;
+            lblMessage.Content = message;
         }
 
         public void Progress()
