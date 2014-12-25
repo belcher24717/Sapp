@@ -414,7 +414,7 @@ namespace Sapp
 
                     if (greaterThan)
                     {
-                        if (game.HoursLastTwoWeeks < hours)
+                        if (game.Last2Weeks < hours)
                         {
                             gamesToRemove.Add(game);
                             continue;
@@ -422,7 +422,7 @@ namespace Sapp
                     }
                     else // lessThan
                     {
-                        if (game.HoursLastTwoWeeks > hours)
+                        if (game.Last2Weeks > hours)
                         {
                             gamesToRemove.Add(game);
                             continue;

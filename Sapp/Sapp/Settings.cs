@@ -127,6 +127,7 @@ namespace Sapp
 
                 formatter.Serialize(sw, thisInstance);
                 sw.Close();
+                Logger.Log("Successful Save");
             }
             catch
             {

@@ -32,7 +32,7 @@ namespace Sapp
             set;
         }
 
-        public double HoursLastTwoWeeks
+        public double Last2Weeks
         {
             get;
             set;
@@ -57,7 +57,7 @@ namespace Sapp
             this.appID = appid;
             this.isInstalled = installed;
 
-            this.HoursLastTwoWeeks = 0;
+            this.Last2Weeks = 0;
             this.HoursPlayed = 0;
             IsDLC = false;
 

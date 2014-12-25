@@ -224,7 +224,7 @@ namespace Sapp
                     else if (reader.Name.Equals("hoursLast2Weeks"))
                     {
                         reader.Read();
-                        games.GetGame(appid).HoursLastTwoWeeks = TryParseDouble(reader.Value);
+                        games.GetGame(appid).Last2Weeks = TryParseDouble(reader.Value);
                     }
                     else if (reader.Name.Equals("hoursOnRecord"))
                     {

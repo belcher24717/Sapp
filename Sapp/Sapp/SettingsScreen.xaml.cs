@@ -63,7 +63,6 @@ namespace Sapp
             Logger.Log("Saving Settings");
             reference.Save();
             reference.ReturnInstance(ref reference);
-            Logger.Log("Successful Save");
 
             DialogResult = true;
             this.Close();
