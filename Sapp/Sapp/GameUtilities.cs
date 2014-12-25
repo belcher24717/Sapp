@@ -128,9 +128,9 @@ namespace Sapp
                 formatter.Serialize(sw, games);
                 sw.Close();
             }
-            catch
+            catch(Exception e)
             {
-                //MessageBox.Show("Settings not saved, an error occured");
+                Logger.Log("Error: Problem saving in GameUtilities.SaveGameList - " + e.ToString());
             }
         }
 
@@ -152,8 +152,9 @@ namespace Sapp
 
                     return gl;
                 }
-                catch
+                catch (Exception e)
                 {
+                    Logger.Log("Error: Problem loading in GameUtilities.LoadGameList - " + e.ToString());
                     if (sr != null)
                         sr.Close();
                 }
@@ -164,7 +165,7 @@ namespace Sapp
 
         private static double TryParseDouble(string s)
         {
-            try
+            try 
             {
                 double ds = double.Parse(s);
                 return ds;
@@ -372,11 +373,6 @@ namespace Sapp
 
             return games;
         }
-
-
-
-
-
     }
 
     class HelperThread

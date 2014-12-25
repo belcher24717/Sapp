@@ -6,9 +6,29 @@
         AllowsTransparency="True" ResizeMode="CanResizeWithGrip" SizeChanged="WindowSizeChanged" >
 
     <Grid>
+        
         <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="#00000000" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
 			Canvas.Left="0" Canvas.Top="0" Fill="#FF939393"/>
+        
+        <Border CornerRadius="6"
+        	BorderBrush="Gray"
+        	BorderThickness="2"
+        	Padding="8" Margin="8,17,8,180"
+            MouseDown="MouseDownOnWindow"/>
+        
+        <Border CornerRadius="6"
+        	BorderBrush="Gray"
+        	BorderThickness="2"
+        	Padding="8" Margin="8,125,8,127"
+            MouseDown="MouseDownOnWindow"/>
 
+        <Border CornerRadius="6"
+        	BorderBrush="Gray"
+        	BorderThickness="2"
+        	Padding="8" Margin="8,178,8,74"
+            MouseDown="MouseDownOnWindow"/>
+        
+        
         <Button Content="Accept" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
 			Width="65" x:Name="btnAccept2" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnAcceptClicked" />
@@ -17,23 +37,28 @@
 			Width="65" x:Name="btnCancel" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,104,12" Click="btnCancelClicked" />
         <Button Content="Browse" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnAccept2_Copy" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,18,167" Click="btnBrowseClicked" />
+			Width="65" x:Name="btnAccept2_Copy" Background="#4B000000" SnapsToDevicePixels="True" Margin="0,0,15,188" Click="btnBrowseClicked" />
 
-        <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="80,10,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
-        <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="80,77,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
+        <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="83,25,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
+        <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="83,56,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
 
-        <Label Content="User Name:" HorizontalAlignment="Left" Margin="4,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top"/>
-        <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="4,42,0,0" VerticalAlignment="Top"/>
-        <Label Content="Show Columns:" HorizontalAlignment="Left" Margin="4,127,0,0" VerticalAlignment="Top"/>
+        <Label Content="User Name:" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
+        <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top"/>
+        <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="19,188,0,0" VerticalAlignment="Top"/>
 
-        <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="148,45,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" Background="#4B000000" BorderThickness="0">
+        <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="163,191,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" Background="#4B000000" BorderThickness="0">
             <ComboBoxItem>Contains All</ComboBoxItem>
             <ComboBoxItem>Contains One</ComboBoxItem>
         </ComboBox>
         
-        <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="26,153,0,0" VerticalAlignment="Top" Unchecked="cbChanged" Checked="cbChanged"/>
-        <CheckBox x:Name="cbHoursPlayedLast2Weeks" Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="26,169,0,0" VerticalAlignment="Top" Unchecked="cbChanged" Checked="cbChanged"/>
+        <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="50,141,0,0" VerticalAlignment="Top" Unchecked="cbChanged" Checked="cbChanged"/>
+        <CheckBox x:Name="cbHoursPlayedLast2Weeks" Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="166,141,0,0" VerticalAlignment="Top" Unchecked="cbChanged" Checked="cbChanged"/>
+        
+
+
+
+
+
 
 
 
