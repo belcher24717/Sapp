@@ -113,7 +113,6 @@ namespace Sapp
 
             OnChanged(EventArgs.Empty);
         }
-
     }
 
 }

@@ -4,9 +4,10 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <SolidColorBrush x:Key="PrimaryColor">#FF262626</SolidColorBrush>
-        <SolidColorBrush x:Key="SecondaryColor"></SolidColorBrush>
+        <Color x:Key="SecondaryColor">Gray</Color>
         <SolidColorBrush x:Key="ButtonColor">#FF46464C</SolidColorBrush>
         <SolidColorBrush x:Key="BordersColor">Gray</SolidColorBrush>
         <SolidColorBrush x:Key="TextColor">#FFCFCFCF</SolidColorBrush>
     </Application.Resources>
 </Application>
+    

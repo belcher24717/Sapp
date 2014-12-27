@@ -687,6 +687,32 @@ namespace Sapp
             removedPool.Clear();
         }
 
+        private void btnSaveGamePool(object sender, RoutedEventArgs e)
+        {
+            string fileName = "get_file_name_from_user";
+
+            //have to do this or it wont save. Changed (event trigger) has to be null
+            GamesList tempListToSave = new GamesList();
+            tempListToSave.AddList(gamePool.ToList<Game>());
+
+            GameUtilities.SaveGameList(tempListToSave, fileName, "gp");
+        }
+
+        private void btnLoadGamePool(object sender, RoutedEventArgs e)
+        {
+            //open file browser to search for .gp files
+            string fileName = "get_file_name_from_user";
+            GamesList tempGamePool = GameUtilities.LoadGameList(fileName, "gp");
+
+            btnClickRemoveAll(null, new RoutedEventArgs());
+
+            foreach(Game game in tempGamePool)
+            {
+                gamePool.Add(game);
+                removedPool.Remove(game);
+            }
+        }
+
 
     }
 }

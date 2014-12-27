@@ -118,11 +118,12 @@ namespace Sapp
         
         }
 
-        private static void SaveGameList(GamesList games, string userID)
+        public static void SaveGameList(GamesList games, string fileName, string fileExtention)
         {
+            Stream sw = null;
             try
             {
-                Stream sw = new FileStream(@".\" + userID + ".games", FileMode.Create);
+                sw = new FileStream(@".\" + fileName + "." + fileExtention, FileMode.Create);
                 IFormatter formatter = new BinaryFormatter();
 
                 formatter.Serialize(sw, games);
@@ -131,20 +132,22 @@ namespace Sapp
             catch(Exception e)
             {
                 Logger.Log("Error: Problem saving in GameUtilities.SaveGameList - " + e.ToString());
+                if (sw != null)
+                    sw.Close();
             }
         }
 
-        private static GamesList LoadGameList(string userID)
+        public static GamesList LoadGameList(string fileName, string fileExtention)
         {
 
-            if (File.Exists(@".\" + userID + ".games"))
+            if (File.Exists(@".\" + fileName + "." + fileExtention))
             {
                 Stream sr = null;
                 try
                 {
                     GamesList gl;
 
-                    sr = new FileStream(@".\" + userID + ".games", FileMode.Open);
+                    sr = new FileStream(@".\" + fileName + "." + fileExtention, FileMode.Open);
 
                     IFormatter formatter = new BinaryFormatter();
                     gl = (GamesList)formatter.Deserialize(sr);
@@ -179,7 +182,7 @@ namespace Sapp
         public static GamesList PopulateGames(string userID)
         {
             
-            GamesList games = LoadGameList(userID);
+            GamesList games = LoadGameList(userID, "games");
             GamesList newlyAddedGames = new GamesList();
             bool addedNewGames = false;
 
@@ -360,7 +363,7 @@ namespace Sapp
 
             }
 
-            SaveGameList(games, userID);
+            SaveGameList(games, userID, "games");
 
             for (int i = 0; i < games.Count; i++)
             {

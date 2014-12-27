@@ -48,5 +48,10 @@ namespace Sapp
             }
         }
 
+        public void Verify()
+        {
+            //This will make sure values typed in the textbox wont blow up
+        }
+
     }
 }

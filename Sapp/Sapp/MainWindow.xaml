@@ -70,7 +70,13 @@
         <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right"
         	    HorizontalContentAlignment="Center" Margin="0,244,307,242" x:Name="btnRemoveGame_Copy" SnapsToDevicePixels="True" 
         	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Width="42" Click="btnClickRemoveAll" Foreground="{StaticResource TextColor}"/>
-
+        <Button Background="#FF46464C" BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
+        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" Name="btnSaveList" SnapsToDevicePixels="True" 
+        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Foreground="{StaticResource TextColor}"/>
+        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
+        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,425,12" Name="btnLoadList" SnapsToDevicePixels="True" 
+        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Foreground="{StaticResource TextColor}"/>
+        
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" Name="chkbxMMO" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
@@ -83,13 +89,31 @@
         <CheckBox Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="12,365,0,0" x:Name="chkbxHoursPlayedLast2Weeks" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayedLast2Weeks" Checked="cbChecked_HoursPlayedLast2Weeks" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="12,279,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed" Foreground="{StaticResource TextColor}"/>
 
-        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
+        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Background="{StaticResource ButtonColor}"
+                  Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged" Foreground="{StaticResource TextColor}">
+            <ComboBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ComboBoxItem}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                </Style>
+            </ComboBox.ItemContainerStyle>
             <ComboBoxItem Content="More than" FontSize="9"/>
             <ComboBoxItem Content="Less than" FontSize="9"/>
         </ComboBox>
-        
 
-        <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16" Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
+
+        <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16" Background="{StaticResource ButtonColor}"
+                  Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged" Foreground="{StaticResource TextColor}">
+            <ComboBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ComboBoxItem}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                </Style>
+            </ComboBox.ItemContainerStyle>
             <ComboBoxItem Content="More than" FontSize="9"/>
             <ComboBoxItem Content="Less than" FontSize="9"/>
         </ComboBox>

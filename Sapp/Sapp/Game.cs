@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace Sapp
 {
     [Serializable()]
-    public class Game : IComparable<Game>
+    public class Game : IComparable<Game>, IEquatable<Game>
     {
         // maybe consolidate these attributes into a GameProperties object?
         
@@ -134,7 +134,9 @@ namespace Sapp
             return false;
         }
 
-
-
+        public bool Equals(Game other)
+        {
+            return this.appID == other.GetAppID();
+        }
     }
 }

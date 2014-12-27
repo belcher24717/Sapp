@@ -15,7 +15,6 @@ namespace Sapp
         public DataGridHandler(ref DataGrid binding)
         {
             theGrid = binding;
-            
         }
 
         public void Bind(GamesList games)
@@ -112,6 +111,11 @@ namespace Sapp
                     i--;
                 }
             }
+        }
+
+        public void Save()
+        {
+
         }
     }
 }
