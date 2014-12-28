@@ -137,17 +137,22 @@ namespace Sapp
             }
         }
 
-        public static GamesList LoadGameList(string fileName, string fileExtention)
+        public static GamesList LoadGameList(string fileNamePassedIn, string fileExtention, bool useFileNameAsPath)
         {
+            string filename;
+            if (useFileNameAsPath)
+                filename = fileNamePassedIn;
+            else
+                filename = @".\" + fileNamePassedIn + "." + fileExtention;
 
-            if (File.Exists(@".\" + fileName + "." + fileExtention))
+            if (File.Exists(filename))
             {
                 Stream sr = null;
                 try
                 {
                     GamesList gl;
 
-                    sr = new FileStream(@".\" + fileName + "." + fileExtention, FileMode.Open);
+                    sr = new FileStream(filename, FileMode.Open);
 
                     IFormatter formatter = new BinaryFormatter();
                     gl = (GamesList)formatter.Deserialize(sr);
@@ -182,7 +187,7 @@ namespace Sapp
         public static GamesList PopulateGames(string userID)
         {
             
-            GamesList games = LoadGameList(userID, "games");
+            GamesList games = LoadGameList(userID, "games", false);
             GamesList newlyAddedGames = new GamesList();
             bool addedNewGames = false;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -437,11 +438,6 @@ namespace Sapp
             //only 1 refresh per datagrid this way
             removedPool.AddList(gamesToRemove);
             gamePool.RemoveList(gamesToRemove);
-
-
-            // TEMPORARY - No longer needed because the datagrid and gamepool will never be in the same order
-            //gamePool.Sort();
-            //removedPool.Sort();
         }
 
         private void CheckBoxChanged(ref GamesList pool, string checkboxChanged)
@@ -689,20 +685,37 @@ namespace Sapp
 
         private void btnSaveGamePool(object sender, RoutedEventArgs e)
         {
-            string fileName = "get_file_name_from_user";
+            FilenameTypein typein = new FilenameTypein();
+            bool saveClicked = (bool)typein.ShowDialog();
+            string fileName = typein.FileName;
 
-            //have to do this or it wont save. Changed (event trigger) has to be null
-            GamesList tempListToSave = new GamesList();
-            tempListToSave.AddList(gamePool.ToList<Game>());
+            if (saveClicked && fileName != null)
+            {
+                GamesList tempListToSave = new GamesList();
+                tempListToSave.AddList(gamePool.ToList<Game>());
 
-            GameUtilities.SaveGameList(tempListToSave, fileName, "gp");
+                GameUtilities.SaveGameList(tempListToSave, fileName, "gp");
+            }
+            
         }
 
         private void btnLoadGamePool(object sender, RoutedEventArgs e)
         {
             //open file browser to search for .gp files
-            string fileName = "get_file_name_from_user";
-            GamesList tempGamePool = GameUtilities.LoadGameList(fileName, "gp");
+            string filename;
+            OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension 
+            dlg.DefaultExt = ".gp";
+            dlg.Filter = "GAMEPOOL Files (*.gp)|*.gp";
+
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+                filename = dlg.FileName;
+            else
+                return;
+
+            GamesList tempGamePool = GameUtilities.LoadGameList(filename, "gp", true);
 
             btnClickRemoveAll(null, new RoutedEventArgs());
 
