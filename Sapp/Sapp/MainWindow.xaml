@@ -46,36 +46,267 @@
             </TextBlock>
         </Label>
         
-        <Button Content="Play!" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Canvas.Left="478" Canvas.Top="320" 
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-                Width="65" Name="btnPlay" Background="{StaticResource ButtonColor}" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnPlay_Click" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right" 
+        <Button Content="Play!" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
+        HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+        Width="65" Name="btnPlay" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnPlay_Click" 
+        Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right" 
                 HorizontalContentAlignment="Center" Margin="0,291,307,195" Name="btnAddGame" SnapsToDevicePixels="True" 
-                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="42" Click="btnAddGame_Click" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="&gt;" FlowDirection="LeftToRight" Height="25" HorizontalAlignment="Right"
+                Width="42" Click="btnAddGame_Click" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="&gt;" FlowDirection="LeftToRight" Height="25" HorizontalAlignment="Right"
                 HorizontalContentAlignment="Center" Margin="0,194,307,252" Name="btnRemoveGame" SnapsToDevicePixels="True" 
-                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Width="42" Click="btnRemoveGame_Click" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="x" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-                HorizontalContentAlignment="Center" Name="btnExit" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                VerticalAlignment="Top" Click="btnExit_Click" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="-" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-        	    HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-        	    VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
+                VerticalAlignment="Center" Width="42" Click="btnRemoveGame_Click" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="x" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
+                HorizontalContentAlignment="Center" Name="btnExit" SnapsToDevicePixels="True" 
+                VerticalAlignment="Top" Click="btnExit_Click" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="-" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
+        	    HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" 
+        	    VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
         	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,12" x:Name="btnSettings" SnapsToDevicePixels="True" 
-        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Right" 
+        	    VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Right" 
         	    HorizontalContentAlignment="Center" Margin="0,320,307,164" x:Name="btnAddGame_Copy" SnapsToDevicePixels="True" 
-        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="42" Click="btnClickAddAll" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right"
+        	    Width="42" Click="btnClickAddAll" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right"
         	    HorizontalContentAlignment="Center" Margin="0,244,307,242" x:Name="btnRemoveGame_Copy" SnapsToDevicePixels="True" 
-        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Width="42" Click="btnClickRemoveAll" Foreground="{StaticResource TextColor}"/>
-        <Button Background="#FF46464C" BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
+        	    VerticalAlignment="Center" Width="42" Click="btnClickRemoveAll" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
         	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" Name="btnSaveList" SnapsToDevicePixels="True" 
-        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Foreground="{StaticResource TextColor}"/>
-        <Button Background="{StaticResource ButtonColor}" BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
+        	    VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
         	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,425,12" Name="btnLoadList" SnapsToDevicePixels="True" 
-        	    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Foreground="{StaticResource TextColor}"/>
+        	    VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Foreground="{StaticResource TextColor}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
