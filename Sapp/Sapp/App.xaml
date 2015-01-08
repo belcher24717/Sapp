@@ -5,6 +5,7 @@
     <Application.Resources>
         <SolidColorBrush x:Key="PrimaryColor">#FF262626</SolidColorBrush>
         <Color x:Key="SecondaryColor">#FF203C58</Color>
+        <SolidColorBrush x:Key="MainBorderColor">#19344e</SolidColorBrush>
         
         <SolidColorBrush x:Key="BordersColor">Gray</SolidColorBrush>
         <SolidColorBrush x:Key="TextColor">#FFCFCFCF</SolidColorBrush>

@@ -4,31 +4,34 @@
         Title="MainWindow" Height="510" Width="510" WindowStyle = "None" 
         AllowsTransparency="True" ResizeMode="CanResizeWithGrip" SizeChanged="WindowSizeChanged" MinHeight="510" MinWidth="760" 
         MaxWidth="510" KeyDown="onKeyDown" Loaded="formLoaded" WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Grid x:Name="grid">
 
-        <Rectangle HorizontalAlignment="Stretch" Name="MainRectangle" Stroke="#00000000" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
-                   Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PrimaryColor}">
-        </Rectangle>
+        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
+
+
+        <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Top" MouseDown="MouseDownOnWindow" 
+    		Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PrimaryColor}" Height="510" StrokeThickness="0" Margin="0,0,2,2" />
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Right" Margin="0,79,355,49" 
-                  Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289" >
+    		x:Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
             </DataGrid.Columns>
             <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
+                <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="BorderThickness" Value="0"/>
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Right" Margin="0,79,12,49" 
-                  Name="dgRemovedPool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289">
+    		x:Name="dgRemovedPool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
             </DataGrid.Columns>
             <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
+                <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="BorderThickness" Value="0"/>
                 </Style>
             </DataGrid.CellStyle>
@@ -37,59 +40,57 @@
         <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="8,383,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Foreground="{StaticResource TextColor}"/>
         <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="12,338,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Foreground="{StaticResource TextColor}"/>
         <Label x:Name="lblPreHoursPlayed" Content="Only show games with" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Foreground="{StaticResource TextColor}"/>
-        <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,431,0" Name="label1" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,65,0" Name="label2" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <Label Content="Genres To Play" Height="28" HorizontalAlignment="Left" Margin="10,45,0,0" Name="label3" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,431,0" x:Name="label1" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Right" Margin="0,45,65,0" x:Name="label2" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <Label Content="Genres To Play" Height="28" HorizontalAlignment="Left" Margin="10,45,0,0" x:Name="label3" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,421,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Height="40" Width="97" Foreground="{StaticResource TextColor}">
-            <TextBlock TextWrapping="WrapWithOverflow">
-                hours of play time in the last 2 weeks.
-            </TextBlock>
+            <TextBlock TextWrapping="WrapWithOverflow"><Run Text="hours of play time in the last 2 weeks."/></TextBlock>
         </Label>
-        
+
         <Button Content="Play!" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-                Width="65" Name="btnPlay" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnPlay_Click"/>   
-        
+    		HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+    		Width="65" x:Name="btnPlay" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnPlay_Click"/>
+
         <Button BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right" 
-                HorizontalContentAlignment="Center" Margin="0,291,307,195" Name="btnAddGame" SnapsToDevicePixels="True" 
-                Width="42" Click="btnAddGame_Click"/>
-        
+    		HorizontalContentAlignment="Center" Margin="0,291,307,195" x:Name="btnAddGame" SnapsToDevicePixels="True" 
+    		Width="42" Click="btnAddGame_Click"/>
+
         <Button BorderThickness="0" Content="&gt;" FlowDirection="LeftToRight" Height="25" HorizontalAlignment="Right"
-                HorizontalContentAlignment="Center" Margin="0,194,307,252" Name="btnRemoveGame" SnapsToDevicePixels="True" 
-                VerticalAlignment="Center" Width="42" Click="btnRemoveGame_Click"/>
-        
+    		HorizontalContentAlignment="Center" Margin="0,194,307,252" x:Name="btnRemoveGame" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Center" Width="42" Click="btnRemoveGame_Click"/>
+
         <Button BorderThickness="0" Content="x" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-                HorizontalContentAlignment="Center" Name="btnExit" SnapsToDevicePixels="True" 
-                VerticalAlignment="Top" Click="btnExit_Click"/>
+    		HorizontalContentAlignment="Center" x:Name="btnExit" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Top" Click="btnExit_Click"/>
 
         <Button BorderThickness="0" Content="-" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-        	    HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" 
-        	    VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0"/>
-        
+    		HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0"/>
+
         <Button BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
-        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,12" x:Name="btnSettings" SnapsToDevicePixels="True" 
-        	    VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings"/>
-        
+    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,683,12" x:Name="btnSettings" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings"/>
+
         <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Right" 
-        	    HorizontalContentAlignment="Center" Margin="0,320,307,164" x:Name="btnAddGame_Copy" SnapsToDevicePixels="True" 
-        	    Width="42" Click="btnClickAddAll"/>
-            
+    		HorizontalContentAlignment="Center" Margin="0,320,307,164" x:Name="btnAddGame_Copy" SnapsToDevicePixels="True" 
+    		Width="42" Click="btnClickAddAll"/>
+
         <Button BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Right"
-        	    HorizontalContentAlignment="Center" Margin="0,244,307,242" x:Name="btnRemoveGame_Copy" SnapsToDevicePixels="True" 
-        	    VerticalAlignment="Center" Width="42" Click="btnClickRemoveAll"/>
-           
+    		HorizontalContentAlignment="Center" Margin="0,244,307,242" x:Name="btnRemoveGame_Copy" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Center" Width="42" Click="btnClickRemoveAll"/>
+
         <Button BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
-        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" Name="btnSaveList" SnapsToDevicePixels="True" 
-        	    VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool"/>
-            
+    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,355,12" x:Name="btnSaveList" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool"/>
+
         <Button BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
-        	    HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,425,12" Name="btnLoadList" SnapsToDevicePixels="True" 
-        	    VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool"/>
-            
-        
-        <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
-        <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
-        <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" Name="chkbxMMO" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
+    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,425,12" x:Name="btnLoadList" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool"/>
+
+
+        <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" x:Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
+        <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" x:Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
+        <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" x:Name="chkbxMMO" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="12,258,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="12,144,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Singleplayer" HorizontalAlignment="Left" Margin="12,165,0,0" x:Name="chkbxSingle" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
@@ -99,11 +100,17 @@
         <CheckBox Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="12,365,0,0" x:Name="chkbxHoursPlayedLast2Weeks" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayedLast2Weeks" Checked="cbChecked_HoursPlayedLast2Weeks" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="12,279,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed" Foreground="{StaticResource TextColor}"/>
 
-        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16" Background="{StaticResource ButtonColor}"
-                  Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged" Foreground="{StaticResource TextColor}">
+        <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16"
+    		Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
             </ComboBox.Resources>
+            <ComboBox.Background>
+                <StaticResource ResourceKey="ButtonColor"/>
+            </ComboBox.Background>
+            <ComboBox.Foreground>
+                <StaticResource ResourceKey="TextColor"/>
+            </ComboBox.Foreground>
             <ComboBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ComboBoxItem}">
                     <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
@@ -114,11 +121,17 @@
         </ComboBox>
 
 
-        <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16" Background="{StaticResource ButtonColor}"
-                  Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged" Foreground="{StaticResource TextColor}">
+        <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16"
+    		Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
             </ComboBox.Resources>
+            <ComboBox.Background>
+                <StaticResource ResourceKey="ButtonColor"/>
+            </ComboBox.Background>
+            <ComboBox.Foreground>
+                <StaticResource ResourceKey="TextColor"/>
+            </ComboBox.Foreground>
             <ComboBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ComboBoxItem}">
                     <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
@@ -127,9 +140,10 @@
             <ComboBoxItem Content="More than" FontSize="9"/>
             <ComboBoxItem Content="Less than" FontSize="9"/>
         </ComboBox>
-        
+
         <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="73,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
         <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
+
 
     </Grid>
 </Window>
