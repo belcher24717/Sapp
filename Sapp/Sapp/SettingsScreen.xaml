@@ -32,87 +32,16 @@
 
         <Button Content="Accept" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnAcceptClicked" 
-            Foreground="{StaticResource TextColor}">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,12,12" Click="btnAcceptClicked"/>
+
         <Button Content="Cancel" BorderThickness="0"
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,104,12" Click="btnCancelClicked" 
-            Foreground="{StaticResource TextColor}">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,104,12" Click="btnCancelClicked" />
+            
         <Button Content="Browse" BorderThickness="0"
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,15,171" Click="btnBrowseClicked" 
-            Foreground="{StaticResource TextColor}">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-
-        
+			Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,15,171" Click="btnBrowseClicked" />
+           
         <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="83,42,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
         <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="83,73,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="202"/>
 
@@ -123,8 +52,8 @@
         <Label Content="SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
         
         
-        <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="163,216,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" 
-                  Background="{StaticResource ButtonColor}" BorderThickness="0" Foreground="{StaticResource TextColor}" >
+        <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="160,217,0,0" VerticalAlignment="Top" Width="123" SelectionChanged="ComboBox_SelectionChanged" 
+                  BorderThickness="0" Height="20" >
             
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
