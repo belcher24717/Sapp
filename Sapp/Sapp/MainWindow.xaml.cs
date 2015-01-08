@@ -85,22 +85,24 @@ namespace Sapp
                 }
             }
 
-            gamePoolHandler = new DataGridHandler(ref dgGamePool);
-            removedPoolHandler = new DataGridHandler(ref dgRemovedPool);
+            if (windowAccepted != null && (bool)windowAccepted)
+            {
+                gamePoolHandler = new DataGridHandler(ref dgGamePool);
+                removedPoolHandler = new DataGridHandler(ref dgRemovedPool);
 
-            Logger.Log("START: Populating Games", true);
+                Logger.Log("START: Populating Games", true);
 
-            PopulateGames();
+                PopulateGames();
 
-            Logger.Log("END: Populating Games", true);
+                Logger.Log("END: Populating Games", true);
 
-            //TODO: Make all the checkboxes, and then all references to a list here.
-            //This list will make management of all checkboxes easy (seperate by type, like: tag filters, intalled only, hours played, etc)
+                //TODO: Make all the checkboxes, and then all references to a list here.
+                //This list will make management of all checkboxes easy (seperate by type, like: tag filters, intalled only, hours played, etc)
 
-            hoursPlayedHandler = new HoursHandler(ref chkbxHoursPlayed, ref lblPreHoursPlayed, ref lblPostHoursPlayed, ref combobox_HoursPlayed, ref textbox_HoursPlayed);
-            hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks, 
-                ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
-
+                hoursPlayedHandler = new HoursHandler(ref chkbxHoursPlayed, ref lblPreHoursPlayed, ref lblPostHoursPlayed, ref combobox_HoursPlayed, ref textbox_HoursPlayed);
+                hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks,
+                    ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
+            }
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
