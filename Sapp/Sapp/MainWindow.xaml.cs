@@ -733,18 +733,19 @@ namespace Sapp
         private void btnOpenHiddenGames_Click(object sender, RoutedEventArgs e)
         {
             //Current not great implementation
-            if (this.Width < 810)
+            if (this.Width < 820)
             {
-                while (this.Width < 810)
+                while (this.Width < 820)
                 {
                     this.Width += 10;
                 }
             }
             else
             {
-                while (this.Width > 460)
+                while (this.Width > 470)
                 {
                     this.Width -= 10;
+                    
                 }
             }
         }
