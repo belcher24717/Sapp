@@ -12,14 +12,10 @@
         <Label Name="lblFileName" Content="File Name:" HorizontalAlignment="Left" Margin="14,7,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <Label Name="lblWarning" Content="" HorizontalAlignment="Left" Margin="82,32,0,0" VerticalAlignment="Top" Foreground="#FFFF2B2B"/>
         
-        <Button Content="Cancel" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnCancel" Background="{StaticResource ButtonColor}" SnapsToDevicePixels="True" Margin="0,0,14,8" Click="btnCancelClicked" 
-            Foreground="{StaticResource TextColor}"/>
-        <Button Content="Save" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnSave" Background="{StaticResource ButtonColor}" SnapsToDevicePixels="True" Margin="0,0,86,8" Click="btnSaveClicked" 
-            Foreground="{StaticResource TextColor}"/>
+        <Button Content="Cancel" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center"
+                FlowDirection="LeftToRight" Height="25" Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,14,8" Click="btnCancelClicked" />
+        <Button Content="Save" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" 
+                FlowDirection="LeftToRight" Height="25" Width="65" x:Name="btnSave"  SnapsToDevicePixels="True" Margin="0,0,86,8" Click="btnSaveClicked" />
 
 
     </Grid>
