@@ -42,6 +42,8 @@ namespace Sapp
         public MainWindow()
         {
             InitializeComponent();
+            //Initially hide hidden games
+            this.Width = 460;
 
             Logger.Log("Main Application Started", true);
 
@@ -725,6 +727,25 @@ namespace Sapp
             {
                 gamePool.Add(game);
                 removedPool.Remove(game);
+            }
+        }
+
+        private void btnOpenHiddenGames_Click(object sender, RoutedEventArgs e)
+        {
+            //Current not great implementation
+            if (this.Width < 810)
+            {
+                while (this.Width < 810)
+                {
+                    this.Width += 10;
+                }
+            }
+            else
+            {
+                while (this.Width > 460)
+                {
+                    this.Width -= 10;
+                }
             }
         }
 
