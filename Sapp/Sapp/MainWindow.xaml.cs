@@ -104,6 +104,8 @@ namespace Sapp
                 hoursPlayedHandler = new HoursHandler(ref chkbxHoursPlayed, ref lblPreHoursPlayed, ref lblPostHoursPlayed, ref combobox_HoursPlayed, ref textbox_HoursPlayed);
                 hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks,
                     ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
+
+                this.MaxWidth = 470;
             }
         }
 
@@ -735,18 +737,25 @@ namespace Sapp
             //Current not great implementation
             if (this.Width < 820)
             {
+                btnOpenHiddenGamesArrow.Content = "<";
+                this.MaxWidth = 820;
                 while (this.Width < 820)
                 {
-                    this.Width += 10;
+                    this.Width += 5;
+                    System.Windows.Forms.Application.DoEvents();
                 }
+                this.MinWidth = 825;
             }
             else
             {
+                btnOpenHiddenGamesArrow.Content = ">";
+                this.MinWidth = 470;
                 while (this.Width > 470)
                 {
-                    this.Width -= 10;
-                    
+                    this.Width -= 5;
+                    System.Windows.Forms.Application.DoEvents();
                 }
+                this.MaxWidth = 470;
             }
         }
 

@@ -3,12 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="510" Width="825" WindowStyle = "None" 
         AllowsTransparency="True" ResizeMode="CanResizeWithGrip" SizeChanged="WindowSizeChanged" MinHeight="510" 
-        KeyDown="onKeyDown" Loaded="formLoaded" WindowStartupLocation="CenterScreen" MaxWidth="825" MinWidth="470">
+        KeyDown="onKeyDown" Loaded="formLoaded" WindowStartupLocation="CenterScreen" MaxWidth="825" MinWidth="470" Name="MainDisplay">
     <Grid x:Name="grid">
-
-        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
-    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
-
 
         <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Top" MouseDown="MouseDownOnWindow" 
     		Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PrimaryColor}" Height="510" StrokeThickness="0" Margin="0,0,2,2" />
@@ -144,9 +140,13 @@
         <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="73,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
         <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
         <Button x:Name="btnOpenHiddenGames" Content="Show Hidden Games" HorizontalAlignment="Left" Margin="196,24,0,0" VerticalAlignment="Top" Width="140" Click="btnOpenHiddenGames_Click"/>
-        <Rectangle Fill="{StaticResource PrimaryColor}" Height="485" Margin="0,25,0,0" 
+        
+        <Rectangle Fill="{StaticResource PrimaryColor}" Height="485" Margin="0,25,2,0" 
                    Stroke="{DynamicResource MainBorderColor}" StrokeThickness="0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="15"/>
-
-
+        
+        <Button x:Name="btnOpenHiddenGamesArrow" Content=">" HorizontalAlignment="Right" Margin="0,170,3,189" Width="11" Click="btnOpenHiddenGames_Click" Visibility="Hidden"/>
+        
+        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
     </Grid>
 </Window>
