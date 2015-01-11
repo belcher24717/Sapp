@@ -106,6 +106,7 @@ namespace Sapp
                     ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
 
                 this.MaxWidth = 470;
+                
             }
         }
 

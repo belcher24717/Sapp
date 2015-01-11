@@ -63,9 +63,11 @@
     		HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" 
     		VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0"/>
 
-        <Button BorderThickness="0" Content="Settings" FlowDirection="LeftToRight" Height="25" 
-    		HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="12,0,0,12" x:Name="btnSettings" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Bottom" Width="65" Click="btnOpenSettings"/>
+        <Button BorderThickness="0" FlowDirection="LeftToRight" Height="25" 
+    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,485" x:Name="btnSettings" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Top" Width="25" Click="btnOpenSettings">
+            <Image Source="Resources/cog_settings.ico"/>
+            </Button>
 
         <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Left" 
     		HorizontalContentAlignment="Center" Margin="465,320,-47,164" x:Name="btnAddGame_Copy" SnapsToDevicePixels="True" 
