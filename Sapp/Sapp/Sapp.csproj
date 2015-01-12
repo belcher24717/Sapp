@@ -125,9 +125,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cog-settings.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\cog_settings.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

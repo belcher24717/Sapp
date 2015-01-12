@@ -212,6 +212,7 @@ namespace Sapp
                         reader.Read();
 
                         //might throw try/catch here
+                        Logger.Log("AppID: " + reader.Value);
                         appid = int.Parse(reader.Value);
 
                         reader.Read();
@@ -220,6 +221,8 @@ namespace Sapp
                         reader.Read();
                         string gameName = reader.Value;
 
+                        Logger.Log("Game: " + gameName);
+
                         if (!games.ContainsId(appid))
                         {
                             Game gameToAdd = new Game(gameName, appid, GameUtilities.IsInstalled(appid));
@@ -227,6 +230,9 @@ namespace Sapp
                             newlyAddedGames.Add(gameToAdd);
                             addedNewGames = true;
                         }
+                            //need to reset this value so it is properly updated if no hours have been played
+                        else
+                            games.GetGame(appid).Last2Weeks = 0;
                     }
 
                     else if (reader.Name.Equals("hoursLast2Weeks"))
@@ -439,6 +445,8 @@ namespace Sapp
 
                     index = htmlToParse.IndexOf('<');
 
+                    Logger.Log("GameUtilities.AddTags - Index: " + index + " Length: " + htmlToParse.Length);
+
                     string tagToAdd = htmlToParse.Substring(1, index - 1);
 
                     htmlToParse = htmlToParse.Substring(index);
@@ -476,6 +484,7 @@ namespace Sapp
                     {
                         theList.GetGame(appID).IsDLC = true;
                     }
+                    Logger.Log(theList.GetGame(appID).Title + " IS DLC");
                 }
 
                 response.Close();

@@ -39,11 +39,14 @@ namespace Sapp
         private HoursHandler hoursPlayedHandler;
         private HoursHandler hoursLast2WeeksHandler;
 
+        private const int MIN_WINDOW_SIZE = 430;
+        private const int MAX_WINDOW_SIZE = 780;
+
         public MainWindow()
         {
             InitializeComponent();
             //Initially hide hidden games
-            this.Width = 460;
+            
 
             Logger.Log("Main Application Started", true);
 
@@ -105,8 +108,9 @@ namespace Sapp
                 hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks,
                     ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
 
-                this.MaxWidth = 470;
-                
+                this.Width = MIN_WINDOW_SIZE;
+                this.MaxWidth = MIN_WINDOW_SIZE;
+                this.MinWidth = MIN_WINDOW_SIZE;
             }
         }
 
@@ -736,27 +740,29 @@ namespace Sapp
         private void btnOpenHiddenGames_Click(object sender, RoutedEventArgs e)
         {
             //Current not great implementation
-            if (this.Width < 820)
+            if (this.Width < MAX_WINDOW_SIZE)
             {
                 btnOpenHiddenGamesArrow.Content = "<";
-                this.MaxWidth = 820;
-                while (this.Width < 820)
+
+                this.MaxWidth = MAX_WINDOW_SIZE;
+                while (this.Width < MAX_WINDOW_SIZE)
                 {
                     this.Width += 5;
                     System.Windows.Forms.Application.DoEvents();
                 }
-                this.MinWidth = 825;
+                this.MinWidth = MAX_WINDOW_SIZE;
             }
             else
             {
                 btnOpenHiddenGamesArrow.Content = ">";
-                this.MinWidth = 470;
-                while (this.Width > 470)
+                
+                this.MinWidth = MIN_WINDOW_SIZE;
+                while (this.Width > MIN_WINDOW_SIZE)
                 {
                     this.Width -= 5;
                     System.Windows.Forms.Application.DoEvents();
                 }
-                this.MaxWidth = 470;
+                this.MaxWidth = MIN_WINDOW_SIZE;
             }
         }
 
