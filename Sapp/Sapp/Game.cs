@@ -18,7 +18,6 @@ namespace Sapp
         
         private bool isInstalled;
         private int lastTimePlayed;
-        private bool downloadableContent;
         
         //these might be looked up at run time
 

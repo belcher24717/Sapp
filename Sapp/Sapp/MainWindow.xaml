@@ -86,10 +86,10 @@
 
 
         <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="12,79,0,0" x:Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
-        <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" x:Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
+        <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="12,123,0,0" x:Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="12,101,0,0" x:Name="chkbxMMO" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="12,258,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled" Foreground="{StaticResource TextColor}"/>
-        <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="12,144,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxUnchecked" Checked="checkboxChecked" Foreground="{StaticResource TextColor}"/>
+        <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="12,144,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Singleplayer" HorizontalAlignment="Left" Margin="12,165,0,0" x:Name="chkbxSingle" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Multiplayer" HorizontalAlignment="Left" Margin="12,186,0,0" x:Name="chkbxMulti" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
         <CheckBox Content="Stealth" HorizontalAlignment="Left" Margin="12,207,0,0" x:Name="chkbxStealth" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
@@ -98,7 +98,7 @@
         <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="12,279,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed" Foreground="{StaticResource TextColor}"/>
 
         <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="12,322,0,0" VerticalAlignment="Top" Width="62" Height="16"
-    		Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
+    		Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
             </ComboBox.Resources>
@@ -119,7 +119,7 @@
 
 
         <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Width="62" Height="16"
-    		Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursPlayedCBSelectionChanged">
+    		Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
             </ComboBox.Resources>
@@ -138,8 +138,8 @@
             <ComboBoxItem Content="Less than" FontSize="9"/>
         </ComboBox>
 
-        <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="73,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
-        <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursPlayedCBSelectionChanged"/>
+        <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="73,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursTextChanged"/>
+        <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="75,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursTextChanged"/>
         <Button x:Name="btnOpenHiddenGames" Content="Show Hidden Games" HorizontalAlignment="Left" Margin="196,24,0,0" VerticalAlignment="Top" Width="140" Click="btnOpenHiddenGames_Click"/>
 
         <Rectangle Fill="{StaticResource PrimaryColor}" Margin="0,25,2,0" MouseDown="MouseDownOnWindow"

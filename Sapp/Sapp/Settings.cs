@@ -111,6 +111,7 @@ namespace Sapp
             catch (SerializationException se)
             {
                 sr.Close();
+                Logger.Log("In Settings.Initialize: " + se.ToString());
                 throw new SerializationException();
             }
             sr.Close();

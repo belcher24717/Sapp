@@ -21,6 +21,8 @@ namespace Sapp
         private Label[] labelsAssociated;
         private ComboBox greaterOrLessThanOption;
         private TextBox txtNumberEntered;
+        private double lastValidNumber;
+
 
         public HoursHandler(ref CheckBox cbRelated, ref Label lblPre, ref Label lblPost, ref ComboBox gtOrltOption, ref TextBox userData)
         {
@@ -28,6 +30,7 @@ namespace Sapp
             this.labelsAssociated = new Label[] { lblPre, lblPost };
             this.greaterOrLessThanOption = gtOrltOption;
             this.txtNumberEntered = userData;
+            this.lastValidNumber = double.Parse(userData.Text);//This should be default 30 from the textbox on creation
         }
 
         public void Update()
@@ -46,11 +49,34 @@ namespace Sapp
                 greaterOrLessThanOption.Visibility = System.Windows.Visibility.Hidden;
                 txtNumberEntered.Visibility = System.Windows.Visibility.Hidden;
             }
+
+
         }
 
         public void Verify()
         {
             //This will make sure values typed in the textbox wont blow up
+            if (txtNumberEntered.Text.Equals(""))
+            {
+                lastValidNumber = 0;
+                return;
+            }
+
+            try
+            {
+                double test = double.Parse(txtNumberEntered.Text);
+                lastValidNumber = test;
+            }
+            catch
+            {
+                txtNumberEntered.Text = "" + lastValidNumber;
+                txtNumberEntered.Select(txtNumberEntered.Text.Length, 0);
+            }
+        }
+
+        public double GetHours()
+        {
+            return lastValidNumber;
         }
 
     }

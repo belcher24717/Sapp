@@ -24,7 +24,6 @@ namespace Sapp
         private delegate void UpdateProgressBarDelegate(System.Windows.DependencyProperty dp, Object value);
         private delegate void MarqueeProgressBarDelegate();
         private UpdateProgressBarDelegate updatePbDelegate;
-        private MarqueeProgressBarDelegate marqueePbDelagate;
 
         public LoadingBar(int numGames, string message)
         {

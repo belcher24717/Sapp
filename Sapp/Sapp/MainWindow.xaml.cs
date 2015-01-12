@@ -31,7 +31,6 @@ namespace Sapp
 
         private List<GameUtilities.Tags> tagsChecked;
         private bool checkboxesActive;
-        private bool sortSwitch;
 
         private DataGridHandler gamePoolHandler;
         private DataGridHandler removedPoolHandler;
@@ -61,7 +60,6 @@ namespace Sapp
                     Settings.Initialize();
 
                     checkboxesActive = false;
-                    sortSwitch = false;
                     gamePool = new GamesList();
                     removedPool = new GamesList();
                     tagsChecked = new List<GameUtilities.Tags>();
@@ -248,98 +246,6 @@ namespace Sapp
             BlanketUpdate(GetTagApplicationMethod());
         } // end cbChecked_OnlyInstalled()
 
-        #region OLD CODE
-        
-        private void checkboxChecked(object sender, RoutedEventArgs e)
-        {
-            if (!checkboxesActive)
-                return;
-
-            GameUtilities.Tags tag = GameUtilities.CreateTag(((CheckBox)sender).Content.ToString());
-
-            TagApplicationMethod method = GetTagApplicationMethod();
-
-            //CheckBoxChanged(ref gamePool, ((CheckBox)sender).Content.ToString()); 
-            tagsChecked.Add(tag);
-            //RemoveTaggedGames(method);
-            BlanketUpdate(method);
-        }
-         
-        private void checkboxUnchecked(object sender, RoutedEventArgs e)
-        {
-            if (!checkboxesActive)
-                return;
-
-            GameUtilities.Tags tag = GameUtilities.CreateTag(((CheckBox)sender).Content.ToString());
-
-            TagApplicationMethod method = GetTagApplicationMethod();
-
-            //CheckBoxChanged(ref removedPool, ((CheckBox)sender).Content.ToString());
-            tagsChecked.Remove(tag);
-            //AddTaggedGames(method);
-            BlanketUpdate(method);
-        }
-
-        private void RemoveTaggedGames(TagApplicationMethod method) // tag checked, remove appropriate games.
-        {
-            List<Game> gameToRemove = new List<Game>();
-
-            foreach (Game game in gamePool)
-            {
-                if (!game.ContainsTag(tagsChecked, method))
-                    gameToRemove.Add(game);
-                else if ((bool)chkbxOnlyInstalled.IsChecked)
-                    if (!game.IsInstalled())
-                        gameToRemove.Add(game);
-
-            }
-
-            // could do this with games instead of indexes
-            foreach (Game game in gameToRemove)
-            {
-                removedPool.Add(game);
-                gamePool.Remove(game);
-            }
-
-            // TEMPORARY
-            removedPool.Sort();
-
-        }
-
-        private void AddTaggedGames(TagApplicationMethod method) // tag unchecked, re-add appropriate games.
-        {
-            List<Game> tempToBeAdded = new List<Game>();
-            bool addGame = true;
-
-            foreach (Game game in removedPool)
-            {
-                //TODO: Need to add logic for filters other than tags, such as isInstalled.
-
-                // potentially have filter list that we check here with && like below...
-                if (!game.ContainsTag(tagsChecked, method))
-                    addGame = false;
-                else if ((bool)chkbxOnlyInstalled.IsChecked)
-                    if (!game.IsInstalled())
-                        addGame = false;
-               
-                if (addGame)
-                    tempToBeAdded.Add(game);
-                else
-                    addGame = true;
-            }
-
-            foreach (Game game in tempToBeAdded)
-            {
-                gamePool.Add(game);
-                removedPool.Remove(game);
-            }
-
-            // TEMPORARY
-            gamePool.Sort();
-        }
-
-        #endregion
-
         private void BlanketUpdate(TagApplicationMethod method)
         {
             gamePool.AddList(removedPool);
@@ -373,21 +279,14 @@ namespace Sapp
                 #endregion
 
                 #region Hours Played
+                //TODO: Move hadling of this to HoursHandler
                 // this will be different, this is just a quick way to get the feature working... It will not use a textbox for hours for instance.
                 if ((bool)chkbxHoursPlayed.IsChecked)
                 {
                     bool greaterThan = (combobox_HoursPlayed.SelectedIndex == 0) ? true : false;
-                    int hours;
+                    double hours = hoursPlayedHandler.GetHours();
 
-                    try 
-                    {
-                        hours = int.Parse(textbox_HoursPlayed.Text);
-                    }
-                    catch (FormatException fe)
-                    {        
-                        continue;
-                    }
-
+                    //TODO: Considuer using method return for this?
                     if (greaterThan)
                     {
                         if (game.HoursPlayed < hours)
@@ -576,62 +475,6 @@ namespace Sapp
             this.WindowState = WindowState.Minimized;
         }
 
-        #region OLD CODE
-
-        /*
-        private void HoursPlayedUpdate(List<Control> controlList)
-        {
-            bool flag = (bool)((CheckBox)controlList[0]).IsChecked;
-            
-            if (flag) // checked
-            {
-                controlList[1].Visibility = System.Windows.Visibility.Visible;
-                controlList[2].Visibility = System.Windows.Visibility.Visible;
-
-                controlList[3].Visibility = System.Windows.Visibility.Visible;
-                controlList[3].IsEnabled = flag;
-
-                controlList[4].Visibility = System.Windows.Visibility.Visible;
-                controlList[4].IsEnabled = flag;
-            }
-            else // unchecked
-            {
-                controlList[1].Visibility = System.Windows.Visibility.Hidden;
-                controlList[2].Visibility = System.Windows.Visibility.Hidden;
-
-                controlList[3].Visibility = System.Windows.Visibility.Hidden;
-                controlList[3].IsEnabled = flag;
-
-                controlList[4].Visibility = System.Windows.Visibility.Hidden;
-                controlList[4].IsEnabled = flag;
-            }
-
-            BlanketUpdate(GetTagApplicationMethod());
-        }
-        */
-        /*
-            List<Control> controls = new List<Control>();
-            controls.Add(chkbxHoursPlayed);
-            controls.Add(lblPreHoursPlayed);
-            controls.Add(lblPostHoursPlayed);
-            controls.Add(combobox_HoursPlayed);
-            controls.Add(textbox_HoursPlayed);
-
-            HoursPlayedUpdate(controls);
-             */
-        /*
-            List<Control> controls = new List<Control>();
-            controls.Add(chkbxHoursPlayedLast2Weeks);
-            controls.Add(lblPreHoursPlayedLast2Weeks);
-            controls.Add(lblPostHoursPlayedLast2Weeks);
-            controls.Add(combobox_HoursPlayedLast2Weeks);
-            controls.Add(textbox_HoursPlayedLast2Weeks);
-
-            HoursPlayedUpdate(controls);
-            */
-
-        #endregion
-
         private void cbChecked_HoursPlayed(object sender, RoutedEventArgs e)
         {
             hoursPlayedHandler.Update();
@@ -647,32 +490,31 @@ namespace Sapp
         // these may end up being removed
         #region HoursHelperEvents
 
-        private void HoursPlayedCBSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HoursGtLgComboBoxChanged(object sender, SelectionChangedEventArgs e)
         {
             if (removedPool != null) // this should only happen on load
                 BlanketUpdate(GetTagApplicationMethod());
         }
 
-        private void HoursPlayedCBSelectionChanged(object sender, TextChangedEventArgs e)
+        private void HoursTextChanged(object sender, TextChangedEventArgs e)
         {
-            // this may proc when textbox is disabled? That would be bad because it would double BlanketUpdate then...
-
             if (removedPool != null) // this should only happen on load
             {
-                BlanketUpdate(GetTagApplicationMethod());
-
                 TextBox tb = (TextBox)sender;
 
                 if (tb.Name.Equals("textbox_HoursPlayedLast2Weeks"))
                 {
-                    if (textbox_HoursPlayedLast2Weeks.Focusable)
-                        Keyboard.Focus(textbox_HoursPlayedLast2Weeks);
+                    hoursLast2WeeksHandler.Verify();                    
                 }
                 else if (tb.Name.Equals("textbox_HoursPlayed"))
                 {
-                    if (textbox_HoursPlayed.Focusable)
-                        Keyboard.Focus(textbox_HoursPlayed);
+                    hoursPlayedHandler.Verify();
                 }
+
+                BlanketUpdate(GetTagApplicationMethod());
+
+                if (tb.Focusable)
+                    tb.Focus();
             }
         }
 
