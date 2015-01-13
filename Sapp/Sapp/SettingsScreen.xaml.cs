@@ -52,20 +52,36 @@ namespace Sapp
             if (reference == null)
                 Logger.Log("Settings reference is null");
 
-            //only save it if its valid --SOMETHING IS HOLDING SETTINGS AND THIS IS BLOWING UP
+            //Save where steam is
             if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))
                 reference.SteamLocation = txtSteamPath.Text;
+            else
+            {
+                MessageBox.Show("Steam path is invalid.");
+                goto InvalidInformation;
+            }
 
+            //save the user ID and username
             reference.UserID = txtUserID.Text;
+            if (reference.UserID == null)
+                goto InvalidInformation;
+            
+            //save the tag application method
             reference.TagApplication = (TagApplicationMethod)cbxTagMethod.SelectedIndex;
 
-            //save in mainwindow after we check if it should be refreshed
             Logger.Log("Saving Settings");
             reference.Save();
             reference.ReturnInstance(ref reference);
 
             DialogResult = true;
             this.Close();
+
+            return;
+
+            InvalidInformation:
+                reference.ReturnInstance(ref reference);
+            
+
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
