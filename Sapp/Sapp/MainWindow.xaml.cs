@@ -38,8 +38,8 @@ namespace Sapp
         private HoursHandler hoursPlayedHandler;
         private HoursHandler hoursLast2WeeksHandler;
 
-        private const int MIN_WINDOW_SIZE = 430;
-        private const int MAX_WINDOW_SIZE = 780;
+        private const int MIN_WINDOW_SIZE = 500;
+        private const int MAX_WINDOW_SIZE = 850;
 
         public MainWindow()
         {
@@ -405,12 +405,12 @@ namespace Sapp
 
         private void onKeyDown(object sender, KeyEventArgs e)
         {
-
+            /*
             if (e.Key == Key.Left)
                 btnAddGame_Click(sender, e);
             if (e.Key == Key.Right)
                 btnRemoveGame_Click(sender, e);
-
+            */
         }
 
         private void btnOpenSettings(object sender, RoutedEventArgs e)
@@ -608,6 +608,26 @@ namespace Sapp
             }
         }
 
+        private void gamepool_datagrid_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.Key == GetKeybind())
+                btnRemoveGame_Click(sender, e);
+        }
+
+        private Key GetKeybind()
+        {
+            Key keybind;
+            Settings temp = Settings.GetInstance(this);
+
+            if (temp == null)
+                return Key.None;
+
+            keybind = temp.GamePoolRemoveKeyBinding;
+            temp.ReturnInstance(ref temp);
+
+            return keybind;
+        }
 
     }
 }

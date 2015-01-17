@@ -40,7 +40,7 @@
 
         
         
-        <!--Control colors.-->
+        <!--Control colors-->
         <Color x:Key="ControlColor">#FF46464C</Color>
         <Color x:Key="ControlMouseOverColor">#FF203C58</Color>
         <Color x:Key="ControlPressedColor">#FF142335</Color>
@@ -49,9 +49,10 @@
         
         <!--Disabled colors-->
         <Color x:Key="DisabledBorderColor">Black</Color>
-        <Color x:Key="DisabledControlColor">Blue</Color>
-        <Color x:Key="DisabledForegroundColor">Blue</Color>
-        
+        <Color x:Key="DisabledControlColor">#FF262626</Color>
+        <Color x:Key="DisabledForegroundColor">#FF262626</Color>
+
+        <!--ComboBox-->
         <ControlTemplate x:Key="ComboBoxToggleButton"
                  TargetType="{x:Type ToggleButton}">
             <Grid>
@@ -291,6 +292,50 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!--Tab View Tabs-->
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="ClipToBounds" Value="True"/>
+            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border 
+            Name="Border"
+            Margin="0,0,-4,0" 
+            Background="{StaticResource ButtonColor}"
+            BorderThickness="0"
+            CornerRadius="2,0,0,12" >
+                                <ContentPresenter x:Name="ContentSite"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              ContentSource="Header"
+              Margin="12,2,12,2"
+              RecognizesAccessKey="True"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonClickColor}" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsSelected" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+
+
     </Application.Resources>
 </Application>
     

@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Sapp
 {
@@ -22,6 +23,19 @@ namespace Sapp
     {
 
         #region Properties
+
+        private Key gamePoolRemoveKeyBinding;
+        public Key GamePoolRemoveKeyBinding
+        {
+            get { return gamePoolRemoveKeyBinding; }
+            set
+            {
+                if (writeAccess)
+                {
+                    gamePoolRemoveKeyBinding = value;
+                }
+            }
+        }
 
         private string userID;
         public string UserID
@@ -80,6 +94,7 @@ namespace Sapp
             inUse = false;
             userWasChanged = false;
             tagApplication = TagApplicationMethod.ContainsAll;
+            gamePoolRemoveKeyBinding = Key.D;
         }
 
         public static Settings GetInstance(Window reciever)
