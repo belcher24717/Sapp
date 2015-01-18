@@ -43,7 +43,30 @@ namespace Sapp
             CoOp,
             Sandbox,
             OpenWorld,
-            Stealth
+            Stealth,
+
+            Platformer,
+            Building,
+            MOBA,
+            Exploration,
+            Roguelike,
+            Puzzle,
+            Dark,
+            Tactical,
+            TurnBased,
+            Mystery,
+            Fantasy,
+            Funny,
+            Arcade,
+            Driving,
+            Retro,
+            Relaxing,
+            Difficult,
+            Comedy,
+            RTS,
+            StoryRich,
+            Competitive
+
 
             
 
@@ -98,7 +121,48 @@ namespace Sapp
                 return Tags.Sandbox;
             else if (tag.Equals("Stealth"))
                 return Tags.Stealth;
-
+            else if (tag.Equals("Platformer"))
+                return Tags.Platformer;
+            else if (tag.Equals("Building"))
+                return Tags.Building;
+            else if (tag.Equals("MOBA"))
+                return Tags.MOBA;
+            else if (tag.Equals("Exploration"))
+                return Tags.Exploration;
+            else if (tag.Equals("Rogue-like"))
+                return Tags.Roguelike;
+            else if (tag.Equals("Puzzle"))
+                return Tags.Puzzle;
+            else if (tag.Equals("Funny"))
+                return Tags.Funny;
+            else if (tag.Equals("Dark"))
+                return Tags.Dark;
+            else if (tag.Equals("Tactical"))
+                return Tags.Tactical;
+            else if (tag.Equals("Turn-Based"))
+                return Tags.TurnBased;
+            else if (tag.Equals("Mystery"))
+                return Tags.Mystery;
+            else if (tag.Equals("Fantasy"))
+                return Tags.Fantasy;
+            else if (tag.Equals("Arcade"))
+                return Tags.Arcade;
+            else if (tag.Equals("Driving"))
+                return Tags.Driving;
+            else if (tag.Equals("Retro"))
+                return Tags.Retro;
+            else if (tag.Equals("Relaxing"))
+                return Tags.Relaxing;
+            else if (tag.Equals("Difficult"))
+                return Tags.Difficult;
+            else if (tag.Equals("Comedy"))
+                return Tags.Comedy;
+            else if (tag.Equals("RTS"))
+                return Tags.RTS;
+            else if (tag.Equals("Story Rich"))
+                return Tags.StoryRich;
+            else if (tag.Equals("Competitive"))
+                return Tags.Competitive;
 
             else if (tag.Equals("No Tags"))//Game no longer on steam (under that appid)
                 return Tags.NoTags;
@@ -230,9 +294,12 @@ namespace Sapp
                             newlyAddedGames.Add(gameToAdd);
                             addedNewGames = true;
                         }
-                            //need to reset this value so it is properly updated if no hours have been played
+                        //need to reset this value so it is properly updated if no hours have been played
                         else
+                        {
                             games.GetGame(appid).Last2Weeks = 0;
+                            games.GetGame(appid).SetInstallState(GameUtilities.IsInstalled(appid));
+                        }
                     }
 
                     else if (reader.Name.Equals("hoursLast2Weeks"))

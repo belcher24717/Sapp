@@ -95,6 +95,10 @@ namespace Sapp
 
             if (newTag != GameUtilities.Tags.NullTag)
                 tagList.Add(newTag);
+
+            else
+            {
+            }
         }
 
         public List<GameUtilities.Tags> GetTags()
@@ -136,6 +140,11 @@ namespace Sapp
         public bool Equals(Game other)
         {
             return this.appID == other.GetAppID();
+        }
+
+        public void SetInstallState(bool state)
+        {
+            isInstalled = state;
         }
     }
 }

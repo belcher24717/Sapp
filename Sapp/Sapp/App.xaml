@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        
         <SolidColorBrush x:Key="PrimaryColor">#FF262626</SolidColorBrush>
         <Color x:Key="SecondaryColor">#FF203C58</Color>
         <SolidColorBrush x:Key="MainBorderColor">#19344e</SolidColorBrush>
@@ -13,6 +14,7 @@
         <SolidColorBrush x:Key="ButtonColor">#FF46464C</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonHoverColor">#FF203C58</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonClickColor">#FF142335</SolidColorBrush>
+        
         
         <!--Button Style-->
         <Style TargetType="{x:Type Button}">
@@ -334,7 +336,48 @@
 
         </Style>
 
+        <!--Scroll Bar Style-->
+        <Style x:Key="LeftScrollViewer"
+       TargetType="{x:Type ScrollViewer}">
+            <Setter Property="OverridesDefaultStyle"
+          Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="1"
+                  BorderThickness="0,0,0,0">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+                                </Border.BorderBrush>
+                                <ScrollContentPresenter />
+                            </Border>
+                            
+                            <ScrollBar x:Name="PART_VerticalScrollBar"
+                     Value="{TemplateBinding VerticalOffset}"
+                     Maximum="{TemplateBinding ScrollableHeight}"
+                     ViewportSize="{TemplateBinding ViewportHeight}"
+                     Visibility="Visible"/>
+                           
+                            <ScrollBar x:Name="PART_HorizontalScrollBar"
+                     Orientation="Horizontal"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Visibility="Hidden"/>
 
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Application.Resources>
 </Application>
