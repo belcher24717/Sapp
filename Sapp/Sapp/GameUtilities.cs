@@ -105,16 +105,12 @@ namespace Sapp
                 return Tags.Shooter;
             else if (tag.Equals("FPS"))
                 return Tags.FPS;
-            else if (tag.Equals("Sci-fi"))
-                return Tags.SciFi;
             else if (tag.Equals("Survival"))
                 return Tags.Survival;
             else if (tag.Equals("Horror"))
                 return Tags.Horror;
             else if (tag.Equals("Massively Multiplayer"))
                 return Tags.MassivelyMultiplayer;
-            else if (tag.Equals("Co-op"))
-                return Tags.CoOp;
             else if (tag.Equals("Open World"))
                 return Tags.OpenWorld;
             else if (tag.Equals("Sandbox"))
@@ -129,8 +125,6 @@ namespace Sapp
                 return Tags.MOBA;
             else if (tag.Equals("Exploration"))
                 return Tags.Exploration;
-            else if (tag.Equals("Rogue-like"))
-                return Tags.Roguelike;
             else if (tag.Equals("Puzzle"))
                 return Tags.Puzzle;
             else if (tag.Equals("Funny"))
@@ -139,8 +133,6 @@ namespace Sapp
                 return Tags.Dark;
             else if (tag.Equals("Tactical"))
                 return Tags.Tactical;
-            else if (tag.Equals("Turn-Based"))
-                return Tags.TurnBased;
             else if (tag.Equals("Mystery"))
                 return Tags.Mystery;
             else if (tag.Equals("Fantasy"))
@@ -163,6 +155,15 @@ namespace Sapp
                 return Tags.StoryRich;
             else if (tag.Equals("Competitive"))
                 return Tags.Competitive;
+
+            else if (tag.Equals("Co-op"))
+                return Tags.CoOp;
+            else if (tag.Equals("Turn-Based"))
+                return Tags.TurnBased;
+            else if (tag.Equals("Rogue-like"))
+                return Tags.Roguelike;
+            else if (tag.Equals("Sci-fi"))
+                return Tags.SciFi;
 
             else if (tag.Equals("No Tags"))//Game no longer on steam (under that appid)
                 return Tags.NoTags;
@@ -498,7 +499,8 @@ namespace Sapp
 
                 htmlToParse = htmlToParse.Substring(startIndex, (endIndex - startIndex));
 
-                while (true)
+                //only add 12 tags to each game maximum
+                for (int i = 0; i < 11; i++)
                 {
                     index = htmlToParse.IndexOf("http://store.steampowered.com/tag");
 
