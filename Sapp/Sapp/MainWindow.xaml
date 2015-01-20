@@ -12,7 +12,7 @@
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="186,79,0,49" 
     		x:Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289" KeyDown="gamepool_datagrid_KeyDown" 
                   Background="Transparent" Foreground="{StaticResource TextColor}" RowBackground="Transparent" BorderBrush="{StaticResource BordersColor}">
-            
+
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="{StaticResource ButtonColor}" />
@@ -21,15 +21,15 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource ButtonHoverColor}"/>
                         </Trigger>
-                        
+
                     </Style.Triggers>
                 </Style>
             </DataGrid.Resources>
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
             </DataGrid.Columns>
-            
+
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="BorderThickness" Value="0"/>
@@ -49,13 +49,13 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
-            
+
         </DataGrid>
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" Margin="535,79,0,49" 
     		x:Name="dgRemovedPool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" HorizontalAlignment="Left" Width="289" 
                   Background="Transparent" Foreground="{StaticResource TextColor}" RowBackground="Transparent" BorderBrush="{StaticResource BordersColor}">
-            
+
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="{StaticResource ButtonColor}" />
@@ -68,11 +68,11 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.Resources>
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
             </DataGrid.Columns>
-            
+
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="BorderThickness" Value="0"/>
@@ -92,10 +92,10 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
-            
+
         </DataGrid>
 
-        
+
         <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Left" Margin="262,45,0,0" x:Name="label1" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Left" Margin="591,45,0,0" x:Name="label2" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <Label Content="Filter Your Games" Height="28" HorizontalAlignment="Left" Margin="36,45,0,0" x:Name="label1_Copy" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
@@ -124,7 +124,7 @@
     		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,485" x:Name="btnSettings" SnapsToDevicePixels="True" 
     		VerticalAlignment="Top" Width="25" Click="btnOpenSettings" ToolTip="Settings">
             <Image Source="Resources/cog_settings.ico"/>
-            </Button>
+        </Button>
 
         <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Left" 
     		HorizontalContentAlignment="Center" Margin="480,289,0,195" x:Name="btnAddAll" SnapsToDevicePixels="True" 
@@ -137,14 +137,14 @@
 
         <Rectangle Fill="{StaticResource PrimaryColor}" Margin="0,25,2,0" MouseDown="MouseDownOnWindow"
                    Stroke="{DynamicResource MainBorderColor}" StrokeThickness="0" HorizontalAlignment="Right" Width="20" />
-        
+
         <Button x:Name="btnOpenHiddenGamesArrow" Content="&gt;" HorizontalAlignment="Right" Margin="0,79,7,49" Width="12" Click="btnOpenHiddenGames_Click" Height="382" ToolTip="Show Removed" />
-        
+
         <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}">
-            
+
         </Border>
-        
+
         <TabControl HorizontalAlignment="Left" Margin="6,79,0,49" Name="tabControl1" Width="178" TabStripPlacement="Left" 
                     Background="{StaticResource PrimaryColor}" BorderThickness="1" BorderBrush="{StaticResource BordersColor}">
             <TabItem Header="Tags" Name="Tags" IsSelected="True">
@@ -200,36 +200,43 @@
                             <CheckBox Content="No Tags" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxNoTags" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
                         </StackPanel>
                     </ScrollViewer>
-                    
+
 
                 </Grid>
             </TabItem>
             <TabItem Header="Hours" Name="Hours">
                 <Grid>
-                    <CheckBox Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="5,85,0,0" x:Name="chkbxHoursPlayedLast2Weeks" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayedLast2Weeks" Checked="cbChecked_HoursPlayedLast2Weeks" Foreground="{StaticResource TextColor}"/>
-                    <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed" Foreground="{StaticResource TextColor}"/>
+                    <StackPanel>
+                        <Expander x:Name="hoursPlayedExpander" Header="Hours Played" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="100" Height="100" Collapsed="ExpanderChanged_Hours" Expanded="ExpanderChanged_Hours" Foreground="{StaticResource TextColor}">
+                            <Grid Background="{StaticResource PrimaryColor}">
+                                <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="7,13,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Height="16"
+                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="7,35,0,0">
+                                    <ComboBoxItem Content="More than" FontSize="9"/>
+                                    <ComboBoxItem Content="Less than" FontSize="9"/>
+                                </ComboBox>
+                                <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="30" TextChanged="HoursTextChanged" Margin="70,35,0,0"/>
+                                <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="7,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                            </Grid>
+                        </Expander>
 
-                    <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="70,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursTextChanged"/>
-                    <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="70,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursTextChanged"/>
-
-                    <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="7,100,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Foreground="{StaticResource TextColor}"/>
-                    <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="7,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Foreground="{StaticResource TextColor}"/>
-                    <Label x:Name="lblPreHoursPlayed" Content="Only show games with" HorizontalAlignment="Left" Margin="5,13,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Foreground="{StaticResource TextColor}"/>
-                    <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="7,137,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Hidden" Height="40" Width="97" Foreground="{StaticResource TextColor}">
-                        <TextBlock TextWrapping="WrapWithOverflow"><Run Text="hours of play time in the last 2 weeks."/></TextBlock>
-                    </Label>
-
-                    <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" Margin="7,35,0,0" VerticalAlignment="Top" Width="62" Height="16"
-    		            Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
-                        <ComboBoxItem Content="More than" FontSize="9"/>
-                        <ComboBoxItem Content="Less than" FontSize="9"/>
-                    </ComboBox>
-                    <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="7,122,0,0" VerticalAlignment="Top" Width="62" Height="16"
-    		            Visibility="Hidden" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
-                        <ComboBoxItem Content="More than" FontSize="9"/>
-                        <ComboBoxItem Content="Less than" FontSize="9"/>
-                    </ComboBox>
+                        <Expander x:Name="last2WeeksExpander" Header="Last 2 Weeks" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="100" Height="100" Collapsed="ExpanderChanged_Hours" Foreground="{StaticResource TextColor}">
+                            <Grid Background="{StaticResource PrimaryColor}">
+                                <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="7,13,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="7,35,0,0" VerticalAlignment="Top" Width="62" Height="16"
+                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
+                                    <ComboBoxItem Content="More than" FontSize="9"/>
+                                    <ComboBoxItem Content="Less than" FontSize="9"/>
+                                </ComboBox>
+                                <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="70,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Visible" Text="30" TextChanged="HoursTextChanged"/>
+                                <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="7,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Height="40" Width="97" Foreground="{StaticResource TextColor}">
+                                    <TextBlock TextWrapping="WrapWithOverflow"><Run Text="hours of play time in the last 2 weeks."/></TextBlock>
+                                </Label>
+                            </Grid>
+                        </Expander>
+                    </StackPanel>
                 </Grid>
+                <!-- visibility -->
             </TabItem>
             <TabItem Header="Install" Name="Install">
                 <Grid>
@@ -250,7 +257,7 @@
             </TabItem>
 
         </TabControl>
-        
+
 
     </Grid>
 </Window>

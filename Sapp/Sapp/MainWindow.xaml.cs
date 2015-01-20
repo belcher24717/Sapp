@@ -40,6 +40,7 @@ namespace Sapp
 
         private const int MIN_WINDOW_SIZE = 500;
         private const int MAX_WINDOW_SIZE = 850;
+        private const int NUM_HOUR_FILTERS = 2;
 
         public MainWindow()
         {
@@ -102,9 +103,9 @@ namespace Sapp
                 //TODO: Make all the checkboxes, and then all references to a list here.
                 //This list will make management of all checkboxes easy (seperate by type, like: tag filters, intalled only, hours played, etc)
 
-                hoursPlayedHandler = new HoursHandler(ref chkbxHoursPlayed, ref lblPreHoursPlayed, ref lblPostHoursPlayed, ref combobox_HoursPlayed, ref textbox_HoursPlayed);
-                hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks,
-                    ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
+                //hoursPlayedHandler = new HoursHandler(ref chkbxHoursPlayed, ref lblPreHoursPlayed, ref lblPostHoursPlayed, ref combobox_HoursPlayed, ref textbox_HoursPlayed);
+                //hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks,
+                //    ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
 
                 this.Width = MIN_WINDOW_SIZE;
                 this.MaxWidth = MIN_WINDOW_SIZE;
@@ -281,10 +282,19 @@ namespace Sapp
                 #region Hours Played
                 //TODO: Move hadling of this to HoursHandler
                 // this will be different, this is just a quick way to get the feature working... It will not use a textbox for hours for instance.
-                if ((bool)chkbxHoursPlayed.IsChecked)
+                if ((bool)hoursPlayedExpander.IsExpanded)
                 {
                     bool greaterThan = (combobox_HoursPlayed.SelectedIndex == 0) ? true : false;
-                    double hours = hoursPlayedHandler.GetHours();
+                    double hours;
+
+                    try
+                    {
+                        hours = double.Parse(textbox_HoursPlayed.Text);
+                    }
+                    catch (FormatException fe)
+                    {
+                        continue;
+                    }
 
                     //TODO: Considuer using method return for this?
                     if (greaterThan)
@@ -309,14 +319,14 @@ namespace Sapp
 
                 #region Hours Played Last 2 Weeks
                 // this will be different, this is just a quick way to get the feature working... It will not use a textbox for hours for instance.
-                if ((bool)chkbxHoursPlayedLast2Weeks.IsChecked)
+                if ((bool)last2WeeksExpander.IsExpanded)
                 {
                     bool greaterThan = (combobox_HoursPlayedLast2Weeks.SelectedIndex == 0) ? true : false;
-                    int hours;
+                    double hours;
 
                     try 
                     {
-                        hours = int.Parse(textbox_HoursPlayedLast2Weeks.Text);
+                        hours = double.Parse(textbox_HoursPlayedLast2Weeks.Text);
                     }
                     catch (FormatException fe)
                     {        
@@ -475,20 +485,63 @@ namespace Sapp
             this.WindowState = WindowState.Minimized;
         }
 
+        /*
         private void cbChecked_HoursPlayed(object sender, RoutedEventArgs e)
         {
             hoursPlayedHandler.Update();
+
+            //UpdateCheckboxPositions(1, NUM_HOUR_FILTERS); 
+
             BlanketUpdate(GetTagApplicationMethod());
         }
 
         private void cbChecked_HoursPlayedLast2Weeks(object sender, RoutedEventArgs e)
         {
             hoursLast2WeeksHandler.Update();
+
+            //UpdateCheckboxPositions(2, NUM_HOUR_FILTERS); 
+
+            BlanketUpdate(GetTagApplicationMethod());
+        }
+        */
+
+        private void ExpanderChanged_Hours(object sender, RoutedEventArgs e)
+        {
             BlanketUpdate(GetTagApplicationMethod());
         }
 
         // these may end up being removed
         #region HoursHelperEvents
+
+        // this is somewhat hardcoded, if we get more filters, we may look to make retreiving textboxes/comboboxes/labels more dynamic for each hour checkbox. 
+        private void UpdateCheckboxPositions(int position, int total)
+        {
+            /*
+             * checkbox to label - 13
+             * label to combo/textbox - 22
+             * combo/textbox to label - 16
+             * label to next checkbox - 34
+             */
+
+            for (int x = position; x < (total + 1); x++)
+            {
+                List<Control> controls = GetControlSet(x);
+            }
+        }
+
+        private List<Control> GetControlSet(int position)
+        {
+            if (position == 1)
+            {
+                List<Control> theList = new List<Control>(4);
+                //theList.Add(
+            }
+            else if (position == 2)
+            {
+
+            }
+            return null;
+        }
 
         private void HoursGtLgComboBoxChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -502,13 +555,14 @@ namespace Sapp
             {
                 TextBox tb = (TextBox)sender;
 
+                //TODO:  May implement last entered text option here, and move validation here instead of in blanketupdate
                 if (tb.Name.Equals("textbox_HoursPlayedLast2Weeks"))
                 {
-                    hoursLast2WeeksHandler.Verify();                    
+                    //hoursLast2WeeksHandler.Verify();                    
                 }
                 else if (tb.Name.Equals("textbox_HoursPlayed"))
                 {
-                    hoursPlayedHandler.Verify();
+                    //hoursPlayedHandler.Verify();
                 }
 
                 BlanketUpdate(GetTagApplicationMethod());
