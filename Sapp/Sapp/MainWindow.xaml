@@ -207,29 +207,29 @@
             <TabItem Header="Hours" Name="Hours">
                 <Grid>
                     <StackPanel>
-                        <Expander x:Name="hoursPlayedExpander" Header="Hours Played" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="100" Height="100" Collapsed="ExpanderChanged_Hours" Expanded="ExpanderChanged_Hours" Foreground="{StaticResource TextColor}">
+                        <Expander x:Name="hoursPlayedExpander" Header="Hours Played" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Collapsed="ExpanderChanged_Hours" Expanded="ExpanderChanged_Hours" Foreground="{StaticResource TextColor}">
                             <Grid Background="{StaticResource PrimaryColor}">
-                                <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="7,13,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="-4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
                                 <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Height="16"
-                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="7,35,0,0">
+                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="0,22,0,0">
                                     <ComboBoxItem Content="More than" FontSize="9"/>
                                     <ComboBoxItem Content="Less than" FontSize="9"/>
                                 </ComboBox>
-                                <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="30" TextChanged="HoursTextChanged" Margin="70,35,0,0"/>
-                                <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="7,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" Margin="63,22,0,0"/>
+                                <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="-4,38,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
                             </Grid>
                         </Expander>
 
-                        <Expander x:Name="last2WeeksExpander" Header="Last 2 Weeks" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="100" Height="100" Collapsed="ExpanderChanged_Hours" Foreground="{StaticResource TextColor}">
+                        <Expander x:Name="last2WeeksExpander" Header="Last 2 Weeks" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Collapsed="ExpanderChanged_Hours" Expanded="ExpanderChanged_Hours" Foreground="{StaticResource TextColor}">
                             <Grid Background="{StaticResource PrimaryColor}">
-                                <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="7,13,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
-                                <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="7,35,0,0" VerticalAlignment="Top" Width="62" Height="16"
+                                <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="-4,0,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="0,22,0,0" VerticalAlignment="Top" Width="62" Height="16"
                         			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
                                     <ComboBoxItem Content="More than" FontSize="9"/>
                                     <ComboBoxItem Content="Less than" FontSize="9"/>
                                 </ComboBox>
-                                <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="70,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Visible" Text="30" TextChanged="HoursTextChanged"/>
-                                <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="7,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Height="40" Width="97" Foreground="{StaticResource TextColor}">
+                                <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="63,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged"/>
+                                <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="-4,38,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Height="40" Width="97" Foreground="{StaticResource TextColor}">
                                     <TextBlock TextWrapping="WrapWithOverflow"><Run Text="hours of play time in the last 2 weeks."/></TextBlock>
                                 </Label>
                             </Grid>

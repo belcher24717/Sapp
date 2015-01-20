@@ -74,6 +74,7 @@
     <Compile Include="SettingsScreen.xaml.cs">
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VerificationClass.cs" />
     <Page Include="FilenameTypein.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
