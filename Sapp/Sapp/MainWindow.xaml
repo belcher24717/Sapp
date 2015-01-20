@@ -145,11 +145,11 @@
             
         </Border>
         
-        <TabControl HorizontalAlignment="Left" Margin="6,79,0,49" Name="tabControl1" Width="173" TabStripPlacement="Left" 
-                    Background="{StaticResource PrimaryColor}" BorderThickness="0" BorderBrush="{StaticResource ButtonHoverColor}">
+        <TabControl HorizontalAlignment="Left" Margin="6,79,0,49" Name="tabControl1" Width="178" TabStripPlacement="Left" 
+                    Background="{StaticResource PrimaryColor}" BorderThickness="1" BorderBrush="{StaticResource BordersColor}">
             <TabItem Header="Tags" Name="Tags" IsSelected="True">
                 <Grid>
-                    <ScrollViewer Margin="0,0,-5,0">
+                    <ScrollViewer Margin="0,0,-3,0">
 
                         <StackPanel>
                             <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
@@ -207,7 +207,7 @@
             <TabItem Header="Hours" Name="Hours">
                 <Grid>
                     <CheckBox Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="5,85,0,0" x:Name="chkbxHoursPlayedLast2Weeks" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayedLast2Weeks" Checked="cbChecked_HoursPlayedLast2Weeks" Foreground="{StaticResource TextColor}"/>
-                    <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="5,-1,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed" Foreground="{StaticResource TextColor}"/>
+                    <CheckBox Content="Hours Played" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxHoursPlayed" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_HoursPlayed" Checked="cbChecked_HoursPlayed" Foreground="{StaticResource TextColor}"/>
 
                     <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="70,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursTextChanged"/>
                     <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" Margin="70,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" FontSize="9" Visibility="Hidden" Text="30" TextChanged="HoursTextChanged"/>
@@ -233,7 +233,7 @@
             </TabItem>
             <TabItem Header="Install" Name="Install">
                 <Grid>
-                    <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="5,-1,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled" Foreground="{StaticResource TextColor}"/>
+                    <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled" Foreground="{StaticResource TextColor}"/>
 
                 </Grid>
             </TabItem>
