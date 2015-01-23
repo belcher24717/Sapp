@@ -115,7 +115,23 @@ namespace Sapp
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
         {
+            if (this.ResizeMode != System.Windows.ResizeMode.NoResize)
+            {
+                this.ResizeMode = System.Windows.ResizeMode.NoResize;
+                this.UpdateLayout();
+            }
+
             this.DragMove();
+        }
+
+        private void MouseUpOnWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (this.ResizeMode == System.Windows.ResizeMode.NoResize)
+            {
+                // restore resize grips
+                this.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+                this.UpdateLayout();
+            }
         }
 
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
@@ -234,10 +250,23 @@ namespace Sapp
             CheckBox checkbox = (CheckBox)sender;
             GameUtilities.Tags tag = GameUtilities.CreateTag(checkbox.Content.ToString());
 
+
+
             if ((bool)(checkbox.IsChecked))
-                tagsChecked.Add(tag);
+            {
+                if(cbxIncludeExcludeTags.SelectedIndex == 0)
+                    tagsChecked.Add(tag);
+                else
+                {
+                    checkbox.IsChecked = null;
+                    //add to exclude tags here
+                }
+            }
             else
+            {
                 tagsChecked.Remove(tag);
+                //remove from exclude
+            }
 
             BlanketUpdate(GetTagApplicationMethod());
         }

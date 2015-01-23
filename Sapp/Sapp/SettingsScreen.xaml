@@ -52,21 +52,8 @@
         
         <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="160,217,0,0" VerticalAlignment="Top" Width="123" SelectionChanged="ComboBox_SelectionChanged" 
                   BorderThickness="0" Height="20" >
-            
-            <ComboBox.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"  Color="{StaticResource SecondaryColor}"/>
-            </ComboBox.Resources>
-            
-            <ComboBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ComboBoxItem}">
-                    <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
-                </Style>
-            </ComboBox.ItemContainerStyle>
-            
             <ComboBoxItem>Contains All</ComboBoxItem>
             <ComboBoxItem>Contains One</ComboBoxItem>
-
-
         </ComboBox>
         
         
