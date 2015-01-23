@@ -7,15 +7,34 @@
         <SolidColorBrush x:Key="PrimaryColor">#FF262626</SolidColorBrush>
         <Color x:Key="SecondaryColor">#FF203C58</Color>
         <SolidColorBrush x:Key="MainBorderColor">#19344e</SolidColorBrush>
-        
+
         <SolidColorBrush x:Key="BordersColor">Gray</SolidColorBrush>
         <SolidColorBrush x:Key="TextColor">#FFCFCFCF</SolidColorBrush>
 
+        <!--BUTTON COLORS-->
         <SolidColorBrush x:Key="ButtonColor">#FF46464C</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonHoverColor">#FF203C58</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonClickColor">#FF142335</SolidColorBrush>
-        
-        
+
+        <!--TAB VIEW COLORS-->
+        <SolidColorBrush x:Key="TabColor">#FF46464C</SolidColorBrush>
+        <SolidColorBrush x:Key="TabHoverColor">#FF203C58</SolidColorBrush>
+        <SolidColorBrush x:Key="TabDepressedColor">#FF142335</SolidColorBrush>
+        <SolidColorBrush x:Key="TabViewBorderColor">Gray</SolidColorBrush>
+        <SolidColorBrush x:Key="TabVeiwBackgroundColor">#FF262626</SolidColorBrush>
+
+        <!--DATA GRID COLORS-->
+        <SolidColorBrush x:Key="DatagridHeaderColor">#FF46464C</SolidColorBrush>
+        <SolidColorBrush x:Key="DatagridHeaderHoverColor">#FF203C58</SolidColorBrush>
+        <SolidColorBrush x:Key="DatagridBackgroundColor">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="DatagridItemHoverColor">#FF203C58</SolidColorBrush>
+        <SolidColorBrush x:Key="DatagridItemSelectedColor">#FF142335</SolidColorBrush>
+        <SolidColorBrush x:Key="DatagridBorderColor">Gray</SolidColorBrush>
+
+        <!--SCROLL BAR COLORS-->
+        <SolidColorBrush x:Key="ScrollBarColor">#FF46464C</SolidColorBrush>
+
+
         <!--Button Style-->
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
@@ -40,16 +59,13 @@
         </Style>
         <!--Button Style-->
 
-        
-        
+
         <!--Control colors-->
         <Color x:Key="ControlColor">#FF46464C</Color>
         <Color x:Key="ControlMouseOverColor">#FF203C58</Color>
         <Color x:Key="ControlPressedColor">#FF142335</Color>
         <Color x:Key="ArrowColor">#FFCFCFCF</Color>
         <Color x:Key="BorderColor">#FF46464C</Color>
-        
-        
         
         <!--Disabled colors-->
         <Color x:Key="DisabledBorderColor">Black</Color>
@@ -300,7 +316,6 @@
         </Style>
 
         
-        
         <!--Tab View Tabs-->
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="ClipToBounds" Value="True"/>
@@ -312,7 +327,7 @@
                             <Border 
             Name="Border"
             Margin="0,0,-4,0" 
-            Background="{StaticResource ButtonColor}"
+            Background="{StaticResource TabColor}"
             BorderThickness="0"
             CornerRadius="2,0,0,12" >
                                 <ContentPresenter x:Name="ContentSite"
@@ -326,14 +341,14 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Panel.ZIndex" Value="100" />
-                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonClickColor}" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource TabDepressedColor}" />
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsMouseOver" Value="True" />
                                     <Condition Property="IsSelected" Value="False" />
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonHoverColor}"/>
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource TabHoverColor}"/>
                             </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -352,7 +367,7 @@
                     <ControlTemplate TargetType="{x:Type Thumb}">
                         <Grid x:Name="Grid">
                             <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
-                            <Border x:Name="ScrollBarShape" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{StaticResource ButtonColor}" />
+                            <Border x:Name="ScrollBarShape" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{StaticResource ScrollBarColor}" />
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="Tag" Value="Horizontal">
