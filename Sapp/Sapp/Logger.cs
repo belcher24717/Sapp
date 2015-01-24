@@ -10,7 +10,7 @@ namespace Sapp
     public abstract class Logger
     {
         public static readonly bool DebugMode = true;
-        private static readonly string logPath = @".\log.txt";
+        private static readonly string logPath = Settings.FILE_LOCATION + @"\log.txt";
         //private static StreamWriter logFile;
 
         public static void Log(string message)

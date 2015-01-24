@@ -31,6 +31,12 @@ namespace Sapp
             set;
         }
 
+        public bool IsUtility
+        {
+            get;
+            set;
+        }
+
         public double Last2Weeks
         {
             get;

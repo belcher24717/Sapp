@@ -65,7 +65,9 @@ namespace Sapp
             Comedy,
             RTS,
             StoryRich,
-            Competitive
+            Competitive,
+
+            Utilities
 
 
             
@@ -155,7 +157,6 @@ namespace Sapp
                 return Tags.StoryRich;
             else if (tag.Equals("Competitive"))
                 return Tags.Competitive;
-
             else if (tag.Equals("Co-op"))
                 return Tags.CoOp;
             else if (tag.Equals("Turn-Based"))
@@ -165,6 +166,9 @@ namespace Sapp
             else if (tag.Equals("Sci-fi"))
                 return Tags.SciFi;
 
+
+            else if (tag.Equals("Utilities"))
+                return Tags.Utilities;
             else if (tag.Equals("No Tags"))//Game no longer on steam (under that appid)
                 return Tags.NoTags;
             else // tag is not recognized, won't be added
@@ -188,7 +192,10 @@ namespace Sapp
             Stream sw = null;
             try
             {
-                sw = new FileStream(@".\" + fileName + "." + fileExtention, FileMode.Create);
+                if (!Directory.Exists(Settings.FILE_LOCATION))
+                    Directory.CreateDirectory(Settings.FILE_LOCATION);
+
+                sw = new FileStream(fileName + "." + fileExtention, FileMode.Create);
                 IFormatter formatter = new BinaryFormatter();
 
                 formatter.Serialize(sw, games);
@@ -205,10 +212,14 @@ namespace Sapp
         public static GamesList LoadGameList(string fileNamePassedIn, string fileExtention, bool useFileNameAsPath)
         {
             string filename;
+
+            if (!Directory.Exists(Settings.FILE_LOCATION))
+                Directory.CreateDirectory(Settings.FILE_LOCATION);
+
             if (useFileNameAsPath)
                 filename = fileNamePassedIn;
             else
-                filename = @".\" + fileNamePassedIn + "." + fileExtention;
+                filename = Settings.FILE_LOCATION + @"\" + fileNamePassedIn + "." + fileExtention;
 
             if (File.Exists(filename))
             {
@@ -435,6 +446,12 @@ namespace Sapp
                     Application.DoEvents();
                 }
 
+                foreach (Game game in newlyAddedGames)
+                {
+                    if (game.ContainsTag(Tags.Utilities))
+                        game.IsUtility = true;
+                }
+
                 #endregion
 
                 loadBarTags.ForceClose();
@@ -442,11 +459,14 @@ namespace Sapp
 
             }
 
-            SaveGameList(games, userID, "games");
+            if (!Directory.Exists(Settings.FILE_LOCATION))
+                Directory.CreateDirectory(Settings.FILE_LOCATION);
+
+            SaveGameList(games, Settings.FILE_LOCATION + @"\" + userID, "games");
 
             for (int i = 0; i < games.Count; i++)
             {
-                if (games[i].IsDLC)
+                if (games[i].IsDLC || games[i].IsUtility)
                 {
                     games.RemoveAt(i);
                     i--;

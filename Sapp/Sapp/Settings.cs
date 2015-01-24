@@ -22,6 +22,9 @@ namespace Sapp
     public class Settings
     {
 
+        public static String FILE_LOCATION = @".\bin";
+
+
         #region Properties
 
         private Key gamePoolRemoveKeyBinding;
@@ -106,7 +109,10 @@ namespace Sapp
             }
 
             if (reciever.Title.Equals("SettingsScreen"))
+            {
+                Logger.Log("Settings granted to " + reciever.Name, true);
                 writeAccess = true;
+            }
 
             inUse = true;
             return thisInstance;
@@ -116,7 +122,10 @@ namespace Sapp
 
         public static void Initialize()
         {
-            Stream sr = new FileStream(@".\settings.bin", FileMode.Open);
+            if (!Directory.Exists(Settings.FILE_LOCATION))
+                Directory.CreateDirectory(Settings.FILE_LOCATION);
+
+            Stream sr = new FileStream(Settings.FILE_LOCATION + @"\settings.bin", FileMode.Open);
 
             try
             {
@@ -138,7 +147,10 @@ namespace Sapp
         {
             try
             {
-                Stream sw = new FileStream(@".\settings.bin", FileMode.Create);
+                if (!Directory.Exists(Settings.FILE_LOCATION))
+                    Directory.CreateDirectory(Settings.FILE_LOCATION);
+
+                Stream sw = new FileStream(Settings.FILE_LOCATION + @"\settings.bin", FileMode.Create);
                 IFormatter formatter = new BinaryFormatter();
 
                 formatter.Serialize(sw, thisInstance);
@@ -153,6 +165,7 @@ namespace Sapp
 
         public void ReturnInstance(ref Settings theSettingsObject)
         {
+            Logger.Log("Settings returned", true);
             theSettingsObject = null;
             inUse = false;
             writeAccess = false;

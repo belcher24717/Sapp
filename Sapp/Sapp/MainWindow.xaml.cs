@@ -580,7 +580,10 @@ namespace Sapp
                 GamesList tempListToSave = new GamesList();
                 tempListToSave.AddList(gamePool.ToList<Game>());
 
-                GameUtilities.SaveGameList(tempListToSave, fileName, "gp");
+                if(!Directory.Exists(@".\saves"))
+                    Directory.CreateDirectory(@".\saves");
+
+                GameUtilities.SaveGameList(tempListToSave, @".\saves\" + fileName, "gp");
             }
             
         }
