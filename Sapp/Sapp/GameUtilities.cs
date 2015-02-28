@@ -274,10 +274,21 @@ namespace Sapp
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
 
+            try
+            {
+                XmlTextReader test = new XmlTextReader("http://steamcommunity.com");
+                test.Read();
+            }
+            catch
+            {
+                return games;
+            }
+
             LoadingBar initLoadBar = new LoadingBar("Updating play time...");
             initLoadBar.Show();
 
             int appid = 0;
+
             while (reader.Read())
             {
 
@@ -519,8 +530,8 @@ namespace Sapp
 
                 htmlToParse = htmlToParse.Substring(startIndex, (endIndex - startIndex));
 
-                //only add 12 tags to each game maximum
-                for (int i = 0; i < 11; i++)
+                // run until no tags left
+                while (true) 
                 {
                     index = htmlToParse.IndexOf("http://store.steampowered.com/tag");
 

@@ -29,7 +29,8 @@ namespace Sapp
         private static GamesList gamePool;  
         private GamesList removedPool;
 
-        private List<GameUtilities.Tags> tagsChecked;
+        private List<GameUtilities.Tags> tagsCheckedInclude;
+        private List<GameUtilities.Tags> tagsCheckedExclude;
         private bool checkboxesActive;
 
         private DataGridHandler gamePoolHandler;
@@ -63,7 +64,8 @@ namespace Sapp
                     checkboxesActive = false;
                     gamePool = new GamesList();
                     removedPool = new GamesList();
-                    tagsChecked = new List<GameUtilities.Tags>();
+                    tagsCheckedInclude = new List<GameUtilities.Tags>();
+                    tagsCheckedExclude = new List<GameUtilities.Tags>();
 
                     SetRectangleSize();
 
@@ -255,17 +257,19 @@ namespace Sapp
             if ((bool)(checkbox.IsChecked))
             {
                 if(cbxIncludeExcludeTags.SelectedIndex == 0)
-                    tagsChecked.Add(tag);
+                    tagsCheckedInclude.Add(tag);
                 else
                 {
                     checkbox.IsChecked = null;
                     //add to exclude tags here
+                    tagsCheckedExclude.Add(tag);
                 }
             }
             else
             {
-                tagsChecked.Remove(tag);
+                tagsCheckedInclude.Remove(tag);
                 //remove from exclude
+                tagsCheckedExclude.Remove(tag);
             }
 
             BlanketUpdate(GetTagApplicationMethod());
@@ -278,7 +282,7 @@ namespace Sapp
 
         private void BlanketUpdate(TagApplicationMethod method)
         {
-            bool thereAreTagsChecked = (tagsChecked.Count >= 1) ? true : false;
+            bool thereAreTagsChecked = (tagsCheckedInclude.Count + tagsCheckedExclude.Count >= 1) ? true : false;
             bool onlyInstalledIsChecked = (bool)chkbxOnlyInstalled.IsChecked;
             bool hoursPlayedIsExpanded = (bool)hoursPlayedExpander.IsExpanded;
             bool last2WeeksIsExpanded = (bool)last2WeeksExpander.IsExpanded;
@@ -315,10 +319,16 @@ namespace Sapp
                 #region Tags
                 if (thereAreTagsChecked)
                 {
-                    if (!game.ContainsTag(tagsChecked, method))
+                    if (!game.ContainsTag(tagsCheckedInclude, method))
                     {
                         gamesToRemove.Add(game);
                         continue; 
+                    }
+
+                    if (game.ContainsTag(tagsCheckedExclude, TagApplicationMethod.ContainsOne))
+                    {
+                        gamesToRemove.Add(game);
+                        continue;
                     }
                 }
                 #endregion
@@ -479,7 +489,8 @@ namespace Sapp
                 removedPool.Clear();
                 ResetCheckboxes();
                 PopulateGames();
-                tagsChecked.Clear();
+                tagsCheckedInclude.Clear();
+                tagsCheckedExclude.Clear();
             }
 
             else if (!refresh && preMethod != postMethod) // if they change contains method, update list occordingly. 
