@@ -284,8 +284,8 @@ namespace Sapp
         {
             bool thereAreTagsChecked = (tagsCheckedInclude.Count + tagsCheckedExclude.Count >= 1) ? true : false;
             bool onlyInstalledIsChecked = (bool)chkbxOnlyInstalled.IsChecked;
-            bool hoursPlayedIsExpanded = (bool)hoursPlayedExpander.IsExpanded;
-            bool last2WeeksIsExpanded = (bool)last2WeeksExpander.IsExpanded;
+            bool hoursPlayedIsEnabled = (bool)cb_HoursPlayed.IsChecked;
+            bool last2WeeksIsEnabled = (bool)cb_HoursPlayedLast2Weeks.IsChecked;
 
             // default values
             bool hoursPlayedGreaterThan = false; 
@@ -293,14 +293,14 @@ namespace Sapp
             double hoursPlayedHours = 0; 
             double last2WeeksHours = 0;
 
-            if (hoursPlayedIsExpanded)
+            if (hoursPlayedIsEnabled)
             {
                 if (!VerificationClass.VerifyHours(textbox_HoursPlayed, ref hoursPlayedHours))
                     return;
                 hoursPlayedGreaterThan = (combobox_HoursPlayed.SelectedIndex == 0) ? true : false;
             }
 
-            if (last2WeeksIsExpanded)
+            if (last2WeeksIsEnabled)
             {
                 if (!VerificationClass.VerifyHours(textbox_HoursPlayedLast2Weeks, ref last2WeeksHours))
                     return;
@@ -346,7 +346,7 @@ namespace Sapp
 
                 #region Hours Played
                 
-                if (hoursPlayedIsExpanded)
+                if (hoursPlayedIsEnabled)
                 {
                     //TODO: Considuer using method return for this?
                     if (hoursPlayedGreaterThan) //greaterThan
@@ -371,7 +371,7 @@ namespace Sapp
 
                 #region Hours Played Last 2 Weeks
                 
-                if (last2WeeksIsExpanded)
+                if (last2WeeksIsEnabled)
                 {
                     if (last2WeeksGreaterThan)
                     {
@@ -525,7 +525,7 @@ namespace Sapp
             this.WindowState = WindowState.Minimized;
         }
 
-        private void ExpanderChanged_Hours(object sender, RoutedEventArgs e)
+        private void CheckboxEnableChanged_Hours(object sender, RoutedEventArgs e)
         {
             BlanketUpdate(GetTagApplicationMethod());
         }
@@ -674,6 +674,11 @@ namespace Sapp
             temp.ReturnInstance(ref temp);
 
             return keybind;
+        }
+
+        private void CheckboxEnabled_Hours(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }
