@@ -256,13 +256,22 @@
             </TabItem>
             <TabItem Header="Custom" Name="Custom">
                 <Grid>
-                    <Button BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
-                		HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="22,0,0,305" x:Name="btnLoadList" SnapsToDevicePixels="True" 
-                		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool"/>
+                    <Label x:Name="saveOverviewLabel" Margin="0,125,0,0" FontSize="11" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center">
+                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"><Run Text="Save the current game list."/></TextBlock>
+                    </Label>
+                    <Label x:Name="separaterLabel" Content="___________________________________" Margin="0,78,0,0" HorizontalContentAlignment="Center" Foreground="{StaticResource TextColor}"/>
                     <Button BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
-                    	HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="22,0,0,341" x:Name="btnSaveList" SnapsToDevicePixels="True" 
+                    	HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,0,0,166" x:Name="btnSaveList" SnapsToDevicePixels="True" 
                     	VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool"/>
-
+                    <Label x:Name="loadOverviewLabel" FontSize="11" Margin="0,225,0,0" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center">
+                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"><Run Text="Load a previously saved game list."/></TextBlock>
+                    </Label>
+                    <Button BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
+                		HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,0,0,67" x:Name="btnLoadList" SnapsToDevicePixels="True" 
+                		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool"/>
+                    <Label x:Name="customOverviewLabel" FontSize="9" Margin="0,0,0,0" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center">
+                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"><Run Text="This feature provides an easy method of exporting your game lists so you don't have to keep setting up the same complex Filter sets!"/></TextBlock>
+                    </Label>
                 </Grid>
             </TabItem>
 
