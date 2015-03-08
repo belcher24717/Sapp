@@ -628,10 +628,16 @@ namespace Sapp
 
         private void btnOpenHiddenGames_Click(object sender, RoutedEventArgs e)
         {
-            //Current not great implementation
             if (this.Width < MAX_WINDOW_SIZE)
             {
                 btnOpenHiddenGamesArrow.Content = "<";
+
+                //BEFORE SLIDE
+                //Show the add/remove buttons while the window is not expanded
+                btnAddAll.Visibility = Visibility.Visible;
+                btnAddGame.Visibility = Visibility.Visible;
+                btnRemoveAll.Visibility = Visibility.Visible;
+                btnRemoveGame.Visibility = Visibility.Visible;
 
                 this.MaxWidth = MAX_WINDOW_SIZE;
                 while (this.Width < MAX_WINDOW_SIZE)
@@ -644,6 +650,7 @@ namespace Sapp
             else
             {
                 btnOpenHiddenGamesArrow.Content = ">";
+               
                 
                 this.MinWidth = MIN_WINDOW_SIZE;
                 while (this.Width > MIN_WINDOW_SIZE)
@@ -652,6 +659,13 @@ namespace Sapp
                     System.Windows.Forms.Application.DoEvents();
                 }
                 this.MaxWidth = MIN_WINDOW_SIZE;
+
+                //AFTER SLIDE
+                //Hide the add/remove buttons while the window is not expanded
+                btnAddAll.Visibility = Visibility.Hidden;
+                btnAddGame.Visibility = Visibility.Hidden;
+                btnRemoveAll.Visibility = Visibility.Hidden;
+                btnRemoveGame.Visibility = Visibility.Hidden;
             }
         }
 
