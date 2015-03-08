@@ -20,6 +20,7 @@
         <!--BUTTON COLORS-->
         <SolidColorBrush x:Key="ButtonColor">#FF46464C</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonHoverColor">#FF203C58</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonTextHoverColor">#FFFFFFFF</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonClickColor">#FF142335</SolidColorBrush>
 
         <!--TAB VIEW COLORS-->
@@ -64,6 +65,31 @@
             </Style.Triggers>
         </Style>
         <!--Button Style-->
+
+        <!--Button Style-->
+        <Style TargetType="{x:Type Button}" x:Key="MenuButton">
+            <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource ButtonTextHoverColor}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonClickColor}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--Button Style-->
+
 
 
         <!--Control colors-->

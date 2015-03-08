@@ -115,17 +115,29 @@
     		VerticalAlignment="Center" Width="50" Click="btnRemoveGame_Click" ToolTip="Remove Game" Visibility="Hidden"/>
 
         <Button BorderThickness="0" Content="×" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-    		HorizontalContentAlignment="Center" x:Name="btnExit" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Top" Click="btnExit_Click" FontSize="20" FontFamily="Trajan Pro" ToolTip="Close" />
+    		HorizontalContentAlignment="Center" x:Name="btnExit" SnapsToDevicePixels="True" Click="btnExit_Click" FontSize="22" FontFamily="Vani" ToolTip="Close" Background="{x:Null}" Style="{StaticResource MenuButton}" VerticalAlignment="Top"/>
 
         <Button BorderThickness="0" Content="─" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
     		HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" FontWeight="Bold"  FontSize="25" FontFamily="Vani" ToolTip="Minimize"/>
+    		VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" FontWeight="Bold"  FontSize="25" FontFamily="Vani" ToolTip="Minimize" Background="{x:Null}"
+            Style="{StaticResource MenuButton}" VerticalContentAlignment="Center" Padding="1"/>
 
-        <Button BorderThickness="0" FlowDirection="LeftToRight" Height="25" 
+        <Button BorderThickness="0" FlowDirection="LeftToRight" Height="25" Width="25"
     		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,485" x:Name="btnSettings" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Top" Width="25" Click="btnOpenSettings" ToolTip="Settings">
-            <Image Source="Resources/cog_settings.ico"/>
+    		VerticalAlignment="Top" Click="btnOpenSettings" ToolTip="Settings" Background="{x:Null}">
+            <Image x:Name="imgCog" Stretch="Fill" Margin="3">
+                <Image.Resources>
+                    <Style TargetType="{x:Type Image}">
+                    <Setter Property="Source" Value="/Resources/Cog.png"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Source" Value="/Resources/CogWhite.png"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Resources>
+            </Image>
+
         </Button>
 
         <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Left" 
