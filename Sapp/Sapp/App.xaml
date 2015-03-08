@@ -11,6 +11,12 @@
         <SolidColorBrush x:Key="BordersColor">Gray</SolidColorBrush>
         <SolidColorBrush x:Key="TextColor">#FFCFCFCF</SolidColorBrush>
 
+        <!--Dis BG Gradient doe-->
+        <LinearGradientBrush x:Key="BGGradient" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF233346" Offset="0.0" />
+            <GradientStop Color="#FF262626" Offset="0.25" />
+        </LinearGradientBrush>
+
         <!--BUTTON COLORS-->
         <SolidColorBrush x:Key="ButtonColor">#FF46464C</SolidColorBrush>
         <SolidColorBrush x:Key="ButtonHoverColor">#FF203C58</SolidColorBrush>
