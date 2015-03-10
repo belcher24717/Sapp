@@ -13,13 +13,7 @@ namespace Sapp
         private static readonly string logPath = Settings.FILE_LOCATION + @"\log.txt";
         //private static StreamWriter logFile;
 
-        public static void Log(string message)
-        {
-            Log(message, false);
-        }
-
-
-        public static void Log(string message, bool includeDataTime)
+        public static void Log(string message, bool includeDataTime = false)
         {
             if (DebugMode)
             {

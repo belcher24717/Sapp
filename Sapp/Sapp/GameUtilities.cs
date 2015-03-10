@@ -238,7 +238,7 @@ namespace Sapp
                 }
                 catch (Exception e)
                 {
-                    Logger.Log("Error: Problem loading in GameUtilities.LoadGameList - " + e.ToString());
+                    Logger.Log("ERROR: <GameUtilities.LoadGameList> Problem loading in GameUtilities.LoadGameList - " + e.ToString());
                     if (sr != null)
                         sr.Close();
                 }
@@ -269,11 +269,6 @@ namespace Sapp
 
             #region Read In Game Data
 
-            //the username will have to be entered by the user manually the first time.
-            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
-            //76561198027181438 JOHNNY
-            //76561198054602483 NICKS
-
             try
             {
                 XmlTextReader test = new XmlTextReader("http://steamcommunity.com");
@@ -284,59 +279,89 @@ namespace Sapp
                 return games;
             }
 
+            //the username will have to be entered by the user manually the first time.
+            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+            //76561198027181438 JOHNNY
+            //76561198054602483 NICKS
+
             LoadingBar initLoadBar = new LoadingBar("Updating play time...");
             initLoadBar.Show();
 
             int appid = 0;
 
-            while (reader.Read())
+            try
             {
 
-                if (XmlNodeType.Element == reader.NodeType)
+                //TODO: Make reading page elemnts more reliable (in case page format changes)
+                while (reader.Read())
                 {
-                    if (reader.Name.Equals("appID"))
+
+                    if (XmlNodeType.Element == reader.NodeType)
                     {
-                        reader.Read();
 
-                        //might throw try/catch here
-                        Logger.Log("AppID: " + reader.Value);
-                        appid = int.Parse(reader.Value);
-
-                        reader.Read();
-                        reader.Read();
-                        reader.Read();
-                        reader.Read();
-                        string gameName = reader.Value;
-
-                        Logger.Log("Game: " + gameName);
-
-                        if (!games.ContainsId(appid))
+                        if (reader.Name.Equals("appID"))
                         {
-                            Game gameToAdd = new Game(gameName, appid, GameUtilities.IsInstalled(appid));
-                            games.Add(gameToAdd);
-                            newlyAddedGames.Add(gameToAdd);
-                            addedNewGames = true;
-                        }
-                        //need to reset this value so it is properly updated if no hours have been played
-                        else
-                        {
-                            games.GetGame(appid).Last2Weeks = 0;
-                            games.GetGame(appid).SetInstallState(GameUtilities.IsInstalled(appid));
-                        }
-                    }
+                            reader.Read();
 
-                    else if (reader.Name.Equals("hoursLast2Weeks"))
-                    {
-                        reader.Read();
-                        games.GetGame(appid).Last2Weeks = TryParseDouble(reader.Value);
+                            //might throw try/catch here
+                            //Logger.Log("AppID: " + reader.Value);
+                            appid = int.Parse(reader.Value);
+
+                            reader.Read();
+                            reader.Read();
+                            reader.Read();
+                            reader.Read();
+                            string gameName = reader.Value;
+
+                            //Logger.Log("Game: " + gameName);
+
+                            if (!games.ContainsId(appid))
+                            {
+                                Game gameToAdd = new Game(gameName, appid, GameUtilities.IsInstalled(appid));
+                                games.Add(gameToAdd);
+                                newlyAddedGames.Add(gameToAdd);
+                                addedNewGames = true;
+                            }
+                            //need to reset this value so it is properly updated if no hours have been played
+                            else
+                            {
+                                games.GetGame(appid).Last2Weeks = 0;
+                                games.GetGame(appid).SetInstallState(GameUtilities.IsInstalled(appid));
+                            }
+                        }
+
+                        else if (reader.Name.Equals("hoursLast2Weeks"))
+                        {
+                            reader.Read();
+                            games.GetGame(appid).Last2Weeks = TryParseDouble(reader.Value);
+                        }
+                        else if (reader.Name.Equals("hoursOnRecord"))
+                        {
+                            reader.Read();
+                            games.GetGame(appid).HoursPlayed = TryParseDouble(reader.Value);
+                        }
                     }
-                    else if (reader.Name.Equals("hoursOnRecord"))
-                    {
-                        reader.Read();
-                        games.GetGame(appid).HoursPlayed = TryParseDouble(reader.Value);
-                    }
+                    Application.DoEvents();
                 }
-                Application.DoEvents(); 
+
+            }
+            catch (WebException)
+            {
+                Logger.Log("ERROR: <GameUtilities.PopulateList> Internet connection was lost during game information acquisition.", true);
+
+                //TODO: Exit execution to retry/exit window
+                if (addedNewGames)
+                    return null; //TODO: go to Retry/Exit window
+                else if (games == null || games.Count == 0)
+                    return null; //TODO: go to Retry/Exit window
+                else
+                    return games;
+
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
 
             initLoadBar.ForceClose();
@@ -349,6 +374,7 @@ namespace Sapp
 
                 #region Weed Out DLC
 
+                // games is the list of potential DLC
                 Task[] tasks = new Task[games.Count];
                 HelperThread.theList = games;
 
@@ -515,11 +541,11 @@ namespace Sapp
                 WebResponse response = wr.GetResponse();
 
                 // Obtain a 'Stream' object associated with the response object.
-	            Stream ReceiveStream = response.GetResponseStream();
-	            Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+                Stream ReceiveStream = response.GetResponseStream();
+                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
 
                 // Pipe the stream to a higher level stream reader with the required encoding format. 
-	            StreamReader readStream = new StreamReader( ReceiveStream, encode );
+                StreamReader readStream = new StreamReader(ReceiveStream, encode);
 
                 htmlToParse = readStream.ReadToEnd();
                 ReceiveStream.Close();
@@ -531,7 +557,7 @@ namespace Sapp
                 htmlToParse = htmlToParse.Substring(startIndex, (endIndex - startIndex));
 
                 // run until no tags left
-                while (true) 
+                while (true)
                 {
                     index = htmlToParse.IndexOf("http://store.steampowered.com/tag");
 
@@ -545,7 +571,7 @@ namespace Sapp
 
                     index = htmlToParse.IndexOf('<');
 
-                    Logger.Log("GameUtilities.AddTags - Index: " + index + " Length: " + htmlToParse.Length);
+                    //Logger.Log("GameUtilities.AddTags - Index: " + index + " Length: " + htmlToParse.Length);
 
                     string tagToAdd = htmlToParse.Substring(1, index - 1);
 
@@ -555,11 +581,16 @@ namespace Sapp
                 }
 
             }
-            catch
+            catch (IndexOutOfRangeException)
             {
                 //If it comes here the store page probably does not exist due to
                 //some kind of removal from steam, Mark as untagged.
                 theList.GetGame(appID).AddTag("No Tags");
+            }
+            catch (WebException)
+            {
+                Logger.Log("ERROR: <GameUtilities.AddTags> Lost internet connection during execution.", true);
+                //TODO: Exit program execution here to a retry/exit window
             }
 
         }
@@ -576,7 +607,7 @@ namespace Sapp
                 request.Method = "HEAD";
 
                 response = request.GetResponse() as HttpWebResponse; //request.
-                
+
 
                 if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + appID))
                 {
@@ -584,17 +615,25 @@ namespace Sapp
                     {
                         theList.GetGame(appID).IsDLC = true;
                     }
-                    Logger.Log(theList.GetGame(appID).Title + " IS DLC");
+                    //Logger.Log(theList.GetGame(appID).Title + " IS DLC");
                 }
 
                 response.Close();
 
             }
-            catch(Exception e)
+            catch (WebException)
+            {
+                Logger.Log("ERROR: <GameUtilities.WeedOutDLC> Internet connection was lost during DLC removal.", true);
+
+                if (response != null)
+                    response.Close();
+                //TODO: Exit program execution to Retry/Exit window.
+            }
+            catch (Exception e)
             {
                 Logger.Log("In HelperThread.WeedOutDLC: " + e.ToString(), true);
 
-                if(response != null)
+                if (response != null)
                     response.Close();
             }
 
