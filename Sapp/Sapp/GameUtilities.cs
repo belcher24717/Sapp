@@ -203,7 +203,7 @@ namespace Sapp
             }
             catch(Exception e)
             {
-                Logger.Log("Error: Problem saving in GameUtilities.SaveGameList - " + e.ToString());
+                Logger.Log("ERROR <GameUtilities.SaveGameList> Problem saving - " + e.ToString());
                 if (sw != null)
                     sw.Close();
             }
@@ -271,11 +271,15 @@ namespace Sapp
 
             try
             {
-                XmlTextReader test = new XmlTextReader("http://steamcommunity.com");
+                XmlTextReader test = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+                //XmlTextReader test = new XmlTextReader("http://hahahaha.com");
                 test.Read();
             }
             catch
             {
+                if (games.Count == 0)
+                    return null;
+
                 return games;
             }
 
@@ -473,7 +477,7 @@ namespace Sapp
                 {
                     for (int j = 0; j < taskWatcher.Count; j++)
                     {
-                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
+                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
                         {
                             taskWatcher.RemoveAt(j);
                             j--;
@@ -606,6 +610,7 @@ namespace Sapp
 
                 request.Method = "HEAD";
 
+                //TODO: This request can timeout causing DLC check to fail even if it 'is' DLC. 
                 response = request.GetResponse() as HttpWebResponse; //request.
 
 
@@ -631,7 +636,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("In HelperThread.WeedOutDLC: " + e.ToString(), true);
+                Logger.Log("ERROR: <GameUtilities.WeedOutDLC> "  + e.ToString(), true);
 
                 if (response != null)
                     response.Close();

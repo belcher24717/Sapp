@@ -50,7 +50,7 @@ namespace Sapp
         {
             Settings reference = Settings.GetInstance(this);
             if (reference == null)
-                Logger.Log("Settings reference is null");
+                Logger.Log("ERROR: <SettingsScreen.btnAcceptClicked> Settings reference is null");
 
             //Save where steam is
             if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))

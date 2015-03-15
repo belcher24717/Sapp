@@ -104,7 +104,7 @@ namespace Sapp
         {
             if (inUse)
             {
-                Logger.Log("Settings was in use, null was returned", true);
+                Logger.Log("ERROR: <Settings.GetInstance> Settings was in use, null was returned", true);
                 return null;
             }
 

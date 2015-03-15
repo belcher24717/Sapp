@@ -43,6 +43,8 @@ namespace Sapp
         private const int MAX_WINDOW_SIZE = 850;
         private const int NUM_HOUR_FILTERS = 2;
 
+        private bool populateGamesSuccessful;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -73,13 +75,13 @@ namespace Sapp
                 }
                 catch (FileNotFoundException fileNotFound)
                 {
-                    Logger.Log("Settings File Not Found", true);
+                    Logger.Log("ERROR: <MainWindow.MainWindow> Settings File Not Found", true);
                     SettingsScreen ss = new SettingsScreen();
                     windowAccepted = ss.ShowDialog();
                 }
                 catch (SerializationException serializationFailed)
                 {
-                    Logger.Log("Settings File Corrupted", true);
+                    Logger.Log("ERROR: <MainWindow.MainWindow> Settings File Corrupted", true);
                     SettingsScreen ss = new SettingsScreen();
                     windowAccepted = ss.ShowDialog();
                 }
@@ -98,7 +100,7 @@ namespace Sapp
 
                 Logger.Log("START: Populating Games", true);
 
-                PopulateGames();
+                populateGamesSuccessful = PopulateGames();
 
                 Logger.Log("END: Populating Games", true);
 
@@ -154,23 +156,28 @@ namespace Sapp
 
         //move to util, return the list
         //make a game manager to do a lot of this logic
-        private void PopulateGames()
+        private bool PopulateGames()
         {
             Settings settings = Settings.GetInstance(this);
             if (settings == null)
-                return;
+                return false;
             
             //Populate, attach event
             string steamid64 = settings.SteamID64;
             settings.ReturnInstance(ref settings);
 
             gamePool = GameUtilities.PopulateGames(steamid64);
+
+            if (gamePool == null)
+                return false;
+
             gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
             gamePoolHandler.Bind(gamePool);
 
             removedPool.Changed += new ChangedEventHandler(removedPool_Changed);
             removedPoolHandler.Bind(removedPool);
 
+            return true;
         }
 
         public static void RemoveDlc(int id)
@@ -449,6 +456,19 @@ namespace Sapp
 
         private void formLoaded(object sender, RoutedEventArgs e)
         {
+            while (!populateGamesSuccessful)
+            {
+                if (MessageBox.Show("There was an error populating the game pool.\n\n\tWould you like to retry?", "Oops!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    populateGamesSuccessful = PopulateGames();
+                }
+                else
+                {
+                    this.Close();
+                    break;
+                }
+            }
+
             checkboxesActive = true;
         }
 
