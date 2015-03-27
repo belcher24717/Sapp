@@ -49,6 +49,12 @@ namespace Sapp
             set;
         }
 
+        public bool DlcCheckFailed
+        {
+            get;
+            set;
+        }
+
         private string title;
         public string Title
         {
@@ -65,6 +71,7 @@ namespace Sapp
             this.Last2Weeks = 0;
             this.HoursPlayed = 0;
             IsDLC = false;
+            DlcCheckFailed = false;
 
             tagList = new List<GameUtilities.Tags>();
  //           PopulateTags(tags);

@@ -49,8 +49,8 @@ namespace Sapp
         {
             InitializeComponent();
             //Initially hide hidden games
-            
 
+            Logger.Log("\n---------------------------------------------------------------------------");
             Logger.Log("Main Application Started", true);
 
             bool settingsLoaded = false;

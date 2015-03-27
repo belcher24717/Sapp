@@ -113,6 +113,20 @@ namespace Sapp
 
             OnChanged(EventArgs.Empty);
         }
+
+        public List<int> ReturnFailedDlcCheckList()
+        {
+            List<int> failedDLCs = new List<int>();
+
+            foreach (Game g in this)
+            {
+                if (g.DlcCheckFailed)
+                    failedDLCs.Add(g.GetAppID());
+            }
+
+            return failedDLCs;
+        }
+
     }
 
 }

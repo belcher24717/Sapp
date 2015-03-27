@@ -372,6 +372,63 @@ namespace Sapp
 
             #endregion
 
+            #region Checking Flagged DLC
+
+            List<int> failedDLCs = games.ReturnFailedDlcCheckList();
+
+            if (failedDLCs.Count != 0)
+            {
+                Logger.Log("START: Check Flagged DLC");
+
+                // games is the list of potential DLC
+                Task[] tasks = new Task[failedDLCs.Count];
+                HelperThread.theList = games;
+
+                // used to assign a thread to its array position
+                int number = 0;
+
+                foreach (int appIdOfGame in failedDLCs)
+                {
+                    tasks[number] = Task.Factory.StartNew(() =>
+                    {
+                        var sacThread = new HelperThread(appIdOfGame);
+                        //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);
+                        sacThread.WeedOutDLC(null);
+
+                    });
+                    number++;
+                }
+
+                int counter = failedDLCs.Count;
+                LoadingBar loadBar = new LoadingBar(counter, "Checking Previous Potential DLC...");
+                loadBar.Show();
+
+                List<Task> taskWatcher = new List<Task>();
+                taskWatcher.AddRange(tasks);
+
+                while (taskWatcher.Count > 0)
+                {
+                    for (int j = 0; j < taskWatcher.Count; j++)
+                    {
+                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                        {
+                            taskWatcher.RemoveAt(j);
+                            j--;
+                            loadBar.Progress();
+                        }
+                    }
+                    Application.DoEvents();
+                }
+
+                taskWatcher.Clear();
+                HelperThread.theList = null;
+                loadBar.ForceClose();
+
+                Logger.Log("END: Check Flagged DLC");
+            }
+
+            #endregion
+
             if (addedNewGames)
             {
                 Logger.Log("START: DLC Removal", true);
@@ -422,7 +479,7 @@ namespace Sapp
                 {
                     for (int j = 0; j < taskWatcher.Count; j++)
                     {
-                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion)
+                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
                         {
                             taskWatcher.RemoveAt(j);
                             j--;
@@ -606,8 +663,13 @@ namespace Sapp
             WebResponse response = null;
             try
             {
-                WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + appID);
+                //bool timedOut = true;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://store.steampowered.com/app/" + appID); // was wr
+                //request.CookieContainer = new CookieContainer(); // was wr
+                //request.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com")); // was wr
 
+                //WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + appID);
+    
                 request.Method = "HEAD";
 
                 //TODO: This request can timeout causing DLC check to fail even if it 'is' DLC. 
@@ -623,21 +685,22 @@ namespace Sapp
                     //Logger.Log(theList.GetGame(appID).Title + " IS DLC");
                 }
 
-                response.Close();
-
             }
             catch (WebException)
             {
                 Logger.Log("ERROR: <GameUtilities.WeedOutDLC> Internet connection was lost during DLC removal.", true);
 
-                if (response != null)
-                    response.Close();
-                //TODO: Exit program execution to Retry/Exit window.
+                lock (theList)
+                {
+                    theList.GetGame(appID).DlcCheckFailed = true;
+                }
             }
             catch (Exception e)
             {
-                Logger.Log("ERROR: <GameUtilities.WeedOutDLC> "  + e.ToString(), true);
-
+                Logger.Log("ERROR: <GameUtilities.WeedOutDLC> " + e.ToString(), true);
+            }
+            finally
+            {
                 if (response != null)
                     response.Close();
             }
