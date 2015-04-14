@@ -66,7 +66,7 @@
         </Style>
         <!--Button Style-->
 
-        <!--Button Style-->
+        <!--Menu Button Style-->
         <Style TargetType="{x:Type Button}" x:Key="MenuButton">
             <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
             <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
@@ -88,7 +88,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <!--Button Style-->
+        <!--Menu Button Style-->
 
 
 
@@ -388,9 +388,9 @@
             </Setter>
 
         </Style>
+        <!--Tab View Tabs-->
+       
 
-        
-        
         <!--ScrollBar Sytle-->
         <Style x:Name="DarkScrollThumbs" TargetType="{x:Type Thumb}">
             <Setter Property="OverridesDefaultStyle" Value="False"/>

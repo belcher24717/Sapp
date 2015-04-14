@@ -40,6 +40,9 @@ namespace Sapp
                     string testPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam";
                     if(File.Exists(testPath + @"\config\loginusers.vdf"))
                         txtSteamPath.Text = testPath;
+
+                    //Default to user information tab when we don't have that information already (First run)
+                    tcSettingsTab.SelectedIndex = 1;
                 }
 
                 reference.ReturnInstance(ref reference);
