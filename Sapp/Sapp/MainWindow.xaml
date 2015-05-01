@@ -128,7 +128,7 @@
             <Image x:Name="imgCog" Stretch="Fill" Margin="3">
                 <Image.Resources>
                     <Style TargetType="{x:Type Image}">
-                    <Setter Property="Source" Value="/Resources/Cog.png"/>
+                        <Setter Property="Source" Value="/Resources/Cog.png"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Source" Value="/Resources/CogWhite.png"/>
@@ -165,13 +165,13 @@
 
                         <StackPanel>
                             <Label Content="I want to" Foreground="{StaticResource TextColor}" FontSize="10" Margin="19,-6,0,0"/>
-                            
+
                             <ComboBox x:Name="cbxIncludeExcludeTags" HorizontalAlignment="Left" Margin="15,-4,0,0" VerticalAlignment="Top" Width="60" 
                                 BorderThickness="0" Height="18" FontSize="10" SelectedIndex="0">
                                 <ComboBoxItem VerticalAlignment="Top" VerticalContentAlignment="Top">Include</ComboBoxItem>
                                 <ComboBoxItem VerticalAlignment="Top" VerticalContentAlignment="Top">Exclude</ComboBoxItem>
                             </ComboBox>
-                            
+
                             <CheckBox Content="Action" HorizontalAlignment="Left" Margin="5,5,0,0" x:Name="chkbxAction" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
                             <CheckBox Content="Adventure" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxAdventure" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
                             <CheckBox Content="Arcade" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxArcade" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
@@ -227,30 +227,30 @@
                     <StackPanel>
                         <Expander x:Name="hoursPlayedExpander" Header="Hours Played" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}">
                             <Grid Background="{StaticResource PrimaryColor}">
-                                <CheckBox x:Name="cb_HoursPlayed" Content="Enable" Margin="0,0,0,0" Foreground="{StaticResource TextColor}" Checked="CheckboxEnableChanged_Hours" Unchecked="CheckboxEnableChanged_Hours"/>
-                                <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="-4,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
-                                <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Height="16"
-                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="0,30,0,0">
+                                <CheckBox x:Name="cb_HoursPlayed" Content="Enable" Margin="0,4,0,-4" Foreground="{StaticResource TextColor}" Checked="CheckboxEnableChanged_Hours" Unchecked="CheckboxEnableChanged_Hours"/>
+                                <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="-4,19,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="63" Height="16"
+                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="0,39,0,0">
                                     <ComboBoxItem Content="More than" FontSize="9"/>
                                     <ComboBoxItem Content="Less than" FontSize="9"/>
                                 </ComboBox>
-                                <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" Margin="63,30,0,0"/>
-                                <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="-4,46,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" Margin="63,39,0,0"/>
+                                <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="-4,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
                             </Grid>
                         </Expander>
 
                         <Expander x:Name="last2WeeksExpander" Header="Last 2 Weeks" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"  Foreground="{StaticResource TextColor}">
                             <Grid Background="{StaticResource PrimaryColor}">
-                                <CheckBox x:Name="cb_HoursPlayedLast2Weeks" Content="Enable" Margin="0,0,0,0" Foreground="{StaticResource TextColor}" Unchecked="CheckboxEnableChanged_Hours" Checked="CheckboxEnableChanged_Hours"/>
-                                <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="-4,8,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
-                                <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Width="62" Height="16"
+                                <CheckBox x:Name="cb_HoursPlayedLast2Weeks" Content="Enable" Margin="0,4,0,-4" Foreground="{StaticResource TextColor}" Unchecked="CheckboxEnableChanged_Hours" Checked="CheckboxEnableChanged_Hours"/>
+                                <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="-4,19,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                                <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top" Width="63" Height="16"
                         			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
                                     <ComboBoxItem Content="More than" FontSize="9"/>
                                     <ComboBoxItem Content="Less than" FontSize="9"/>
                                 </ComboBox>
-                                <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="63,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged"/>
-                                <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="-4,46,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Height="40" Width="97" Foreground="{StaticResource TextColor}">
-                                    <TextBlock TextWrapping="WrapWithOverflow"><Run Text="hours of play time in the last 2 weeks."/></TextBlock>
+                                <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="63,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged"/>
+                                <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="-4,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Height="40" Width="97" Foreground="{StaticResource TextColor}">
+                                    <TextBlock TextWrapping="WrapWithOverflow" Height="30"><Run Text="hours of play time in the last 2 weeks."/></TextBlock>
                                 </Label>
                             </Grid>
                         </Expander>
@@ -260,28 +260,26 @@
             </TabItem>
             <TabItem Header="Install" Name="Install">
                 <Grid>
-                    <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled" Foreground="{StaticResource TextColor}"/>
+                    <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="5,42,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="installOverviewLabel" FontSize="9" Margin="5,0,10,335" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center" Width="90">
+                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Height="31"><Run Text="Only show installed games in the list"/></TextBlock>
+                    </Label>
+                    <Label x:Name="InstallSeparaterLabel" Content="___________________________________" Margin="0,15,0,332" HorizontalContentAlignment="Center" Foreground="{StaticResource TextColor}"/>
 
                 </Grid>
             </TabItem>
             <TabItem Header="Custom" Name="Custom">
                 <Grid>
-                    <Label x:Name="saveOverviewLabel" Margin="0,125,0,0" FontSize="11" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center">
-                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"><Run Text="Save the current game list."/></TextBlock>
-                    </Label>
-                    <Label x:Name="separaterLabel" Content="___________________________________" Margin="0,78,0,0" HorizontalContentAlignment="Center" Foreground="{StaticResource TextColor}"/>
                     <Button BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
-                    	HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,0,0,166" x:Name="btnSaveList" SnapsToDevicePixels="True" 
+                    	HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,0,0,209" x:Name="btnSaveList" SnapsToDevicePixels="True" 
                     	VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool"/>
-                    <Label x:Name="loadOverviewLabel" FontSize="11" Margin="0,225,0,0" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center">
-                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"><Run Text="Load a previously saved game list."/></TextBlock>
-                    </Label>
                     <Button BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
-                		HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,0,0,67" x:Name="btnLoadList" SnapsToDevicePixels="True" 
+                		HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,0,0,150" x:Name="btnLoadList" SnapsToDevicePixels="True" 
                 		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool"/>
-                    <Label x:Name="customOverviewLabel" FontSize="9" Margin="0,0,0,0" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center">
-                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center"><Run Text="This feature provides an easy method of exporting your game lists so you don't have to keep setting up the same complex Filter sets!"/></TextBlock>
+                    <Label x:Name="customOverviewLabel" FontSize="9" Margin="4,0,3,287" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center">
+                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Height="75"><Run Text="Save and Load customized game lists"/></TextBlock>
                     </Label>
+                    <Label x:Name="CustomSeparaterLabel" Content="___________________________________" Margin="0,15,0,332" HorizontalContentAlignment="Center" Foreground="{StaticResource TextColor}"/>
                 </Grid>
             </TabItem>
 

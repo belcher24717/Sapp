@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\cog_settings.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\snowflake_noAAOutline.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero" />
@@ -118,6 +118,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -129,14 +130,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\cog_settings.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="cog_settings.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Cog.png" />
     <Resource Include="Resources\CogWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\snowflake_noAAOutline.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

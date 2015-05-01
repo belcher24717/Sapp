@@ -507,7 +507,7 @@ namespace Sapp
                     if (g.IsDLC)
                         numDLC++;
 
-                //- counter to count the dlc we will skip
+                //- counter to count the dlc we will skip -- Because DLC does not have tags
                 tasks = new Task[newlyAddedGames.Count - numDLC];
                 HelperThread.theList = games;
                 number = 0;

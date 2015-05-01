@@ -47,6 +47,9 @@ namespace Sapp
 
         public MainWindow()
         {
+
+            //TODO: Move a lot of this logic into an onload event
+
             InitializeComponent();
             //Initially hide hidden games
 
