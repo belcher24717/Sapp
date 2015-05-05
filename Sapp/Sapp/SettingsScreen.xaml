@@ -22,7 +22,7 @@
                     <Border CornerRadius="6"
         	        BorderBrush="{StaticResource BordersColor}"
         	        BorderThickness="2"
-                    Margin="10,30,9.667,56"
+                    Margin="10,30,7,56"
                     MouseDown="MouseDownOnWindow"/>
 
                     <Label Content="ADDITIONAL COLUMNS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
@@ -43,6 +43,12 @@
             <TabItem Header="User Information">
                 <Grid>
 
+                    <Border CornerRadius="6"
+        	        BorderBrush="{StaticResource BordersColor}"
+        	        BorderThickness="2"
+                    Margin="0,30,0,10"
+                    MouseDown="MouseDownOnWindow"/>
+
                     <Label Content="USER INFORMATION" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
                     <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="86,52,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190"/>
@@ -53,7 +59,7 @@
 
                     <Button Content="Browse" BorderThickness="0"
 			         HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,12.667,10" Click="btnBrowseClicked" />
+			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,9,25" Click="btnBrowseClicked" />
                 </Grid>
             </TabItem>
         </TabControl>
@@ -61,11 +67,11 @@
 
         <Button Content="Accept" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,20,12" Click="btnAcceptClicked"/>
+			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,225,10.333" Click="btnAcceptClicked"/>
 
         <Button Content="Cancel" BorderThickness="0"
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,99,12" Click="btnCancelClicked" />
+			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,10,10.333" Click="btnCancelClicked" />
 
 
     </Grid>

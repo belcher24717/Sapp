@@ -464,7 +464,7 @@ namespace Sapp
                 while (tasks[counter] != null)
                     counter++;
 
-                LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Games List...");
+                LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Populated Games List...");
                 loadBar.Show();
 
                 Task[] noNullTasks = new Task[counter];
@@ -664,7 +664,7 @@ namespace Sapp
             try
             {
                 //bool timedOut = true;
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://store.steampowered.com/app/" + appID); // was wr
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://steamcommunity.com/app/" + appID); // was wr
                 //request.CookieContainer = new CookieContainer(); // was wr
                 //request.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com")); // was wr
 
@@ -674,7 +674,6 @@ namespace Sapp
 
                 //TODO: This request can timeout causing DLC check to fail even if it 'is' DLC. 
                 response = request.GetResponse() as HttpWebResponse; //request.
-
 
                 if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + appID))
                 {
