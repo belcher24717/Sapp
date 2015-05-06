@@ -392,15 +392,17 @@ namespace Sapp
                     tasks[number] = Task.Factory.StartNew(() =>
                     {
                         var sacThread = new HelperThread(appIdOfGame);
-                        //ThreadPool.QueueUserWorkItem(sacThread.ThreadStart);
+                        //ThreadPool.QueueUserWorkItem(sacThread.WeedOutDLC);
                         sacThread.WeedOutDLC(null);
 
                     });
                     number++;
+                    //Thread.Sleep(2000);
                 }
 
+                //start the loading bar so they see something happening
                 int counter = failedDLCs.Count;
-                LoadingBar loadBar = new LoadingBar(counter, "Checking Previous Potential DLC...");
+                LoadingBar loadBar = new LoadingBar(counter, "Checking For Unmarked DLC...");
                 loadBar.Show();
 
                 List<Task> taskWatcher = new List<Task>();
@@ -455,7 +457,7 @@ namespace Sapp
 
                         });
                         number++;
-
+                        //Thread.Sleep(100);
                     }
                     
                 }
@@ -464,7 +466,7 @@ namespace Sapp
                 while (tasks[counter] != null)
                     counter++;
 
-                LoadingBar loadBar = new LoadingBar(counter, "Removing DLC From Populated Games List...");
+                LoadingBar loadBar = new LoadingBar(counter, "Marking DLC...");
                 loadBar.Show();
 
                 Task[] noNullTasks = new Task[counter];
@@ -527,7 +529,7 @@ namespace Sapp
 
                 taskWatcher.AddRange(tasks);
 
-                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Adding Tags To Games...");
+                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Tagging Games...");
                 loadBarTags.Show();
 
                 while (taskWatcher.Count > 0)
@@ -632,8 +634,6 @@ namespace Sapp
 
                     index = htmlToParse.IndexOf('<');
 
-                    //Logger.Log("GameUtilities.AddTags - Index: " + index + " Length: " + htmlToParse.Length);
-
                     string tagToAdd = htmlToParse.Substring(1, index - 1);
 
                     htmlToParse = htmlToParse.Substring(index);
@@ -656,33 +656,33 @@ namespace Sapp
 
         }
 
-        
-
         internal void WeedOutDLC(object state)
         {
             WebResponse response = null;
             try
             {
-                //bool timedOut = true;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://steamcommunity.com/app/" + appID); // was wr
-                //request.CookieContainer = new CookieContainer(); // was wr
-                //request.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com")); // was wr
+                request.CookieContainer = new CookieContainer(); // was wr
+                request.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com"));
 
-                //WebRequest request = HttpWebRequest.Create("http://steamcommunity.com/app/" + appID);
-    
                 request.Method = "HEAD";
 
                 //TODO: This request can timeout causing DLC check to fail even if it 'is' DLC. 
-                response = request.GetResponse() as HttpWebResponse; //request.
+                response = request.GetResponse(); 
 
                 if (response != null && !response.ResponseUri.Equals("http://steamcommunity.com/app/" + appID))
                 {
                     lock (theList)
                     {
                         theList.GetGame(appID).IsDLC = true;
+                        theList.GetGame(appID).DlcCheckFailed = false;
                     }
-                    //Logger.Log(theList.GetGame(appID).Title + " IS DLC");
                 }
+                else
+                    lock (theList)
+                    {
+                        theList.GetGame(appID).DlcCheckFailed = false;
+                    }
 
             }
             catch (WebException)

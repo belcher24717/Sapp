@@ -123,8 +123,8 @@
             Style="{StaticResource MenuButton}" VerticalContentAlignment="Center" Padding="1"/>
 
         <Button BorderThickness="0" FlowDirection="LeftToRight" Height="25" Width="25"
-    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,485" x:Name="btnSettings" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Top" Click="btnOpenSettings" ToolTip="Settings" Background="{x:Null}">
+    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,485" x:Name="btnOptions" SnapsToDevicePixels="True" 
+    		VerticalAlignment="Top" Click="btnOpenOptions" ToolTip="Options" Background="{x:Null}">
             <Image x:Name="imgCog" Stretch="Fill" Margin="3">
                 <Image.Resources>
                     <Style TargetType="{x:Type Image}">
@@ -257,17 +257,7 @@
                     </StackPanel>
                 </Grid>
                 <!-- visibility -->
-            </TabItem>
-            <TabItem Header="Install" Name="Install">
-                <Grid>
-                    <CheckBox Content="Only Installed" HorizontalAlignment="Left" Margin="5,42,0,0" x:Name="chkbxOnlyInstalled" Height="16" VerticalAlignment="Top" Unchecked="cbChecked_OnlyInstalled" Checked="cbChecked_OnlyInstalled" Foreground="{StaticResource TextColor}"/>
-                    <Label x:Name="installOverviewLabel" FontSize="9" Margin="5,0,10,0" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center" Width="90" Height="37" VerticalAlignment="Top">
-                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Height="31"><Run Text="Only show installed games in the list"/></TextBlock>
-                    </Label>
-                    <Label x:Name="InstallSeparaterLabel" Content="___________________________________" Margin="0,15,0,0" HorizontalContentAlignment="Center" Foreground="{StaticResource TextColor}" Height="25" VerticalAlignment="Top"/>
-
-                </Grid>
-            </TabItem>
+            </TabItem>  
             <TabItem Header="Custom" Name="Custom">
                 <Grid>
                     <Button BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 

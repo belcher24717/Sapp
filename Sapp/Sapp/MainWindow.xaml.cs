@@ -29,6 +29,8 @@ namespace Sapp
         private static GamesList gamePool;  
         private GamesList removedPool;
 
+        private bool onlyPlayInstalledGames;
+
         private List<GameUtilities.Tags> tagsCheckedInclude;
         private List<GameUtilities.Tags> tagsCheckedExclude;
         private bool checkboxesActive;
@@ -117,6 +119,12 @@ namespace Sapp
                 this.Width = MIN_WINDOW_SIZE;
                 this.MaxWidth = MIN_WINDOW_SIZE;
                 this.MinWidth = MIN_WINDOW_SIZE;
+
+                Settings getOnlyPlayInstalled = Settings.GetInstance(this);
+                onlyPlayInstalledGames = getOnlyPlayInstalled.OnlyPlayInstalledGames;
+                getOnlyPlayInstalled.ReturnInstance(ref getOnlyPlayInstalled);
+
+                BlanketUpdate(GetTagApplicationMethod());
             }
         }
 
@@ -293,7 +301,7 @@ namespace Sapp
         private void BlanketUpdate(TagApplicationMethod method)
         {
             bool thereAreTagsChecked = (tagsCheckedInclude.Count + tagsCheckedExclude.Count >= 1) ? true : false;
-            bool onlyInstalledIsChecked = (bool)chkbxOnlyInstalled.IsChecked;
+            bool onlyInstalledIsChecked = onlyPlayInstalledGames;
             bool hoursPlayedIsEnabled = (bool)cb_HoursPlayed.IsChecked;
             bool last2WeeksIsEnabled = (bool)cb_HoursPlayedLast2Weeks.IsChecked;
 
@@ -485,7 +493,7 @@ namespace Sapp
             */
         }
 
-        private void btnOpenSettings(object sender, RoutedEventArgs e)
+        private void btnOpenOptions(object sender, RoutedEventArgs e)
         {
             TagApplicationMethod preMethod = GetTagApplicationMethod();
             SettingsScreen ss = new SettingsScreen();
@@ -494,7 +502,14 @@ namespace Sapp
 
             Settings testForRefresh = Settings.GetInstance(this);
             bool refresh = testForRefresh.ShouldRefresh();
+            bool onlyRefreshGamePool = testForRefresh.ShouldRefreshGamePoolOnly();
+
+            //do a little bit more than just test for refresh
+            //-- get the new cols to show
+            //--get only play installed games
             List<string> colsToShow = testForRefresh.GetColumnsToShow();
+            onlyPlayInstalledGames = testForRefresh.OnlyPlayInstalledGames;
+
             testForRefresh.ReturnInstance(ref testForRefresh);
 
             gamePoolHandler.ClearColumns();
@@ -520,6 +535,11 @@ namespace Sapp
             {
                 BlanketUpdate(postMethod);
             }
+
+            else if (onlyRefreshGamePool)
+            {
+                BlanketUpdate(postMethod);
+            }
         }
 
         // helper method for btnOpenSettings -> if (refresh)
@@ -528,7 +548,6 @@ namespace Sapp
             chkbxFPS.IsChecked = false;
             chkbxMMO.IsChecked = false;
             chkbxMulti.IsChecked = false;
-            chkbxOnlyInstalled.IsChecked = false;
             chkbxRPG.IsChecked = false;
             chkbxSingle.IsChecked = false;
             chkbxSurvival.IsChecked = false;

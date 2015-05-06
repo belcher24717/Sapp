@@ -32,7 +32,10 @@ namespace Sapp
 
                 //going to have to add this for each new checkbox...
                 cbHoursPlayed.IsChecked = reference.GetColumnsToShow().Contains(cbHoursPlayed.Content.ToString());
+                cbHoursPlayedLast2Weeks.IsChecked = reference.GetColumnsToShow().Contains(cbHoursPlayedLast2Weeks.Content.ToString());
 
+                //only installed
+                cbOnlyInstalled.IsChecked = reference.OnlyPlayInstalledGames;
 
                 //only try and fill it with something if the settings file is not there, or corrupted
                 if (reference.UserID == null)
@@ -53,7 +56,10 @@ namespace Sapp
         {
             Settings reference = Settings.GetInstance(this);
             if (reference == null)
+            {
                 Logger.Log("ERROR: <SettingsScreen.btnAcceptClicked> Settings reference is null");
+                return;
+            }
 
             //Save where steam is
             if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))
@@ -71,6 +77,26 @@ namespace Sapp
             
             //save the tag application method
             reference.TagApplication = (TagApplicationMethod)cbxTagMethod.SelectedIndex;
+
+            //save Only Play Installed Games
+            reference.OnlyPlayInstalledGames = (bool)cbOnlyInstalled.IsChecked;
+
+            //Add or remove columns
+            #region Update Columns
+
+            //Hours Played
+            if ((bool)cbHoursPlayed.IsChecked)
+                reference.AddColumn(cbHoursPlayed.Content.ToString());
+            else
+                reference.RemoveColumn(cbHoursPlayed.Content.ToString());
+
+            //Hours Last 2 Weeks
+            if ((bool)cbHoursPlayedLast2Weeks.IsChecked)
+                reference.AddColumn(cbHoursPlayedLast2Weeks.Content.ToString());
+            else
+                reference.RemoveColumn(cbHoursPlayedLast2Weeks.Content.ToString());
+
+            #endregion
 
             Logger.Log("Saving Settings");
             reference.Save();
@@ -123,28 +149,6 @@ namespace Sapp
             if (!File.Exists(testPath + @"\config\loginusers.vdf"))
                 MessageBox.Show("Invalid Steam path selected.");
 
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cbChanged(object sender, RoutedEventArgs e)
-        {
-            Settings settings = Settings.GetInstance(this);
-            if (settings == null)
-                return;
-
-            CheckBox tempCB = (CheckBox)sender;
-            
-            if ((bool)tempCB.IsChecked)
-                settings.AddColumn(tempCB.Content.ToString());
-            else
-                settings.RemoveColumn(tempCB.Content.ToString());
-
-            settings.ReturnInstance(ref settings);
-                
         }
 
     }

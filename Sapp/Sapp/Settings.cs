@@ -27,6 +27,20 @@ namespace Sapp
 
         #region Properties
 
+        private bool onlyPlayInstalledGames;
+        public bool OnlyPlayInstalledGames
+        {
+            get { return onlyPlayInstalledGames; }
+            set
+            {
+                if (writeAccess)
+                {
+                    onlyInstalledWasChanged = true;
+                    onlyPlayInstalledGames = value;
+                }
+            }
+        }
+
         private Key gamePoolRemoveKeyBinding;
         public Key GamePoolRemoveKeyBinding
         {
@@ -84,6 +98,7 @@ namespace Sapp
         #endregion
 
         private static bool userWasChanged;
+        private static bool onlyInstalledWasChanged;
 
         private static bool writeAccess;
         private static bool inUse;
@@ -96,8 +111,10 @@ namespace Sapp
             writeAccess = false;
             inUse = false;
             userWasChanged = false;
+            onlyInstalledWasChanged = false;
             tagApplication = TagApplicationMethod.ContainsAll;
             gamePoolRemoveKeyBinding = Key.D;
+            onlyPlayInstalledGames = false;
         }
 
         public static Settings GetInstance(Window reciever)
@@ -238,11 +255,23 @@ namespace Sapp
             
         }
 
+        public bool ShouldRefreshGamePoolOnly()
+        {
+            if (onlyInstalledWasChanged)
+            {
+                onlyInstalledWasChanged = false;
+                return true;
+            }
+            return false;
+        }
+
         public void AddColumn(string col)
         {
             if (columnsToShow == null)
                 columnsToShow = new List<string>();
-            columnsToShow.Add(col);
+
+            if(!columnsToShow.Contains(col))
+                columnsToShow.Add(col);
         }
 
         public void RemoveColumn(string col)
