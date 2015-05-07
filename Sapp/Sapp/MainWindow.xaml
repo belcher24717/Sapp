@@ -230,9 +230,9 @@
                                 <CheckBox x:Name="cb_HoursPlayed" Content="Enable" Margin="0,4,0,-4" Foreground="{StaticResource TextColor}" Checked="CheckboxEnableChanged_Hours" Unchecked="CheckboxEnableChanged_Hours"/>
                                 <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="-4,19,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
                                 <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="63" Height="16"
-                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="0,39,0,0">
-                                    <ComboBoxItem Content="More than" FontSize="9"/>
-                                    <ComboBoxItem Content="Less than" FontSize="9"/>
+                        			Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="0,39,0,0">
+                                    <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center"/>
+                                    <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
                                 </ComboBox>
                                 <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="16" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" Margin="63,39,0,0"/>
                                 <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="-4,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
@@ -244,9 +244,9 @@
                                 <CheckBox x:Name="cb_HoursPlayedLast2Weeks" Content="Enable" Margin="0,4,0,-4" Foreground="{StaticResource TextColor}" Unchecked="CheckboxEnableChanged_Hours" Checked="CheckboxEnableChanged_Hours"/>
                                 <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="-4,19,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
                                 <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top" Width="63" Height="16"
-                        			Visibility="Visible" FontSize="8" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
-                                    <ComboBoxItem Content="More than" FontSize="9"/>
-                                    <ComboBoxItem Content="Less than" FontSize="9"/>
+                        			Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
+                                    <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center"/>
+                                    <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
                                 </ComboBox>
                                 <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="16" Margin="63,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged"/>
                                 <Label x:Name="lblPostHoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="-4,51,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Height="40" Width="97" Foreground="{StaticResource TextColor}">
@@ -257,7 +257,7 @@
                     </StackPanel>
                 </Grid>
                 <!-- visibility -->
-            </TabItem>  
+            </TabItem>
             <TabItem Header="Custom" Name="Custom">
                 <Grid>
                     <Button BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
@@ -274,6 +274,9 @@
             </TabItem>
 
         </TabControl>
+        <Button Content="Clear Filters" BorderThickness="0" 
+        	HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+        	Width="74" x:Name="btnClear" SnapsToDevicePixels="True" Margin="91,0,0,12" Click="btnClear_Click"/>
 
 
     </Grid>

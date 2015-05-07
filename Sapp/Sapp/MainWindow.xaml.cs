@@ -33,6 +33,7 @@ namespace Sapp
 
         private List<GameUtilities.Tags> tagsCheckedInclude;
         private List<GameUtilities.Tags> tagsCheckedExclude;
+        private List<CheckBox> checkboxesChecked;
         private bool checkboxesActive;
 
         private DataGridHandler gamePoolHandler;
@@ -73,6 +74,7 @@ namespace Sapp
                     removedPool = new GamesList();
                     tagsCheckedInclude = new List<GameUtilities.Tags>();
                     tagsCheckedExclude = new List<GameUtilities.Tags>();
+                    checkboxesChecked = new List<CheckBox>();
 
                     SetRectangleSize();
 
@@ -245,6 +247,20 @@ namespace Sapp
 
         }
 
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            // uncheck checkboxes - make copies of checkbox count and checkboxes for iteration
+            int checkboxCount = checkboxesChecked.Count;
+            List<CheckBox> copy = new List<CheckBox>(checkboxesChecked);
+
+            for (int x = 0; x < checkboxCount; x++)
+                copy[x].IsChecked = false;
+
+            // turn off hours filters
+            cb_HoursPlayed.IsChecked = false;
+            cb_HoursPlayedLast2Weeks.IsChecked = false;
+        }
+
         //maybe move this logic into util?
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -270,24 +286,28 @@ namespace Sapp
             CheckBox checkbox = (CheckBox)sender;
             GameUtilities.Tags tag = GameUtilities.CreateTag(checkbox.Content.ToString());
 
-
-
             if ((bool)(checkbox.IsChecked))
             {
-                if(cbxIncludeExcludeTags.SelectedIndex == 0)
+                if (cbxIncludeExcludeTags.SelectedIndex == 0)
+                {
                     tagsCheckedInclude.Add(tag);
+                    tagsCheckedExclude.Remove(tag);
+                }
                 else
                 {
                     checkbox.IsChecked = null;
-                    //add to exclude tags here
                     tagsCheckedExclude.Add(tag);
+                    tagsCheckedInclude.Remove(tag);
                 }
+
+                if (!checkboxesChecked.Contains(checkbox))
+                    checkboxesChecked.Add(checkbox);
             }
             else
             {
                 tagsCheckedInclude.Remove(tag);
-                //remove from exclude
                 tagsCheckedExclude.Remove(tag);
+                checkboxesChecked.Remove(checkbox);
             }
 
             BlanketUpdate(GetTagApplicationMethod());
@@ -366,7 +386,7 @@ namespace Sapp
                 
                 if (hoursPlayedIsEnabled)
                 {
-                    //TODO: Considuer using method return for this?
+                    //TODO: Consider using method return for this?
                     if (hoursPlayedGreaterThan) //greaterThan
                     {
                         if (game.HoursPlayed < hoursPlayedHours) //hours
