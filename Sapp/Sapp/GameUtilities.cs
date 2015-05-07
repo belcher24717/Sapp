@@ -656,10 +656,12 @@ namespace Sapp
 
         internal void WeedOutDLC(object state)
         {
-            //WebResponse response = null;
+            #region Old
+            
+            /*
             try
             {
-                /*
+                
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://steamcommunity.com/app/" + appID); // was wr
                 request.CookieContainer = new CookieContainer(); // was wr
                 request.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com"));
@@ -700,7 +702,7 @@ namespace Sapp
                 }
                 else
                     theList.GetGame(appID).DlcCheckFailed = false;
-                 * */
+                 
                 string htmlToParse;
 
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("http://store.steampowered.com/app/" + appID + "/");
@@ -743,12 +745,97 @@ namespace Sapp
                 Logger.Log("ERROR: <GameUtilities.WeedOutDLC> " + e.ToString(), true);
 
                 theList.GetGame(appID).DlcCheckFailed = true;
-            }
-            finally
+            }* */
+            #endregion
+
+            bool checkWorked = WeedOutDLCStoreCheck();
+
+            if (!checkWorked)
+                WeedOutDLCCommunityCheck();
+        }
+
+        private bool WeedOutDLCStoreCheck()
+        {
+            bool successful = false;
+
+            try
             {
-                //if (response != null)
-                    //response.Close();
+                string htmlToParse;
+
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("http://store.steampowered.com/app/" + appID + "/");
+                wr.CookieContainer = new CookieContainer();
+                wr.CookieContainer.Add(new Cookie("birthtime", "", "/", "store.steampowered.com"));
+
+                using (WebResponse response = wr.GetResponse())
+                {
+
+                    // Obtain a 'Stream' object associated with the response object.
+                    Stream ReceiveStream = response.GetResponseStream();
+                    Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+
+                    // Pipe the stream to a higher level stream reader with the required encoding format. 
+                    StreamReader readStream = new StreamReader(ReceiveStream, encode);
+
+                    htmlToParse = readStream.ReadToEnd();
+                    ReceiveStream.Close();
+                    readStream.Close();
+                }
+
+                if (htmlToParse.Contains("game_area_dlc_bubble"))
+                {
+                    theList.GetGame(appID).IsDLC = true;
+                    theList.GetGame(appID).DlcCheckFailed = false;
+                }
+                else
+                    theList.GetGame(appID).DlcCheckFailed = false;
+
+                //if we get to the end of the try it was a successful attempt
+                successful = true;
             }
+            catch (WebException we)
+            {
+                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> WebExeption during DLC removal.", true);
+
+                theList.GetGame(appID).DlcCheckFailed = true;
+            }
+            catch (Exception e) { }
+
+            return successful;
+        }
+        private bool WeedOutDLCCommunityCheck()
+        {
+            bool successful = false;
+
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create("http://steamcommunity.com/app/" + appID);
+                request.Method = "HEAD";
+                request.Timeout = 10 * 1000;
+
+                string location;
+                using (var response = request.GetResponse() as HttpWebResponse)
+                {
+                    location = response.ResponseUri.AbsoluteUri;
+                }
+                if (location != "http://steamcommunity.com/app/" + appID)
+                {
+                    theList.GetGame(appID).IsDLC = true;
+                    theList.GetGame(appID).DlcCheckFailed = false;
+                }
+                else
+                    theList.GetGame(appID).DlcCheckFailed = false;
+
+                successful = true;
+            }
+            catch (WebException we)
+            {
+                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> WebExeption during DLC removal.", true);
+
+                theList.GetGame(appID).DlcCheckFailed = true;
+            }
+            catch (Exception e) { }
+
+            return successful;
         }
 
     }
