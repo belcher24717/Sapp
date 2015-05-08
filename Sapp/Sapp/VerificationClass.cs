@@ -10,11 +10,11 @@ namespace Sapp
     public class VerificationClass
     {
 
-        public static bool VerifyHours(TextBox control, ref double hours)
+        public static bool VerifyHours(string text)
         {
             try
             {
-                hours = double.Parse(control.Text);
+                double.Parse(text);
                 return true;
             }
             catch (FormatException)

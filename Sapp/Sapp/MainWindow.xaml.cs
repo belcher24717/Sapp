@@ -48,6 +48,8 @@ namespace Sapp
 
         private bool populateGamesSuccessful;
 
+        private string lastEnteredText;
+
         public MainWindow()
         {
 
@@ -60,6 +62,7 @@ namespace Sapp
             Logger.Log("Main Application Started", true);
 
             bool settingsLoaded = false;
+            lastEnteredText = "";
             Nullable<bool> windowAccepted = true;
 
             while (!settingsLoaded)
@@ -331,19 +334,21 @@ namespace Sapp
             double hoursPlayedHours = 0; 
             double last2WeeksHours = 0;
 
+            #region hours pre-setup
+
             if (hoursPlayedIsEnabled)
             {
-                if (!VerificationClass.VerifyHours(textbox_HoursPlayed, ref hoursPlayedHours))
-                    return;
+                hoursPlayedHours = Double.Parse(textbox_HoursPlayed.Text);
                 hoursPlayedGreaterThan = (combobox_HoursPlayed.SelectedIndex == 0) ? true : false;
             }
 
             if (last2WeeksIsEnabled)
             {
-                if (!VerificationClass.VerifyHours(textbox_HoursPlayedLast2Weeks, ref last2WeeksHours))
-                    return;
+                last2WeeksHours = Double.Parse(textbox_HoursPlayedLast2Weeks.Text);
                 last2WeeksGreaterThan = (combobox_HoursPlayedLast2Weeks.SelectedIndex == 0) ? true : false;
             }
+
+            #endregion
 
             // Get pools ready for update
             gamePool.AddList(removedPool);
@@ -438,6 +443,7 @@ namespace Sapp
             gamePool.RemoveList(gamesToRemove);
         }
 
+        /*
         private void CheckBoxChanged(ref GamesList pool, string checkboxChanged)
         {
             List<Game> tempForRemoval = new List<Game>();
@@ -462,8 +468,10 @@ namespace Sapp
                 gamePool.Remove(g);
             }
         }
+        */
 
         // TODO: Do we need this anymore?
+        /*
         private List<GameUtilities.Tags> GetCheckboxInTags()
         {
             List<GameUtilities.Tags> tagsOn = new List<GameUtilities.Tags>();
@@ -484,6 +492,7 @@ namespace Sapp
 
             return tagsOn;
         }
+        */
 
         private void formLoaded(object sender, RoutedEventArgs e)
         {
@@ -545,7 +554,7 @@ namespace Sapp
             {
                 gamePool.Clear();
                 removedPool.Clear();
-                ResetCheckboxes();
+                //ResetCheckboxes();
                 PopulateGames();
                 tagsCheckedInclude.Clear();
                 tagsCheckedExclude.Clear();
@@ -563,6 +572,7 @@ namespace Sapp
         }
 
         // helper method for btnOpenSettings -> if (refresh)
+        /*
         private void ResetCheckboxes()
         {
             chkbxFPS.IsChecked = false;
@@ -572,6 +582,7 @@ namespace Sapp
             chkbxSingle.IsChecked = false;
             chkbxSurvival.IsChecked = false;
         }
+        */
 
         private TagApplicationMethod GetTagApplicationMethod()
         {
@@ -606,22 +617,41 @@ namespace Sapp
             if (removedPool != null) // this should only happen on load
             {
                 TextBox tb = (TextBox)sender;
+                string textToVerify;
 
                 //TODO:  May implement last entered text option here, and move validation here instead of in blanketupdate
                 if (tb.Name.Equals("textbox_HoursPlayedLast2Weeks"))
-                {
-                    //hoursLast2WeeksHandler.Verify();                    
-                }
+                    textToVerify = textbox_HoursPlayedLast2Weeks.Text;
                 else if (tb.Name.Equals("textbox_HoursPlayed"))
+                    textToVerify = textbox_HoursPlayed.Text;
+                else
                 {
-                    //hoursPlayedHandler.Verify();
+                    Logger.Log("ERROR: <MainWindow.HoursTextChanged> HoursTextChanged event fired, but not from any handled Textbox.", true);
+                    return;
                 }
 
-                BlanketUpdate(GetTagApplicationMethod());
+                if (Verify(textToVerify))
+                {
+                    lastEnteredText = textToVerify;
+                    BlanketUpdate(GetTagApplicationMethod());
+                }
+                else if (textToVerify.Equals(""))
+                {
+                    lastEnteredText = "0";
+                    tb.Text = "0";
+                    BlanketUpdate(GetTagApplicationMethod());
+                }
+                else // text failed check, revert to old text...
+                    tb.Text = lastEnteredText;
 
                 if (tb.Focusable)
                     tb.Focus();
             }
+        }
+
+        private bool Verify(string text)
+        {
+            return VerificationClass.VerifyHours(text);
         }
 
         #endregion
