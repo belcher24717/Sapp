@@ -677,8 +677,26 @@ namespace Sapp
             FilenameTypein typein = new FilenameTypein();
             bool saveClicked = (bool)typein.ShowDialog();
             string fileName = typein.FileName;
+            bool save = false;
 
-            if (saveClicked && fileName != null)
+            //TODO: make a window that looks like Snowflake "theme"
+            if (File.Exists(@".\saves\" + fileName + ".gp"))
+            {
+                System.Windows.Forms.DialogResult overwrite = System.Windows.Forms.MessageBox.Show(
+                    "Filename already exists, do you want to overwrite?", 
+                    "Warning", 
+                    System.Windows.Forms.MessageBoxButtons.YesNo, 
+                    System.Windows.Forms.MessageBoxIcon.Question);
+
+                if (overwrite == System.Windows.Forms.DialogResult.Yes)
+                {
+                    save = true;
+                }
+            }
+            else
+                save = true;
+
+            if (saveClicked && fileName != null && save)
             {
                 GamesList tempListToSave = new GamesList();
                 tempListToSave.AddList(gamePool.ToList<Game>());
@@ -695,11 +713,16 @@ namespace Sapp
         {
             //open file browser to search for .gp files
             string filename;
+            string initialDirectory = Directory.Exists(Directory.GetCurrentDirectory() + "\\saves") ? Directory.GetCurrentDirectory() + "\\saves" : "DEFAULT";
             OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
+            
             // Set filter for file extension and default file extension 
             dlg.DefaultExt = ".gp";
             dlg.Filter = "GAMEPOOL Files (*.gp)|*.gp";
+
+            if(!initialDirectory.Equals("DEFAULT"))
+                dlg.InitialDirectory = initialDirectory;
 
             Nullable<bool> result = dlg.ShowDialog();
             if (result == true)
