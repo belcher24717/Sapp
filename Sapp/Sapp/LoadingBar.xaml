@@ -6,9 +6,12 @@
 
     <Grid>
         <Rectangle HorizontalAlignment="Stretch" Name="MainRectangle" VerticalAlignment="Stretch"
-                   Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PrimaryColor}" MouseDown="MouseDownOnWindow">
+                   Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" MouseDown="MouseDownOnWindow">
         </Rectangle>
-        
+
+        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
+
         <ProgressBar Name="pbGamesLoaded" HorizontalAlignment="Left" Height="20" Margin="10,24,0,0" VerticalAlignment="Top" Width="300"/>
 
         <Label Name="lblMessage" Content="Starting Up..." HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>

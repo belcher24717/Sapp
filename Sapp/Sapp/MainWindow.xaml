@@ -102,10 +102,6 @@
         <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Left" Margin="591,45,0,0" x:Name="label2" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <Label Content="Filter Your Games" Height="28" HorizontalAlignment="Left" Margin="36,45,0,0" x:Name="label1_Copy" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
-        <Button Content="Play!" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
-    		HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-    		Width="65" x:Name="btnPlay" SnapsToDevicePixels="True" Margin="410,0,0,12" Click="btnPlay_Click"/>
-
         <Button BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left" 
     		HorizontalContentAlignment="Center" Margin="480,260,0,226" x:Name="btnAddGame" SnapsToDevicePixels="True" 
     		Width="50" Click="btnAddGame_Click" ToolTip="Add Game" Visibility="Hidden"/>
@@ -258,25 +254,22 @@
                 </Grid>
                 <!-- visibility -->
             </TabItem>
-            <TabItem Header="Custom" Name="Custom">
-                <Grid>
-                    <Button BorderThickness="0" Content="Save" FlowDirection="LeftToRight" Height="25" 
-                    	HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,138,0,0" x:Name="btnSaveList" SnapsToDevicePixels="True" 
-                    	VerticalAlignment="Top" Width="65" Click="btnSaveGamePool"/>
-                    <Button BorderThickness="0" Content="Load" FlowDirection="LeftToRight" Height="25" 
-                		HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="21,197,0,0" x:Name="btnLoadList" SnapsToDevicePixels="True" 
-                		VerticalAlignment="Top" Width="65" Click="btnLoadGamePool"/>
-                    <Label x:Name="customOverviewLabel" FontSize="9" Margin="4,0,3,0" Foreground="{StaticResource TextColor}" HorizontalAlignment="Center" Height="85" VerticalAlignment="Top">
-                        <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Height="75"><Run Text="Save and Load customized game lists"/></TextBlock>
-                    </Label>
-                    <Label x:Name="CustomSeparaterLabel" Content="___________________________________" Margin="0,15,0,0" HorizontalContentAlignment="Center" Foreground="{StaticResource TextColor}" Height="25" VerticalAlignment="Top"/>
-                </Grid>
-            </TabItem>
 
         </TabControl>
+
+
+        <Button BorderThickness="0" Content="Save List" FlowDirection="LeftToRight" Height="25" 
+                    	HorizontalAlignment="Right" HorizontalContentAlignment="Center" x:Name="btnSaveList" SnapsToDevicePixels="True" 
+                    	VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Margin="0,0,250,12"/>
+        <Button BorderThickness="0" Content="Load List" FlowDirection="LeftToRight" Height="25" 
+                		HorizontalAlignment="Right" HorizontalContentAlignment="Center" x:Name="btnLoadList" SnapsToDevicePixels="True" 
+                		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Margin="0,0,175,12"/>
         <Button Content="Clear Filters" BorderThickness="0" 
         	HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-        	Width="74" x:Name="btnClear" SnapsToDevicePixels="True" Margin="91,0,0,12" Click="btnClear_Click"/>
+        	Width="74" x:Name="btnClear" SnapsToDevicePixels="True" Margin="84,0,0,12" Click="btnClear_Click"/>
+        <Button Content="Play!" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
+    		HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+    		Width="100" x:Name="btnPlay" SnapsToDevicePixels="True" Margin="0,0,25,12" Click="btnPlay_Click"/>
 
 
     </Grid>

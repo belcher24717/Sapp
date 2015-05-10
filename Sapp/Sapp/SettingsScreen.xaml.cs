@@ -45,7 +45,7 @@ namespace Sapp
                         txtSteamPath.Text = testPath;
 
                     //Default to user information tab when we don't have that information already (First run)
-                    tcSettingsTab.SelectedIndex = 1;
+                    tcSettingsTab.SelectedIndex = 2;
                 }
 
                 reference.ReturnInstance(ref reference);
