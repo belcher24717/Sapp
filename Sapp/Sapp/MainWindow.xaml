@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="506" Width="500" WindowStyle = "None" 
         AllowsTransparency="True" ResizeMode="CanResizeWithGrip" SizeChanged="WindowSizeChanged" MinHeight="510" 
-        KeyDown="onKeyDown" Loaded="formLoaded" WindowStartupLocation="CenterScreen" MaxWidth="850" MinWidth="500" Name="MainDisplay">
+        KeyDown="onKeyDown" Loaded="formLoaded" WindowStartupLocation="CenterScreen" MaxWidth="850" MinWidth="500" Name="MainDisplay" Closing="event_closing">
     <Grid x:Name="grid">
 
         <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Top" MouseDown="MouseDownOnWindow" 
@@ -272,6 +272,20 @@
                     <Label x:Name="CustomSeparaterLabel" Content="___________________________________" Margin="0,15,0,0" HorizontalContentAlignment="Center" Foreground="{StaticResource TextColor}" Height="25" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Connect" Name="Connect">
+                <Grid>
+                    <Button x:Name="btnHost" Content="Host" Click="btnHostClick" Margin="55,8,9,0" Height="20" VerticalAlignment="Top"/>
+                    <Button x:Name="btnJoin" Content="Join" Click="btnJoinClick" Margin="9,8,55,0" Height="20" VerticalAlignment="Top"/>
+                    <Button x:Name="btnDisconnect" Content="Disconnect" Click="btnDisconnectClick" Margin="9,201,9,0" Height="20" VerticalAlignment="Top"/>
+
+                    <Label Content="Friends" Height="28" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label Content="__________________________________" Height="28" HorizontalAlignment="Left" Margin="3,37,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <TextBlock x:Name="tbFriendsConnected" Margin="9,63,9,0" Height="124" VerticalAlignment="Top"/>
+                    <Label Content="__________________________________" Height="25" HorizontalAlignment="Left" Margin="3,176,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+
+                </Grid>
+            </TabItem>
+            
 
         </TabControl>
         <Button Content="Clear Filters" BorderThickness="0" 

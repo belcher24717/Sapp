@@ -117,6 +117,18 @@ namespace Sapp
             onlyPlayInstalledGames = false;
         }
 
+        public static Settings GetInstance()
+        {
+            if (inUse)
+            {
+                Logger.Log("ERROR: <Settings.GetInstance> Settings was in use, null was returned", true);
+                return null;
+            }
+
+            inUse = true;
+            return thisInstance;
+        }
+
         public static Settings GetInstance(Window reciever)
         {
             if (inUse)

@@ -26,7 +26,7 @@ namespace Sapp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static GamesList gamePool;  
+        private GamesList gamePool;  
         private GamesList removedPool;
 
         private bool onlyPlayInstalledGames;
@@ -38,9 +38,6 @@ namespace Sapp
 
         private DataGridHandler gamePoolHandler;
         private DataGridHandler removedPoolHandler;
-
-        private HoursHandler hoursPlayedHandler;
-        private HoursHandler hoursLast2WeeksHandler;
 
         private const int MIN_WINDOW_SIZE = 500;
         private const int MAX_WINDOW_SIZE = 850;
@@ -131,6 +128,10 @@ namespace Sapp
 
                 BlanketUpdate(GetTagApplicationMethod());
             }
+            //CoopJoin ch = CoopJoin.GetInstance();
+            //ch.SetIpJoining("71.94.206.68");
+            //ch.SetPort(7780);
+            //ch.Join();
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
@@ -196,7 +197,7 @@ namespace Sapp
             return true;
         }
 
-        public static void RemoveDlc(int id)
+        public void RemoveDlc(int id)
         {
             lock (gamePool)
             {
@@ -277,6 +278,9 @@ namespace Sapp
             int choiceGame = rand.Next(gamePool.Count);
 
             gamePool[choiceGame].Launch();
+            if (CoopHost.GetInstance().IsHosting())
+                CoopHost.GetInstance().Launch(gamePool[choiceGame].GetAppID());
+
             this.WindowState = WindowState.Minimized;
 
         }
@@ -333,6 +337,11 @@ namespace Sapp
             bool last2WeeksGreaterThan = false; 
             double hoursPlayedHours = 0; 
             double last2WeeksHours = 0;
+            List<Game> gamesToRemove = new List<Game>();
+
+            // Get pools ready for update
+            gamePool.AddList(removedPool);
+            removedPool.Clear();
 
             #region hours pre-setup
 
@@ -350,10 +359,26 @@ namespace Sapp
 
             #endregion
 
-            // Get pools ready for update
-            gamePool.AddList(removedPool);
-            removedPool.Clear();
-            List<Game> gamesToRemove = new List<Game>();
+            #region Host Setup
+
+            if (CoopUtils.HostListening)
+            {
+                if(CoopUtils.joinersGames != null)
+                {
+                    foreach (Game game in gamePool)
+                        if (!CoopUtils.joinersGames.Contains(game))
+                            gamesToRemove.Add(game);
+
+                    //remove them so they arent removed twice
+                    removedPool.AddList(gamesToRemove);
+                    gamePool.RemoveList(gamesToRemove);
+
+                    gamesToRemove.Clear();
+
+                }
+            }
+
+            #endregion
 
             // iterate through each game to finalize gamepool and removedpool
             foreach (Game game in gamePool)
@@ -442,57 +467,6 @@ namespace Sapp
             removedPool.AddList(gamesToRemove);
             gamePool.RemoveList(gamesToRemove);
         }
-
-        /*
-        private void CheckBoxChanged(ref GamesList pool, string checkboxChanged)
-        {
-            List<Game> tempForRemoval = new List<Game>();
-
-            Settings grabTagAppMethod = Settings.GetInstance(this);
-            TagApplicationMethod tam = grabTagAppMethod.TagApplication;
-            grabTagAppMethod.ReturnInstance(ref grabTagAppMethod);
-
-            List<GameUtilities.Tags> checkedTags = GetCheckboxInTags();
-
-
-            //TODO: Must also go through removed list and re-add games to list if necesarry.
-
-            foreach (Game g in pool)//-> this method will explicity visit game pool and removed pool instead.
-                if (!g.ContainsTag(checkedTags, tam))
-                    tempForRemoval.Add(g);
-
-            //this is so we dont edit the list while looking through it
-            foreach (Game g in tempForRemoval)
-            {
-                removedPool.Add(g);
-                gamePool.Remove(g);
-            }
-        }
-        */
-
-        // TODO: Do we need this anymore?
-        /*
-        private List<GameUtilities.Tags> GetCheckboxInTags()
-        {
-            List<GameUtilities.Tags> tagsOn = new List<GameUtilities.Tags>();
-
-            //TODO: This will handle a list of checkboxes and just go through a foreach
-            if ((bool)chkbxFPS.IsChecked)
-            {
-                tagsOn.Add(GameUtilities.CreateTag((string)chkbxFPS.Content));
-            }
-            if ((bool)chkbxMMO.IsChecked)
-            {
-                tagsOn.Add(GameUtilities.CreateTag((string)chkbxMMO.Content));
-            }
-            if ((bool)chkbxRPG.IsChecked)
-            {
-                tagsOn.Add(GameUtilities.CreateTag((string)chkbxRPG.Content));
-            }
-
-            return tagsOn;
-        }
-        */
 
         private void formLoaded(object sender, RoutedEventArgs e)
         {
@@ -806,6 +780,40 @@ namespace Sapp
         }
 
         private void CheckboxEnabled_Hours(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void event_closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CoopHost.GetInstance().IsHosting())
+            {
+                CoopHost.GetInstance().StopHost();
+            }
+            else if (CoopJoin.GetInstance().IsJoined())
+            {
+                CoopJoin.GetInstance().Disconnect();
+            }
+        }
+
+        private void btnHostClick(object sender, RoutedEventArgs e)
+        {
+            CoopHostWindow chw = new CoopHostWindow();
+            chw.ShowDialog();
+            //tbFriendsConnected.Text = "jbelcher24717\nkitchen_sink";
+        }
+
+        private void btnJoinClick(object sender, RoutedEventArgs e)
+        {
+            GamesList temp = new GamesList();
+            temp.AddList(gamePool);
+            temp.AddList(removedPool);
+
+            CoopJoinWindow cjw = new CoopJoinWindow(temp);
+            cjw.ShowDialog();
+        }
+
+        private void btnDisconnectClick(object sender, RoutedEventArgs e)
         {
 
         }

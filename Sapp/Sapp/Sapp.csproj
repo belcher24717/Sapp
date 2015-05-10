@@ -37,6 +37,10 @@
     <ApplicationIcon>Resources\snowflake_noAAOutline.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataOverNetwork, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DataOverNetwork.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -59,6 +63,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Coop.cs" />
+    <Compile Include="CoopHost.cs" />
+    <Compile Include="CoopHostWindow.xaml.cs">
+      <DependentUpon>CoopHostWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CoopJoin.cs" />
+    <Compile Include="CoopJoinWindow.xaml.cs">
+      <DependentUpon>CoopJoinWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CoopUtils.cs" />
     <Compile Include="DataGridHandler.cs" />
     <Compile Include="FilenameTypein.xaml.cs">
       <DependentUpon>FilenameTypein.xaml</DependentUpon>
@@ -66,6 +80,7 @@
     <Compile Include="GamesList.cs" />
     <Compile Include="GameUtilities.cs" />
     <Compile Include="HoursHandler.cs" />
+    <Compile Include="JoinObserver.cs" />
     <Compile Include="LoadingBar.xaml.cs">
       <DependentUpon>LoadingBar.xaml</DependentUpon>
     </Compile>
@@ -75,6 +90,14 @@
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerificationClass.cs" />
+    <Page Include="CoopHostWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CoopJoinWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FilenameTypein.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
