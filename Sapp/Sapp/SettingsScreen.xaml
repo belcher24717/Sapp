@@ -22,20 +22,18 @@
                     <Setter Property="Border.CornerRadius" Value="0,100,0,0"/>
                 </Style>
             </TabControl.Style>
-            <TabItem Header="Filter">
+            <TabItem Header="Filter Settings">
                 <Grid>
 
-                    <Border CornerRadius="6"
-        	        BorderBrush="{StaticResource BordersColor}"
-        	        BorderThickness="2"
-                    Margin="0,30,0,10"
-                    MouseDown="MouseDownOnWindow">
-                        <CheckBox x:Name="cbOnlyInstalled" Content="Only Play Installed Games" HorizontalAlignment="Left" 
-                    		VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Margin="8,41,0,0"/>
-                    </Border>
+                    <Label Content="FILTER SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
-                    <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="152,44,0,0" VerticalAlignment="Top" Width="123" 
+                    <CheckBox x:Name="cbOnlyInstalled" Content="Only Play Installed Games" HorizontalAlignment="Left" 
+                    		VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Margin="18,52,0,0"
+                              FlowDirection= "RightToLeft"/>
+
+                    <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="13,82,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="155
+                              ,86,0,0" VerticalAlignment="Top" Width="123" 
                   BorderThickness="0" Height="20" >
                         <ComboBoxItem>Contains All</ComboBoxItem>
                         <ComboBoxItem>Contains One</ComboBoxItem>
@@ -45,28 +43,21 @@
             </TabItem>
             <TabItem Header="Columns">
                 <Grid>
-                    <Border CornerRadius="6"
-        	        BorderBrush="{StaticResource BordersColor}"
-        	        BorderThickness="2"
-                    Margin="10,30,7,56"
-                    MouseDown="MouseDownOnWindow"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="39*"/>
+                        <ColumnDefinition Width="250*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Label Content="ADDITIONAL COLUMNS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+                    <Label Content="ADDITIONAL COLUMNS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
-                    <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="29,48,0,0" 
-                  VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <CheckBox x:Name="cbHoursPlayedLast2Weeks" Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="29,78,0,0" 
-                  VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="13,52,0,0" 
+                  VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
+                    <CheckBox x:Name="cbHoursPlayedLast2Weeks" Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="13,82,0,0" 
+                  VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
             <TabItem Header="User Information">
                 <Grid>
-
-                    <Border CornerRadius="6"
-        	        BorderBrush="{StaticResource BordersColor}"
-        	        BorderThickness="2"
-                    Margin="0,30,0,10"
-                    MouseDown="MouseDownOnWindow"/>
 
                     <Label Content="USER INFORMATION" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
@@ -78,7 +69,7 @@
 
                     <Button Content="Browse" BorderThickness="0"
 			         HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,9,25" Click="btnBrowseClicked" />
+			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,12.667,22" Click="btnBrowseClicked" />
                 </Grid>
             </TabItem>
 
@@ -86,8 +77,8 @@
 
 
         <Button Content="Accept" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
-			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,225,10.333" Click="btnAcceptClicked"/>
+			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="10,0,225,10.333" Click="btnAcceptClicked"/>
 
         <Button Content="Cancel" BorderThickness="0"
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
