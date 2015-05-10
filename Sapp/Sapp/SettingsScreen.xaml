@@ -25,13 +25,15 @@
             <TabItem Header="Filter Settings">
                 <Grid>
 
-                    <Label Content="TAG SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+                    <Label Content="FILTER SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
                     <CheckBox x:Name="cbOnlyInstalled" Content="Only Play Installed Games" HorizontalAlignment="Left" 
-                    		VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Margin="13,52,0,0"/>
+                    		VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Margin="18,52,0,0"
+                              FlowDirection= "RightToLeft"/>
 
                     <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="13,82,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="152,86,0,0" VerticalAlignment="Top" Width="123" 
+                    <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="155
+                              ,86,0,0" VerticalAlignment="Top" Width="123" 
                   BorderThickness="0" Height="20" >
                         <ComboBoxItem>Contains All</ComboBoxItem>
                         <ComboBoxItem>Contains One</ComboBoxItem>
