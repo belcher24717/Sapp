@@ -43,6 +43,8 @@ namespace Sapp
             host.SetName(txtNickname.Text);
 
             host.StartHost();
+
+            this.Close();
         }
 
         private void btnCancelClicked(object sender, RoutedEventArgs e)
