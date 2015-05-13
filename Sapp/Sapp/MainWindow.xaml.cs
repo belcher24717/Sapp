@@ -327,6 +327,9 @@ namespace Sapp
 
         private void BlanketUpdate(TagApplicationMethod method)
         {
+            if (tagsCheckedExclude == null || tagsCheckedInclude == null)
+                return;
+
             bool thereAreTagsChecked = (tagsCheckedInclude.Count + tagsCheckedExclude.Count >= 1) ? true : false;
             bool onlyInstalledIsChecked = onlyPlayInstalledGames;
             bool hoursPlayedIsEnabled = (bool)cb_HoursPlayed.IsChecked;
@@ -829,6 +832,9 @@ namespace Sapp
             }
 
             BlanketUpdate(GetTagApplicationMethod());
+
+            if (textbox_searchfilter.Focusable)
+                textbox_searchfilter.Focus();
         }
 
 
