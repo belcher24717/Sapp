@@ -35,6 +35,7 @@ namespace Sapp
         private List<GameUtilities.Tags> tagsCheckedExclude;
         private List<CheckBox> checkboxesChecked;
         private bool checkboxesActive;
+        private bool textFilterActive;
 
         private DataGridHandler gamePoolHandler;
         private DataGridHandler removedPoolHandler;
@@ -77,8 +78,10 @@ namespace Sapp
                     checkboxesChecked = new List<CheckBox>();
 
                     SetRectangleSize();
+                    UpdateTextFilterSettings(true);
 
                     settingsLoaded = true;
+                    textFilterActive = false;
                 }
                 catch (FileNotFoundException fileNotFound)
                 {
@@ -391,7 +394,7 @@ namespace Sapp
 
                 if (!textbox_searchfilter.Text.Equals("Text Filter..."))
                 {
-                    if (!game.Title.Contains(textbox_searchfilter.Text))
+                    if (!game.Title.ToLower().Contains(textbox_searchfilter.Text.ToLower()))
                     {
                         gamesToRemove.Add(game);
                         continue;
@@ -825,11 +828,7 @@ namespace Sapp
 
         private void tbSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textbox_searchfilter.Text.Equals(""))
-            {
-                textbox_searchfilter.Text = "Text Filter...";
-                return;
-            }
+            textFilterActive = true;
 
             BlanketUpdate(GetTagApplicationMethod());
 
@@ -837,7 +836,51 @@ namespace Sapp
                 textbox_searchfilter.Focus();
         }
 
+        private void tbFilterSearch_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            UpdateTextFilterSettings(false);
+        }
 
+        private void tbFilterSearch_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(textbox_searchfilter.Text))
+            {
+                UpdateTextFilterSettings(true);
+            }
+        }
+
+        private void UpdateTextFilterSettings(bool lostFocus)
+        {
+            if (lostFocus)
+            {
+                //disable TextChanged event
+                textbox_searchfilter.TextChanged -= tbSearchFilter_TextChanged;
+
+                textbox_searchfilter.Text = "Text Filter...";
+                textbox_searchfilter.Foreground = Brushes.Gray;
+                textFilterActive = false;
+            }
+            else
+            {
+                if (textbox_searchfilter.Text.Equals("Text Filter...") && !textFilterActive)
+                {
+                    textbox_searchfilter.Text = "";
+                    textbox_searchfilter.Foreground = Brushes.White;
+
+                    //enable TextChanged event
+                    textbox_searchfilter.TextChanged += tbSearchFilter_TextChanged;
+                }
+
+            }
+
+        }
+
+        private void btn_ClearTextFilter_Click(object sender, RoutedEventArgs e)
+        {
+            if (textFilterActive)
+                textbox_searchfilter.Text = "";
+        }
 
     }
+
 }
