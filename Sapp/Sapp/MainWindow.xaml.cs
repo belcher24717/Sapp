@@ -384,6 +384,19 @@ namespace Sapp
             foreach (Game game in gamePool)
             {
 
+                #region Text Filter
+
+                if (!textbox_searchfilter.Text.Equals("Text Filter..."))
+                {
+                    if (!game.Title.Contains(textbox_searchfilter.Text))
+                    {
+                        gamesToRemove.Add(game);
+                        continue;
+                    }
+                }
+
+                #endregion
+
                 #region Tags
                 if (thereAreTagsChecked)
                 {
@@ -486,8 +499,10 @@ namespace Sapp
             checkboxesActive = true;
         }
 
+        //TODO: Implement this! ESC -> Options, Enter -> Move game from list to other list, etc?
         private void onKeyDown(object sender, KeyEventArgs e)
         {
+            //shouldn't do left/right arrow moving
             /*
             if (e.Key == Key.Left)
                 btnAddGame_Click(sender, e);
@@ -544,19 +559,6 @@ namespace Sapp
                 BlanketUpdate(postMethod);
             }
         }
-
-        // helper method for btnOpenSettings -> if (refresh)
-        /*
-        private void ResetCheckboxes()
-        {
-            chkbxFPS.IsChecked = false;
-            chkbxMMO.IsChecked = false;
-            chkbxMulti.IsChecked = false;
-            chkbxRPG.IsChecked = false;
-            chkbxSingle.IsChecked = false;
-            chkbxSurvival.IsChecked = false;
-        }
-        */
 
         private TagApplicationMethod GetTagApplicationMethod()
         {
@@ -816,6 +818,17 @@ namespace Sapp
         private void btnDisconnectClick(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void tbSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (textbox_searchfilter.Text.Equals(""))
+            {
+                textbox_searchfilter.Text = "Text Filter...";
+                return;
+            }
+
+            BlanketUpdate(GetTagApplicationMethod());
         }
 
 
