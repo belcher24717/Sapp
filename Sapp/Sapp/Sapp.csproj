@@ -101,6 +101,10 @@
       <DependentUpon>CoopJoinWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CoopUtils.cs" />
+    <Compile Include="CustomGameWindowManager.cs" />
+    <Compile Include="CustomGameWizard.xaml.cs">
+      <DependentUpon>CustomGameWizard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataGridHandler.cs" />
     <Compile Include="FilenameTypein.xaml.cs">
       <DependentUpon>FilenameTypein.xaml</DependentUpon>
@@ -123,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CoopJoinWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomGameWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

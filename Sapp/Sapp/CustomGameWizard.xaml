@@ -1,0 +1,94 @@
+﻿<Page x:Class="Sapp.CustomGameWizard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	Title="CustomGameWizard">
+
+    <Grid>
+        <Label x:Name="label_header" Content="Custom Game Wizard..." HorizontalAlignment="Left" Margin="-1,10,0,0" VerticalAlignment="Top" Width="155"/>
+        <TabControl x:Name="tabcontrol_mainview" HorizontalAlignment="Left" Height="254" Margin="0,10,0,0" VerticalAlignment="Top" Width="300">
+            <TabItem Header="Initialize">
+                <Grid Background="#FFE5E5E5">
+                    <Label x:Name="label_gamename" Content="Name:*" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textbox_gamename" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270"/>
+                    <Label x:Name="label_location" Content="Game .exe Location:*" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textbox_location" HorizontalAlignment="Left" Height="23" Margin="11,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="203"/>
+                    <Button x:Name="button_browse" Content="Browse" HorizontalAlignment="Left" Margin="219,90,-4,0" VerticalAlignment="Top" Width="60" Height="21"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Customize">
+                <Grid Background="#FFE5E5E5" Margin="10,20">
+
+                    <Label x:Name="label_customizeheader" Content="Select the tags associated with this game..." Margin="-4,-26,4,26" />
+
+                    <ScrollViewer Margin="0,0,-3,0">
+
+                        <StackPanel>
+
+                            <CheckBox Content="Action" HorizontalAlignment="Left" Margin="5,5,0,0" x:Name="chkbxAction" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Adventure" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxAdventure" IsChecked="False" Height="16" VerticalAlignment="Top"  Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Arcade" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxArcade" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Building" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxBuilding" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Casual" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxCasual" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Comedy" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxComedy" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Competitive" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxCompetitive" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Co-op" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxCoOp" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Dark" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxDark" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Difficult" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxDifficult" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Driving" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxDriving" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Exploration" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxExploration" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Fantasy" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxFantasy" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="FPS" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxFPS" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Free To Play" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxFreeToPlay" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Funny" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxFunny" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Horror" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxHorror" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Indie" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxIndie" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="MMO" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxMMO" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="MOBA" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxMOBA" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Multiplayer" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxMulti" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Mystery" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxMystery" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Open World" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxOpenWorld" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Platformer" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxPlatformer" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Puzzle" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxPuzzle" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Racing" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxRacing" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Relaxing" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxRelaxing" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Retro" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxRetro" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Rogue-like" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxRoguelike" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="RPG" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxRPG" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="RTS" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxRTS" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Sandbox" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxSandbox" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Sci-fi" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxSciFi" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Shooter" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxShooter" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Simulation" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxSimulation" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Singleplayer" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxSingle" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Sports" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxSports" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Stealth" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxStealth" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Story Rich" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxStoryRich" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Strategy" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxStrategy" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Tactical" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxTactical" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="Turn-Based" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxTurnBased" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                            <CheckBox Content="No Tags" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxNoTags" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Review/Finish">
+                <Grid Background="#FFE5E5E5">
+                    <Label x:Name="label_reviewheader" Content="Review the game and then click Finish..." HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+                    <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="176" Margin="10,36,0,0" Stroke="Black" VerticalAlignment="Top" Width="270"/>
+                    <Label x:Name="label_finalname" Content="Name:" HorizontalAlignment="Left" Margin="59,48,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label_exeselected" Content=".exe Selected:" HorizontalAlignment="Left" Margin="22,79,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label_tags" Content="Tags Applied:" HorizontalAlignment="Left" Margin="22,110,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="button_cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top" Width="60" Height="21"/>
+        <Button x:Name="button_next" Content="Next &gt;" HorizontalAlignment="Left" Margin="231,269,0,0" VerticalAlignment="Top" Width="60" Height="21" IsCancel="True"/>
+        <Button x:Name="button_back" Content="&lt; Back" HorizontalAlignment="Left" Margin="166,269,0,0" VerticalAlignment="Top" Width="60" Height="21"/>
+
+    </Grid>
+</Page>
