@@ -22,23 +22,23 @@ namespace Sapp
         public SettingsScreen()
         {
             InitializeComponent();
-            Settings reference = Settings.GetInstance(this);
+            Settings settings = Settings.GetInstance();
 
-            if (reference != null)
+            if (settings != null)
             {
-                txtUserID.Text = reference.UserID;
-                txtSteamPath.Text = reference.SteamLocation;
-                cbxTagMethod.SelectedIndex = (int)reference.TagApplication;
+                txtUserID.Text = settings.UserID;
+                txtSteamPath.Text = settings.SteamLocation;
+                cbxTagMethod.SelectedIndex = (int)settings.TagApplication;
 
                 //going to have to add this for each new checkbox...
-                cbHoursPlayed.IsChecked = reference.GetColumnsToShow().Contains(cbHoursPlayed.Content.ToString());
-                cbHoursPlayedLast2Weeks.IsChecked = reference.GetColumnsToShow().Contains(cbHoursPlayedLast2Weeks.Content.ToString());
+                cbHoursPlayed.IsChecked = settings.GetColumnsToShow().Contains(cbHoursPlayed.Content.ToString());
+                cbHoursPlayedLast2Weeks.IsChecked = settings.GetColumnsToShow().Contains(cbHoursPlayedLast2Weeks.Content.ToString());
 
                 //only installed
-                cbOnlyInstalled.IsChecked = reference.OnlyPlayInstalledGames;
+                cbOnlyInstalled.IsChecked = settings.OnlyPlayInstalledGames;
 
                 //only try and fill it with something if the settings file is not there, or corrupted
-                if (reference.UserID == null)
+                if (settings.UserID == null)
                 {
                     string testPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam";
                     if(File.Exists(testPath + @"\config\loginusers.vdf"))
@@ -47,15 +47,13 @@ namespace Sapp
                     //Default to user information tab when we don't have that information already (First run)
                     tcSettingsTab.SelectedIndex = 2;
                 }
-
-                reference.ReturnInstance(ref reference);
             }
         }
 
         private void btnAcceptClicked(object sender, RoutedEventArgs e)
         {
-            Settings reference = Settings.GetInstance(this);
-            if (reference == null)
+            Settings settings = Settings.GetInstance();
+            if (settings == null)
             {
                 Logger.Log("ERROR: <SettingsScreen.btnAcceptClicked> Settings reference is null");
                 return;
@@ -63,7 +61,7 @@ namespace Sapp
 
             //Save where steam is
             if (File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))
-                reference.SteamLocation = txtSteamPath.Text;
+                settings.SteamLocation = txtSteamPath.Text;
             else
             {
                 MessageBox.Show("Steam path is invalid.");
@@ -71,45 +69,45 @@ namespace Sapp
             }
 
             //save the user ID and username
-            reference.UserID = txtUserID.Text;
-            if (reference.UserID == null)
+            settings.UserID = txtUserID.Text;
+            if (settings.UserID == null)
                 goto InvalidInformation;
             
             //save the tag application method
-            reference.TagApplication = (TagApplicationMethod)cbxTagMethod.SelectedIndex;
+            settings.TagApplication = (TagApplicationMethod)cbxTagMethod.SelectedIndex;
 
             //save Only Play Installed Games
-            reference.OnlyPlayInstalledGames = (bool)cbOnlyInstalled.IsChecked;
+            settings.OnlyPlayInstalledGames = (bool)cbOnlyInstalled.IsChecked;
 
             //Add or remove columns
             #region Update Columns
 
             //Hours Played
             if ((bool)cbHoursPlayed.IsChecked)
-                reference.AddColumn(cbHoursPlayed.Content.ToString());
+                settings.AddColumn(cbHoursPlayed.Content.ToString());
             else
-                reference.RemoveColumn(cbHoursPlayed.Content.ToString());
+                settings.RemoveColumn(cbHoursPlayed.Content.ToString());
 
             //Hours Last 2 Weeks
             if ((bool)cbHoursPlayedLast2Weeks.IsChecked)
-                reference.AddColumn(cbHoursPlayedLast2Weeks.Content.ToString());
+                settings.AddColumn(cbHoursPlayedLast2Weeks.Content.ToString());
             else
-                reference.RemoveColumn(cbHoursPlayedLast2Weeks.Content.ToString());
+                settings.RemoveColumn(cbHoursPlayedLast2Weeks.Content.ToString());
 
             #endregion
 
             Logger.Log("Saving Settings");
-            reference.Save();
-            reference.ReturnInstance(ref reference);
+            settings.Save();
 
             DialogResult = true;
             this.Close();
 
-            return;
 
             InvalidInformation:
-                reference.ReturnInstance(ref reference);
+                return;
+
             
+           
 
         }
 

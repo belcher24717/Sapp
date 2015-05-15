@@ -103,6 +103,14 @@ namespace Sapp
 
             if (passwordOK == null || passwordOK.PasswordOK == false)
             {
+                if (passwordOK.RequestedAction.Equals("LOBBY_FULL"))
+                {
+                    //lobby is full
+                }
+                else
+                {
+                    //password was wrong
+                }
                 //TODO: log failure
                 _listening = false;
                 return;
@@ -149,7 +157,7 @@ namespace Sapp
             }
             
             //dont need password to unregister
-            DataContainer message = CoopUtils.ConstructMessage("UNREGISTER", "", null);
+            DataContainer message = CoopUtils.ConstructMessage("DISCONNECT", "", null);
 
             CoopUtils.SendMessage(message, _host);
             Thread.Sleep(100);

@@ -16,6 +16,8 @@ namespace Sapp
         private JoinObserver _clientsRegistered;
         private static CoopHost _instance = null;
 
+        private const int MAX_ALLOWED_IN_LOBBY = 7; //+1 which is the host for a total of 8
+
         private CoopHost() : base(7780, "")
         {
 
@@ -98,6 +100,7 @@ namespace Sapp
 
             _clientsRegistered = new JoinObserver();
             TcpClient clientJoining;
+            FriendsList.GetInstance().SetList(_nickname);
 
             while (_listening)
             {
@@ -112,7 +115,7 @@ namespace Sapp
                     DataContainer reply = new DataContainer();
 
                     //wrong password, continue looping
-                    if (message.RequestedAction.Equals("UNREGISTER"))
+                    if (message.RequestedAction.Equals("DISCONNECT"))
                     {
                         _clientsRegistered.Unregister(temp);
                         continue;
@@ -127,13 +130,23 @@ namespace Sapp
                         continue;
                     }
 
-                    reply.PasswordOK = true;
-                    _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
+                    else if (message.RequestedAction.Equals("REGISTER") && _clientsRegistered.GetNumberInLobby() != MAX_ALLOWED_IN_LOBBY)
+                    {
+                        reply.PasswordOK = true;
+                        _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
+                        CoopUtils.SendMessage(reply, clientJoining);
+                    }
 
-                    CoopUtils.SendMessage(reply, clientJoining);
+                    else if (message.RequestedAction.Equals("REGISTER"))
+                    {
+                        reply.RequestedAction = "LOBBY_FULL";
+                        CoopUtils.SendMessage(reply, clientJoining);
+                    }
 
                 }
             }
+
+            FriendsList.GetInstance().ClearList();
         }
     }
 }

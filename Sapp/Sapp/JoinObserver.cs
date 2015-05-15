@@ -6,18 +6,40 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Sapp
 {
     public class JoinObserver
     {
         private List<JoinObserverClient> _clients;
-
+        //private string _friendsJoinedList;
+        //private TextBlock _friendsJoinedList;
         public JoinObserver()
         {
             _clients = new List<JoinObserverClient>();
+            //_friendsJoinedList = null;
         }
 
+        public int GetNumberInLobby()
+        {
+            return _clients.Count;
+        }
+
+        /*
+        public void AddFriendToList(string name)
+        {
+            if (_friendsJoinedList != null)
+                _friendsJoinedList.Text += name + "\n";
+        }
+
+        public void RemoveFriendFromList(string name)
+        {
+            if (_friendsJoinedList != null)                                                                                                                 
+                _friendsJoinedList.Text = _friendsJoinedList.Text.Substring(0, _friendsJoinedList.Text.IndexOf(name)) + //append strings together, exclude name leaving
+                    _friendsJoinedList.Text.Substring(_friendsJoinedList.Text.IndexOf(name) + name.Length + 1);//+1 for \n
+        }
+        */
         public void Unregister(string clientAddress)
         {
             for (int i = 0; i < _clients.Count; i++)
@@ -25,6 +47,7 @@ namespace Sapp
                 if (_clients[i].Equals(clientAddress))
                 {
                     _clients[i].GetClient().Close();
+                    FriendsList.GetInstance().RemoveFriend(_clients[i].GetName());
                     _clients.RemoveAt(i);
                     break;
                 }
@@ -33,7 +56,14 @@ namespace Sapp
 
         public void Register(TcpClient client, GamesList clientsGames, string name)
         {
-            _clients.Add(new JoinObserverClient(client, clientsGames, name));
+            JoinObserverClient newClient = new JoinObserverClient(client, clientsGames, name);
+            _clients.Add(newClient);
+            FriendsList.GetInstance().AddFriend(newClient.GetName());
+        }
+
+        public void AttachPlayerList(ref TextBlock friendsJoined)
+        {
+
         }
 
         public void StopHosting()

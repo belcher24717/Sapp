@@ -18,8 +18,6 @@ namespace Sapp
         public static bool HostListening = false;
         public static bool JoinListening = false;
         public static GamesList joinersGames = null;
-        private static TcpClient _client = null;
-        private static string _clientJoiner = null;
         //seperate this stuff out, most should be in CoopJoin or CoopHost
 
         //encryption

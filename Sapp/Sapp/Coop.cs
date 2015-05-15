@@ -35,10 +35,10 @@ namespace Sapp
                 if (temp != null)
                 {
                     _nickname = temp.UserID;
-                    temp.ReturnInstance(ref temp);
                 }
             }
-            _nickname = name;
+            else
+                _nickname = name;
         }
 
         public void SetPort(int port)

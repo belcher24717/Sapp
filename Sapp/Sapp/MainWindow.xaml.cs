@@ -125,9 +125,8 @@ namespace Sapp
                 this.MaxWidth = MIN_WINDOW_SIZE;
                 this.MinWidth = MIN_WINDOW_SIZE;
 
-                Settings getOnlyPlayInstalled = Settings.GetInstance(this);
+                Settings getOnlyPlayInstalled = Settings.GetInstance();
                 onlyPlayInstalledGames = getOnlyPlayInstalled.OnlyPlayInstalledGames;
-                getOnlyPlayInstalled.ReturnInstance(ref getOnlyPlayInstalled);
 
                 BlanketUpdate(GetTagApplicationMethod());
             }
@@ -178,13 +177,12 @@ namespace Sapp
         //make a game manager to do a lot of this logic
         private bool PopulateGames()
         {
-            Settings settings = Settings.GetInstance(this);
+            Settings settings = Settings.GetInstance();
             if (settings == null)
                 return false;
             
             //Populate, attach event
             string steamid64 = settings.SteamID64;
-            settings.ReturnInstance(ref settings);
 
             gamePool = GameUtilities.PopulateGames(steamid64);
 
@@ -524,7 +522,7 @@ namespace Sapp
             ss.ShowDialog();
             TagApplicationMethod postMethod = GetTagApplicationMethod();
 
-            Settings testForRefresh = Settings.GetInstance(this);
+            Settings testForRefresh = Settings.GetInstance();
             bool refresh = testForRefresh.ShouldRefresh();
             bool onlyRefreshGamePool = testForRefresh.ShouldRefreshGamePoolOnly();
 
@@ -533,8 +531,6 @@ namespace Sapp
             //--get only play installed games
             List<string> colsToShow = testForRefresh.GetColumnsToShow();
             onlyPlayInstalledGames = testForRefresh.OnlyPlayInstalledGames;
-
-            testForRefresh.ReturnInstance(ref testForRefresh);
 
             gamePoolHandler.ClearColumns();
             removedPoolHandler.ClearColumns();
@@ -568,9 +564,8 @@ namespace Sapp
 
         private TagApplicationMethod GetTagApplicationMethod()
         {
-            Settings grabTagAppMethod = Settings.GetInstance(this);
+            Settings grabTagAppMethod = Settings.GetInstance();
             TagApplicationMethod method = grabTagAppMethod.TagApplication;
-            grabTagAppMethod.ReturnInstance(ref grabTagAppMethod);
 
             return method;
         }
@@ -776,13 +771,12 @@ namespace Sapp
         private Key GetKeybind()
         {
             Key keybind;
-            Settings temp = Settings.GetInstance(this);
+            Settings temp = Settings.GetInstance();
 
             if (temp == null)
                 return Key.None;
 
             keybind = temp.GamePoolRemoveKeyBinding;
-            temp.ReturnInstance(ref temp);
 
             return keybind;
         }
@@ -808,6 +802,7 @@ namespace Sapp
         {
             CoopHostWindow chw = new CoopHostWindow();
             chw.ShowDialog();
+
             //tbFriendsConnected.Text = "jbelcher24717\nkitchen_sink";
         }
 
@@ -877,6 +872,7 @@ namespace Sapp
 
         private void btn_ClearTextFilter_Click(object sender, RoutedEventArgs e)
         {
+            tbFriendsConnected.Text = FriendsList.GetInstance().GetList();
             if (textFilterActive)
                 textbox_searchfilter.Text = "";
         }

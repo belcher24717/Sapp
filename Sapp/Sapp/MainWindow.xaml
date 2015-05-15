@@ -266,7 +266,7 @@
 
                     <Label Content="Friends" Height="28" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <Label Content="__________________________________" Height="28" HorizontalAlignment="Left" Margin="3,37,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <TextBlock x:Name="tbFriendsConnected" Margin="9,63,9,0" Height="124" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbFriendsConnected" Margin="9,60,9,0" Height="131" VerticalAlignment="Top"/>
                     <Label Content="__________________________________" Height="25" HorizontalAlignment="Left" Margin="3,176,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
                 </Grid>

@@ -33,11 +33,8 @@ namespace Sapp
             get { return onlyPlayInstalledGames; }
             set
             {
-                if (writeAccess)
-                {
                     onlyInstalledWasChanged = true;
                     onlyPlayInstalledGames = value;
-                }
             }
         }
 
@@ -47,10 +44,7 @@ namespace Sapp
             get { return gamePoolRemoveKeyBinding; }
             set
             {
-                if (writeAccess)
-                {
-                    gamePoolRemoveKeyBinding = value;
-                }
+                 gamePoolRemoveKeyBinding = value;
             }
         }
 
@@ -60,7 +54,7 @@ namespace Sapp
             get { return userID; }
             set
             {
-                if (writeAccess && GetSteamID64(value))
+                if (GetSteamID64(value))
                 {
                     userID = value;
                 }
@@ -79,7 +73,7 @@ namespace Sapp
             get { return steamLocation; }
             set
             {
-                if (writeAccess && Directory.Exists(value))
+                if (Directory.Exists(value))
                     steamLocation = value;
             }
         }
@@ -90,8 +84,7 @@ namespace Sapp
             get { return tagApplication; }
             set
             {
-                if (writeAccess)
-                    tagApplication = value;
+                tagApplication = value;
             }
         }
 
@@ -99,17 +92,12 @@ namespace Sapp
 
         private static bool userWasChanged;
         private static bool onlyInstalledWasChanged;
-
-        private static bool writeAccess;
-        private static bool inUse;
         private static List<string> columnsToShow;
 
         private static Settings thisInstance = new Settings();
 
         private Settings()
         {
-            writeAccess = false;
-            inUse = false;
             userWasChanged = false;
             onlyInstalledWasChanged = false;
             tagApplication = TagApplicationMethod.ContainsAll;
@@ -119,31 +107,6 @@ namespace Sapp
 
         public static Settings GetInstance()
         {
-            if (inUse)
-            {
-                Logger.Log("ERROR: <Settings.GetInstance> Settings was in use, null was returned", true);
-                return null;
-            }
-
-            inUse = true;
-            return thisInstance;
-        }
-
-        public static Settings GetInstance(Window reciever)
-        {
-            if (inUse)
-            {
-                Logger.Log("ERROR: <Settings.GetInstance> Settings was in use, null was returned", true);
-                return null;
-            }
-
-            if (reciever.Title.Equals("SettingsScreen"))
-            {
-                Logger.Log("Settings granted to " + reciever.Name, true);
-                writeAccess = true;
-            }
-
-            inUse = true;
             return thisInstance;
         }
 
@@ -190,14 +153,6 @@ namespace Sapp
             {
                 MessageBox.Show("Settings not saved, an error occured");
             }
-        }
-
-        public void ReturnInstance(ref Settings theSettingsObject)
-        {
-            Logger.Log("Settings returned", true);
-            theSettingsObject = null;
-            inUse = false;
-            writeAccess = false;
         }
 
         //make run only when needed (only when username changes)
