@@ -82,10 +82,9 @@ namespace Sapp
         {
             if (_listening)
                 return;
-            
 
-            _listening = true;
 
+            SetListening(true);
             try
             {
                 _host = new TcpClient(_ipJoining, _port);
@@ -93,7 +92,7 @@ namespace Sapp
             catch
             {
                 //TODO: log failure
-                _listening = false;
+                SetListening(false);
                 return;
             }
             DataContainer message = CoopUtils.ConstructMessage("REGISTER", _password, _myList);
@@ -112,7 +111,7 @@ namespace Sapp
                     //password was wrong
                 }
                 //TODO: log failure
-                _listening = false;
+                SetListening(false);
                 return;
             }
 
@@ -138,21 +137,21 @@ namespace Sapp
 
                 else if (launchMessage.RequestedAction.Equals("DISCONNECT"))
                 {
-                    _listening = false;
+                    SetListening(false);
                     break;
                 }
             }
 
             if(_host != null)
                 _host.Close();
-            _listening = false;
+            SetListening(false);
         }
 
         public void Disconnect()
         {
             if (!_listening || _host == null)
             {
-                _listening = false;
+                SetListening(false);
                 return;
             }
             
@@ -162,7 +161,13 @@ namespace Sapp
             CoopUtils.SendMessage(message, _host);
             Thread.Sleep(100);
 
-            _listening = false;
+            SetListening(false);
+        }
+
+        public void SetListening(bool val)
+        {
+            CoopUtils.JoinListening = val;
+            _listening = val;
         }
 
     }

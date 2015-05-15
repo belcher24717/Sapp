@@ -41,7 +41,7 @@ namespace Sapp
             host.SetPassword(txtPassword.Text);
             host.SetPort(port);
             host.SetName(txtNickname.Text);
-
+            
             host.StartHost();
 
             this.Close();

@@ -800,6 +800,8 @@ namespace Sapp
 
         private void btnHostClick(object sender, RoutedEventArgs e)
         {
+            FriendsList.GetInstance().SetList(ref tbFriendsConnected);
+
             CoopHostWindow chw = new CoopHostWindow();
             chw.ShowDialog();
 
@@ -818,7 +820,10 @@ namespace Sapp
 
         private void btnDisconnectClick(object sender, RoutedEventArgs e)
         {
-
+            if (CoopUtils.HostListening)
+                CoopHost.GetInstance().StopHost();
+            else if (CoopUtils.JoinListening)
+                CoopJoin.GetInstance().Disconnect();
         }
 
         private void tbSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
@@ -872,7 +877,7 @@ namespace Sapp
 
         private void btn_ClearTextFilter_Click(object sender, RoutedEventArgs e)
         {
-            tbFriendsConnected.Text = FriendsList.GetInstance().GetList();
+
             if (textFilterActive)
                 textbox_searchfilter.Text = "";
         }

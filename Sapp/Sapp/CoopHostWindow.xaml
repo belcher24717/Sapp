@@ -29,7 +29,7 @@
         <Label Content="Password (Optional)" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <TextBox x:Name="txtPassword" TextWrapping="Wrap" Margin="10,129,70,0" Height="25" VerticalAlignment="Top"/>
         <Label Content="Nickname" HorizontalAlignment="Left" Margin="95,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtNickname" TextWrapping="Wrap" Margin="95,72,10,0" Height="25" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtNickname" TextWrapping="Wrap" Margin="95,72,10,0" Height="25" VerticalAlignment="Top" MaxLength="13"/>
 
 
     </Grid>

@@ -49,7 +49,7 @@ namespace Sapp
 
         public void StopHost()
         {
-            _listening = false;
+            SetListening(false);
 
             SendMessageToClients("DISCONNECT", -1);
             Thread.Sleep(100);
@@ -83,8 +83,7 @@ namespace Sapp
                 return;
             }
 
-            _listening = true;
-
+            SetListening(true);
             TcpListener listener = new TcpListener(IPAddress.Any, _port);
 
             try
@@ -100,7 +99,7 @@ namespace Sapp
 
             _clientsRegistered = new JoinObserver();
             TcpClient clientJoining;
-            FriendsList.GetInstance().SetList(_nickname);
+            FriendsList.GetInstance().AddFriend(_nickname);
 
             while (_listening)
             {
@@ -145,8 +144,15 @@ namespace Sapp
 
                 }
             }
-
+            SetListening(false);
             FriendsList.GetInstance().ClearList();
         }
+
+        public void SetListening(bool val)
+        {
+            CoopUtils.HostListening = val;
+            _listening = val;
+        }
+
     }
 }
