@@ -24,15 +24,24 @@ namespace Sapp
         private CustomGameWindowManager _manager;
         private List<CheckBox> checkboxes;
 
-        public CustomGameWizard(CustomGameWindowManager manager)
+        public CustomGameWizard()
         {
             InitializeComponent();
 
-            _manager = manager;
+            tabcontrol_mainview.SelectionChanged += TabChangedEvent;
 
-            tabcontrol_mainview.SelectionChanged += ChangeButtonText;
-
+            HideTabHeaders();
             PopulateCheckboxes();
+
+            // maybe move this to onload event?
+            _manager = new CustomGameWindowManager(this);
+        }
+
+        private void HideTabHeaders()
+        {
+            Style newStyle = new Style();
+            newStyle.Setters.Add(new Setter(UIElement.VisibilityProperty, Visibility.Collapsed));
+            tabcontrol_mainview.ItemContainerStyle = newStyle;
         }
 
         //TODO: This is so ugly, make this better.
@@ -85,12 +94,23 @@ namespace Sapp
             checkboxes.Add(chkbxTurnBased);
         }
 
-        private void ChangeButtonText(object sender, RoutedEventArgs e)
+        private void TabChangedEvent(object sender, RoutedEventArgs e)
         {
-            if (tabcontrol_mainview.SelectedIndex == 2)
+            // reset
+            button_back.IsEnabled = true;
+            button_next.Content = "Next >";
+
+            // special cases
+            if (tabcontrol_mainview.SelectedIndex == 0)
+                button_back.IsEnabled = false;
+            else if (tabcontrol_mainview.SelectedIndex == 2)
+            {
+                label_finalnamedisplay.Content = textbox_gamename.Text;
+                //TODO: Make it only show the .exe file, not the absolute path...
+                label_finalexeselected.Content = textbox_location.Text;
                 button_next.Content = "Finish";
-            else
-                button_next.Content = "Next >";
+            }
+
         }
 
         private void button_next_Click(object sender, RoutedEventArgs e)
@@ -111,6 +131,15 @@ namespace Sapp
         public List<CheckBox> GetCheckboxList()
         {
             return checkboxes;
+        }
+
+        //TODO: Make sure this grabs an exe, not just a valid path...
+        private void button_browse_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                textbox_location.Text = dialog.SelectedPath;
         }
 
     }
