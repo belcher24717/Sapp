@@ -279,7 +279,7 @@ namespace Sapp
             int choiceGame = rand.Next(gamePool.Count);
 
             gamePool[choiceGame].Launch();
-            if (CoopHost.GetInstance().IsHosting())
+            if (CoopUtils.HostListening)
                 CoopHost.GetInstance().Launch(gamePool[choiceGame].GetAppID());
 
             this.WindowState = WindowState.Minimized;

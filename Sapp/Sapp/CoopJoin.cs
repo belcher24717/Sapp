@@ -96,13 +96,15 @@ namespace Sapp
                 return;
             }
             DataContainer message = CoopUtils.ConstructMessage("REGISTER", _password, _myList);
+            message.Name = _nickname;
+
             CoopUtils.SendMessage(message, _host);
 
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
             if (passwordOK == null || passwordOK.PasswordOK == false)
             {
-                if (passwordOK.RequestedAction.Equals("LOBBY_FULL"))
+                if (passwordOK != null && passwordOK.RequestedAction.Equals("LOBBY_FULL"))
                 {
                     //lobby is full
                 }
@@ -141,6 +143,13 @@ namespace Sapp
                     break;
                 }
             }
+
+            DataContainer dcMessage = new DataContainer();
+            dcMessage.RequestedAction = "DISCONNECT";
+            dcMessage.Name = _nickname;
+
+            CoopUtils.SendMessage(dcMessage, _host);
+            Thread.Sleep(100);
 
             if(_host != null)
                 _host.Close();

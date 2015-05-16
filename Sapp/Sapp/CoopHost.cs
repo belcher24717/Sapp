@@ -132,8 +132,9 @@ namespace Sapp
                     else if (message.RequestedAction.Equals("REGISTER") && _clientsRegistered.GetNumberInLobby() != MAX_ALLOWED_IN_LOBBY)
                     {
                         reply.PasswordOK = true;
-                        _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
+                        //_clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
                         CoopUtils.SendMessage(reply, clientJoining);
+                        _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
                     }
 
                     else if (message.RequestedAction.Equals("REGISTER"))

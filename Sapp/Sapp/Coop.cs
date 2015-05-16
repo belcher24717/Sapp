@@ -29,7 +29,7 @@ namespace Sapp
 
         public void SetName(string name)
         {
-            if (name.Equals(""))
+            if (name.Trim().Equals(""))
             {
                 Settings temp = Settings.GetInstance();
                 if (temp != null)
