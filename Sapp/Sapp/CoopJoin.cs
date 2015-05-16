@@ -144,13 +144,6 @@ namespace Sapp
                 }
             }
 
-            DataContainer dcMessage = new DataContainer();
-            dcMessage.RequestedAction = "DISCONNECT";
-            dcMessage.Name = _nickname;
-
-            CoopUtils.SendMessage(dcMessage, _host);
-            Thread.Sleep(100);
-
             if(_host != null)
                 _host.Close();
             SetListening(false);
