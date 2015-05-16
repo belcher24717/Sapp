@@ -26,7 +26,7 @@ namespace Sapp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GamesList gamePool;  
+        private static GamesList gamePool;  
         private GamesList removedPool;
 
         private bool onlyPlayInstalledGames;
@@ -724,8 +724,7 @@ namespace Sapp
             {
                 btnOpenHiddenGamesArrow.Content = "<";
 
-                //BEFORE SLIDE
-                //Show the add/remove buttons while the window is not expanded
+                //BEFORE SLIDE: Show the add/remove buttons while the window is not expanded
                 btnAddAll.Visibility = Visibility.Visible;
                 btnAddGame.Visibility = Visibility.Visible;
                 btnRemoveAll.Visibility = Visibility.Visible;
@@ -752,8 +751,7 @@ namespace Sapp
                 }
                 this.MaxWidth = MIN_WINDOW_SIZE;
 
-                //AFTER SLIDE
-                //Hide the add/remove buttons while the window is not expanded
+                //AFTER SLIDE: Hide the add/remove buttons while the window is not expanded
                 btnAddAll.Visibility = Visibility.Hidden;
                 btnAddGame.Visibility = Visibility.Hidden;
                 btnRemoveAll.Visibility = Visibility.Hidden;
@@ -781,6 +779,7 @@ namespace Sapp
             return keybind;
         }
 
+        //TODO: Remove?
         private void CheckboxEnabled_Hours(object sender, RoutedEventArgs e)
         {
 
@@ -877,9 +876,13 @@ namespace Sapp
 
         private void btn_ClearTextFilter_Click(object sender, RoutedEventArgs e)
         {
-
             if (textFilterActive)
                 textbox_searchfilter.Text = "";
+        }
+
+        public static void AddGame(Game gameToAdd)
+        {
+            gamePool.Add(gameToAdd);
         }
 
     }

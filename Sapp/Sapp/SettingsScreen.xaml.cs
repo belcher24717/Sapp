@@ -102,13 +102,9 @@ namespace Sapp
             DialogResult = true;
             this.Close();
 
-
+            //TODO: Add Error Window logic here
             InvalidInformation:
                 return;
-
-            
-           
-
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)

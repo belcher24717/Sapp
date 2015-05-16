@@ -1,4 +1,4 @@
-﻿<Page x:Class="Sapp.CustomGameWizard"
+﻿<Window x:Class="Sapp.CustomGameWizard"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -86,9 +86,9 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="button_cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top" Width="60" Height="21"/>
-        <Button x:Name="button_next" Content="Next &gt;" HorizontalAlignment="Left" Margin="231,269,0,0" VerticalAlignment="Top" Width="60" Height="21" IsCancel="True"/>
-        <Button x:Name="button_back" Content="&lt; Back" HorizontalAlignment="Left" Margin="166,269,0,0" VerticalAlignment="Top" Width="60" Height="21"/>
+        <Button x:Name="button_cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_cancel_Click"/>
+        <Button x:Name="button_next" Content="Next &gt;" HorizontalAlignment="Left" Margin="231,269,0,0" VerticalAlignment="Top" Width="60" Height="21" IsCancel="True" Click="button_next_Click"/>
+        <Button x:Name="button_back" Content="&lt; Back" HorizontalAlignment="Left" Margin="166,269,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_back_Click"/>
 
     </Grid>
-</Page>
+</Window>
