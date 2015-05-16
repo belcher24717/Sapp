@@ -49,30 +49,29 @@ namespace Sapp
 
         public void StopHost()
         {
-            SetListening(false);
-
             SendMessageToClients(CoopUtils.DISCONNECT, -1);
             Thread.Sleep(100);
             _clientsRegistered.StopHosting();
+            SetListening(false);
         }
 
-        public void Launch(int appID)
+        public void Launch(Int64 appID)
         {
             SendMessageToClients(CoopUtils.LAUNCH, appID);
         }
 
-        public void SendMessageToClients(string action, int appID)
+        public void SendMessageToClients(string action, Int64 appID)
         {
             if (!_listening || _clientsRegistered == null)
                 return;
 
-            DataContainer launchMessage = new DataContainer();
-            launchMessage.RequestedAction = action;
-            launchMessage.AppID = appID;
+            DataContainer message = new DataContainer();
+            message.RequestedAction = action;
+            message.AppID = appID;
 
             foreach (TcpClient reciever in _clientsRegistered.GetClients())
             {
-                CoopUtils.SendMessage(launchMessage, reciever);
+                CoopUtils.SendMessage(message, reciever);
             }
         }
 
@@ -112,6 +111,10 @@ namespace Sapp
                     string temp = IPAddress.Parse(((IPEndPoint)clientJoining.Client.RemoteEndPoint).Address.ToString()).ToString();
 
                     DataContainer message = CoopUtils.ProcessMessage(clientJoining, 10 * 1000);
+
+                    if (message == null)
+                        continue;
+
                     DataContainer reply = new DataContainer();
 
                     //wrong password, continue looping

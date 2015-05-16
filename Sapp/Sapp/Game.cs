@@ -14,7 +14,7 @@ namespace Sapp
         // maybe consolidate these attributes into a GameProperties object?
         
 //        private List<string> genre;
-        private int appID;
+        private Int64 appID;
         
         private bool isInstalled;
         private int lastTimePlayed;
@@ -77,7 +77,7 @@ namespace Sapp
  //           PopulateTags(tags);
         }
 
-        public int GetAppID()
+        public Int64 GetAppID()
         {
             return appID;
         }

@@ -374,7 +374,7 @@ namespace Sapp
 
             #region Checking Flagged DLC
 
-            List<int> failedDLCs = games.ReturnFailedDlcCheckList();
+            List<Int64> failedDLCs = games.ReturnFailedDlcCheckList();
 
             if (failedDLCs.Count != 0)
             {
@@ -577,11 +577,11 @@ namespace Sapp
 
     class HelperThread
     {
-        private int appID;
+        private Int64 appID;
 
         public static GamesList theList;
 
-        internal HelperThread(int appid)
+        internal HelperThread(Int64 appid)
         {
             this.appID = appid;
         }

@@ -59,6 +59,7 @@ namespace Sapp
                 _clients[0].GetClient().Close();
                 _clients.RemoveAt(0);
             }
+            
         }
 
         public List<TcpClient> GetClients()

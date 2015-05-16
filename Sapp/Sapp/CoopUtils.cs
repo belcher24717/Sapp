@@ -62,7 +62,9 @@ namespace Sapp
             catch
             {
                 //LOG
-                return null;
+                //DataContainer disconnect = new DataContainer();
+               // disconnect.RequestedAction = CoopUtils.DISCONNECT;
+                //return disconnect;
             }
 
             DataContainer dataFromClient = null;

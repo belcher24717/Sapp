@@ -72,7 +72,7 @@ namespace Sapp
             }
         }
 
-        public Game GetGame(int appID)
+        public Game GetGame(Int64 appID)
         {
             foreach (Game g in this)
             {
@@ -114,9 +114,9 @@ namespace Sapp
             OnChanged(EventArgs.Empty);
         }
 
-        public List<int> ReturnFailedDlcCheckList()
+        public List<Int64> ReturnFailedDlcCheckList()
         {
-            List<int> failedDLCs = new List<int>();
+            List<Int64> failedDLCs = new List<Int64>();
 
             foreach (Game g in this)
             {
