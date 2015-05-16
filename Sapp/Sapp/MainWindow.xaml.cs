@@ -43,6 +43,7 @@ namespace Sapp
         private const int MIN_WINDOW_SIZE = 500;
         private const int MAX_WINDOW_SIZE = 850;
         private const int NUM_HOUR_FILTERS = 2;
+        private const string FILTER_TEXT = "Text Filter...";
 
         private bool populateGamesSuccessful;
 
@@ -390,7 +391,7 @@ namespace Sapp
 
                 #region Text Filter
 
-                if (!textbox_searchfilter.Text.Equals("Text Filter..."))
+                if (!textbox_searchfilter.Text.Equals(FILTER_TEXT))
                 {
                     if (!game.Title.ToLower().Contains(textbox_searchfilter.Text.ToLower()))
                     {
@@ -855,13 +856,13 @@ namespace Sapp
                 //disable TextChanged event
                 textbox_searchfilter.TextChanged -= tbSearchFilter_TextChanged;
 
-                textbox_searchfilter.Text = "Text Filter...";
+                textbox_searchfilter.Text = FILTER_TEXT;
                 textbox_searchfilter.Foreground = Brushes.Gray;
                 textFilterActive = false;
             }
             else
             {
-                if (textbox_searchfilter.Text.Equals("Text Filter...") && !textFilterActive)
+                if (textbox_searchfilter.Text.Equals(FILTER_TEXT) && !textFilterActive)
                 {
                     textbox_searchfilter.Text = "";
                     textbox_searchfilter.Foreground = Brushes.White;
