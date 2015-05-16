@@ -51,14 +51,14 @@ namespace Sapp
         {
             SetListening(false);
 
-            SendMessageToClients("DISCONNECT", -1);
+            SendMessageToClients(CoopUtils.DISCONNECT, -1);
             Thread.Sleep(100);
             _clientsRegistered.StopHosting();
         }
 
         public void Launch(int appID)
         {
-            SendMessageToClients("LAUNCH", appID);
+            SendMessageToClients(CoopUtils.LAUNCH, appID);
         }
 
         public void SendMessageToClients(string action, int appID)
@@ -104,6 +104,7 @@ namespace Sapp
             while (_listening)
             {
                 Thread.Sleep(500);
+                clientJoining = null;
                 if (listener.Pending())
                 {
 
@@ -114,7 +115,7 @@ namespace Sapp
                     DataContainer reply = new DataContainer();
 
                     //wrong password, continue looping
-                    if (message.RequestedAction.Equals("DISCONNECT"))
+                    if (message.RequestedAction.Equals(CoopUtils.DISCONNECT))
                     {
                         _clientsRegistered.Unregister(temp);
                         continue;
@@ -129,18 +130,18 @@ namespace Sapp
                         continue;
                     }
 
-                    else if (message.RequestedAction.Equals("REGISTER") && _clientsRegistered.GetNumberInLobby() != MAX_ALLOWED_IN_LOBBY)
+                    else if (message.RequestedAction.Equals(CoopUtils.REGISTER))
                     {
-                        reply.PasswordOK = true;
-                        //_clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
+                        if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY)
+                            reply.RequestedAction = CoopUtils.LOBBY_FULL;
+                        else
+                        {
+                            reply.PasswordOK = true;
+                            _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
+                        }
+                        
                         CoopUtils.SendMessage(reply, clientJoining);
-                        _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
-                    }
-
-                    else if (message.RequestedAction.Equals("REGISTER"))
-                    {
-                        reply.RequestedAction = "LOBBY_FULL";
-                        CoopUtils.SendMessage(reply, clientJoining);
+                        
                     }
 
                 }

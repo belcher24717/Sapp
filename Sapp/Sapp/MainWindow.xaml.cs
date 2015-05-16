@@ -800,7 +800,10 @@ namespace Sapp
 
         private void btnHostClick(object sender, RoutedEventArgs e)
         {
-            FriendsList.GetInstance().SetList(ref tbFriendsConnected);
+            if (CoopHost.GetInstance().IsHosting() || CoopJoin.GetInstance().IsJoined())
+                return;
+
+            FriendsList.GetInstance().SetList(ref tbFriendsConnected, ref lblNumFriends);
 
             CoopHostWindow chw = new CoopHostWindow();
             chw.ShowDialog();
@@ -810,6 +813,9 @@ namespace Sapp
 
         private void btnJoinClick(object sender, RoutedEventArgs e)
         {
+            if (CoopJoin.GetInstance().IsJoined() || CoopHost.GetInstance().IsHosting())
+                return;
+
             GamesList temp = new GamesList();
             temp.AddList(gamePool);
             temp.AddList(removedPool);
@@ -826,7 +832,7 @@ namespace Sapp
                 CoopJoin.GetInstance().Disconnect();
         }
 
-        private void tbSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             textFilterActive = true;
 
@@ -836,12 +842,12 @@ namespace Sapp
                 textbox_searchfilter.Focus();
         }
 
-        private void tbFilterSearch_OnGotFocus(object sender, RoutedEventArgs e)
+        private void txtFilterSearch_OnGotFocus(object sender, RoutedEventArgs e)
         {
             UpdateTextFilterSettings(false);
         }
 
-        private void tbFilterSearch_OnLostFocus(object sender, RoutedEventArgs e)
+        private void txtFilterSearch_OnLostFocus(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrEmpty(textbox_searchfilter.Text))
             {
@@ -854,7 +860,7 @@ namespace Sapp
             if (lostFocus)
             {
                 //disable TextChanged event
-                textbox_searchfilter.TextChanged -= tbSearchFilter_TextChanged;
+                textbox_searchfilter.TextChanged -= txtSearchFilter_TextChanged;
 
                 textbox_searchfilter.Text = FILTER_TEXT;
                 textbox_searchfilter.Foreground = Brushes.Gray;
@@ -868,23 +874,23 @@ namespace Sapp
                     textbox_searchfilter.Foreground = Brushes.White;
 
                     //enable TextChanged event
-                    textbox_searchfilter.TextChanged += tbSearchFilter_TextChanged;
+                    textbox_searchfilter.TextChanged += txtSearchFilter_TextChanged;
                 }
 
             }
 
         }
 
-        private void btn_ClearTextFilter_Click(object sender, RoutedEventArgs e)
-        {
-            if (textFilterActive)
-                textbox_searchfilter.Text = "";
-        }
-
         public static void AddGame(Game gameToAdd)
         {
             gamePool.Add(gameToAdd);
         }
+
+        private void event_FriendLobbyChanged(object sender, DataTransferEventArgs e)
+        {
+            lblNumFriends.Content = "(" + (tbFriendsConnected.Text.Split('\n').Length - 1) + "/13)";
+        }
+
 
     }
 

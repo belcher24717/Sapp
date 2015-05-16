@@ -15,6 +15,12 @@ namespace Sapp
 {
     public static class CoopUtils
     {
+        public static string DISCONNECT = "DISCONNECT";
+        public static string REGISTER = "REGISTER";
+        public static string LOBBY_FULL = "LOBBY_FULL";
+        public static string UPDATE = "UPDATE";
+        public static string LAUNCH = "LAUNCH";
+
         public static bool HostListening = false;
         public static bool JoinListening = false;
         public static GamesList joinersGames = null;

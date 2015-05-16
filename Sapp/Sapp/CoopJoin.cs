@@ -13,7 +13,7 @@ namespace Sapp
     public class CoopJoin : Coop
     {
         private string _ipJoining;
-        private GamesList _myList = null;
+        private GamesList _myGames = null;
         private TcpClient _host;
 
         private static CoopJoin _instance = null;
@@ -38,7 +38,7 @@ namespace Sapp
 
         public void SetGamesList(GamesList list)
         {
-            _myList = list;
+            _myGames = list;
         }
 
         public bool SetIpJoining(string ip)
@@ -69,7 +69,7 @@ namespace Sapp
 
         public void Join()
         {
-            if (_listening || _myList == null)
+            if (_listening || _myGames == null)
                 return;
 
             Task.Factory.StartNew(() =>
@@ -95,7 +95,7 @@ namespace Sapp
                 SetListening(false);
                 return;
             }
-            DataContainer message = CoopUtils.ConstructMessage("REGISTER", _password, _myList);
+            DataContainer message = CoopUtils.ConstructMessage(CoopUtils.REGISTER, _password, _myGames);
             message.Name = _nickname;
 
             CoopUtils.SendMessage(message, _host);
@@ -104,7 +104,7 @@ namespace Sapp
 
             if (passwordOK == null || passwordOK.PasswordOK == false)
             {
-                if (passwordOK != null && passwordOK.RequestedAction.Equals("LOBBY_FULL"))
+                if (passwordOK != null && passwordOK.RequestedAction.Equals(CoopUtils.LOBBY_FULL))
                 {
                     //lobby is full
                 }
@@ -121,27 +121,25 @@ namespace Sapp
             {
                 Thread.Sleep(500);
 
-                //if(!_host.Connected)
-                    //_host.Connect(_ipJoining, _port);
+                if(!_host.Connected)
+                    SetListening(false);
 
                 DataContainer launchMessage = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
                 if(launchMessage == null)
                     continue;
 
-                if (launchMessage.RequestedAction.Equals("LAUNCH"))
-                    Process.Start("steam://run/" + launchMessage.AppID);
+                if (launchMessage.RequestedAction.Equals(CoopUtils.DISCONNECT))
+                    SetListening(false);
 
-                else if (launchMessage.RequestedAction.Equals("UPDATE"))
+                else if (launchMessage.RequestedAction.Equals(CoopUtils.UPDATE))
                 {
                     //update list of who is connected
                 }
 
-                else if (launchMessage.RequestedAction.Equals("DISCONNECT"))
-                {
-                    SetListening(false);
-                    break;
-                }
+                else if (launchMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
+                    _myGames.GetGame(launchMessage.AppID).Launch();
+
             }
 
             if(_host != null)
@@ -158,7 +156,7 @@ namespace Sapp
             }
             
             //dont need password to unregister
-            DataContainer message = CoopUtils.ConstructMessage("DISCONNECT", "", null);
+            DataContainer message = CoopUtils.ConstructMessage(CoopUtils.DISCONNECT, "", null);
 
             CoopUtils.SendMessage(message, _host);
             Thread.Sleep(100);

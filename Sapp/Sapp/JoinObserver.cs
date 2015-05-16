@@ -26,20 +26,6 @@ namespace Sapp
             return _clients.Count;
         }
 
-        /*
-        public void AddFriendToList(string name)
-        {
-            if (_friendsJoinedList != null)
-                _friendsJoinedList.Text += name + "\n";
-        }
-
-        public void RemoveFriendFromList(string name)
-        {
-            if (_friendsJoinedList != null)                                                                                                                 
-                _friendsJoinedList.Text = _friendsJoinedList.Text.Substring(0, _friendsJoinedList.Text.IndexOf(name)) + //append strings together, exclude name leaving
-                    _friendsJoinedList.Text.Substring(_friendsJoinedList.Text.IndexOf(name) + name.Length + 1);//+1 for \n
-        }
-        */
         public void Unregister(string clientAddress)
         {
             for (int i = 0; i < _clients.Count; i++)
