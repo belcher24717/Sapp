@@ -4,26 +4,38 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d"
-	Title="CustomGameWizard" Height="325" Width="311">
+	Title="CustomGameWizard" Height="300" Width="325" ResizeMode="NoResize" x:Name="CustomGameWizard" Background="White" AllowsTransparency="True" WindowStyle="None">
 
     <Grid>
-        <Label x:Name="label_header" Content="Custom Game Wizard..." HorizontalAlignment="Left" Margin="-1,10,0,0" VerticalAlignment="Top" Width="155"/>
-        <TabControl x:Name="tabcontrol_mainview" HorizontalAlignment="Left" Height="254" Margin="0,10,0,0" VerticalAlignment="Top" Width="300">
+
+
+        <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
+			Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" StrokeThickness="0" Margin="0,0,2,0"/>
+
+        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
+
+        <Label Content="CUSTOM GAME WIZARD" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+
+        <TabControl x:Name="tabcontrol_customgame" HorizontalAlignment="Left" Height="231" Margin="11,33,0,0" VerticalAlignment="Top" Width="300" Background="{x:Null}">
+
             <TabItem Header="Initialize">
-                <Grid Background="#FFE5E5E5">
-                    <Label x:Name="label_gamename" Content="Name:*" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="textbox_gamename" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270"/>
-                    <Label x:Name="label_location" Content="Game .exe Location:*" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="textbox_location" HorizontalAlignment="Left" Height="23" Margin="11,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="203"/>
-                    <Button x:Name="button_browse" Content="Browse" HorizontalAlignment="Left" Margin="219,90,-4,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_browse_Click"/>
+                <Grid>
+                    <Label x:Name="label_gamename" Content="Name:*" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <TextBox x:Name="textbox_gamename" HorizontalAlignment="Left" Height="23" Margin="10,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270"/>
+                    <Label x:Name="label_location" Content="Game .exe Location:*" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <TextBox x:Name="textbox_location" HorizontalAlignment="Left" Height="23" Margin="11,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="203"/>
+                    <Button x:Name="button_browse" Content="Browse" HorizontalAlignment="Left" Margin="219,122,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_browse_Click"/>
                 </Grid>
             </TabItem>
+
             <TabItem Header="Customize">
-                <Grid Background="#FFE5E5E5" Margin="10,20">
+                <Grid>
 
-                    <Label x:Name="label_customizeheader" Content="Select the tags associated with this game..." Margin="-4,-26,4,26" />
+                    <Label x:Name="label_customizeheader" Content="Select the tags associated with this game..." Margin="-4,-26,4,26"
+                           Foreground="{StaticResource TextColor}"/>
 
-                    <ScrollViewer Margin="0,0,-3,0">
+                    <ScrollViewer Margin="0,0,0,-0.333">
 
                         <StackPanel>
 
@@ -75,22 +87,30 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
+
             <TabItem Header="Review/Finish">
-                <Grid Background="#FFE5E5E5">
-                    <Label x:Name="label_reviewheader" Content="Review the game and then click Finish..." HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
-                    <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="176" Margin="10,36,0,0" Stroke="Black" VerticalAlignment="Top" Width="270"/>
-                    <Label x:Name="label_finalname" Content="Name:" HorizontalAlignment="Left" Margin="59,48,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label_finalexeselected" Content=".exe Selected:" HorizontalAlignment="Left" Margin="22,79,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label_finaltags" Content="Tags Applied:" HorizontalAlignment="Left" Margin="22,110,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label_finalnamedisplay" Content="" HorizontalAlignment="Left" Margin="108,48,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label_finalexeselecteddisplay" Content="" HorizontalAlignment="Left" Margin="108,79,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label_notimplemented" Content="{}{Not Implemented}" HorizontalAlignment="Left" Margin="108,110,0,0" VerticalAlignment="Top"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="44*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label_reviewheader" Content="Review the game and then click Finish..." HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"
+                           Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
+                    <Label x:Name="label_finalname" Content="Name:" HorizontalAlignment="Left" Margin="29.444,48,0,0" VerticalAlignment="Top" Grid.Column="1" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="label_finalexeselected" Content=".exe Selected:" HorizontalAlignment="Left" Margin="22,79,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="label_finaltags" Content="Tags Applied:" HorizontalAlignment="Left" Margin="22,110,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="label_finalnamedisplay" Content="" HorizontalAlignment="Left" Margin="78.444,48,0,0" VerticalAlignment="Top" Grid.Column="1" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="label_finalexeselecteddisplay" Content="" HorizontalAlignment="Left" Margin="78.444,79,0,0" VerticalAlignment="Top" Grid.Column="1" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="label_notimplemented" Content="{}{Not Implemented}" HorizontalAlignment="Left" Margin="78.444,110,0,0" VerticalAlignment="Top" Grid.Column="1" Foreground="{StaticResource TextColor}"/>
                 </Grid>
             </TabItem>
+
         </TabControl>
+
+
         <Button x:Name="button_cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_cancel_Click"/>
-        <Button x:Name="button_next" Content="Next &gt;" HorizontalAlignment="Left" Margin="233,269,0,0" VerticalAlignment="Top" Width="60" Height="21" IsCancel="True" Click="button_next_Click"/>
-        <Button x:Name="button_back" Content="&lt; Back" HorizontalAlignment="Left" Margin="168,269,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_back_Click"/>
+        <Button x:Name="button_next" Content="Next &gt;" HorizontalAlignment="Left" Margin="249,269,0,0" VerticalAlignment="Top" Width="60" Height="21" IsCancel="True" Click="button_next_Click"/>
+        <Button x:Name="button_back" Content="&lt; Back" HorizontalAlignment="Left" Margin="184,269,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_back_Click"/>
 
     </Grid>
 </Window>
