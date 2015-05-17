@@ -23,17 +23,18 @@ namespace Sapp
 
         private CustomGameWindowManager _manager;
         private List<CheckBox> checkboxes;
+        public List<string> tagsToApply;
 
         public CustomGameWizard()
         {
             InitializeComponent();
 
-            tabcontrol_mainview.SelectionChanged += TabChangedEvent;
+            tabcontrol_customgame.SelectionChanged += TabChangedEvent;
 
             HideTabHeaders();
             PopulateCheckboxes();
 
-            // maybe move this to onload event?
+            tagsToApply = new List<string>();
             _manager = new CustomGameWindowManager(this);
         }
 
@@ -41,7 +42,7 @@ namespace Sapp
         {
             Style newStyle = new Style();
             newStyle.Setters.Add(new Setter(UIElement.VisibilityProperty, Visibility.Collapsed));
-            tabcontrol_mainview.ItemContainerStyle = newStyle;
+            tabcontrol_customgame.ItemContainerStyle = newStyle;
         }
 
         //TODO: This is so ugly, make this better.
@@ -94,6 +95,11 @@ namespace Sapp
             checkboxes.Add(chkbxTurnBased);
         }
 
+        private void MouseDownOnWindow(object sender, RoutedEventArgs e)
+        {
+            this.DragMove();
+        }
+
         private void TabChangedEvent(object sender, RoutedEventArgs e)
         {
             // reset
@@ -101,9 +107,9 @@ namespace Sapp
             button_next.Content = "Next >";
 
             // special cases
-            if (tabcontrol_mainview.SelectedIndex == 0)
+            if (tabcontrol_customgame.SelectedIndex == 0)
                 button_back.IsEnabled = false;
-            else if (tabcontrol_mainview.SelectedIndex == 2)
+            else if (tabcontrol_customgame.SelectedIndex == 2)
             {
                 label_finalnamedisplay.Content = textbox_gamename.Text;
                 //TODO: Make it only show the .exe file, not the absolute path...
@@ -136,11 +142,31 @@ namespace Sapp
         //TODO: Make sure this grabs an exe, not just a valid path...
         private void button_browse_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            var dialog = new System.Windows.Forms.OpenFileDialog();
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                textbox_location.Text = dialog.SelectedPath;
+            {
+                textbox_location.Text = dialog.FileName;
+
+                if (textbox_gamename.Text.Equals(""))
+                {
+                    string filename = dialog.SafeFileName;
+                    int index = filename.IndexOf(".");
+                    textbox_gamename.Text = filename.Substring(0, index);
+                }
+            }
         }
 
+        private void Checkbox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox theSender = (CheckBox)sender;
+            tagsToApply.Add(theSender.Content.ToString());
+        }
+
+        private void Checkbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox theSender = (CheckBox)sender;
+            tagsToApply.Remove(theSender.Content.ToString());
+        }
     }
 }

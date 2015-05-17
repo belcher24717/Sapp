@@ -61,6 +61,12 @@ namespace Sapp
             get { return title; }
         }
 
+        public string FilePath
+        {
+            set;
+            get;
+        }
+
         //start with just title and either build the rest in later, or add them here
         public Game(string title, int appid, bool installed)
         {
@@ -99,7 +105,10 @@ namespace Sapp
 
         public void Launch()
         {
-            Process.Start("steam://run/" + appID);
+            if (appID >= 0)
+                Process.Start("steam://run/" + appID);
+            else
+                Process.Start(FilePath);
         }
 
         public void AddTag(string tag)
@@ -113,6 +122,17 @@ namespace Sapp
             {
                 // maybe do something if it's a null tag!
             }
+        }
+
+        public void RemoveTag(string tag)
+        {
+            tagList.Remove(GameUtilities.CreateTag(tag));
+        }
+
+        //overload
+        public void RemoveTag(GameUtilities.Tags tag)
+        {
+            tagList.Remove(tag);
         }
 
         public List<GameUtilities.Tags> GetTags()

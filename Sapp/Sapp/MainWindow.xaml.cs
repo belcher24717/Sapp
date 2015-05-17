@@ -884,6 +884,7 @@ namespace Sapp
         public static void AddGame(Game gameToAdd)
         {
             gamePool.Add(gameToAdd);
+            //TODO: write this out to file
         }
 
         private void event_FriendLobbyChanged(object sender, DataTransferEventArgs e)
