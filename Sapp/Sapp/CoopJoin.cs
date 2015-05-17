@@ -134,7 +134,8 @@ namespace Sapp
 
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.UPDATE))
                 {
-                    //update list of who is connected
+                    if (launchMessage.Name != null)
+                        FriendsList.GetInstance().SetFriends(launchMessage.Name);
                 }
 
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
@@ -145,6 +146,7 @@ namespace Sapp
             if(_host != null)
                 _host.Close();
             SetListening(false);
+            FriendsList.GetInstance().ClearList();
         }
 
         public void Disconnect()

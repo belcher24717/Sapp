@@ -75,6 +75,17 @@ namespace Sapp
             }
         }
 
+        public void SendMessageToClients(DataContainer message)
+        {
+            if (!_listening || _clientsRegistered == null)
+                return;
+
+            foreach (TcpClient reciever in _clientsRegistered.GetClients())
+            {
+                CoopUtils.SendMessage(message, reciever);
+            }
+        }
+
         public void CoopHostThread()
         {
             if (_listening)
@@ -148,9 +159,19 @@ namespace Sapp
                     }
 
                 }
-            }
+            }//end while listening
+
             SetListening(false);
             FriendsList.GetInstance().ClearList();
+        }
+
+        public void UpdateJoinedFriends()
+        {
+            DataContainer message = new DataContainer();
+            message.RequestedAction = CoopUtils.UPDATE;
+            message.Name = FriendsList.GetInstance().GetLobbyList();
+
+            SendMessageToClients(message);
         }
 
         public void SetListening(bool val)

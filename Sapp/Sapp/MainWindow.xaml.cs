@@ -816,6 +816,8 @@ namespace Sapp
             if (CoopJoin.GetInstance().IsJoined() || CoopHost.GetInstance().IsHosting())
                 return;
 
+            FriendsList.GetInstance().SetList(ref tbFriendsConnected, ref lblNumFriends);
+
             GamesList temp = new GamesList();
             temp.AddList(gamePool);
             temp.AddList(removedPool);

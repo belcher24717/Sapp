@@ -43,6 +43,14 @@ namespace Sapp
             _labelUpdater = numInLobby.Dispatcher;
         }
 
+        public void SetFriends(string wholeList)
+        {
+            if (_friendsJoinedList != null)
+                _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text = wholeList));
+
+            UpdateLobbyCount();
+        }
+
         public void AddFriend(string friend)
         {
             if (_friendsJoinedList != null)
@@ -58,6 +66,11 @@ namespace Sapp
                     _friendsJoinedList.Text.Substring(_friendsJoinedList.Text.IndexOf(friend) + friend.Length + 1)));//+1 for \n
 
             UpdateLobbyCount();
+        }
+
+        public string GetLobbyList()
+        {
+            return _friendsJoinedList.Text;
         }
 
         private void UpdateLobbyCount()

@@ -33,8 +33,10 @@ namespace Sapp
                 if (_clients[i].Equals(clientAddress))
                 {
                     _clients[i].GetClient().Close();
-                    FriendsList.GetInstance().RemoveFriend(_clients[i].GetName());
+
+                    FriendsList.GetInstance().RemoveFriend(_clients[i].GetName()); 
                     _clients.RemoveAt(i);
+                    CoopHost.GetInstance().UpdateJoinedFriends();
                     break;
                 }
             }
@@ -44,7 +46,9 @@ namespace Sapp
         {
             JoinObserverClient newClient = new JoinObserverClient(client, clientsGames, name);
             _clients.Add(newClient);
+
             FriendsList.GetInstance().AddFriend(newClient.GetName());
+            CoopHost.GetInstance().UpdateJoinedFriends();
         }
 
         public void AttachPlayerList(ref TextBlock friendsJoined)

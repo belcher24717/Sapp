@@ -107,7 +107,7 @@ namespace Sapp
         {
             if (appID >= 0)
                 Process.Start("steam://run/" + appID);
-            else
+            else//Verify FilePath exists? And was not removed
                 Process.Start(FilePath);
         }
 
