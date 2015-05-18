@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -10,6 +11,7 @@ namespace Sapp
 {
     public class FriendsList
     {
+        private string _friendsListString;
         private TextBlock _friendsJoinedList;
         private Dispatcher _listUpdater;
 
@@ -54,7 +56,10 @@ namespace Sapp
         public void AddFriend(string friend)
         {
             if (_friendsJoinedList != null)
+            {
                 _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text += friend + "\n"));
+                _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsListString = _friendsJoinedList.Text));
+            }
 
             UpdateLobbyCount();
         }
@@ -62,15 +67,18 @@ namespace Sapp
         public void RemoveFriend(string friend)
         {
             if (_friendsJoinedList != null)
+            {
                 _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text = _friendsJoinedList.Text.Substring(0, _friendsJoinedList.Text.IndexOf(friend)) + //append strings together, exclude name leaving
                     _friendsJoinedList.Text.Substring(_friendsJoinedList.Text.IndexOf(friend) + friend.Length + 1)));//+1 for \n
+                _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsListString = _friendsJoinedList.Text));
+            }
 
             UpdateLobbyCount();
         }
 
         public string GetLobbyList()
-        {
-            return _friendsJoinedList.Text;
+        {       
+            return _friendsListString;
         }
 
         private void UpdateLobbyCount()
