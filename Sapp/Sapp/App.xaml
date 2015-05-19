@@ -6,10 +6,13 @@
         
         <SolidColorBrush x:Key="PrimaryColor">#FF262626</SolidColorBrush>
         <Color x:Key="SecondaryColor">#FF203C58</Color>
-        <SolidColorBrush x:Key="MainBorderColor">#19344e</SolidColorBrush>
+
 
         <SolidColorBrush x:Key="BordersColor">Gray</SolidColorBrush>
         <SolidColorBrush x:Key="TextColor">#FFCFCFCF</SolidColorBrush>
+
+        <!--Dis Border Gradient doe-->
+        <SolidColorBrush x:Key="MainBorderColor">#19344e</SolidColorBrush>
 
         <!--Dis BG Gradient doe-->
         <LinearGradientBrush x:Key="BGGradient" StartPoint="0.5,0" EndPoint="0.5,1">
