@@ -93,7 +93,7 @@ namespace Sapp
             {
                 //TODO: log failure
                 SetListening(false);
-                return;
+                goto StopListening;
             }
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.REGISTER, _password, _myGames);
             message.Name = _nickname;
@@ -114,7 +114,7 @@ namespace Sapp
                 }
                 //TODO: log failure
                 SetListening(false);
-                return;
+                goto StopListening;
             }
 
             while (_listening)
@@ -143,6 +143,8 @@ namespace Sapp
 
             }
 
+            StopListening:
+
             if(_host != null)
                 _host.Close();
             SetListening(false);
@@ -157,16 +159,7 @@ namespace Sapp
                 return;
             }
 
-            try
-            {
-                _host = new TcpClient(_ipJoining, _port);
-            }
-            catch
-            {
-                //TODO: log failure
-                SetListening(false);
-                return;
-            }
+            //reconnect to host?
             
             //dont need password to unregister
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.DISCONNECT, "", null);

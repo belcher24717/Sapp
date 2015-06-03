@@ -16,7 +16,7 @@ namespace Sapp
         private JoinObserver _clientsRegistered;
         private static CoopHost _instance = null;
 
-        private const int MAX_ALLOWED_IN_LOBBY = 7; //+1 which is the host for a total of 8
+        public const int MAX_ALLOWED_IN_LOBBY = 10; //+1 which is the host for a total of 8
 
         private CoopHost() : base(7780, "")
         {
@@ -104,6 +104,7 @@ namespace Sapp
             {
                 //Failed because port in use
                 //TODO: Make an error window
+                SetListening(false);
                 return;
             }
 
@@ -146,21 +147,29 @@ namespace Sapp
 
                     else if (message.RequestedAction.Equals(CoopUtils.REGISTER))
                     {
-                        if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY)
+                        //-1 to include the host
+                        if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
+                        {
                             reply.RequestedAction = CoopUtils.LOBBY_FULL;
+                            CoopUtils.SendMessage(reply, clientJoining);
+                        }
                         else
                         {
                             reply.PasswordOK = true;
+
+                            //need to send this message first so that the Joined person knows the password is good
+                            CoopUtils.SendMessage(reply, clientJoining);
                             _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
                         }
                         
-                        CoopUtils.SendMessage(reply, clientJoining);
+                        //CoopUtils.SendMessage(reply, clientJoining);
                         
                     }
 
                 }
             }//end while listening
 
+            listener.Stop();
             SetListening(false);
             FriendsList.GetInstance().ClearList();
         }

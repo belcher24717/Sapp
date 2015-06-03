@@ -57,8 +57,8 @@ namespace Sapp
         {
             if (_friendsJoinedList != null)
             {
-                _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text += friend + "\n"));
-                _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsListString = _friendsJoinedList.Text));
+                _listUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text += friend + "\n"));
+                _listUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _friendsListString = _friendsJoinedList.Text));
             }
 
             UpdateLobbyCount();
@@ -68,9 +68,9 @@ namespace Sapp
         {
             if (_friendsJoinedList != null)
             {
-                _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text = _friendsJoinedList.Text.Substring(0, _friendsJoinedList.Text.IndexOf(friend)) + //append strings together, exclude name leaving
+                _listUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text = _friendsJoinedList.Text.Substring(0, _friendsJoinedList.Text.IndexOf(friend)) + //append strings together, exclude name leaving
                     _friendsJoinedList.Text.Substring(_friendsJoinedList.Text.IndexOf(friend) + friend.Length + 1)));//+1 for \n
-                _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsListString = _friendsJoinedList.Text));
+                _listUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _friendsListString = _friendsJoinedList.Text));
             }
 
             UpdateLobbyCount();
@@ -84,7 +84,8 @@ namespace Sapp
         private void UpdateLobbyCount()
         {
             if (_numInLobby != null)
-                _labelUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _numInLobby.Content = "(" + (_friendsJoinedList.Text.Split('\n').Length - 1) + "/13)"));
+                _labelUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _numInLobby.Content = 
+                                "(" + (_friendsJoinedList.Text.Split('\n').Length - 1) + "/" + CoopHost.MAX_ALLOWED_IN_LOBBY + ")"));
         }
     }
 }
