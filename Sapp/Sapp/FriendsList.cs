@@ -27,8 +27,8 @@ namespace Sapp
 
         public void ClearList()
         {
-            _listUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text = ""));
-            _labelUpdater.BeginInvoke(DispatcherPriority.Normal, (Action)(() => _numInLobby.Content = ""));
+            _listUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _friendsJoinedList.Text = ""));
+            _labelUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _numInLobby.Content = ""));
         }
 
         public static FriendsList GetInstance()

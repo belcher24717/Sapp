@@ -102,7 +102,7 @@ namespace Sapp
 
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
-            if (passwordOK == null || passwordOK.PasswordOK == false)
+            if (passwordOK == null || passwordOK.PasswordOK != true)
             {
                 if (passwordOK != null && passwordOK.RequestedAction.Equals(CoopUtils.LOBBY_FULL))
                 {
@@ -153,13 +153,28 @@ namespace Sapp
 
         public void Disconnect()
         {
+            FriendsList.GetInstance().ClearList();
+
             if (!_listening || _host == null)
             {
                 SetListening(false);
                 return;
             }
 
-            //reconnect to host?
+            try
+            {
+                //refresh the connection socket so the message will send
+                if (_host.Connected)
+                    _host = new TcpClient(_ipJoining, _port);
+                else
+                    throw new Exception();
+            }
+            catch
+            {
+                //TODO: log failure
+                SetListening(false);
+                //goto StopListening;
+            }
 
             
             //dont need password to unregister
