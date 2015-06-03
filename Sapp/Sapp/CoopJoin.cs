@@ -158,8 +158,11 @@ namespace Sapp
                 SetListening(false);
                 return;
             }
+<<<<<<< HEAD
 
             //reconnect to host?
+=======
+>>>>>>> origin/master
             
             //dont need password to unregister
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.DISCONNECT, "", null);
