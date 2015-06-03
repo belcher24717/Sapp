@@ -156,17 +156,6 @@ namespace Sapp
                 SetListening(false);
                 return;
             }
-
-            try
-            {
-                _host = new TcpClient(_ipJoining, _port);
-            }
-            catch
-            {
-                //TODO: log failure
-                SetListening(false);
-                return;
-            }
             
             //dont need password to unregister
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.DISCONNECT, "", null);
