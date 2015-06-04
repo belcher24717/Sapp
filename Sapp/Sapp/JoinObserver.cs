@@ -77,6 +77,39 @@ namespace Sapp
 
             return listToReturn;
         }
+
+        public void RefreshCollectiveGames()
+        {
+            if (_clients.Count < 1)
+            {
+                CoopUtils.joinersGames = null;
+                return;
+            }
+
+            GamesList tempGames = new GamesList();
+
+            //duplicates will not be added
+            foreach(Game game in _clients[0].GetGames())
+            {
+                bool gameOwnedByAll = true;
+
+                foreach (JoinObserverClient client in _clients)
+                    if (!client.GetGames().Contains(game))
+                    {
+                        gameOwnedByAll = false;
+                        break;
+                    }
+
+                if (gameOwnedByAll)
+                    tempGames.Add(game);
+            }
+            CoopUtils.joinersGames = tempGames;
+        }
+
+        public void AddNewGamesToJoinedGames(GamesList games)
+        {
+            CoopUtils.joinersGames.AddList(games);
+        }
     }
 
     public class JoinObserverClient
@@ -100,6 +133,11 @@ namespace Sapp
         public string GetName()
         {
             return _name;
+        }
+
+        public GamesList GetGames()
+        {
+            return _games;
         }
 
         public override bool Equals(object obj)

@@ -133,6 +133,7 @@ namespace Sapp
                     if (message.RequestedAction.Equals(CoopUtils.DISCONNECT))
                     {
                         _clientsRegistered.Unregister(temp);
+                        _clientsRegistered.RefreshCollectiveGames();
                         continue;
                     }
 
@@ -160,6 +161,7 @@ namespace Sapp
                             //need to send this message first so that the Joined person knows the password is good
                             CoopUtils.SendMessage(reply, clientJoining);
                             _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
+                            _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
                         }
                         
                         //CoopUtils.SendMessage(reply, clientJoining);
