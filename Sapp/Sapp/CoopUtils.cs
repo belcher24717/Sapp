@@ -16,14 +16,15 @@ namespace Sapp
     public static class CoopUtils
     {
         public static string DISCONNECT = "DISCONNECT";
-        public static string REGISTER = "REGISTER";
+        public static string PRE_REGISTER = "REGISTER";
         public static string LOBBY_FULL = "LOBBY_FULL";
         public static string UPDATE = "UPDATE";
         public static string LAUNCH = "LAUNCH";
+        public static string FINALIZE_REGISTER = "FINALIZE_REGISTER";
 
         public static bool HostListening = false;
         public static bool JoinListening = false;
-        public static GamesList joinersGames = null;
+        public static GamesList CollectivePool = null;
         //seperate this stuff out, most should be in CoopJoin or CoopHost
 
         //encryption
@@ -109,5 +110,7 @@ namespace Sapp
 
 
 
+
+        
     }
 }

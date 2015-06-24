@@ -146,7 +146,7 @@ namespace Sapp
                         continue;
                     }
 
-                    else if (message.RequestedAction.Equals(CoopUtils.REGISTER))
+                    else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
                         //-1 to include the host
                         if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
@@ -156,16 +156,16 @@ namespace Sapp
                         }
                         else
                         {
+                            reply.RequestedAction = CoopUtils.FINALIZE_REGISTER;//tell the joiner to finalize registering
                             reply.PasswordOK = true;
-
-                            //need to send this message first so that the Joined person knows the password is good
+                            reply.Games = CoopUtils.CollectivePool;
                             CoopUtils.SendMessage(reply, clientJoining);
-                            _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
-                            _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
                         }
-                        
-                        //CoopUtils.SendMessage(reply, clientJoining);
-                        
+                    }
+                    else if(message.RequestedAction.Equals(CoopUtils.FINALIZE_REGISTER))
+                    {
+                        _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
+                        _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
                     }
 
                 }

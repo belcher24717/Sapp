@@ -27,7 +27,7 @@ namespace Sapp
     public partial class MainWindow : Window
     {
         private static GamesList gamePool;  
-        private GamesList removedPool;
+        private static GamesList removedPool;
 
         private bool onlyPlayInstalledGames;
 
@@ -207,6 +207,14 @@ namespace Sapp
             }
         }
 
+        public static GamesList GetAllGames()
+        {
+            GamesList allGames = new GamesList();
+            allGames.AddList(gamePool);
+            allGames.AddList(removedPool);
+            return allGames;
+        }
+
         private void gamePool_Changed(object sender, EventArgs e)
         {
             gamePoolHandler.Refresh();
@@ -368,10 +376,10 @@ namespace Sapp
 
             if (CoopUtils.HostListening)
             {
-                if(CoopUtils.joinersGames != null)
+                if(CoopUtils.CollectivePool != null)
                 {
                     foreach (Game game in gamePool)
-                        if (!CoopUtils.joinersGames.Contains(game))
+                        if (!CoopUtils.CollectivePool.Contains(game))
                             gamesToRemove.Add(game);
 
                     //remove them so they arent removed twice

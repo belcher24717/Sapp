@@ -14,12 +14,9 @@ namespace Sapp
     public class JoinObserver
     {
         private List<JoinObserverClient> _clients;
-        //private string _friendsJoinedList;
-        //private TextBlock _friendsJoinedList;
         public JoinObserver()
         {
             _clients = new List<JoinObserverClient>();
-            //_friendsJoinedList = null;
         }
 
         public int GetNumberInLobby()
@@ -52,11 +49,6 @@ namespace Sapp
             CoopHost.GetInstance().UpdateJoinedFriends();
         }
 
-        public void AttachPlayerList(ref TextBlock friendsJoined)
-        {
-
-        }
-
         public void StopHosting()
         {
             while(_clients.Count > 0)
@@ -80,35 +72,24 @@ namespace Sapp
 
         public void RefreshCollectiveGames()
         {
+            CoopUtils.CollectivePool = null;
             if (_clients.Count < 1)
-            {
-                CoopUtils.joinersGames = null;
                 return;
-            }
 
-            GamesList tempGames = new GamesList();
+            //Get all the hosts games
+            GamesList newCollectiveGames = MainWindow.GetAllGames();
 
-            //duplicates will not be added
-            foreach(Game game in _clients[0].GetGames())
-            {
-                bool gameOwnedByAll = true;
+            foreach (JoinObserverClient client in _clients)
+                newCollectiveGames = (GamesList)newCollectiveGames.Union(client.GetGames());
 
-                foreach (JoinObserverClient client in _clients)
-                    if (!client.GetGames().Contains(game))
-                    {
-                        gameOwnedByAll = false;
-                        break;
-                    }
-
-                if (gameOwnedByAll)
-                    tempGames.Add(game);
-            }
-            CoopUtils.joinersGames = tempGames;
+            CoopUtils.CollectivePool = newCollectiveGames;
         }
-
         public void AddNewGamesToJoinedGames(GamesList games)
         {
-            CoopUtils.joinersGames.AddList(games);
+            if (CoopUtils.CollectivePool == null) 
+                CoopUtils.CollectivePool = (GamesList)MainWindow.GetAllGames().Union(games);
+            else
+                CoopUtils.CollectivePool = (GamesList)CoopUtils.CollectivePool.Union(games);
         }
     }
 

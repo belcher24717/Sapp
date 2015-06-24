@@ -95,16 +95,18 @@ namespace Sapp
                 SetListening(false);
                 goto StopListening;
             }
-            DataContainer message = CoopUtils.ConstructMessage(CoopUtils.REGISTER, _password, _myGames);
-            message.Name = _nickname;
-
+            DataContainer message = CoopUtils.ConstructMessage(CoopUtils.PRE_REGISTER, _password, null);
             CoopUtils.SendMessage(message, _host);
-
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
-            if (passwordOK == null || passwordOK.PasswordOK != true)
+            if (passwordOK == null)
             {
-                if (passwordOK != null && passwordOK.RequestedAction.Equals(CoopUtils.LOBBY_FULL))
+                //no response
+                return;
+            }
+            if (passwordOK.PasswordOK != true)
+            {
+                if (passwordOK.RequestedAction.Equals(CoopUtils.LOBBY_FULL))
                 {
                     //lobby is full
                 }
@@ -112,9 +114,28 @@ namespace Sapp
                 {
                     //password was wrong
                 }
-                //TODO: log failure
                 SetListening(false);
                 goto StopListening;
+            }
+            //just being clear
+            else if (passwordOK.PasswordOK == true)
+            {
+                if (passwordOK.RequestedAction.Equals(CoopUtils.FINALIZE_REGISTER))
+                {
+                    GamesList testSimilarGames = (GamesList)_myGames.Union((GamesList)passwordOK.Games);
+                    if (testSimilarGames.Count == 0)
+                    {
+                        //No similar games
+                        SetListening(false);
+                        goto StopListening;
+                    }
+                    else
+                    {
+                        message = CoopUtils.ConstructMessage(CoopUtils.FINALIZE_REGISTER, _password, _myGames);
+                        message.Name = _nickname;
+                        CoopUtils.SendMessage(message, _host);
+                    }
+                }
             }
 
             while (_listening)
