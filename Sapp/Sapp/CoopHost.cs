@@ -137,14 +137,14 @@ namespace Sapp
                         continue;
                     }
 
-                    if (!message.Password.Equals(_password))
+                    /*if (!message.Password.Equals(_password))
                     {
                         reply.PasswordOK = false;
                         CoopUtils.SendMessage(reply, clientJoining);
                         clientJoining.Close();
                         clientJoining = null;
                         continue;
-                    }
+                    }*/
 
                     else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
@@ -157,9 +157,16 @@ namespace Sapp
                         else
                         {
                             reply.RequestedAction = CoopUtils.FINALIZE_REGISTER;//tell the joiner to finalize registering
-                            reply.PasswordOK = true;
+                            reply.PasswordOK = message.Password.Equals(_password);
                             reply.Games = CoopUtils.CollectivePool;
                             CoopUtils.SendMessage(reply, clientJoining);
+
+                            if (reply.PasswordOK == false)
+                            {
+                                clientJoining.Close();
+                                clientJoining = null;
+                                continue;
+                            }
                         }
                     }
                     else if(message.RequestedAction.Equals(CoopUtils.FINALIZE_REGISTER))

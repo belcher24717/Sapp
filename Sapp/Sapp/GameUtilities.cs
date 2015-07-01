@@ -15,7 +15,6 @@ namespace Sapp
 {
     public abstract class GameUtilities
     {
-
         public enum Tags
         {
             NullTag,//used for nullification
@@ -44,7 +43,6 @@ namespace Sapp
             Sandbox,
             OpenWorld,
             Stealth,
-
             Platformer,
             Building,
             MOBA,
@@ -66,12 +64,7 @@ namespace Sapp
             RTS,
             StoryRich,
             Competitive,
-
             Utilities
-
-
-            
-
         };
 
         //TODO: Add more tags
