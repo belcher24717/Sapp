@@ -50,7 +50,7 @@ namespace Sapp
         public void Sort()
         {
             base.Sort();
-            OnChanged(EventArgs.Empty);
+            //OnChanged(EventArgs.Empty);
         }
 
         public void Reverse()

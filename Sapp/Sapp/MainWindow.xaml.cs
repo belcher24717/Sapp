@@ -218,11 +218,15 @@ namespace Sapp
         private void gamePool_Changed(object sender, EventArgs e)
         {
             gamePoolHandler.Refresh();
+            //TODO: add some smarts to know how to sort (by title or by some other way) remember how user sorted last 
+            gamePool.Sort();
         }
 
         private void removedPool_Changed(object sender, EventArgs e)
         {
             removedPoolHandler.Refresh();
+            //TODO: add some smarts to know how to sort (by title or by some other way) remember how user sorted last 
+            removedPool.Sort();
         }
 
         private void btnRemoveGame_Click(object sender, RoutedEventArgs e)
@@ -768,11 +772,19 @@ namespace Sapp
             }
         }
 
-        private void gamepool_datagrid_KeyDown(object sender, KeyEventArgs e)
+        private void pool_datagrid_KeyDown(object sender, KeyEventArgs e)
         {
+            Game selected;
+            DataGrid gridSending = (DataGrid)sender;
+            string keyPressed = e.Key.ToString();
 
-            if (e.Key == GetKeybind())
-                btnRemoveGame_Click(sender, e);
+            if (gridSending.Name.Equals("dgGamePool"))
+                gridSending.SelectedItem = selected = gamePool.Find(x => x.Title.StartsWith(keyPressed));
+            else
+                gridSending.SelectedItem = selected = removedPool.Find(x => x.Title.StartsWith(keyPressed));
+
+            if(selected != null)
+                gridSending.ScrollIntoView(selected);
         }
 
         private Key GetKeybind()
