@@ -554,6 +554,14 @@ namespace Sapp
                 removedPoolHandler.AddColumn(s);
             }
 
+            //+1 to include title
+            int width = 290 / (colsToShow.Count + 1);
+            for (int i = 0; i < colsToShow.Count + 1; i++)
+            {
+                dgGamePool.Columns[i].Width = width;
+                dgRemovedPool.Columns[i].Width = width;
+            }
+
             if (refresh)
             {
                 gamePool.Clear();
