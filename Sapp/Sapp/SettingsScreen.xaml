@@ -16,13 +16,13 @@
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
 
-        <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="371" Background="{x:Null}" Margin="1,15,0,0" BorderBrush="{DynamicResource DatagridBorderColor}" >
+        <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="372" Background="{x:Null}" Margin="1,15,0,0" BorderBrush="{DynamicResource DatagridBorderColor}" >
             <TabControl.Style>
                 <Style TargetType="TabControl">
                     <Setter Property="Border.CornerRadius" Value="0,100,0,0"/>
                 </Style>
             </TabControl.Style>
-            <TabItem Header="Filter Settings">
+            <TabItem Header="Filter Settings" Width="92">
                 <Grid>
 
                     <Label Content="FILTER SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
@@ -41,7 +41,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Columns">
+            <TabItem Header="Columns" Width="66">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="39*"/>
@@ -56,7 +56,7 @@
                   VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="User Information">
+            <TabItem Header="User Information" Width="109">
                 <Grid>
 
                     <Label Content="USER INFORMATION" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
@@ -72,7 +72,7 @@
 			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,13,35" Click="btnBrowseClicked" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Custom Games" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="152">
+            <TabItem Header="Custom Games" HorizontalAlignment="Left" Width="100">
                 <Grid>
                     <Button x:Name="button_addcustomgame" Margin="283,108,10,10" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click">
                         

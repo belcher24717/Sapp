@@ -98,9 +98,9 @@
         </DataGrid>
 
 
-        <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Left" Margin="181,45,0,0" x:Name="label1" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <Label Content="Games You Want To Play" Height="28" HorizontalAlignment="Left" Margin="193,45,0,0" x:Name="label1" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <Label Content="Games You Don't Want To Play" Height="28" HorizontalAlignment="Left" Margin="591,45,0,0" x:Name="label2" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <Label Content="Filter Your Games" Height="28" HorizontalAlignment="Left" Margin="67,45,0,0" x:Name="label1_Copy" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <Label Content="Filter Your Games" Height="28" HorizontalAlignment="Left" Margin="75,45,0,0" x:Name="label1_Copy" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
         <Button BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left" 
     		HorizontalContentAlignment="Center" Margin="480,260,0,226" x:Name="btnAddGame" SnapsToDevicePixels="True" 
@@ -119,9 +119,9 @@
             Style="{StaticResource MenuButton}" VerticalContentAlignment="Center" Padding="1"/>
 
         <Button BorderThickness="0" FlowDirection="LeftToRight" Height="25" Width="25"
-    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,485" x:Name="btnOptions" SnapsToDevicePixels="True" 
+    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,0" x:Name="btnOptions" SnapsToDevicePixels="True" 
     		VerticalAlignment="Top" Click="btnOpenOptions" ToolTip="Options" Background="{x:Null}">
-            <Image x:Name="imgCog" Stretch="Fill" Margin="3">
+            <Image x:Name="imgCog" Stretch="Fill" Margin="4">
                 <Image.Resources>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Source" Value="/Resources/Cog.png"/>
@@ -277,11 +277,11 @@
         </TabControl>
 
         <Button BorderThickness="0" Content="Save List" FlowDirection="LeftToRight" Height="25" 
-                    	HorizontalAlignment="Right" HorizontalContentAlignment="Center" x:Name="btnSaveList" SnapsToDevicePixels="True" 
-                    	VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Margin="0,0,249,12"/>
+                    	HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnSaveList" SnapsToDevicePixels="True" 
+                    	VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Margin="186,0,0,12"/>
         <Button BorderThickness="0" Content="Load List" FlowDirection="LeftToRight" Height="25" 
-                		HorizontalAlignment="Right" HorizontalContentAlignment="Center" x:Name="btnLoadList" SnapsToDevicePixels="True" 
-                		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Margin="0,0,175,12"/>
+                		HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnLoadList" SnapsToDevicePixels="True" 
+                		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Margin="260,0,0,12"/>
 
         <Button Content="Clear Filters" BorderThickness="0" 
         	HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 

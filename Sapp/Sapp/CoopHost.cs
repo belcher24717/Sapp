@@ -118,7 +118,6 @@ namespace Sapp
                 clientJoining = null;
                 if (listener.Pending())
                 {
-
                     clientJoining = listener.AcceptTcpClient();
                     string temp = IPAddress.Parse(((IPEndPoint)clientJoining.Client.RemoteEndPoint).Address.ToString()).ToString();
 
@@ -137,20 +136,12 @@ namespace Sapp
                         continue;
                     }
 
-                    /*if (!message.Password.Equals(_password))
-                    {
-                        reply.PasswordOK = false;
-                        CoopUtils.SendMessage(reply, clientJoining);
-                        clientJoining.Close();
-                        clientJoining = null;
-                        continue;
-                    }*/
-
                     else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
                         //-1 to include the host
                         if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
                         {
+                            reply.PasswordOK = false;
                             reply.RequestedAction = CoopUtils.LOBBY_FULL;
                             CoopUtils.SendMessage(reply, clientJoining);
                         }
@@ -158,7 +149,12 @@ namespace Sapp
                         {
                             reply.RequestedAction = CoopUtils.FINALIZE_REGISTER;//tell the joiner to finalize registering
                             reply.PasswordOK = message.Password.Equals(_password);
-                            reply.Games = CoopUtils.CollectivePool;
+
+                            if (CoopUtils.CollectivePool == null)
+                                reply.Games = MainWindow.GetAllGames();
+                            else
+                                reply.Games = CoopUtils.CollectivePool;
+
                             CoopUtils.SendMessage(reply, clientJoining);
 
                             if (reply.PasswordOK == false)
@@ -174,7 +170,6 @@ namespace Sapp
                         _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
                         _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
                     }
-
                 }
             }//end while listening
 

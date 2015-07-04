@@ -80,18 +80,21 @@ namespace Sapp
             GamesList newCollectiveGames = MainWindow.GetAllGames();
 
             foreach (JoinObserverClient client in _clients)
-                newCollectiveGames = (GamesList)newCollectiveGames.Union(client.GetGames());
+                newCollectiveGames.SetList(newCollectiveGames.Intersect(client.GetGames(), new GameEqualityComparer()).ToList());
 
             CoopUtils.CollectivePool = newCollectiveGames;
         }
         public void AddNewGamesToJoinedGames(GamesList games)
         {
-            if (CoopUtils.CollectivePool == null) 
-                CoopUtils.CollectivePool = (GamesList)MainWindow.GetAllGames().Union(games);
+            if (CoopUtils.CollectivePool == null)
+            {
+                CoopUtils.CollectivePool = new GamesList();
+                CoopUtils.CollectivePool.SetList(MainWindow.GetAllGames().Intersect(games, new GameEqualityComparer()).ToList());
+            }
             else
-                CoopUtils.CollectivePool = (GamesList)CoopUtils.CollectivePool.Union(games);
+                CoopUtils.CollectivePool.SetList((CoopUtils.CollectivePool.Intersect(games, new GameEqualityComparer())).ToList());
         }
-    }
+    }//TODO: write a setlist in gameslist
 
     public class JoinObserverClient
     {
@@ -137,5 +140,24 @@ namespace Sapp
             
         }
 
+    }
+
+    public class GameEqualityComparer : IEqualityComparer<Game>
+    {
+        public bool Equals(Game game1, Game game2)
+        {
+            if (game1 == null && game2 == null)
+                return true;
+            else if ((game1 != null && game2 == null) ||
+                    (game1 == null && game2 != null))
+                return false;
+
+            return game1.GetAppID() == game2.GetAppID();
+        }
+
+        public int GetHashCode(Game obj)
+        {
+            return -1;
+        }
     }
 }

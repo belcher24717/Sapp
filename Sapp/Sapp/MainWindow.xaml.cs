@@ -554,7 +554,7 @@ namespace Sapp
                 removedPoolHandler.AddColumn(s);
             }
 
-            //+1 to include title
+            //+1 to include title column
             int width = 290 / (colsToShow.Count + 1);
             for (int i = 0; i < colsToShow.Count + 1; i++)
             {

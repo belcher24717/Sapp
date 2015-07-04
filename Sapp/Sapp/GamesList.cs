@@ -116,6 +116,15 @@ namespace Sapp
             OnChanged(EventArgs.Empty);
         }
 
+        public void SetList(List<Game> games)
+        {
+            base.Clear();
+            foreach(Game g in games)
+                base.Add(g);
+
+            OnChanged(EventArgs.Empty);
+        }
+
         public List<Int64> ReturnFailedDlcCheckList()
         {
             List<Int64> failedDLCs = new List<Int64>();

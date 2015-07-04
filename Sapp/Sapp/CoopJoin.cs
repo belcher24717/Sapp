@@ -92,7 +92,6 @@ namespace Sapp
             catch
             {
                 //TODO: log failure
-                SetListening(false);
                 goto StopListening;
             }
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.PRE_REGISTER, _password, null);
@@ -102,7 +101,7 @@ namespace Sapp
             if (passwordOK == null)
             {
                 //no response
-                return;
+                goto StopListening;
             }
             if (passwordOK.PasswordOK != true)
             {
@@ -114,7 +113,6 @@ namespace Sapp
                 {
                     //password was wrong
                 }
-                SetListening(false);
                 goto StopListening;
             }
             //just being clear
@@ -122,11 +120,15 @@ namespace Sapp
             {
                 if (passwordOK.RequestedAction.Equals(CoopUtils.FINALIZE_REGISTER))
                 {
-                    GamesList testSimilarGames = (GamesList)_myGames.Union((GamesList)passwordOK.Games);
+                    if (passwordOK.Games == null)
+                    {
+                        //something went wrong!
+                        goto StopListening;
+                    }
+                    List<Game> testSimilarGames = _myGames.Intersect(  (GamesList)passwordOK.Games, new GameEqualityComparer()  ).ToList();
                     if (testSimilarGames.Count == 0)
                     {
                         //No similar games
-                        SetListening(false);
                         goto StopListening;
                     }
                     else
