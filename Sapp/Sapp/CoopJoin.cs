@@ -133,6 +133,11 @@ namespace Sapp
                     }
                     else
                     {
+                        if (_host.Connected)
+                            _host.Close();
+
+                        _host = new TcpClient(_ipJoining, _port);
+
                         message = CoopUtils.ConstructMessage(CoopUtils.FINALIZE_REGISTER, _password, _myGames);
                         message.Name = _nickname;
                         CoopUtils.SendMessage(message, _host);
