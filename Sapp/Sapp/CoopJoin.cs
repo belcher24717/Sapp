@@ -167,8 +167,11 @@ namespace Sapp
                 }
 
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
-                    _myGames.GetGame(launchMessage.AppID).Launch();
-
+                {
+                    Game gameToLaunch = _myGames.GetGame(launchMessage.AppID);
+                    if(gameToLaunch != null)
+                        gameToLaunch.Launch();
+                }
             }
 
             StopListening:
