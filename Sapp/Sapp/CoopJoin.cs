@@ -85,18 +85,15 @@ namespace Sapp
 
 
             SetListening(true);
-            try
-            {
-                _host = new TcpClient(_ipJoining, _port);
-            }
-            catch
-            {
-                //TODO: log failure
+            if (!TryOpenHost())
                 goto StopListening;
-            }
+
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.PRE_REGISTER, _password, null);
             CoopUtils.SendMessage(message, _host);
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
+
+            //done with host for now, close it
+            CloseHost();
 
             if (passwordOK == null)
             {
@@ -133,14 +130,12 @@ namespace Sapp
                     }
                     else
                     {
-                        if (_host.Connected)
-                            _host.Close();
-
-                        _host = new TcpClient(_ipJoining, _port);
+                        TryOpenHost();//TODO: stop if this fails?
 
                         message = CoopUtils.ConstructMessage(CoopUtils.FINALIZE_REGISTER, _password, _myGames);
                         message.Name = _nickname;
-                        CoopUtils.SendMessage(message, _host);
+                        CoopUtils.SendMessage(message, _host);//TODO:what if this doenst get sent? (times out)
+                        //Test closing host here.
                     }
                 }
             }
@@ -149,8 +144,8 @@ namespace Sapp
             {
                 Thread.Sleep(500);
 
-                if(!_host.Connected)
-                    SetListening(false);
+                if (!_host.Connected)
+                    goto StopListening;
 
                 DataContainer launchMessage = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
@@ -166,20 +161,24 @@ namespace Sapp
                         FriendsList.GetInstance().SetFriends(launchMessage.Name);
                 }
 
+                else if (launchMessage.RequestedAction.Equals(CoopUtils.UPDATE_GAME_POOL))
+                {
+                    //TODO
+                }
+
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
                 {
+                    //TODO: show error message? 
                     Game gameToLaunch = _myGames.GetGame(launchMessage.AppID);
-                    if(gameToLaunch != null)
+                    if (gameToLaunch != null)
                         gameToLaunch.Launch();
                 }
             }
 
             StopListening:
-
-            if(_host != null)
-                _host.Close();
-            SetListening(false);
-            FriendsList.GetInstance().ClearList();
+                SetListening(false);
+                CloseHost();
+                FriendsList.GetInstance().ClearList();
         }
 
         public void Disconnect()
@@ -196,25 +195,42 @@ namespace Sapp
             {
                 //refresh the connection socket so the message will send
                 if (_host.Connected)
-                    _host = new TcpClient(_ipJoining, _port);
-                else
-                    throw new Exception();
+                {
+                    CloseHost();
+                    if (TryOpenHost())
+                    {
+                        //dont need password to disconnect
+                        DataContainer message = CoopUtils.ConstructMessage(CoopUtils.DISCONNECT, "", null);
+                        CoopUtils.SendMessage(message, _host);
+                        Thread.Sleep(100);
+                        CloseHost();
+                    }
+                }
+            }
+            catch
+            {}
+
+            SetListening(false);
+        }
+
+        private void CloseHost()
+        {
+            if (_host != null)
+                _host.Close();
+            _host = null;
+        }
+
+        private bool TryOpenHost()
+        {
+            try
+            {
+                _host = new TcpClient(_ipJoining, _port);
+                return true;
             }
             catch
             {
-                //TODO: log failure
-                SetListening(false);
-                //goto StopListening;
+                return false;
             }
-
-            
-            //dont need password to unregister
-            DataContainer message = CoopUtils.ConstructMessage(CoopUtils.DISCONNECT, "", null);
-
-            CoopUtils.SendMessage(message, _host);
-            Thread.Sleep(100);
-
-            SetListening(false);
         }
 
         public void SetListening(bool val)

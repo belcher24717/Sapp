@@ -244,7 +244,7 @@ namespace Sapp
         {
             Game itemToRemove = removedPoolHandler.GetSelectedItem();
 
-            if (itemToRemove == null)
+            if (itemToRemove == null || (CoopUtils.CollectivePool != null && !CoopUtils.CollectivePool.Contains(itemToRemove)))//TODO:ADDITIONAL TESTING
                 return;
 
             gamePool.Add(itemToRemove);
@@ -332,11 +332,17 @@ namespace Sapp
             }
 
             BlanketUpdate(GetTagApplicationMethod());
+
+            if (CoopUtils.HostListening)
+                CoopHost.GetInstance().UpdatedGamePool();
         }
 
         private void cbChecked_OnlyInstalled(object sender, RoutedEventArgs e)
         {
             BlanketUpdate(GetTagApplicationMethod());
+
+            if (CoopUtils.HostListening)
+                CoopHost.GetInstance().UpdatedGamePool();
         } // end cbChecked_OnlyInstalled()
 
         private void BlanketUpdate(TagApplicationMethod method)
@@ -575,11 +581,15 @@ namespace Sapp
             else if (!refresh && preMethod != postMethod) // if they change contains method, update list occordingly. 
             {
                 BlanketUpdate(postMethod);
+                if (CoopUtils.HostListening)
+                    CoopHost.GetInstance().UpdatedGamePool();
             }
 
             else if (onlyRefreshGamePool)
             {
                 BlanketUpdate(postMethod);
+                if (CoopUtils.HostListening)
+                    CoopHost.GetInstance().UpdatedGamePool();
             }
         }
 
@@ -599,6 +609,8 @@ namespace Sapp
         private void CheckboxEnableChanged_Hours(object sender, RoutedEventArgs e)
         {
             BlanketUpdate(GetTagApplicationMethod());
+            if (CoopUtils.HostListening)
+                CoopHost.GetInstance().UpdatedGamePool();
         }
 
         // these may end up being removed
@@ -608,6 +620,8 @@ namespace Sapp
         {
             if (removedPool != null) // this should only happen on load
                 BlanketUpdate(GetTagApplicationMethod());
+            if (CoopUtils.HostListening)
+                CoopHost.GetInstance().UpdatedGamePool();
         }
 
         private void HoursTextChanged(object sender, TextChangedEventArgs e)
@@ -632,12 +646,16 @@ namespace Sapp
                 {
                     lastEnteredText = textToVerify;
                     BlanketUpdate(GetTagApplicationMethod());
+                    if (CoopUtils.HostListening)
+                        CoopHost.GetInstance().UpdatedGamePool();
                 }
                 else if (textToVerify.Equals(""))
                 {
                     lastEnteredText = "0";
                     tb.Text = "0";
                     BlanketUpdate(GetTagApplicationMethod());
+                    if (CoopUtils.HostListening)
+                        CoopHost.GetInstance().UpdatedGamePool();
                 }
                 else // text failed check, revert to old text...
                     tb.Text = lastEnteredText;
@@ -664,10 +682,25 @@ namespace Sapp
 
         private void btnClickAddAll(object sender, RoutedEventArgs e)
         {
-            foreach (Game game in removedPool)
-                gamePool.Add(game);
+            if (CoopUtils.CollectivePool == null)
+            {
+                foreach (Game game in removedPool)
+                {
+                    gamePool.Add(game);
+                }
+                removedPool.Clear();
+            }
 
-            removedPool.Clear();
+            else
+                for(int i = 0; i < removedPool.Count; i++)//each (Game game in removedPool)
+                {
+                    if (CoopUtils.CollectivePool.Contains(removedPool[i]))//(CoopUtils.CollectivePool != null &&  //TODO:ADDITIONAL TESTING
+                    {
+                        gamePool.Add(removedPool[i]);
+                        removedPool.Remove(removedPool[i]);
+                        i--;
+                    }
+                }
         }
 
         private void btnSaveGamePool(object sender, RoutedEventArgs e)
@@ -783,13 +816,27 @@ namespace Sapp
         private void pool_datagrid_KeyDown(object sender, KeyEventArgs e)
         {
             Game selected;
-            DataGrid gridSending = (DataGrid)sender;
+            DataGrid gridSending;
             string keyPressed = e.Key.ToString();
 
+            try
+            {
+                gridSending = (DataGrid)sender;
+            }
+            catch
+            {
+                return;
+            }
+
             if (gridSending.Name.Equals("dgGamePool"))
+            {
                 gridSending.SelectedItem = selected = gamePool.Find(x => x.Title.StartsWith(keyPressed));
+                
+            }
             else
+            {
                 gridSending.SelectedItem = selected = removedPool.Find(x => x.Title.StartsWith(keyPressed));
+            }
 
             if(selected != null)
                 gridSending.ScrollIntoView(selected);
@@ -870,6 +917,10 @@ namespace Sapp
 
             if (textbox_searchfilter.Focusable)
                 textbox_searchfilter.Focus();
+
+            //TODO:Test good, could be very taxing...
+            if(CoopUtils.HostListening)
+                CoopHost.GetInstance().UpdatedGamePool();
         }
 
         private void txtFilterSearch_OnGotFocus(object sender, RoutedEventArgs e)
@@ -920,6 +971,9 @@ namespace Sapp
         private void event_FriendLobbyChanged(object sender, DataTransferEventArgs e)
         {
             lblNumFriends.Content = "(" + (tbFriendsConnected.Text.Split('\n').Length - 1) + "/13)";
+            BlanketUpdate(GetTagApplicationMethod());
+            if (CoopUtils.HostListening)
+                CoopHost.GetInstance().UpdatedGamePool();
         }
 
 

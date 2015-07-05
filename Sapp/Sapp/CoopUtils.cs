@@ -16,9 +16,10 @@ namespace Sapp
     public static class CoopUtils
     {
         public static string DISCONNECT = "DISCONNECT";
-        public static string PRE_REGISTER = "REGISTER";
+        public static string PRE_REGISTER = "PRE_REGISTER";
         public static string LOBBY_FULL = "LOBBY_FULL";
         public static string UPDATE = "UPDATE";
+        public static string UPDATE_GAME_POOL = "UPDATE_GAME_POOL";
         public static string LAUNCH = "LAUNCH";
         public static string FINALIZE_REGISTER = "FINALIZE_REGISTER";
 

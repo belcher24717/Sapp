@@ -193,5 +193,9 @@ namespace Sapp
             _listening = val;
         }
 
+        public void UpdatedGamePool()
+        {
+            //TODO
+        }
     }
 }
