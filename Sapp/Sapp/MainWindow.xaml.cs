@@ -131,10 +131,6 @@ namespace Sapp
 
                 BlanketUpdate(GetTagApplicationMethod());
             }
-            //CoopJoin ch = CoopJoin.GetInstance();
-            //ch.SetIpJoining("71.94.206.68");
-            //ch.SetPort(7780);
-            //ch.Join();
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
@@ -334,7 +330,7 @@ namespace Sapp
             BlanketUpdate(GetTagApplicationMethod());
 
             if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool();
+                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         private void cbChecked_OnlyInstalled(object sender, RoutedEventArgs e)
@@ -342,7 +338,7 @@ namespace Sapp
             BlanketUpdate(GetTagApplicationMethod());
 
             if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool();
+                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         } // end cbChecked_OnlyInstalled()
 
         private void BlanketUpdate(TagApplicationMethod method)
@@ -502,6 +498,9 @@ namespace Sapp
             //only 1 refresh per datagrid this way
             removedPool.AddList(gamesToRemove);
             gamePool.RemoveList(gamesToRemove);
+
+            if (CoopHost.GetInstance().IsHosting())
+                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         private void formLoaded(object sender, RoutedEventArgs e)
@@ -582,14 +581,14 @@ namespace Sapp
             {
                 BlanketUpdate(postMethod);
                 if (CoopUtils.HostListening)
-                    CoopHost.GetInstance().UpdatedGamePool();
+                    CoopHost.GetInstance().UpdatedGamePool(gamePool);
             }
 
             else if (onlyRefreshGamePool)
             {
                 BlanketUpdate(postMethod);
                 if (CoopUtils.HostListening)
-                    CoopHost.GetInstance().UpdatedGamePool();
+                    CoopHost.GetInstance().UpdatedGamePool(gamePool);
             }
         }
 
@@ -610,7 +609,7 @@ namespace Sapp
         {
             BlanketUpdate(GetTagApplicationMethod());
             if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool();
+                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         // these may end up being removed
@@ -621,7 +620,7 @@ namespace Sapp
             if (removedPool != null) // this should only happen on load
                 BlanketUpdate(GetTagApplicationMethod());
             if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool();
+                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         private void HoursTextChanged(object sender, TextChangedEventArgs e)
@@ -647,7 +646,7 @@ namespace Sapp
                     lastEnteredText = textToVerify;
                     BlanketUpdate(GetTagApplicationMethod());
                     if (CoopUtils.HostListening)
-                        CoopHost.GetInstance().UpdatedGamePool();
+                        CoopHost.GetInstance().UpdatedGamePool(gamePool);
                 }
                 else if (textToVerify.Equals(""))
                 {
@@ -655,7 +654,7 @@ namespace Sapp
                     tb.Text = "0";
                     BlanketUpdate(GetTagApplicationMethod());
                     if (CoopUtils.HostListening)
-                        CoopHost.GetInstance().UpdatedGamePool();
+                        CoopHost.GetInstance().UpdatedGamePool(gamePool);
                 }
                 else // text failed check, revert to old text...
                     tb.Text = lastEnteredText;
@@ -920,7 +919,7 @@ namespace Sapp
 
             //TODO:Test good, could be very taxing...
             if(CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool();
+                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         private void txtFilterSearch_OnGotFocus(object sender, RoutedEventArgs e)
@@ -973,7 +972,7 @@ namespace Sapp
             lblNumFriends.Content = "(" + (tbFriendsConnected.Text.Split('\n').Length - 1) + "/13)";
             BlanketUpdate(GetTagApplicationMethod());
             if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool();
+                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
 

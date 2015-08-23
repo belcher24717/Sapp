@@ -193,9 +193,13 @@ namespace Sapp
             _listening = val;
         }
 
-        public void UpdatedGamePool()
+        public void UpdatedGamePool(GamesList newList)
         {
-            //TODO
+            DataContainer message = new DataContainer();
+            message.RequestedAction = CoopUtils.UPDATE_GAME_POOL;
+            message.Games = newList;
+
+            SendMessageToClients(message);
         }
     }
 }

@@ -163,6 +163,9 @@ namespace Sapp
 
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.UPDATE_GAME_POOL))
                 {
+                    if (message.Games == null)
+                        continue;
+                    
                     //TODO
                 }
 

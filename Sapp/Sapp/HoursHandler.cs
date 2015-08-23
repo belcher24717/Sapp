@@ -49,8 +49,6 @@ namespace Sapp
                 greaterOrLessThanOption.Visibility = System.Windows.Visibility.Hidden;
                 txtNumberEntered.Visibility = System.Windows.Visibility.Hidden;
             }
-
-
         }
 
         public void Verify()

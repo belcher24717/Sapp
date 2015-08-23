@@ -273,7 +273,7 @@ namespace Sapp
                 if (games.Count == 0)
                     return null;
 
-                return games;
+                goto Offline;
             }
 
             //the username will have to be entered by the user manually the first time.
@@ -448,7 +448,6 @@ namespace Sapp
                         });
                         number++;
                     }
-                    
                 }
 
                 int counter = 0;
@@ -554,6 +553,9 @@ namespace Sapp
                 Directory.CreateDirectory(Settings.FILE_LOCATION);
 
             SaveGameList(games, Settings.FILE_LOCATION + @"\" + userID, "games");
+
+
+            Offline:
 
             for (int i = 0; i < games.Count; i++)
             {
