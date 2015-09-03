@@ -93,7 +93,7 @@ namespace Sapp
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
             //done with host for now, close it
-            CloseHost();
+            //CloseHost();
 
             if (passwordOK == null)
             {
@@ -135,7 +135,6 @@ namespace Sapp
                         message = CoopUtils.ConstructMessage(CoopUtils.FINALIZE_REGISTER, _password, _myGames);
                         message.Name = _nickname;
                         CoopUtils.SendMessage(message, _host);//TODO:what if this doenst get sent? (times out)
-                        //Test closing host here.
                     }
                 }
             }
@@ -144,7 +143,7 @@ namespace Sapp
             {
                 Thread.Sleep(500);
 
-                if (!_host.Connected)
+                if (_host == null || !_host.Connected)
                     goto StopListening;
 
                 DataContainer launchMessage = CoopUtils.ProcessMessage(_host, 10 * 1000);
