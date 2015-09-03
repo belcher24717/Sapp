@@ -90,7 +90,15 @@ namespace Sapp
             
             MemoryStream stream = new MemoryStream();
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, message);
+
+            try
+            {
+                formatter.Serialize(stream, message);
+            }
+            catch
+            {
+
+            }
 
             byte[] bytes = stream.ToArray();
             byte[] requestLen = BitConverter.GetBytes((Int32)bytes.Length);
