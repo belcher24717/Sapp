@@ -24,6 +24,7 @@ namespace Sapp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    [Serializable]
     public partial class MainWindow : Window
     {
         private static GamesList gamePool;  
