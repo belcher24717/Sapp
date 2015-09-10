@@ -106,6 +106,9 @@
       <DependentUpon>CustomGameWizard.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataGridHandler.cs" />
+    <Compile Include="DisplayMessage.xaml.cs">
+      <DependentUpon>DisplayMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FilenameTypein.xaml.cs">
       <DependentUpon>FilenameTypein.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomGameWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DisplayMessage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

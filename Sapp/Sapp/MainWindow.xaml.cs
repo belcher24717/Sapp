@@ -720,13 +720,10 @@ namespace Sapp
             //TODO: make a window that looks like Snowflake "theme"
             if (File.Exists(@".\saves\" + fileName + ".gp"))
             {
-                System.Windows.Forms.DialogResult overwrite = System.Windows.Forms.MessageBox.Show(
-                    "Filename already exists, do you want to overwrite?", 
-                    "Warning", 
-                    System.Windows.Forms.MessageBoxButtons.YesNo, 
-                    System.Windows.Forms.MessageBoxIcon.Question);
+                DisplayMessage message = new DisplayMessage("Warning!", "Filename already exists, do you want to overwrite?", System.Windows.Forms.MessageBoxButtons.YesNo);
+                bool overwrite = (bool)message.ShowDialog();
 
-                if (overwrite == System.Windows.Forms.DialogResult.Yes)
+                if (overwrite)
                 {
                     save = true;
                 }

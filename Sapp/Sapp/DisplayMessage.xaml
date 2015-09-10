@@ -1,0 +1,27 @@
+﻿<Window x:Class="Sapp.DisplayMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="" Height="105" Width="320" WindowStyle = "None" 
+        AllowsTransparency="True" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Rectangle HorizontalAlignment="Stretch" Name="MainRectangle" VerticalAlignment="Stretch"
+                   Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" MouseDown="MouseDownOnWindow">
+        </Rectangle>
+
+        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
+
+        <Label Name="lblMessageHeader" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Width="300"/>
+        <Label x:Name="lblMessage" Content="" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Width="300"/>
+        
+        <Button BorderThickness="0" Content="Yes" FlowDirection="LeftToRight" Height="25" 
+        	HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnYes" SnapsToDevicePixels="True" 
+        	VerticalAlignment="Bottom" Width="95" Click="btnYesClicked" Margin="10,0,0,10"/>
+        
+        <Button BorderThickness="0" Content="No" FlowDirection="LeftToRight" Height="25" 
+        	HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnNoOkay" SnapsToDevicePixels="True" 
+        	VerticalAlignment="Bottom" Width="95" Click="btnNoOkayClicked" Margin="215,0,0,10"/>
+
+    </Grid>
+</Window>
