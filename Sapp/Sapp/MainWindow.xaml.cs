@@ -211,6 +211,13 @@ namespace Sapp
             return allGames;
         }
 
+        public static GamesList GetGamePool()
+        {
+            GamesList allGamesInPool = new GamesList();
+            allGamesInPool.AddList(gamePool);
+            return allGamesInPool;
+        }
+
         private void gamePool_Changed(object sender, EventArgs e)
         {
             gamePoolHandler.Refresh();
@@ -398,7 +405,6 @@ namespace Sapp
                     gamePool.RemoveList(gamesToRemove);
 
                     gamesToRemove.Clear();
-
                 }
             }
 
@@ -528,7 +534,7 @@ namespace Sapp
         private void HostUpdate()
         {
             if (CoopHost.GetInstance().IsHosting())
-                CoopHost.GetInstance().UpdateGamePool(gamePool);
+                CoopHost.GetInstance().UpdateGamePool();
         }
 
         //TODO: Implement this! ESC -> Options, Enter -> Move game from list to other list, etc?

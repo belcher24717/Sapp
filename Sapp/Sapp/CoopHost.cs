@@ -17,7 +17,6 @@ namespace Sapp
         private static CoopHost _instance = null;
 
         private bool _gamePoolChanged;
-        private GamesList _updatedGamePool;
 
         public const int MAX_ALLOWED_IN_LOBBY = 10; //+1 which is the host for a total of 8
 
@@ -177,7 +176,7 @@ namespace Sapp
 
                 if (_gamePoolChanged)
                 {
-                    UpdateClientsGamePool(_updatedGamePool);
+                    UpdateClientsGamePool();
                     _gamePoolChanged = false;
                 }
 
@@ -203,18 +202,17 @@ namespace Sapp
             _listening = val;
         }
 
-        public void UpdateClientsGamePool(GamesList newList)
+        public void UpdateClientsGamePool()
         {
             DataContainer message = new DataContainer();
             message.RequestedAction = CoopUtils.UPDATE_GAME_POOL;
-            message.Games = newList;
+            message.Games = MainWindow.GetGamePool();
 
             SendMessageToClients(message);
         }
 
-        public void UpdateGamePool(GamesList gamePool)
+        public void UpdateGamePool()
         {
-            _updatedGamePool = gamePool;
             _gamePoolChanged = true;
         }
 

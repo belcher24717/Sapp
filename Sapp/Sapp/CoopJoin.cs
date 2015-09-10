@@ -203,11 +203,20 @@ namespace Sapp
             if (_removedPoolUpdater == null || _removedPool == null || _gamePool == null || _gamePoolUpdater == null)
                 return;
 
-            _removedPoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _removedPool.Items.Add(_gamePool.Items)));
-            _gamePoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _gamePool.Items.Clear()));
+            GamesList gamePool = new GamesList();
+            GamesList removedPool = new GamesList();
 
-            _gamePoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _gamePool.Items.Add(games)));
-            _removedPoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _removedPool.Items.Remove(games)));
+            //gamePool.AddList((GamesList)_gamePool.ItemsSource);
+            removedPool.AddList((GamesList)_removedPool.ItemsSource);
+            removedPool.AddList((GamesList)_gamePool.ItemsSource);
+            gamePool.AddList(games);
+            removedPool.RemoveList(games);
+
+            _gamePoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _gamePool.ItemsSource = gamePool));
+            _removedPoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _removedPool.ItemsSource = removedPool));
+
+            _gamePoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _gamePool.Items.Refresh()));
+            _removedPoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _removedPool.Items.Refresh()));
         }
 
         public void Disconnect()
