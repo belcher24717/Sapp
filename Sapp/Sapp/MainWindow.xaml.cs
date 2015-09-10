@@ -24,7 +24,6 @@ namespace Sapp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    [Serializable]
     public partial class MainWindow : Window
     {
         private static GamesList gamePool;  
@@ -228,6 +227,9 @@ namespace Sapp
 
         private void btnRemoveGame_Click(object sender, RoutedEventArgs e)
         {
+            if (CoopJoin.GetInstance().IsJoined())
+                return;
+
             Game itemToRemove = gamePoolHandler.GetSelectedItem();
 
             if (itemToRemove == null)
@@ -235,10 +237,14 @@ namespace Sapp
 
             removedPool.Add(itemToRemove);
             gamePool.Remove(itemToRemove);
+            HostUpdate();
         }
 
         private void btnAddGame_Click(object sender, RoutedEventArgs e)
         {
+            if (CoopJoin.GetInstance().IsJoined())
+                return;
+
             Game itemToRemove = removedPoolHandler.GetSelectedItem();
 
             if (itemToRemove == null || (CoopUtils.CollectivePool != null && !CoopUtils.CollectivePool.Contains(itemToRemove)))//TODO:ADDITIONAL TESTING
@@ -246,6 +252,7 @@ namespace Sapp
 
             gamePool.Add(itemToRemove);
             removedPool.Remove(itemToRemove);
+            HostUpdate();
         }
 
         private void FixSelection(ListBox container)
@@ -329,22 +336,19 @@ namespace Sapp
             }
 
             BlanketUpdate(GetTagApplicationMethod());
-
-            if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         private void cbChecked_OnlyInstalled(object sender, RoutedEventArgs e)
         {
             BlanketUpdate(GetTagApplicationMethod());
-
-            if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         } // end cbChecked_OnlyInstalled()
 
         private void BlanketUpdate(TagApplicationMethod method)
         {
             if (tagsCheckedExclude == null || tagsCheckedInclude == null)
+                return;
+
+            if (CoopJoin.GetInstance().IsJoined())
                 return;
 
             bool thereAreTagsChecked = (tagsCheckedInclude.Count + tagsCheckedExclude.Count >= 1) ? true : false;
@@ -499,9 +503,8 @@ namespace Sapp
             //only 1 refresh per datagrid this way
             removedPool.AddList(gamesToRemove);
             gamePool.RemoveList(gamesToRemove);
-
-            if (CoopHost.GetInstance().IsHosting())
-                CoopHost.GetInstance().UpdatedGamePool(gamePool);
+            
+            HostUpdate();
         }
 
         private void formLoaded(object sender, RoutedEventArgs e)
@@ -520,6 +523,12 @@ namespace Sapp
             }
 
             checkboxesActive = true;
+        }
+
+        private void HostUpdate()
+        {
+            if (CoopHost.GetInstance().IsHosting())
+                CoopHost.GetInstance().UpdateGamePool(gamePool);
         }
 
         //TODO: Implement this! ESC -> Options, Enter -> Move game from list to other list, etc?
@@ -577,20 +586,11 @@ namespace Sapp
                 tagsCheckedInclude.Clear();
                 tagsCheckedExclude.Clear();
             }
-
-            else if (!refresh && preMethod != postMethod) // if they change contains method, update list occordingly. 
-            {
+            else if (!refresh && preMethod != postMethod) // if they change contains method, update list occordingly.           
                 BlanketUpdate(postMethod);
-                if (CoopUtils.HostListening)
-                    CoopHost.GetInstance().UpdatedGamePool(gamePool);
-            }
-
             else if (onlyRefreshGamePool)
-            {
                 BlanketUpdate(postMethod);
-                if (CoopUtils.HostListening)
-                    CoopHost.GetInstance().UpdatedGamePool(gamePool);
-            }
+            
         }
 
         private TagApplicationMethod GetTagApplicationMethod()
@@ -609,8 +609,6 @@ namespace Sapp
         private void CheckboxEnableChanged_Hours(object sender, RoutedEventArgs e)
         {
             BlanketUpdate(GetTagApplicationMethod());
-            if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         // these may end up being removed
@@ -620,8 +618,6 @@ namespace Sapp
         {
             if (removedPool != null) // this should only happen on load
                 BlanketUpdate(GetTagApplicationMethod());
-            if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         private void HoursTextChanged(object sender, TextChangedEventArgs e)
@@ -646,16 +642,12 @@ namespace Sapp
                 {
                     lastEnteredText = textToVerify;
                     BlanketUpdate(GetTagApplicationMethod());
-                    if (CoopUtils.HostListening)
-                        CoopHost.GetInstance().UpdatedGamePool(gamePool);
                 }
                 else if (textToVerify.Equals(""))
                 {
                     lastEnteredText = "0";
                     tb.Text = "0";
                     BlanketUpdate(GetTagApplicationMethod());
-                    if (CoopUtils.HostListening)
-                        CoopHost.GetInstance().UpdatedGamePool(gamePool);
                 }
                 else // text failed check, revert to old text...
                     tb.Text = lastEnteredText;
@@ -674,14 +666,21 @@ namespace Sapp
 
         private void btnClickRemoveAll(object sender, RoutedEventArgs e)
         {
+            if (CoopJoin.GetInstance().IsJoined())
+                return;
+
             foreach (Game game in gamePool)
                 removedPool.Add(game);
 
             gamePool.Clear();
+            HostUpdate();
         }
 
         private void btnClickAddAll(object sender, RoutedEventArgs e)
         {
+            if (CoopJoin.GetInstance().IsJoined())
+                return;
+
             if (CoopUtils.CollectivePool == null)
             {
                 foreach (Game game in removedPool)
@@ -701,6 +700,8 @@ namespace Sapp
                         i--;
                     }
                 }
+
+            HostUpdate();
         }
 
         private void btnSaveGamePool(object sender, RoutedEventArgs e)
@@ -899,6 +900,8 @@ namespace Sapp
 
             CoopJoinWindow cjw = new CoopJoinWindow(temp);
             cjw.ShowDialog();
+
+            CoopJoin.GetInstance().SetGamePools(ref dgGamePool, ref dgRemovedPool);
         }
 
         private void btnDisconnectClick(object sender, RoutedEventArgs e)
@@ -917,10 +920,6 @@ namespace Sapp
 
             if (textbox_searchfilter.Focusable)
                 textbox_searchfilter.Focus();
-
-            //TODO:Test good, could be very taxing...
-            if(CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
         private void txtFilterSearch_OnGotFocus(object sender, RoutedEventArgs e)
@@ -972,8 +971,6 @@ namespace Sapp
         {
             lblNumFriends.Content = "(" + (tbFriendsConnected.Text.Split('\n').Length - 1) + "/13)";
             BlanketUpdate(GetTagApplicationMethod());
-            if (CoopUtils.HostListening)
-                CoopHost.GetInstance().UpdatedGamePool(gamePool);
         }
 
 

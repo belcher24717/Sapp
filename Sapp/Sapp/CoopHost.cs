@@ -16,11 +16,14 @@ namespace Sapp
         private JoinObserver _clientsRegistered;
         private static CoopHost _instance = null;
 
+        private bool _gamePoolChanged;
+        private GamesList _updatedGamePool;
+
         public const int MAX_ALLOWED_IN_LOBBY = 10; //+1 which is the host for a total of 8
 
         private CoopHost() : base(7780, "")
         {
-
+            _gamePoolChanged = false;
         }
 
         public bool IsHosting()
@@ -171,6 +174,13 @@ namespace Sapp
                         _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
                     }
                 }
+
+                if (_gamePoolChanged)
+                {
+                    UpdateClientsGamePool(_updatedGamePool);
+                    _gamePoolChanged = false;
+                }
+
             }//end while listening
 
             listener.Stop();
@@ -193,7 +203,7 @@ namespace Sapp
             _listening = val;
         }
 
-        public void UpdatedGamePool(GamesList newList)
+        public void UpdateClientsGamePool(GamesList newList)
         {
             DataContainer message = new DataContainer();
             message.RequestedAction = CoopUtils.UPDATE_GAME_POOL;
@@ -201,5 +211,19 @@ namespace Sapp
 
             SendMessageToClients(message);
         }
+
+        public void UpdateGamePool(GamesList gamePool)
+        {
+            _updatedGamePool = gamePool;
+            _gamePoolChanged = true;
+        }
+
+        /*TODO: update on client join
+        private Delegate _blanketUpdate;
+
+        private void RunBlanketUpdate()
+        {
+
+        }*/
     }
 }

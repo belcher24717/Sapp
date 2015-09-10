@@ -7,6 +7,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Sapp
 {
@@ -15,6 +17,10 @@ namespace Sapp
         private string _ipJoining;
         private GamesList _myGames = null;
         private TcpClient _host;
+        private DataGrid _gamePool;
+        private Dispatcher _gamePoolUpdater; 
+        private DataGrid _removedPool;
+        private Dispatcher _removedPoolUpdater;
 
         private static CoopJoin _instance = null;
 
@@ -39,6 +45,15 @@ namespace Sapp
         public void SetGamesList(GamesList list)
         {
             _myGames = list;
+        }
+
+        public void SetGamePools(ref DataGrid gamePool, ref DataGrid removedPool)
+        {
+            _gamePool = gamePool;
+            _removedPool = removedPool;
+
+            _gamePoolUpdater = gamePool.Dispatcher;
+            _removedPoolUpdater = removedPool.Dispatcher;
         }
 
         public bool SetIpJoining(string ip)
@@ -164,8 +179,8 @@ namespace Sapp
                 {
                     if (message.Games == null)
                         continue;
-                    
-                    //TODO
+
+                    UpdateGamePool((GamesList)message.Games);
                 }
 
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
@@ -181,6 +196,18 @@ namespace Sapp
                 SetListening(false);
                 CloseHost();
                 FriendsList.GetInstance().ClearList();
+        }
+
+        private void UpdateGamePool(GamesList games)
+        {
+            if (_removedPoolUpdater == null || _removedPool == null || _gamePool == null || _gamePoolUpdater == null)
+                return;
+
+            _removedPoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _removedPool.Items.Add(_gamePool.Items)));
+            _gamePoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _gamePool.Items.Clear()));
+
+            _gamePoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _gamePool.Items.Add(games)));
+            _removedPoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _removedPool.Items.Remove(games)));
         }
 
         public void Disconnect()
