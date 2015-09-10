@@ -148,6 +148,7 @@ namespace Sapp
         private void button_addcustomgame_Click(object sender, RoutedEventArgs e)
         {
             CustomGameWizard wizard = new CustomGameWizard();
+            wizard.ShowDialog();
         }
 
     }

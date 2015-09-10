@@ -35,7 +35,6 @@ namespace Sapp
             PopulateCheckboxes();
 
             tagsToApply = new List<string>();
-            _manager = new CustomGameWindowManager(this);
         }
 
         private void HideTabHeaders()
@@ -167,6 +166,11 @@ namespace Sapp
         {
             CheckBox theSender = (CheckBox)sender;
             tagsToApply.Remove(theSender.Content.ToString());
+        }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            _manager = new CustomGameWindowManager(this);
         }
     }
 }

@@ -177,10 +177,10 @@ namespace Sapp
 
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.UPDATE_GAME_POOL))
                 {
-                    if (message.Games == null)
+                    if (launchMessage.Games == null)
                         continue;
 
-                    UpdateGamePool((GamesList)message.Games);
+                    UpdateGamePool((GamesList)launchMessage.Games);
                 }
 
                 else if (launchMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
@@ -206,7 +206,6 @@ namespace Sapp
             GamesList gamePool = new GamesList();
             GamesList removedPool = new GamesList();
 
-            //gamePool.AddList((GamesList)_gamePool.ItemsSource);
             removedPool.AddList((GamesList)_removedPool.ItemsSource);
             removedPool.AddList((GamesList)_gamePool.ItemsSource);
             gamePool.AddList(games);

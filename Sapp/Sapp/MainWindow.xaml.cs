@@ -915,7 +915,11 @@ namespace Sapp
             if (CoopUtils.HostListening)
                 CoopHost.GetInstance().StopHost();
             else if (CoopUtils.JoinListening)
+            {
                 CoopJoin.GetInstance().Disconnect();
+                dgGamePool.ItemsSource = gamePool;
+                dgRemovedPool.ItemsSource = removedPool;
+            }
         }
 
         private void txtSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
