@@ -47,6 +47,8 @@ namespace Sapp
                     //Default to user information tab when we don't have that information already (First run)
                     tcSettingsTab.SelectedIndex = 2;
                 }
+
+                tagApplication_closed(null, null);
             }
         }
 
@@ -149,6 +151,14 @@ namespace Sapp
         {
             CustomGameWizard wizard = new CustomGameWizard();
             wizard.ShowDialog();
+        }
+
+        private void tagApplication_closed(object sender, EventArgs e)
+        {
+            if (cbxTagMethod.SelectedIndex == 0)
+                lblFilters.Content = "Filters";
+            else
+                lblFilters.Content = "Filter";
         }
 
     }

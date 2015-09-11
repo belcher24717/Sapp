@@ -295,7 +295,8 @@ namespace Sapp
         {
             if (gamePool.Count == 0)
             {
-                MessageBox.Show("No games in game pool!");
+                DisplayMessage noGames = new DisplayMessage("Play Error", "There are no games in the game pool!", System.Windows.Forms.MessageBoxButtons.OK);
+                noGames.ShowDialog();
                 return;
             }
 

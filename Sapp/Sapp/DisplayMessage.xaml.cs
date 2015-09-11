@@ -29,11 +29,11 @@ namespace Sapp
 
             if (buttons == System.Windows.Forms.MessageBoxButtons.YesNo)
             {
-                //leave it
+                btnOkay.Visibility = System.Windows.Visibility.Hidden;
             }
             else if (buttons == System.Windows.Forms.MessageBoxButtons.OK)
             {
-                btnNoOkay.Content = "OK";
+                btnNo.Visibility = System.Windows.Visibility.Hidden;
                 btnYes.Visibility = System.Windows.Visibility.Hidden;
             }
         }

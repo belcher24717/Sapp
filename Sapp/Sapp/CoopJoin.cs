@@ -22,11 +22,13 @@ namespace Sapp
         private DataGrid _removedPool;
         private Dispatcher _removedPoolUpdater;
 
+        private bool _allowLaunch;
+
         private static CoopJoin _instance = null;
 
         private CoopJoin() : base(7780, "")
         {
-            
+            _allowLaunch = true;
         }
 
         public static CoopJoin GetInstance()
@@ -107,12 +109,10 @@ namespace Sapp
             CoopUtils.SendMessage(message, _host);
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
-            //done with host for now, close it
-            //CloseHost();
-
             if (passwordOK == null)
             {
                 //no response
+                DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
                 goto StopListening;
             }
             if (passwordOK.PasswordOK != true)
@@ -120,10 +120,12 @@ namespace Sapp
                 if (passwordOK.RequestedAction.Equals(CoopUtils.LOBBY_FULL))
                 {
                     //lobby is full
+                    DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
                 }
                 else
                 {
                     //password was wrong
+                    DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
                 }
                 goto StopListening;
             }
@@ -135,12 +137,14 @@ namespace Sapp
                     if (passwordOK.Games == null)
                     {
                         //something went wrong!
+                        DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
                         goto StopListening;
                     }
                     List<Game> testSimilarGames = _myGames.Intersect(  (GamesList)passwordOK.Games, new GameEqualityComparer()  ).ToList();
                     if (testSimilarGames.Count == 0)
                     {
                         //No similar games
+                        DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
                         goto StopListening;
                     }
                     else
@@ -161,34 +165,37 @@ namespace Sapp
                 if (_host == null || !_host.Connected)
                     goto StopListening;
 
-                DataContainer launchMessage = CoopUtils.ProcessMessage(_host, 10 * 1000);
+                DataContainer hostMessage = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
-                if(launchMessage == null)
+                if(hostMessage == null)
                     continue;
 
-                if (launchMessage.RequestedAction.Equals(CoopUtils.DISCONNECT))
+                if (hostMessage.RequestedAction.Equals(CoopUtils.DISCONNECT))
                     SetListening(false);
 
-                else if (launchMessage.RequestedAction.Equals(CoopUtils.UPDATE))
+                else if (hostMessage.RequestedAction.Equals(CoopUtils.UPDATE))
                 {
-                    if (launchMessage.Name != null)
-                        FriendsList.GetInstance().SetFriends(launchMessage.Name);
+                    if (hostMessage.Name != null)
+                        FriendsList.GetInstance().SetFriends(hostMessage.Name);
                 }
 
-                else if (launchMessage.RequestedAction.Equals(CoopUtils.UPDATE_GAME_POOL))
+                else if (hostMessage.RequestedAction.Equals(CoopUtils.UPDATE_GAME_POOL))
                 {
-                    if (launchMessage.Games == null)
+                    if (hostMessage.Games == null)
                         continue;
 
-                    UpdateGamePool((GamesList)launchMessage.Games);
+                    UpdateGamePool((GamesList)hostMessage.Games);
                 }
 
-                else if (launchMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
+                else if (hostMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
                 {
-                    //TODO: show error message? 
-                    Game gameToLaunch = _myGames.GetGame(launchMessage.AppID);
-                    if (gameToLaunch != null)
+                    //TODO: show error message?
+                    Game gameToLaunch = _myGames.GetGame(hostMessage.AppID);
+                    if (gameToLaunch != null && LaunchAllowed())
+                    {
                         gameToLaunch.Launch();
+                        ToggleAllowLaunch(false);
+                    }
                 }
             }
 
@@ -276,5 +283,14 @@ namespace Sapp
             _listening = val;
         }
 
+        public void ToggleAllowLaunch(bool changeTo)
+        {
+            _allowLaunch = changeTo;
+        }
+
+        public bool LaunchAllowed()
+        {
+            return _allowLaunch;
+        }
     }
 }
