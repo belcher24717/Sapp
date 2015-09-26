@@ -138,6 +138,19 @@ namespace Sapp
             return failedDLCs;
         }
 
+        public List<Int64> ReturnFailedTaggingList()
+        {
+            List<Int64> failedTags = new List<Int64>();
+
+            foreach (Game g in this)
+            {
+                if (g.TaggingFailed)
+                    failedTags.Add(g.GetAppID());
+            }
+
+            return failedTags;
+        } 
+
     }
 
 }

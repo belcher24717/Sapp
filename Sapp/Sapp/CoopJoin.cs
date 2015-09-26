@@ -22,6 +22,7 @@ namespace Sapp
         private DataGrid _removedPool;
         private Dispatcher _removedPoolUpdater;
 
+        private bool _justDisconnected;
         private bool _allowLaunch;
 
         private static CoopJoin _instance = null;
@@ -100,7 +101,7 @@ namespace Sapp
             if (_listening)
                 return;
 
-
+            _justDisconnected = false;
             SetListening(true);
             if (!TryOpenHost())
                 goto StopListening;
@@ -160,7 +161,7 @@ namespace Sapp
 
             while (_listening)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(250);
 
                 if (_host == null || !_host.Connected)
                     goto StopListening;
@@ -194,7 +195,7 @@ namespace Sapp
                     if (gameToLaunch != null && LaunchAllowed())
                     {
                         gameToLaunch.Launch();
-                        ToggleAllowLaunch(false);
+                        //ToggleAllowLaunch(false);
                     }
                 }
             }
@@ -203,6 +204,17 @@ namespace Sapp
                 SetListening(false);
                 CloseHost();
                 FriendsList.GetInstance().ClearList();
+                _justDisconnected = true;
+        }
+
+        public void GamesRelinked()
+        {
+            _justDisconnected = false;
+        }
+
+        public bool JustDisconnected()
+        {
+            return _justDisconnected;
         }
 
         private void UpdateGamePool(GamesList games)
@@ -212,7 +224,7 @@ namespace Sapp
 
             GamesList gamePool = new GamesList();
             GamesList removedPool = new GamesList();
-
+            //TODO Test with reference to GamesList instead. 
             removedPool.AddList((GamesList)_removedPool.ItemsSource);
             removedPool.AddList((GamesList)_gamePool.ItemsSource);
             gamePool.AddList(games);

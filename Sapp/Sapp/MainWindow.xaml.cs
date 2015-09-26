@@ -236,6 +236,8 @@ namespace Sapp
         {
             if (CoopJoin.GetInstance().IsJoined())
                 return;
+            else if (CoopJoin.GetInstance().JustDisconnected())
+                RelinkPools();
 
             Game itemToRemove = gamePoolHandler.GetSelectedItem();
 
@@ -251,6 +253,8 @@ namespace Sapp
         {
             if (CoopJoin.GetInstance().IsJoined())
                 return;
+            else if (CoopJoin.GetInstance().JustDisconnected())
+                RelinkPools();
 
             Game itemToRemove = removedPoolHandler.GetSelectedItem();
 
@@ -358,6 +362,8 @@ namespace Sapp
 
             if (CoopJoin.GetInstance().IsJoined())
                 return;
+            else if (CoopJoin.GetInstance().JustDisconnected())
+                RelinkPools();
 
             bool thereAreTagsChecked = (tagsCheckedInclude.Count + tagsCheckedExclude.Count >= 1) ? true : false;
             bool onlyInstalledIsChecked = onlyPlayInstalledGames;
@@ -374,6 +380,8 @@ namespace Sapp
             // Get pools ready for update
             gamePool.AddList(removedPool);
             removedPool.Clear();
+
+            
 
             #region hours pre-setup
 
@@ -414,7 +422,6 @@ namespace Sapp
             // iterate through each game to finalize gamepool and removedpool
             foreach (Game game in gamePool)
             {
-
                 #region Text Filter
 
                 if (!textbox_searchfilter.Text.Equals(FILTER_TEXT))
@@ -448,6 +455,7 @@ namespace Sapp
                 #region Only Installed
                 if (onlyInstalledIsChecked)
                 {
+                    
                     if (!game.IsInstalled())
                     {
                         gamesToRemove.Add(game);
@@ -675,6 +683,8 @@ namespace Sapp
         {
             if (CoopJoin.GetInstance().IsJoined())
                 return;
+            else if (CoopJoin.GetInstance().JustDisconnected())
+                RelinkPools();
 
             foreach (Game game in gamePool)
                 removedPool.Add(game);
@@ -687,6 +697,8 @@ namespace Sapp
         {
             if (CoopJoin.GetInstance().IsJoined())
                 return;
+            else if (CoopJoin.GetInstance().JustDisconnected())
+                RelinkPools();
 
             if (CoopUtils.CollectivePool == null)
             {
@@ -860,12 +872,6 @@ namespace Sapp
             return keybind;
         }
 
-        //TODO: Remove?
-        private void CheckboxEnabled_Hours(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void event_closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (CoopHost.GetInstance().IsHosting())
@@ -887,8 +893,6 @@ namespace Sapp
 
             CoopHostWindow chw = new CoopHostWindow();
             chw.ShowDialog();
-
-            //tbFriendsConnected.Text = "jbelcher24717\nkitchen_sink";
         }
 
         private void btnJoinClick(object sender, RoutedEventArgs e)
@@ -915,9 +919,15 @@ namespace Sapp
             else if (CoopUtils.JoinListening)
             {
                 CoopJoin.GetInstance().Disconnect();
-                dgGamePool.ItemsSource = gamePool;
-                dgRemovedPool.ItemsSource = removedPool;
+                RelinkPools();
             }
+        }
+
+        private void RelinkPools()
+        {
+            dgGamePool.ItemsSource = gamePool;
+            dgRemovedPool.ItemsSource = removedPool;
+            CoopJoin.GetInstance().GamesRelinked();
         }
 
         private void txtSearchFilter_TextChanged(object sender, TextChangedEventArgs e)

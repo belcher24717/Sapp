@@ -171,7 +171,6 @@ namespace Sapp
 
         public static bool IsInstalled(int id)
         {
-
             var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App " + id);
 
             if (key == null)
@@ -422,6 +421,60 @@ namespace Sapp
 
             #endregion
 
+            #region Checking Flagged Tagging
+
+            List<Int64> failedTags = games.ReturnFailedTaggingList();
+
+            if (failedTags.Count != 0)
+            {
+                List<Task> taskWatcher = new List<Task>();
+                Task[] tasks = new Task[games.Count];
+                HelperThread.theList = games;
+
+                tasks = new Task[failedTags.Count];
+                HelperThread.theList = games;
+                int number = 0;
+
+                foreach (Int64 gameID in failedTags)
+                {
+                    tasks[number] = Task.Factory.StartNew(() =>
+                    {
+                        var sacThread = new HelperThread(gameID);
+                        sacThread.AddTags(null);
+                    });
+                    number++;
+                }
+
+                taskWatcher.AddRange(tasks);
+
+                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Re-Tagging Games...");
+                loadBarTags.Show();
+
+                while (taskWatcher.Count > 0)
+                {
+                    for (int j = 0; j < taskWatcher.Count; j++)
+                    {
+                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                        {
+                            taskWatcher.RemoveAt(j);
+                            j--;
+                            loadBarTags.Progress();
+                        }
+                    }
+                    Application.DoEvents();
+                }
+
+                foreach (Int64 gameID in failedTags)
+                {
+                    if (games.GetGame(gameID).ContainsTag(Tags.Utilities))
+                        games.GetGame(gameID).IsUtility = true;
+                }
+
+                HelperThread.theList = null;
+            }
+
+            #endregion
+
             if (addedNewGames)
             {
                 Logger.Log("START: DLC Removal", true);
@@ -437,7 +490,6 @@ namespace Sapp
 
                 foreach (Game g in newlyAddedGames)
                 {
-
                     if (g.HoursPlayed == 0)
                     {
                         tasks[number] = Task.Factory.StartNew(() =>
@@ -633,20 +685,26 @@ namespace Sapp
 
                     theList.GetGame(appID).AddTag(tagToAdd.Trim());
                 }
-
+                theList.GetGame(appID).TaggingFailed = false;
             }
-            catch (IndexOutOfRangeException)
+            catch (WebException we)
+            {
+                Logger.Log("ERROR: <GameUtilities.AddTags> Lost internet connection during execution: " + we.Message, true);
+                theList.GetGame(appID).TaggingFailed = true;
+                //TODO: Exit program execution here to a retry/exit window
+            }
+            catch(Exception exception)
             {
                 //If it comes here the store page probably does not exist due to
                 //some kind of removal from steam, Mark as untagged.
-                theList.GetGame(appID).AddTag("No Tags");
+                if (exception is ArgumentOutOfRangeException || exception is IndexOutOfRangeException)
+                {
+                    theList.GetGame(appID).AddTag("No Tags");
+                    theList.GetGame(appID).TaggingFailed = false;
+                    return;
+                }
+                throw;
             }
-            catch (WebException)
-            {
-                Logger.Log("ERROR: <GameUtilities.AddTags> Lost internet connection during execution.", true);
-                //TODO: Exit program execution here to a retry/exit window
-            }
-
         }
 
         internal void WeedOutDLC(object state)
@@ -684,7 +742,7 @@ namespace Sapp
                     readStream.Close();
                 }
 
-                if (htmlToParse.Contains("game_area_dlc_bubble"))
+                if (htmlToParse.Contains("game_area_dlc_bubble")) //|| htmlToParse.Contains("<title>Welcome to Steam</title>"))
                 {
                     theList.GetGame(appID).IsDLC = true;
                     theList.GetGame(appID).DlcCheckFailed = false;
@@ -705,6 +763,7 @@ namespace Sapp
 
             return successful;
         }
+
         private bool WeedOutDLCCommunityCheck()
         {
             bool successful = false;

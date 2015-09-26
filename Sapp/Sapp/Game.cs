@@ -55,6 +55,12 @@ namespace Sapp
             set;
         }
 
+        public bool TaggingFailed
+        {
+            get;
+            set;
+        }
+
         private string title;
         public string Title
         {

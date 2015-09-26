@@ -116,7 +116,7 @@ namespace Sapp
 
             while (_listening)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(100);
                 clientJoining = null;
                 if (listener.Pending())
                 {
