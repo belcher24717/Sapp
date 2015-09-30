@@ -725,26 +725,12 @@ namespace Sapp
 
         private void btnSaveGamePool(object sender, RoutedEventArgs e)
         {
-            FilenameTypein typein = new FilenameTypein();
-            bool saveClicked = (bool)typein.ShowDialog();
-            string fileName = typein.FileName;
-            bool save = false;
+            String filename = RequestFilename(false);
 
-            //TODO: make a window that looks like Snowflake "theme"
-            if (File.Exists(@".\saves\" + fileName + ".gp"))
-            {
-                DisplayMessage message = new DisplayMessage("Warning!", "Filename already exists, do you want to overwrite?", System.Windows.Forms.MessageBoxButtons.YesNo);
-                bool overwrite = (bool)message.ShowDialog();
+            if (filename == null)
+                return;
 
-                if (overwrite)
-                {
-                    save = true;
-                }
-            }
-            else
-                save = true;
-
-            if (saveClicked && fileName != null && save)
+            if (filename != null)
             {
                 GamesList tempListToSave = new GamesList();
                 tempListToSave.AddList(gamePool.ToList<Game>());
@@ -752,30 +738,16 @@ namespace Sapp
                 if(!Directory.Exists(@".\saves"))
                     Directory.CreateDirectory(@".\saves");
 
-                GameUtilities.SaveGameList(tempListToSave, @".\saves\" + fileName, "gp");
+                GameUtilities.SaveGameList(tempListToSave, filename, "gp", true);
             }
-            
         }
 
         private void btnLoadGamePool(object sender, RoutedEventArgs e)
         {
             //open file browser to search for .gp files
-            string filename;
-            string initialDirectory = Directory.Exists(Directory.GetCurrentDirectory() + "\\saves") ? Directory.GetCurrentDirectory() + "\\saves" : "DEFAULT";
-            OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            String filename = RequestFilename(true);
 
-            
-            // Set filter for file extension and default file extension 
-            dlg.DefaultExt = ".gp";
-            dlg.Filter = "GAMEPOOL Files (*.gp)|*.gp";
-
-            if(!initialDirectory.Equals("DEFAULT"))
-                dlg.InitialDirectory = initialDirectory;
-
-            Nullable<bool> result = dlg.ShowDialog();
-            if (result == true)
-                filename = dlg.FileName;
-            else
+            if (filename == null)
                 return;
 
             GamesList tempGamePool = GameUtilities.LoadGameList(filename, "gp", true);
@@ -787,6 +759,32 @@ namespace Sapp
                 gamePool.Add(game);
                 removedPool.Remove(game);
             }
+        }
+
+        private String RequestFilename(bool load)
+        {
+            FileDialog dlg = null;
+
+            String filename = null;
+            String initialDirectory = Directory.Exists(Directory.GetCurrentDirectory() + "\\saves") ? Directory.GetCurrentDirectory() + "\\saves" : "DEFAULT";
+            
+            if(load)
+                dlg = new Microsoft.Win32.OpenFileDialog();
+            else
+                dlg = new Microsoft.Win32.SaveFileDialog();
+
+            // Set filter for file extension and default file extension 
+            dlg.DefaultExt = ".gp";
+            dlg.Filter = "GAMEPOOL Files (*.gp)|*.gp";
+
+            if (!initialDirectory.Equals("DEFAULT"))
+                dlg.InitialDirectory = initialDirectory;
+
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+                filename = dlg.FileName;
+                
+            return filename;
         }
 
         private void btnOpenHiddenGames_Click(object sender, RoutedEventArgs e)

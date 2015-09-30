@@ -179,15 +179,21 @@ namespace Sapp
         
         }
 
-        public static void SaveGameList(GamesList games, string fileName, string fileExtention)
+        public static void SaveGameList(GamesList games, string fileName, string fileExtention, bool useFileNameAsPath = false)
         {
+            string filename;
             Stream sw = null;
             try
             {
                 if (!Directory.Exists(Settings.FILE_LOCATION))
                     Directory.CreateDirectory(Settings.FILE_LOCATION);
 
-                sw = new FileStream(fileName + "." + fileExtention, FileMode.Create);
+                if (useFileNameAsPath)
+                    filename = fileName;
+                else
+                    filename = Settings.FILE_LOCATION + @"\" + fileName + "." + fileExtention;
+
+                sw = new FileStream(filename, FileMode.Create);
                 IFormatter formatter = new BinaryFormatter();
 
                 formatter.Serialize(sw, games);
@@ -201,7 +207,7 @@ namespace Sapp
             }
         }
 
-        public static GamesList LoadGameList(string fileNamePassedIn, string fileExtention, bool useFileNameAsPath)
+        public static GamesList LoadGameList(string fileNamePassedIn, string fileExtention, bool useFileNameAsPath = false)
         {
             string filename;
 
