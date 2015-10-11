@@ -1,21 +1,21 @@
-﻿<Window x:Class="Sapp.LoadingBar"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Sapp" x:Class="Sapp.LoadingBar"
         Title="" Height="54" Width="320" WindowStyle = "None" 
         AllowsTransparency="True" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <Grid>
-        <Rectangle HorizontalAlignment="Stretch" Name="MainRectangle" VerticalAlignment="Stretch"
-                   Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" MouseDown="MouseDownOnWindow">
-        </Rectangle>
+        <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" VerticalAlignment="Stretch"
+			Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" MouseDown="MouseDownOnWindow"/>
 
-        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+        <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
-        <ProgressBar Name="pbGamesLoaded" HorizontalAlignment="Left" Height="20" Margin="10,24,0,0" VerticalAlignment="Top" Width="300"/>
+        <ProgressBar x:Name="pbGamesLoaded" HorizontalAlignment="Left" Height="20" Margin="10,24,0,0" VerticalAlignment="Top" Width="300"/>
 
-        <Label Name="lblMessage" Content="Starting Up..." HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <Label Name="lblPercent" Content="0%" HorizontalAlignment="Left" Margin="146,20,0,0" VerticalAlignment="Top"/>
-        
+        <Label x:Name="lblMessage" Content="Starting Up..." HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <Label x:Name="lblPercent" Content="0%" HorizontalAlignment="Left" Margin="146,20,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Window>

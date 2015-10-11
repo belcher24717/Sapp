@@ -10,11 +10,10 @@
     <Grid Margin="0,0,0,-0.333">
 
         <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
-			Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" StrokeThickness="0" Margin="0,0,2,0"/>
+			Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" StrokeThickness="0" Margin="0,0,0,0"/>
 
-        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+        <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
-
 
         <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="373" Background="{x:Null}" 
                     Margin="0,15,0,0" BorderBrush="{DynamicResource BGGradient}">

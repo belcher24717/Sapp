@@ -1,18 +1,18 @@
-﻿<Window x:Class="Sapp.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Sapp" x:Class="Sapp.MainWindow"
         Title="MainWindow" Height="506" Width="500" WindowStyle = "None" 
         AllowsTransparency="True" ResizeMode="CanResizeWithGrip" SizeChanged="WindowSizeChanged" MinHeight="510" 
-        KeyDown="onKeyDown" Loaded="formLoaded" WindowStartupLocation="CenterScreen" MaxWidth="850" MinWidth="500" Name="MainDisplay" Closing="event_closing">
+        KeyDown="onKeyDown" Loaded="formLoaded" WindowStartupLocation="CenterScreen" MaxWidth="850" MinWidth="500" x:Name="MainDisplay" Closing="event_closing">
     <Grid x:Name="grid">
 
         <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Top" MouseDown="MouseDownOnWindow" 
-    		Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BGGradient}" Height="510" StrokeThickness="0" Margin="0,0,2,2" MouseUp="MouseUpOnWindow"/>
+			Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BGGradient}" Height="510" StrokeThickness="0" Margin="0,0,0,0" MouseUp="MouseUpOnWindow"/>
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="186,79,0,49" 
-    		x:Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289" KeyDown="pool_datagrid_KeyDown" 
-                  Background="{StaticResource DatagridBackgroundColor}" Foreground="{StaticResource TextColor}" RowBackground="{StaticResource DatagridBackgroundColor}"
-                  BorderBrush="{StaticResource DatagridBorderColor}">
+			x:Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289" KeyDown="pool_datagrid_KeyDown" 
+                  >
 
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -26,6 +26,19 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.Resources>
+
+            <DataGrid.Background>
+                <StaticResource ResourceKey="DatagridBackgroundColor"/>
+            </DataGrid.Background>
+            <DataGrid.Foreground>
+                <StaticResource ResourceKey="TextColor"/>
+            </DataGrid.Foreground>
+            <DataGrid.RowBackground>
+                <StaticResource ResourceKey="DatagridBackgroundColor"/>
+            </DataGrid.RowBackground>
+            <DataGrid.BorderBrush>
+                <StaticResource ResourceKey="DatagridBorderColor"/>
+            </DataGrid.BorderBrush>
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
@@ -54,9 +67,8 @@
         </DataGrid>
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" Margin="535,79,0,49" 
-    		x:Name="dgRemovedPool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" HorizontalAlignment="Left" Width="289" 
-                  Background="{StaticResource DatagridBackgroundColor}" Foreground="{StaticResource TextColor}" RowBackground="{StaticResource DatagridBackgroundColor}"
-                  BorderBrush="{StaticResource DatagridBorderColor}" KeyDown="pool_datagrid_KeyDown" >
+			x:Name="dgRemovedPool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" HorizontalAlignment="Left" Width="289" 
+			KeyDown="pool_datagrid_KeyDown" >
 
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -70,6 +82,19 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.Resources>
+
+            <DataGrid.Background>
+                <StaticResource ResourceKey="DatagridBackgroundColor"/>
+            </DataGrid.Background>
+            <DataGrid.Foreground>
+                <StaticResource ResourceKey="TextColor"/>
+            </DataGrid.Foreground>
+            <DataGrid.RowBackground>
+                <StaticResource ResourceKey="DatagridBackgroundColor"/>
+            </DataGrid.RowBackground>
+            <DataGrid.BorderBrush>
+                <StaticResource ResourceKey="DatagridBorderColor"/>
+            </DataGrid.BorderBrush>
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
@@ -103,24 +128,24 @@
         <Label Content="Filter Your Games" Height="28" HorizontalAlignment="Left" Margin="75,45,0,0" x:Name="label1_Copy" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
         <Button BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left" 
-    		HorizontalContentAlignment="Center" Margin="480,260,0,226" x:Name="btnAddGame" SnapsToDevicePixels="True" 
-    		Width="50" Click="btnAddGame_Click" ToolTip="Add Game" Visibility="Hidden"/>
+			HorizontalContentAlignment="Center" Margin="480,260,0,226" x:Name="btnAddGame" SnapsToDevicePixels="True" 
+			Width="50" Click="btnAddGame_Click" ToolTip="Add Game" Visibility="Hidden"/>
 
         <Button BorderThickness="0" Content="&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left"
-    		HorizontalContentAlignment="Center" Margin="480,197,0,289" x:Name="btnRemoveGame" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Center" Width="50" Click="btnRemoveGame_Click" ToolTip="Remove Game" Visibility="Hidden"/>
+			HorizontalContentAlignment="Center" Margin="480,197,0,289" x:Name="btnRemoveGame" SnapsToDevicePixels="True" 
+			VerticalAlignment="Center" Width="50" Click="btnRemoveGame_Click" ToolTip="Remove Game" Visibility="Hidden"/>
 
         <Button BorderThickness="0" Content="×" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-    		HorizontalContentAlignment="Center" x:Name="btnExit" SnapsToDevicePixels="True" Click="btnExit_Click" FontSize="22" FontFamily="Vani" ToolTip="Close" Background="{x:Null}" Style="{StaticResource MenuButton}" VerticalAlignment="Top"/>
+			HorizontalContentAlignment="Center" x:Name="btnExit" SnapsToDevicePixels="True" Click="btnExit_Click" FontSize="22" FontFamily="Vani" ToolTip="Close" Background="{x:Null}" Style="{StaticResource MenuButton}" VerticalAlignment="Top"/>
 
         <Button BorderThickness="0" Content="─" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
-    		HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" FontWeight="Bold"  FontSize="25" FontFamily="Vani" ToolTip="Minimize" Background="{x:Null}"
-            Style="{StaticResource MenuButton}" VerticalContentAlignment="Center" Padding="1"/>
+			HorizontalContentAlignment="Center" x:Name="btnMinimize" SnapsToDevicePixels="True" 
+			VerticalAlignment="Top" Click="btnMinimizeClick" Margin="0,0,25,0" FontWeight="Bold"  FontSize="25" FontFamily="Vani" ToolTip="Minimize" Background="{x:Null}"
+			Style="{StaticResource MenuButton}" VerticalContentAlignment="Center" Padding="1"/>
 
         <Button BorderThickness="0" FlowDirection="LeftToRight" Height="25" Width="25"
-    		HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,0" x:Name="btnOptions" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Top" Click="btnOpenOptions" ToolTip="Options" Background="{x:Null}">
+			HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,50,0" x:Name="btnOptions" SnapsToDevicePixels="True" 
+			VerticalAlignment="Top" Click="btnOpenOptions" ToolTip="Options" Background="{x:Null}">
             <Image x:Name="imgCog" Stretch="Fill" Margin="4">
                 <Image.Resources>
                     <Style TargetType="{x:Type Image}">
@@ -137,28 +162,28 @@
         </Button>
 
         <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Left" 
-    		HorizontalContentAlignment="Center" Margin="480,289,0,195" x:Name="btnAddAll" SnapsToDevicePixels="True" 
-    		Width="50" Click="btnClickAddAll" ToolTip="Add All" Visibility="Hidden"/>
+			HorizontalContentAlignment="Center" Margin="480,289,0,195" x:Name="btnAddAll" SnapsToDevicePixels="True" 
+			Width="50" Click="btnClickAddAll" ToolTip="Add All" Visibility="Hidden"/>
 
         <Button BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left"
-    		HorizontalContentAlignment="Center" Margin="480,226,0,260" x:Name="btnRemoveAll" SnapsToDevicePixels="True" 
-    		VerticalAlignment="Center" Width="50" Click="btnClickRemoveAll" ToolTip="Remove All" Visibility="Hidden"/>
+			HorizontalContentAlignment="Center" Margin="480,226,0,260" x:Name="btnRemoveAll" SnapsToDevicePixels="True" 
+			VerticalAlignment="Center" Width="50" Click="btnClickRemoveAll" ToolTip="Remove All" Visibility="Hidden"/>
 
 
         <Rectangle Margin="0,25,2,0" MouseDown="MouseDownOnWindow"
-                   Stroke="{DynamicResource MainBorderColor}" StrokeThickness="0" HorizontalAlignment="Right" Width="20" />
+			Stroke="{DynamicResource MainBorderColor}" StrokeThickness="0" HorizontalAlignment="Right" Width="20" />
 
         <Button x:Name="btnOpenHiddenGamesArrow" Content="&gt;" HorizontalAlignment="Right" Margin="0,79,7,49" Width="12" Click="btnOpenHiddenGames_Click" Height="382" ToolTip="Show Removed" />
 
-        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
-    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}">
-            <TextBox x:Name="textbox_searchfilter" TextWrapping="WrapWithOverflow" Margin="348,50,0,0" Background="{StaticResource PrimaryColor}"
+        <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
+        
+        <TextBox x:Name="textbox_searchfilter" TextWrapping="WrapWithOverflow" Margin="348,50,0,0" Background="{StaticResource PrimaryColor}"
                      Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Width="126" GotFocus="txtFilterSearch_OnGotFocus" LostFocus="txtFilterSearch_OnLostFocus" Height="19" VerticalAlignment="Top"/>
-        </Border>
 
-        <TabControl HorizontalAlignment="Left" Margin="6,79,0,49" Name="tabControl1" Width="178" TabStripPlacement="Left" 
-                    Background="{StaticResource PrimaryColor}" BorderThickness="1" BorderBrush="{StaticResource BordersColor}">
-            <TabItem Header="Tags" Name="Tags" IsSelected="True">
+        <TabControl HorizontalAlignment="Left" Margin="6,79,0,49" x:Name="tabControl1" Width="178" TabStripPlacement="Left" 
+			Background="{StaticResource PrimaryColor}" BorderThickness="1" BorderBrush="{StaticResource BordersColor}">
+            <TabItem Header="Tags" x:Name="Tags" IsSelected="True">
                 <Grid>
                     <ScrollViewer Margin="0,0,-3,0">
 
@@ -166,9 +191,9 @@
                             <Label Content="I want to" Foreground="{StaticResource TextColor}" FontSize="10" Margin="19,-6,0,0"/>
 
                             <ComboBox x:Name="cbxIncludeExcludeTags" HorizontalAlignment="Left" Margin="15,-4,0,0" VerticalAlignment="Top" Width="60" 
-                                BorderThickness="0" Height="18" FontSize="10" SelectedIndex="0">
-                                <ComboBoxItem VerticalAlignment="Top" VerticalContentAlignment="Top">Include</ComboBoxItem>
-                                <ComboBoxItem VerticalAlignment="Top" VerticalContentAlignment="Top">Exclude</ComboBoxItem>
+								BorderThickness="0" Height="18" FontSize="10" SelectedIndex="0">
+                                <ComboBoxItem VerticalAlignment="Top" VerticalContentAlignment="Top" Content="Include"/>
+                                <ComboBoxItem VerticalAlignment="Top" VerticalContentAlignment="Top" Content="Exclude"/>
                             </ComboBox>
 
                             <CheckBox Content="Action" HorizontalAlignment="Left" Margin="5,5,0,0" x:Name="chkbxAction" IsChecked="False" Height="16" VerticalAlignment="Top" Unchecked="checkboxChanged" Checked="checkboxChanged" Foreground="{StaticResource TextColor}"/>
@@ -221,7 +246,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Hours" Name="Hours">
+            <TabItem Header="Hours" x:Name="Hours">
                 <Grid>
                     <StackPanel>
                         <Expander x:Name="hoursPlayedExpander" Header="Hours Played" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}">
@@ -229,7 +254,7 @@
                                 <CheckBox x:Name="cb_HoursPlayed" Content="Enable" Margin="0,4,0,-4" Foreground="{StaticResource TextColor}" Checked="CheckboxEnableChanged_Hours" Unchecked="CheckboxEnableChanged_Hours"/>
                                 <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="-4,19,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
                                 <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="16"
-                        			Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="0,39,0,0">
+									Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="0,39,0,0">
                                     <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center"/>
                                     <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
                                 </ComboBox>
@@ -243,7 +268,7 @@
                                 <CheckBox x:Name="cb_HoursPlayedLast2Weeks" Content="Enable" Margin="0,4,0,-4" Foreground="{StaticResource TextColor}" Unchecked="CheckboxEnableChanged_Hours" Checked="CheckboxEnableChanged_Hours"/>
                                 <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="-4,19,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
                                 <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top" Width="50" Height="16"
-                        			Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
+									Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
                                     <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center"/>
                                     <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
                                 </ComboBox>
@@ -258,7 +283,7 @@
                 <!-- visibility -->
             </TabItem>
 
-            <TabItem Header="Connect" Name="Connect">
+            <TabItem Header="Connect" x:Name="Connect">
                 <Grid>
                     <Button x:Name="btnHost" Content="Host" Click="btnHostClick" Margin="55,8,9,0" Height="20" VerticalAlignment="Top"/>
                     <Button x:Name="btnJoin" Content="Join" Click="btnJoinClick" Margin="9,8,55,0" Height="20" VerticalAlignment="Top"/>
@@ -277,19 +302,20 @@
         </TabControl>
 
         <Button BorderThickness="0" Content="Save List" FlowDirection="LeftToRight" Height="25" 
-                    	HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnSaveList" SnapsToDevicePixels="True" 
-                    	VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Margin="186,0,0,12"/>
+			HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnSaveList" SnapsToDevicePixels="True" 
+			VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Margin="186,0,0,12"/>
         <Button BorderThickness="0" Content="Load List" FlowDirection="LeftToRight" Height="25" 
-                		HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnLoadList" SnapsToDevicePixels="True" 
-                		VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Margin="260,0,0,12"/>
+			HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnLoadList" SnapsToDevicePixels="True" 
+			VerticalAlignment="Bottom" Width="65" Click="btnLoadGamePool" Margin="260,0,0,12"/>
 
         <Button Content="Clear Filters" BorderThickness="0" 
-        	HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-        	Width="74" x:Name="btnClear" SnapsToDevicePixels="True" Margin="91,0,0,12" Click="btnClear_Click"/>
+			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="74" x:Name="btnClear" SnapsToDevicePixels="True" Margin="91,0,0,12" Click="btnClear_Click"/>
 
         <Button Content="Play!" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
-    		HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-    		Width="100" x:Name="btnPlay" SnapsToDevicePixels="True" Margin="0,0,25,12" Click="btnPlay_Click"/>
+			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="100" x:Name="btnPlay" SnapsToDevicePixels="True" Margin="0,0,25,12" Click="btnPlay_Click"/>
+
 
     </Grid>
 </Window>

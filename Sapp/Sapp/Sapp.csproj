@@ -91,6 +91,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Border.xaml.cs">
+      <DependentUpon>Border.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Coop.cs" />
     <Compile Include="CoopHost.cs" />
     <Compile Include="CoopHostWindow.xaml.cs">
@@ -126,6 +129,10 @@
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerificationClass.cs" />
+    <Page Include="Border.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CoopHostWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

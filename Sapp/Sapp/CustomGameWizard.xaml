@@ -1,8 +1,9 @@
-﻿<Window x:Class="Sapp.CustomGameWizard"
+﻿<Window
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sapp" x:Class="Sapp.CustomGameWizard" 
       mc:Ignorable="d"
 	Title="CustomGameWizard" Height="300" Width="325" ResizeMode="NoResize" Background="White" AllowsTransparency="True" WindowStyle="None" Loaded="OnLoad">
 
@@ -10,9 +11,9 @@
 
 
         <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
-			Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" StrokeThickness="0" Margin="0,0,2,0"/>
+			Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" StrokeThickness="0" Margin="0,0,0,0"/>
 
-        <Border x:Name="MainWindowBorder" BorderBrush="{DynamicResource MainBorderColor}" BorderThickness="0,0,2,2" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+                <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
         <Label Content="CUSTOM GAME WIZARD" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
@@ -33,7 +34,7 @@
                 <Grid>
 
                     <Label x:Name="label_customizeheader" Content="Select the tags associated with this game..." Margin="0,-1,0,151"
-                           Foreground="{StaticResource TextColor}"/>
+						Foreground="{StaticResource TextColor}"/>
 
                     <ScrollViewer Margin="0,21,0,0">
 
@@ -95,7 +96,7 @@
                         <ColumnDefinition Width="44*"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="label_reviewheader" Content="Review the game and then click Finish..." HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"
-                           Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
+						Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
                     <Label x:Name="label_finalname" Content="Name:" HorizontalAlignment="Left" Margin="29.444,48,0,0" VerticalAlignment="Top" Grid.Column="1" Foreground="{StaticResource TextColor}"/>
                     <Label x:Name="label_finalexeselected" Content=".exe Selected:" HorizontalAlignment="Left" Margin="22,79,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Foreground="{StaticResource TextColor}"/>
                     <Label x:Name="label_finaltags" Content="Tags Applied:" HorizontalAlignment="Left" Margin="22,110,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Foreground="{StaticResource TextColor}"/>
@@ -111,6 +112,7 @@
         <Button x:Name="button_cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_cancel_Click"/>
         <Button x:Name="button_next" Content="Next &gt;" HorizontalAlignment="Left" Margin="249,269,0,0" VerticalAlignment="Top" Width="60" Height="21" IsCancel="True" Click="button_next_Click"/>
         <Button x:Name="button_back" Content="&lt; Back" HorizontalAlignment="Left" Margin="184,269,0,0" VerticalAlignment="Top" Width="60" Height="21" Click="button_back_Click"/>
+
 
     </Grid>
 </Window>
