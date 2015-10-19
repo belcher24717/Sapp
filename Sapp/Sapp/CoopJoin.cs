@@ -89,11 +89,14 @@ namespace Sapp
         {
             if (_listening || _myGames == null)
                 return;
+            Thread join = new Thread(new ThreadStart(CoopJoinThread));
+            join.SetApartmentState(ApartmentState.STA);
+            join.Start();
 
-            Task.Factory.StartNew(() =>
+            /*Task.Factory.StartNew(() =>
             {
                 CoopJoinThread();
-            });
+            });*/
         }
 
         public void CoopJoinThread()
@@ -114,6 +117,7 @@ namespace Sapp
             {
                 //no response
                 DisplayMessage msg = new DisplayMessage("Join Notification", "No response from: " + _ipJoining, System.Windows.Forms.MessageBoxButtons.OK);
+                msg.ShowDialog();
                 goto StopListening;
             }
             if (passwordOK.PasswordOK != true)
@@ -122,11 +126,13 @@ namespace Sapp
                 {
                     //lobby is full
                     DisplayMessage msg = new DisplayMessage("Join Notification", "Hosts lobby is full", System.Windows.Forms.MessageBoxButtons.OK);
+                    msg.ShowDialog();
                 }
                 else
                 {
                     //password was wrong
                     DisplayMessage msg = new DisplayMessage("Join Notification", "Incorrect password", System.Windows.Forms.MessageBoxButtons.OK);
+                    msg.ShowDialog();
                 }
                 goto StopListening;
             }
@@ -139,6 +145,7 @@ namespace Sapp
                     {
                         //something went wrong!
                         DisplayMessage msg = new DisplayMessage("Join Notification", "Oops! Try again maybe?", System.Windows.Forms.MessageBoxButtons.OK);
+                        msg.ShowDialog();
                         goto StopListening;
                     }
                     List<Game> testSimilarGames = _myGames.Intersect(  (GamesList)passwordOK.Games, new GameEqualityComparer()  ).ToList();
@@ -146,6 +153,7 @@ namespace Sapp
                     {
                         //No similar games
                         DisplayMessage msg = new DisplayMessage("Join Notification", "Host has no matching games", System.Windows.Forms.MessageBoxButtons.OK);
+                        msg.ShowDialog();
                         goto StopListening;
                     }
                     else
