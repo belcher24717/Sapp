@@ -113,7 +113,7 @@ namespace Sapp
             if (passwordOK == null)
             {
                 //no response
-                DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
+                DisplayMessage msg = new DisplayMessage("Join Notification", "No response from: " + _ipJoining, System.Windows.Forms.MessageBoxButtons.OK);
                 goto StopListening;
             }
             if (passwordOK.PasswordOK != true)
@@ -121,12 +121,12 @@ namespace Sapp
                 if (passwordOK.RequestedAction.Equals(CoopUtils.LOBBY_FULL))
                 {
                     //lobby is full
-                    DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
+                    DisplayMessage msg = new DisplayMessage("Join Notification", "Hosts lobby is full", System.Windows.Forms.MessageBoxButtons.OK);
                 }
                 else
                 {
                     //password was wrong
-                    DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
+                    DisplayMessage msg = new DisplayMessage("Join Notification", "Incorrect password", System.Windows.Forms.MessageBoxButtons.OK);
                 }
                 goto StopListening;
             }
@@ -138,14 +138,14 @@ namespace Sapp
                     if (passwordOK.Games == null)
                     {
                         //something went wrong!
-                        DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
+                        DisplayMessage msg = new DisplayMessage("Join Notification", "Oops! Try again maybe?", System.Windows.Forms.MessageBoxButtons.OK);
                         goto StopListening;
                     }
                     List<Game> testSimilarGames = _myGames.Intersect(  (GamesList)passwordOK.Games, new GameEqualityComparer()  ).ToList();
                     if (testSimilarGames.Count == 0)
                     {
                         //No similar games
-                        DisplayMessage msg = new DisplayMessage("Join Notification", "", System.Windows.Forms.MessageBoxButtons.OK);
+                        DisplayMessage msg = new DisplayMessage("Join Notification", "Host has no matching games", System.Windows.Forms.MessageBoxButtons.OK);
                         goto StopListening;
                     }
                     else

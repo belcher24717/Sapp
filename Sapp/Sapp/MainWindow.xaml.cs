@@ -712,7 +712,7 @@ namespace Sapp
             else
                 for(int i = 0; i < removedPool.Count; i++)//each (Game game in removedPool)
                 {
-                    if (CoopUtils.CollectivePool.Contains(removedPool[i]))//(CoopUtils.CollectivePool != null &&  //TODO:ADDITIONAL TESTING
+                    if (CoopUtils.CollectivePool.Contains(removedPool[i]))
                     {
                         gamePool.Add(removedPool[i]);
                         removedPool.Remove(removedPool[i]);
