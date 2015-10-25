@@ -610,7 +610,7 @@ namespace Sapp
             if (!Directory.Exists(Settings.FILE_LOCATION))
                 Directory.CreateDirectory(Settings.FILE_LOCATION);
 
-            SaveGameList(games, Settings.FILE_LOCATION + @"\" + userID, "games");
+            SaveGameList(games, userID, "games");
 
 
             Offline:
@@ -715,10 +715,10 @@ namespace Sapp
 
         internal void WeedOutDLC(object state)
         {
-            bool checkWorked = WeedOutDLCStoreCheck();
+            bool checkWorked = WeedOutDLCCommunityCheck();
 
             if (!checkWorked)
-                WeedOutDLCCommunityCheck();
+                WeedOutDLCStoreCheck();
         }
 
         private bool WeedOutDLCStoreCheck()
@@ -761,11 +761,11 @@ namespace Sapp
             }
             catch (WebException we)
             {
-                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> WebExeption during DLC removal.", true);
+                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> WebExeption during DLC removal. \nappID: " + appID + " \nmessage: " + we.Message, true);
 
                 theList.GetGame(appID).DlcCheckFailed = true;
             }
-            catch (Exception e) { }
+            catch (Exception e) { Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> \nappID: " + appID + " \nmessage: " + e.Message, true); }
 
             return successful;
         }
@@ -797,11 +797,11 @@ namespace Sapp
             }
             catch (WebException we)
             {
-                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> WebExeption during DLC removal.", true);
+                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCCommunityCheck> WebExeption during DLC removal. \nappID: " + appID + " \nmessage: " + we.Message, true);
 
                 theList.GetGame(appID).DlcCheckFailed = true;
             }
-            catch (Exception e) { }
+            catch (Exception e) { Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCCommunityCheck> \nappID: " + appID + " \nmessage: " + e.Message, true); }
 
             return successful;
         }

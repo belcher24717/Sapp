@@ -24,7 +24,7 @@
 
                     <CheckBox x:Name="cbOnlyInstalled" Content="Only Play Installed Games" HorizontalAlignment="Left" 
                     		VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Margin="18,52,0,0"
-                              FlowDirection= "RightToLeft"/>
+                              FlowDirection= "LeftToRight"/>
 
                     <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="13,82,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="155,84,0,0" VerticalAlignment="Top" Width="96" 
