@@ -122,6 +122,7 @@ namespace Sapp
                 {
                     clientJoining = listener.AcceptTcpClient();
                     string temp = IPAddress.Parse(((IPEndPoint)clientJoining.Client.RemoteEndPoint).Address.ToString()).ToString();
+                    Logger.Log("HOST: Recieved message from " + temp, true);
 
                     DataContainer message = CoopUtils.ProcessMessage(clientJoining, 10 * 1000);
 
@@ -153,9 +154,9 @@ namespace Sapp
                             reply.PasswordOK = message.Password.Equals(_password);
 
                             if (CoopUtils.CollectivePool == null)
-                                reply.Games = MainWindow.GetAllGames();
+                                reply.Games = (object)MainWindow.GetAllGames();
                             else
-                                reply.Games = CoopUtils.CollectivePool;
+                                reply.Games = (object)CoopUtils.CollectivePool;
 
                             CoopUtils.SendMessage(reply, clientJoining);
 
@@ -171,6 +172,7 @@ namespace Sapp
                     {
                         _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
                         _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
+                        Logger.Log("HOST: Client " + message.Name + " joined lobby." , true);
                     }
                 }
 

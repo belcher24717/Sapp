@@ -107,8 +107,10 @@ namespace Sapp
             _justDisconnected = false;
             SetListening(true);
             if (!TryOpenHost())
+            {
+                DisplayMessage msg = new DisplayMessage("Join Notification", "No response from: " + _ipJoining, System.Windows.Forms.MessageBoxButtons.OK);
                 goto StopListening;
-
+            }
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.PRE_REGISTER, _password, null);
             CoopUtils.SendMessage(message, _host);
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
@@ -144,7 +146,7 @@ namespace Sapp
                     if (passwordOK.Games == null)
                     {
                         //something went wrong!
-                        DisplayMessage msg = new DisplayMessage("Join Notification", "Oops! Try again maybe?", System.Windows.Forms.MessageBoxButtons.OK);
+                        DisplayMessage msg = new DisplayMessage("Join Notification", "Host sent a bad request", System.Windows.Forms.MessageBoxButtons.OK);
                         msg.ShowDialog();
                         goto StopListening;
                     }

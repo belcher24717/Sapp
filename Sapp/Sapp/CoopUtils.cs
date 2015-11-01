@@ -61,9 +61,9 @@ namespace Sapp
                 //create everything to deserialize the data
                 stream = new MemoryStream(readMsgData);
             }
-            catch
+            catch (Exception e)
             {
-                //LOG
+                Logger.Log("NETWORK ERROR: " + e.Message, true);
                 //DataContainer disconnect = new DataContainer();
                // disconnect.RequestedAction = CoopUtils.DISCONNECT;
                 //return disconnect;
@@ -78,7 +78,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                //LOG
+                Logger.Log("NETWORK ERROR: " + e.Message, true);
                 return null;
             }
 
@@ -95,9 +95,9 @@ namespace Sapp
             {
                 formatter.Serialize(stream, message);
             }
-            catch
+            catch (Exception e)
             {
-
+                Logger.Log("NETWORK ERROR: " + e.Message, true);
             }
 
             byte[] bytes = stream.ToArray();
@@ -110,8 +110,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                //Console.WriteLine("ERR: Failed to send data");
-                //Console.WriteLine(e.StackTrace);
+                Logger.Log("NETWORK ERROR: " + e.Message, true);
             }
 
             stream.Position = 0;
