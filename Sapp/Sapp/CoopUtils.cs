@@ -10,6 +10,7 @@ using DataOverNetwork;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
+using System.Runtime.Serialization.Formatters.Soap;
 
 namespace Sapp
 {
@@ -73,7 +74,7 @@ namespace Sapp
 
             try
             {
-                BinaryFormatter formatter = new BinaryFormatter();
+                SoapFormatter formatter = new SoapFormatter();
                 dataFromClient = (DataContainer)formatter.Deserialize(stream);
             }
             catch (Exception e)
@@ -89,7 +90,7 @@ namespace Sapp
         {
             
             MemoryStream stream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
+            SoapFormatter formatter = new SoapFormatter();
 
             try
             {
