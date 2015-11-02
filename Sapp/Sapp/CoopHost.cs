@@ -75,10 +75,7 @@ namespace Sapp
             message.RequestedAction = action;
             message.AppID = appID;
 
-            foreach (TcpClient reciever in _clientsRegistered.GetClients())
-            {
-                CoopUtils.SendMessage(message, reciever);
-            }
+            SendMessageToClients(message);
         }
 
         public void SendMessageToClients(DataContainer message)
@@ -140,9 +137,7 @@ namespace Sapp
                     {
                         _clientsRegistered.Unregister(temp);
                         _clientsRegistered.RefreshCollectiveGames();
-                        continue;
                     }
-
                     else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
                         //-1 to include the host
@@ -168,7 +163,6 @@ namespace Sapp
                             {
                                 clientJoining.Close();
                                 clientJoining = null;
-                                continue;
                             }
                         }
                     }
@@ -212,7 +206,7 @@ namespace Sapp
         {
             DataContainer message = new DataContainer();
             message.RequestedAction = CoopUtils.UPDATE_GAME_POOL;
-            message.Games = MainWindow.GetGamePool();
+            message.Games = (object)MainWindow.GetGamePool();
 
             SendMessageToClients(message);
         }

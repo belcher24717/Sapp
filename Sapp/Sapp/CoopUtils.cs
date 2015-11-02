@@ -10,7 +10,6 @@ using DataOverNetwork;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
-using System.Runtime.Serialization.Formatters.Soap;
 
 namespace Sapp
 {
@@ -35,7 +34,7 @@ namespace Sapp
         {
             DataContainer message = new DataContainer();
             message.Password = password;
-            message.Games = games;
+            message.Games = (object)games;
             message.RequestedAction = action;
 
             //CoopUtils.SendMessage(message, _host);
@@ -74,7 +73,7 @@ namespace Sapp
 
             try
             {
-                SoapFormatter formatter = new SoapFormatter();
+                BinaryFormatter formatter = new BinaryFormatter();
                 dataFromClient = (DataContainer)formatter.Deserialize(stream);
             }
             catch (Exception e)
@@ -90,7 +89,7 @@ namespace Sapp
         {
             
             MemoryStream stream = new MemoryStream();
-            SoapFormatter formatter = new SoapFormatter();
+            BinaryFormatter formatter = new BinaryFormatter();
 
             try
             {
@@ -108,6 +107,7 @@ namespace Sapp
             {
                 client.GetStream().Write(requestLen, 0, 4);
                 client.GetStream().Write(bytes, 0, bytes.Length);
+                client.GetStream().Flush();
             }
             catch (Exception e)
             {
