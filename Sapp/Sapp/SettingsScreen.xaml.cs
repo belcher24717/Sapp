@@ -149,8 +149,9 @@ namespace Sapp
 
         private void button_addcustomgame_Click(object sender, RoutedEventArgs e)
         {
-            CustomGameWizard wizard = new CustomGameWizard();
-            wizard.ShowDialog();
+            CustomGameWindowManager manager = new CustomGameWindowManager();
+            manager._wizard.SetManager(manager);
+            manager._wizard.ShowDialog();
         }
 
         private void tagApplication_closed(object sender, EventArgs e)

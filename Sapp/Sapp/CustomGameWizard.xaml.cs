@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Sapp
         private CustomGameWindowManager _manager;
         private List<CheckBox> checkboxes;
         public List<string> tagsToApply;
+        private Int64 _fileSizeInBytes;
 
         public CustomGameWizard()
         {
@@ -103,7 +105,7 @@ namespace Sapp
         {
             // reset
             button_back.IsEnabled = true;
-            button_next.Content = "Next >";
+            button_Next.Content = "Next >";
 
             // special cases
             if (tabcontrol_customgame.SelectedIndex == 0)
@@ -111,16 +113,16 @@ namespace Sapp
             else if (tabcontrol_customgame.SelectedIndex == 2)
             {
                 label_finalnamedisplay.Content = textbox_gamename.Text;
-                //TODO: Make it only show the .exe file, not the absolute path...
-                label_finalexeselected.Content = textbox_location.Text;
-                button_next.Content = "Finish";
+                int index = textbox_location.Text.LastIndexOf('\\');
+                label_finalexeselecteddisplay.Content = textbox_location.Text.Substring(index + 1);
+                textbox_tags.Text = "";
+                foreach (string str in tagsToApply)
+                {
+                    textbox_tags.Text += str + '\n';
+                }
+                button_Next.Content = "Finish";
             }
 
-        }
-
-        private void button_next_Click(object sender, RoutedEventArgs e)
-        {
-            _manager.Transition();
         }
 
         private void button_back_Click(object sender, RoutedEventArgs e)
@@ -138,6 +140,11 @@ namespace Sapp
             return checkboxes;
         }
 
+        public long getFileSize()
+        {
+            return _fileSizeInBytes;
+        }
+
         //TODO: Make sure this grabs an exe, not just a valid path...
         private void button_browse_Click(object sender, RoutedEventArgs e)
         {
@@ -146,6 +153,7 @@ namespace Sapp
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 textbox_location.Text = dialog.FileName;
+                _fileSizeInBytes = new FileInfo(dialog.FileName).Length;
 
                 if (textbox_gamename.Text.Equals(""))
                 {
@@ -168,9 +176,15 @@ namespace Sapp
             tagsToApply.Remove(theSender.Content.ToString());
         }
 
-        private void OnLoad(object sender, RoutedEventArgs e)
+        public void SetManager(CustomGameWindowManager manager)
         {
-            _manager = new CustomGameWindowManager(this);
+            _manager = manager;
         }
+
+        private void button_next_Click(object sender, RoutedEventArgs e)
+        {
+            _manager.Transition();
+        }
+
     }
 }

@@ -15,21 +15,23 @@ namespace Sapp
     public class CustomGameWindowManager
     {
 
-        private CustomGameWizard _wizard;
+        public CustomGameWizard _wizard;
         private TabControl _wizardTab;
         private SolidColorBrush baseColor;
+        private long _fileSizeInBytes;
 
         private const string TEXT_COLOR = "#FFCFCFCF";
 
-        public CustomGameWindowManager(CustomGameWizard wizard)
+        public CustomGameWindowManager(/*CustomGameWizard wizard*/)
         {
-            _wizard = wizard;
+            //_wizard = wizard;
+            _wizard = new CustomGameWizard();
             _wizardTab = _wizard.tabcontrol_customgame;
 
             baseColor = new SolidColorBrush();
             baseColor.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(TEXT_COLOR);
 
-            _wizard.Show();
+            //_wizard.Show();
         }
 
         public void Transition()
@@ -39,17 +41,18 @@ namespace Sapp
             if (curTab == 0)
             {
                 if (VerifyInitializeTab())
+                {
                     Next();
-                //else
-                    //show error message window
-                    
+                    ResetTab(curTab);
+                }            
             }
             else if (curTab == 1)
             {
                 if (VerifyTagsTab())
+                {
                     Next();
-                //else
-                    //show error message window
+                    ResetTab(curTab);
+                }
             }
             else if (curTab == 2)
                 FinalizeGame();          
@@ -73,19 +76,51 @@ namespace Sapp
 
         private bool VerifyInitializeTab()
         {
-            if (_wizard.textbox_gamename.Text.Equals("") || Regex.Matches(_wizard.textbox_gamename.Text, @"[a-zA-Z]").Count < 1)
+            _wizard.label_gamename.Foreground = System.Windows.Media.Brushes.White;
+            _wizard.label_location.Foreground = System.Windows.Media.Brushes.White;
+
+            if (_wizard.textbox_gamename.Text.Equals(""))
             {
                 _wizard.label_gamename.Foreground = System.Windows.Media.Brushes.Red;
+                _wizard.label_error1.Content = "You must enter a name.";
+                _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
                 return false;
             }
-            _wizard.label_gamename.Foreground = baseColor;
-
-            if (!File.Exists(_wizard.textbox_location.Text))
+            else if (Regex.Matches(_wizard.textbox_gamename.Text, @"[a-zA-Z]").Count < 1)
+            {
+                _wizard.label_gamename.Foreground = System.Windows.Media.Brushes.Red;
+                _wizard.label_error1.Content = "Name must contain letters.";
+                _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
+                return false;
+            }
+            else if (_wizard.textbox_gamename.Text.Length > 32)
+            {
+                _wizard.label_gamename.Foreground = System.Windows.Media.Brushes.Red;
+                _wizard.label_error1.Content = "Name must be 32 characters or less.";
+                _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
+                return false;
+            }
+            else if (MainWindow.GetAllGames().ContainsGame(_wizard.textbox_gamename.Text))
+            {
+                _wizard.label_gamename.Foreground = System.Windows.Media.Brushes.Red;
+                _wizard.label_error1.Content = "That game name already exists.";
+                _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
+                return false;
+            }
+            else if (_wizard.textbox_location.Text.Equals(""))
             {
                 _wizard.label_location.Foreground = System.Windows.Media.Brushes.Red;
+                _wizard.label_error1.Content = "You must choose a file.";
+                _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
                 return false;
             }
-            _wizard.label_location.Foreground = baseColor;
+            else if (!File.Exists(_wizard.textbox_location.Text))
+            {
+                _wizard.label_location.Foreground = System.Windows.Media.Brushes.Red;
+                _wizard.label_error1.Content = "That file does not exist.";
+                _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
+                return false;
+            }
 
             return true;
         }
@@ -96,8 +131,13 @@ namespace Sapp
             List<CheckBox> cbList = _wizard.GetCheckboxList();
 
             foreach (CheckBox cb in cbList)
+            {
                 if ((bool)(cb.IsChecked))
+                {
                     valid = true;
+                    break;
+                }
+            }
 
             if (!valid)
                 _wizard.label_customizeheader.Foreground = System.Windows.Media.Brushes.Red;
@@ -109,18 +149,31 @@ namespace Sapp
 
         private void FinalizeGame()
         {
-            //TODO: Figure out how we're going to assign an id to custom games.
-            Game customGame = new Game(_wizard.textbox_gamename.Text, -1, true); //name, id, isInstalled
+            Game customGame = new Game(_wizard.textbox_gamename.Text, -(_wizard.getFileSize()), true); //name, id, isInstalled
 
             customGame.FilePath = _wizard.textbox_location.Text;
             foreach (string tag in _wizard.tagsToApply)
                 customGame.AddTag(tag);
 
             MainWindow.AddGame(customGame);
+            //TODO: write this game out to file
 
             ExitWizard();
         }
 
+        private void ResetTab(int curTab)
+        {
+            if (curTab == 0)
+            {
+                _wizard.label_error1.Visibility = System.Windows.Visibility.Hidden;
+                _wizard.label_gamename.Foreground = new SolidColorBrush(Colors.White);
+                _wizard.label_location.Foreground = new SolidColorBrush(Colors.White);
+            }
+            else if (curTab == 1)
+            {
+                _wizard.label_customizeheader.Foreground = new SolidColorBrush(Colors.White);
+            }
+        }
 
         public void ExitWizard()
         {

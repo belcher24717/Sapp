@@ -87,6 +87,16 @@ namespace Sapp
             base.Remove(value);
         }
 
+        public bool ContainsGame(string name)
+        {
+            foreach (Game g in this)
+            {
+                if (g.Title.Equals(name))
+                    return true;
+            }
+            return false;
+        }
+
         public bool ContainsId(int appID)
         {
             foreach (Game g in this)

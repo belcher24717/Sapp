@@ -70,7 +70,7 @@
             <TabItem Header="Custom Games" HorizontalAlignment="Left" Width="100" Style="{DynamicResource TopTabs}">
                 <Grid>
                     <Label Content="ADD CUSTOM GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
-                    <Button x:Name="button_addcustomgame" Margin="285,104,13,34" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click">
+                    <Button x:Name="button_addcustomgame" Margin="288,129,10,10" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click">
                         
                     </Button>
                 </Grid>

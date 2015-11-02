@@ -74,7 +74,7 @@ namespace Sapp
         }
 
         //start with just title and either build the rest in later, or add them here
-        public Game(string title, int appid, bool installed)
+        public Game(string title, Int64 appid, bool installed)
         {
             this.title = title;
             this.appID = appid;
@@ -113,8 +113,17 @@ namespace Sapp
         {
             if (appID >= 0)
                 Process.Start("steam://run/" + appID);
-            else//Verify FilePath exists? And was not removed
-                Process.Start(FilePath);
+            else
+            {
+                try
+                {
+                    Process.Start(FilePath);
+                }
+                catch (Exception)
+                {
+                    //TODO: log/show some error, file may have been deleted or moved. 
+                }
+            }
         }
 
         public void AddTag(string tag)
