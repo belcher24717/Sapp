@@ -73,6 +73,9 @@
                     <Button x:Name="button_addcustomgame" Margin="288,129,10,10" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click">
                         
                     </Button>
+                    <Button x:Name="button_editcustomgame" Margin="218,129,80,10" Height="25" Width="65" Content="Edit" Click="button_editcustomgame_Click"/>
+                    <ListBox x:Name="listbox_customgames" HorizontalAlignment="Left" Height="81" Margin="10,33,0,0" VerticalAlignment="Top" Width="343" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
+                    <Button x:Name="button_removecustomgame" Margin="10,129,288,10" Height="25" Width="65" Content="Remove" Click="button_removecustomgame_Click"/>
                 </Grid>
             </TabItem>
 

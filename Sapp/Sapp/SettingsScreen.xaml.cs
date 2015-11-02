@@ -19,10 +19,17 @@ namespace Sapp
     /// </summary>
     public partial class SettingsScreen : Window
     {
-        public SettingsScreen()
+        private static List<Game> customGames = new List<Game>();
+        private GamesList _gamePool;
+        private GamesList _removedPool;
+
+        public SettingsScreen(GamesList gamePool, GamesList removedPool)
         {
             InitializeComponent();
             Settings settings = Settings.GetInstance();
+
+            _gamePool = gamePool;
+            _removedPool = removedPool;
 
             if (settings != null)
             {
@@ -49,6 +56,55 @@ namespace Sapp
                 }
 
                 tagApplication_closed(null, null);
+            }
+
+            populateCustomGamesList();
+        }
+
+        private void populateCustomGamesList()
+        {
+            GamesList games = MainWindow.GetAllGames();
+
+            foreach (Game game in games)
+            {
+                if (game.GetAppID() < 0)
+                {
+                    if (!customGames.Contains(game))
+                    {
+                        customGames.Add(game);
+                    }
+                }
+            }
+
+            // if there ARE custom games...
+            if (customGames.Capacity > 0)
+            {
+                foreach (Game game in customGames)
+                {
+                    if (!listbox_customgames.Items.Contains(game.ToString()))
+                    {
+                        listbox_customgames.Items.Add(game.ToString());
+                    }
+                }
+            }
+            
+        }
+
+        public void addCustomGame(Game game)
+        {
+            if (!customGames.Contains(game))
+            {
+                customGames.Add(game);
+                listbox_customgames.Items.Add(game.ToString());
+            }
+        }
+
+        public void removeCustomGame(Game game)
+        {
+            if (customGames.Contains(game))
+            {
+                customGames.Remove(game);
+                listbox_customgames.Items.Remove(game.ToString());
             }
         }
 
@@ -149,7 +205,7 @@ namespace Sapp
 
         private void button_addcustomgame_Click(object sender, RoutedEventArgs e)
         {
-            CustomGameWindowManager manager = new CustomGameWindowManager();
+            CustomGameWindowManager manager = new CustomGameWindowManager(this, _gamePool, _removedPool);
             manager._wizard.SetManager(manager);
             manager._wizard.ShowDialog();
         }
@@ -161,6 +217,52 @@ namespace Sapp
             else
                 lblFilters.Content = "Filter";
         }
+
+        private void button_editcustomgame_Click(object sender, RoutedEventArgs e)
+        {
+            if (listbox_customgames.SelectedIndex < 0)
+            {
+                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a Custom Game first to edit.", System.Windows.Forms.MessageBoxButtons.OK);
+                dm.ShowDialog();
+            }
+            else
+            {
+                int index = listbox_customgames.SelectedIndex;
+                CustomGameWindowManager manager = new CustomGameWindowManager(this, _gamePool, _removedPool, customGames[index]);
+                manager._wizard.SetManager(manager);
+                manager._wizard.ShowDialog();
+            }
+        }
+
+        private void button_removecustomgame_Click(object sender, RoutedEventArgs e)
+        {
+            if (listbox_customgames.SelectedIndex < 0)
+            {
+                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a Custom Game first to remove.", System.Windows.Forms.MessageBoxButtons.OK);
+                dm.ShowDialog();
+            }
+            else
+            {
+                DisplayMessage dm = new DisplayMessage("Remove Custom Game...", 
+                                                       "Are you sure you want to remove " + listbox_customgames.SelectedItem.ToString() + "?", 
+                                                       System.Windows.Forms.MessageBoxButtons.YesNo);
+                if ((bool)(dm.ShowDialog()))
+                {
+                    int index = listbox_customgames.SelectedIndex;
+                    listbox_customgames.Items.RemoveAt(index);
+                    _gamePool.Remove(customGames[index]);
+                    _removedPool.Remove(customGames[index]);
+
+                    //Remove game from persistence...
+                    string myId = Settings.GetInstance().SteamID64.ToString();
+                    GamesList games = GameUtilities.LoadGameList(myId, "games");
+                    games.Remove(customGames[index]);
+                    customGames.RemoveAt(index);
+                    GameUtilities.SaveGameList(games, myId, "games");
+                }
+            }
+        }
+
 
     }
 }

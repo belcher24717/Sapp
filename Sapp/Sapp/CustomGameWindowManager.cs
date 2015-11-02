@@ -16,22 +16,52 @@ namespace Sapp
     {
 
         public CustomGameWizard _wizard;
+        private SettingsScreen _settings;
         private TabControl _wizardTab;
         private SolidColorBrush baseColor;
         private long _fileSizeInBytes;
+        private Game _game;
+        private GamesList _gamePool;
+        private GamesList _removedPool;
 
         private const string TEXT_COLOR = "#FFCFCFCF";
 
-        public CustomGameWindowManager(/*CustomGameWizard wizard*/)
+        public CustomGameWindowManager(SettingsScreen settings, GamesList gamePool, GamesList removedPool, Game game = null)
         {
-            //_wizard = wizard;
             _wizard = new CustomGameWizard();
+            _settings = settings;
+            _gamePool = gamePool;
+            _removedPool = removedPool;
             _wizardTab = _wizard.tabcontrol_customgame;
 
             baseColor = new SolidColorBrush();
             baseColor.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(TEXT_COLOR);
 
-            //_wizard.Show();
+            if (game != null)
+            {
+                _game = game;
+                autoPopulateInfo();
+            }
+        }
+
+        private void autoPopulateInfo()
+        {
+            _wizard.textbox_gamename.Text = _game.Title;
+            _wizard.textbox_location.Text = _game.FilePath;
+
+            List<CheckBox> checkboxes = _wizard.GetCheckboxList();
+            List<GameUtilities.Tags> tags = _game.GetTags();
+
+            foreach (GameUtilities.Tags tag in tags)
+            {
+                foreach (CheckBox cb in checkboxes)
+                {
+                    if (cb.Name.Equals("chkbx" + tag.ToString()))
+                    {
+                        cb.IsChecked = true;
+                    }
+                }
+            }
         }
 
         public void Transition()
@@ -100,7 +130,7 @@ namespace Sapp
                 _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
                 return false;
             }
-            else if (MainWindow.GetAllGames().ContainsGame(_wizard.textbox_gamename.Text))
+            else if (_game == null && MainWindow.GetAllGames().ContainsGame(_wizard.textbox_gamename.Text))
             {
                 _wizard.label_gamename.Foreground = System.Windows.Media.Brushes.Red;
                 _wizard.label_error1.Content = "That game name already exists.";
@@ -155,8 +185,20 @@ namespace Sapp
             foreach (string tag in _wizard.tagsToApply)
                 customGame.AddTag(tag);
 
-            MainWindow.AddGame(customGame);
-            //TODO: write this game out to file
+            string myId = Settings.GetInstance().SteamID64.ToString();
+            GamesList games = GameUtilities.LoadGameList(myId, "games");
+
+            if (_game != null)
+            {
+                games.Remove(_game);
+                _gamePool.Remove(_game);
+                _removedPool.Remove(_game);
+            }
+
+            games.Add(customGame);
+            GameUtilities.SaveGameList(games, myId, "games");
+            _gamePool.Add(customGame);
+            _settings.addCustomGame(customGame);
 
             ExitWizard();
         }

@@ -87,13 +87,13 @@ namespace Sapp
                 catch (FileNotFoundException fileNotFound)
                 {
                     Logger.Log("ERROR: <MainWindow.MainWindow> Settings File Not Found", true);
-                    SettingsScreen ss = new SettingsScreen();
+                    SettingsScreen ss = new SettingsScreen(gamePool, removedPool);
                     windowAccepted = ss.ShowDialog();
                 }
                 catch (SerializationException serializationFailed)
                 {
                     Logger.Log("ERROR: <MainWindow.MainWindow> Settings File Corrupted", true);
-                    SettingsScreen ss = new SettingsScreen();
+                    SettingsScreen ss = new SettingsScreen(gamePool, removedPool);
                     windowAccepted = ss.ShowDialog();
                 }
 
@@ -381,8 +381,6 @@ namespace Sapp
             gamePool.AddList(removedPool);
             removedPool.Clear();
 
-            
-
             #region hours pre-setup
 
             if (hoursPlayedIsEnabled)
@@ -561,7 +559,7 @@ namespace Sapp
         private void btnOpenOptions(object sender, RoutedEventArgs e)
         {
             TagApplicationMethod preMethod = GetTagApplicationMethod();
-            SettingsScreen ss = new SettingsScreen();
+            SettingsScreen ss = new SettingsScreen(gamePool, removedPool);
             ss.ShowDialog();
             TagApplicationMethod postMethod = GetTagApplicationMethod();
 
@@ -975,12 +973,6 @@ namespace Sapp
 
             }
 
-        }
-
-        public static void AddGame(Game gameToAdd)
-        {
-            gamePool.Add(gameToAdd);
-            //TODO: write this out to file
         }
 
         private void event_FriendLobbyChanged(object sender, DataTransferEventArgs e)
