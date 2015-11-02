@@ -43,10 +43,14 @@ namespace Sapp
             if (CoopUtils.HostListening)
                 return;
 
-            Task.Factory.StartNew(() =>
+            Thread host = new Thread(new ThreadStart(CoopHostThread));
+            host.SetApartmentState(ApartmentState.STA);
+            host.Start();
+
+            /*Task.Factory.StartNew(() =>
             {
                 CoopHostThread();
-            });
+            });*/
         }
 
         public void StopHost()

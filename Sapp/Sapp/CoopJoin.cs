@@ -118,7 +118,7 @@ namespace Sapp
             if (passwordOK == null)
             {
                 //no response
-                DisplayMessage msg = new DisplayMessage("Join Notification", "No response from: " + _ipJoining, System.Windows.Forms.MessageBoxButtons.OK);
+                DisplayMessage msg = new DisplayMessage("Join Notification", "Host sent a bad request", System.Windows.Forms.MessageBoxButtons.OK);
                 msg.ShowDialog();
                 goto StopListening;
             }
