@@ -10,6 +10,8 @@ using DataOverNetwork;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Sapp
 {
@@ -47,6 +49,7 @@ namespace Sapp
             client.ReceiveTimeout = timeoutInMili;
             
             MemoryStream stream = null;
+
             try
             {
                 //get the length of the message
@@ -73,8 +76,12 @@ namespace Sapp
 
             try
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                dataFromClient = (DataContainer)formatter.Deserialize(stream);
+                XmlSerializer xmlS = new XmlSerializer(typeof(DataContainer));
+                XmlTextWriter xmlTW = new XmlTextWriter(stream, Encoding.UTF8);
+
+                dataFromClient = (DataContainer)xmlS.Deserialize(stream);
+                //BinaryFormatter formatter = new BinaryFormatter();
+                //dataFromClient = (DataContainer)formatter.Deserialize(stream);
             }
             catch (Exception e)
             {
@@ -90,6 +97,22 @@ namespace Sapp
             
             MemoryStream stream = new MemoryStream();
             BinaryFormatter formatter = new BinaryFormatter();
+
+            try
+            {
+                String strXML = null;
+                XmlSerializer xmlS = new XmlSerializer(typeof(DataContainer));
+                XmlTextWriter xmlTW = new XmlTextWriter(stream, Encoding.UTF8);
+
+                xmlS.Serialize(xmlTW, message);
+                stream = (MemoryStream)xmlTW.BaseStream;
+
+                //return ms.ToArray();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             try
             {
