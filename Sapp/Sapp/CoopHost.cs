@@ -83,7 +83,7 @@ namespace Sapp
             if (!_listening || _clientsRegistered == null)
                 return;
 
-            foreach (Socket reciever in _clientsRegistered.GetClients())
+            foreach (TcpClient reciever in _clientsRegistered.GetClients())
             {
                 CoopUtils.SendMessage(message, reciever);
             }
@@ -97,94 +97,6 @@ namespace Sapp
             }
 
             SetListening(true);
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("192.168.1.6"); //ipHostInfo.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, _port);
-            Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            try
-            {
-                listener.Bind(localEndPoint);
-                listener.Listen(10);
-            }
-            catch (Exception e)
-            {
-                DisplayMessage msg = new DisplayMessage("Host Error", "Port binding in use: " + e.Message, System.Windows.Forms.MessageBoxButtons.OK);
-                msg.ShowDialog();
-                SetListening(false);
-                return;
-            }
-
-            Socket clientJoining; //= listener.Accept();
-            _clientsRegistered = new JoinObserver();
-            FriendsList.GetInstance().AddFriend(_nickname);
-
-            while (_listening)
-            {
-                //Thread.Sleep(100);
-                clientJoining = listener.Accept();
-
-                string temp = (clientJoining.RemoteEndPoint as IPEndPoint).Address.ToString();// .Client.RemoteEndPoint).Address.ToString()).ToString();
-                Logger.Log("HOST: Recieved message from " + temp, true);
-
-                DataContainer message = CoopUtils.ProcessMessage(clientJoining, 10 * 1000);
-
-                if (message == null)
-                    continue;
-
-                DataContainer reply = new DataContainer();
-
-                //wrong password, continue looping
-                if (message.RequestedAction.Equals(CoopUtils.DISCONNECT))
-                {
-                    _clientsRegistered.Unregister(temp);
-                    _clientsRegistered.RefreshCollectiveGames();
-                }
-                else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
-                {
-                    //-1 to include the host
-                    if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
-                    {
-                        reply.PasswordOK = false;
-                        reply.RequestedAction = CoopUtils.LOBBY_FULL;
-                        CoopUtils.SendMessage(reply, clientJoining);
-                    }
-                    else
-                    {
-                        reply.RequestedAction = CoopUtils.FINALIZE_REGISTER;//tell the joiner to finalize registering
-                        reply.PasswordOK = message.Password.Equals(_password);
-
-                        if (CoopUtils.CollectivePool == null)
-                            reply.Games = (object)MainWindow.GetAllGames();
-                        else
-                            reply.Games = (object)CoopUtils.CollectivePool;
-
-                        CoopUtils.SendMessage(reply, clientJoining);
-
-                        if (reply.PasswordOK == false)
-                        {
-                            clientJoining.Close();
-                            clientJoining = null;
-                        }
-                    }
-                }
-                else if (message.RequestedAction.Equals(CoopUtils.FINALIZE_REGISTER))
-                {
-                    _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
-                    _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
-                    Logger.Log("HOST: Client " + message.Name + " joined lobby.", true);
-                }
-                
-
-                if (_gamePoolChanged)
-                {
-                    UpdateClientsGamePool();
-                    _gamePoolChanged = false;
-                }
-
-            }//end while listening
-
-            /*
             TcpListener listener = new TcpListener(IPAddress.Any, _port);
 
             try
@@ -270,8 +182,7 @@ namespace Sapp
 
             }//end while listening
 
-            listener.Stop();*/
-            listener.Close();
+            listener.Stop();
             SetListening(false);
             FriendsList.GetInstance().ClearList();
         }

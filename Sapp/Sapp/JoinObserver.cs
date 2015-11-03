@@ -40,7 +40,7 @@ namespace Sapp
             }
         }
 
-        public void Register(Socket client, GamesList clientsGames, string name)
+        public void Register(TcpClient client, GamesList clientsGames, string name)
         {
             JoinObserverClient newClient = new JoinObserverClient(client, clientsGames, name);
             _clients.Add(newClient);
@@ -59,9 +59,9 @@ namespace Sapp
             
         }
 
-        public List<Socket> GetClients()
+        public List<TcpClient> GetClients()
         {
-            List<Socket> listToReturn = new List<Socket>();
+            List<TcpClient> listToReturn = new List<TcpClient>();
             foreach (JoinObserverClient joc in _clients)
             {
                 listToReturn.Add(joc.GetClient());
@@ -98,18 +98,18 @@ namespace Sapp
 
     public class JoinObserverClient
     {
-        Socket _client;
+        TcpClient _client;
         GamesList _games;
         string _name;
 
-        public JoinObserverClient(Socket client, GamesList games, string name)
+        public JoinObserverClient(TcpClient client, GamesList games, string name)
         {
             _name = name;
             _client = client;
             _games = games;
         }
 
-        public Socket GetClient()
+        public TcpClient GetClient()
         {
             return _client;
         }
@@ -129,7 +129,7 @@ namespace Sapp
             try
             {
                 string thatClient = (string)obj;
-                string thisClient = (_client.RemoteEndPoint as IPEndPoint).Address.ToString();
+                string thisClient = IPAddress.Parse(((IPEndPoint)_client.Client.RemoteEndPoint).Address.ToString()).ToString();
 
                 return thisClient.Equals(thatClient);
             }

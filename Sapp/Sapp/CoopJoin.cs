@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -17,7 +16,7 @@ namespace Sapp
     {
         private string _ipJoining;
         private GamesList _myGames = null;
-        private Socket _host;
+        private TcpClient _host;
         private DataGrid _gamePool;
         private Dispatcher _gamePoolUpdater; 
         private DataGrid _removedPool;
@@ -292,10 +291,7 @@ namespace Sapp
         {
             try
             {
-                _host = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(_ipJoining), _port);
-                _host.Connect(remoteEP);
-                //_host = new TcpClient(_ipJoining, _port);
+                _host = new TcpClient(_ipJoining, _port);
                 return true;
             }
             catch

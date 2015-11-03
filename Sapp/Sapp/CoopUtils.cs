@@ -41,7 +41,7 @@ namespace Sapp
             return message;
         }
 
-        public static DataContainer ProcessMessage(Socket client, int timeoutInMili)
+        public static DataContainer ProcessMessage(TcpClient client, int timeoutInMili)
         {
 
             client.ReceiveTimeout = timeoutInMili;
@@ -50,13 +50,13 @@ namespace Sapp
             try
             {
                 //get the length of the message
-                //byte[] readMsgLen = new byte[4];
-                //client.Receive(readMsgLen);//.Read(readMsgLen, 0, 4);
-                //int dataLen = BitConverter.ToInt32(readMsgLen, 0);
+                byte[] readMsgLen = new byte[4];
+                client.GetStream().Read(readMsgLen, 0, 4);
+                int dataLen = BitConverter.ToInt32(readMsgLen, 0);
 
                 //get DataContainer
-                byte[] readMsgData = new byte[100000];
-                client.Receive(readMsgData);//.Read(readMsgData, 0, dataLen);
+                byte[] readMsgData = new byte[dataLen];
+                client.GetStream().Read(readMsgData, 0, dataLen);
 
                 //create everything to deserialize the data
                 stream = new MemoryStream(readMsgData);
@@ -85,7 +85,7 @@ namespace Sapp
             return dataFromClient;
         }
 
-        public static void SendMessage(DataContainer message, Socket client)
+        public static void SendMessage(DataContainer message, TcpClient client)
         {
             
             MemoryStream stream = new MemoryStream();
@@ -105,9 +105,9 @@ namespace Sapp
 
             try
             {
-                //client.Send(requestLen);//.Write(requestLen, 0, 4);
-                client.Send(bytes);//.Write(bytes, 0, bytes.Length);
-                //client.GetStream().Flush();
+                client.GetStream().Write(requestLen, 0, 4);
+                client.GetStream().Write(bytes, 0, bytes.Length);
+                client.GetStream().Flush();
             }
             catch (Exception e)
             {
