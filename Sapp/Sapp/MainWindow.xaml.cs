@@ -205,9 +205,6 @@ namespace Sapp
 
         public static GamesList GetAllGames()
         {
-            if (gamePool == null || removedPool == null)
-                return null;
-
             GamesList allGames = new GamesList();
             allGames.AddList(gamePool);
             allGames.AddList(removedPool);

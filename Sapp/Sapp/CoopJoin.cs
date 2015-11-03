@@ -110,7 +110,6 @@ namespace Sapp
             if (!TryOpenHost())
             {
                 DisplayMessage msg = new DisplayMessage("Join Notification", "No response from: " + _ipJoining, System.Windows.Forms.MessageBoxButtons.OK);
-                msg.ShowDialog();
                 goto StopListening;
             }
             DataContainer message = CoopUtils.ConstructMessage(CoopUtils.PRE_REGISTER, _password, null);

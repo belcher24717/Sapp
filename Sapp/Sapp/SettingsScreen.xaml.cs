@@ -65,9 +65,6 @@ namespace Sapp
         {
             GamesList games = MainWindow.GetAllGames();
 
-            if (games == null)
-                return;
-
             foreach (Game game in games)
             {
                 if (game.GetAppID() < 0)
