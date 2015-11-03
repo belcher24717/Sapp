@@ -88,7 +88,7 @@ namespace Sapp
                 CoopUtils.SendMessage(message, reciever);
             }
         }
-
+        
         public void CoopHostThread()
         {
             if (_listening)
@@ -141,7 +141,7 @@ namespace Sapp
                     else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
                         //-1 to include the host
-                        if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
+                        if (true || _clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
                         {
                             reply.PasswordOK = false;
                             reply.RequestedAction = CoopUtils.LOBBY_FULL;
@@ -153,9 +153,9 @@ namespace Sapp
                             reply.PasswordOK = message.Password.Equals(_password);
 
                             if (CoopUtils.CollectivePool == null)
-                                reply.Games = (object)MainWindow.GetAllGames();
+                                reply.Games = MainWindow.GetAllGames();
                             else
-                                reply.Games = (object)CoopUtils.CollectivePool;
+                                reply.Games = CoopUtils.CollectivePool;
 
                             CoopUtils.SendMessage(reply, clientJoining);
 
@@ -206,7 +206,7 @@ namespace Sapp
         {
             DataContainer message = new DataContainer();
             message.RequestedAction = CoopUtils.UPDATE_GAME_POOL;
-            message.Games = (object)MainWindow.GetGamePool();
+            message.Games = MainWindow.GetGamePool();
 
             SendMessageToClients(message);
         }

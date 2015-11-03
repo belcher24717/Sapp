@@ -36,7 +36,7 @@ namespace Sapp
         {
             DataContainer message = new DataContainer();
             message.Password = password;
-            message.Games = (object)games;
+            message.Games = games;
             message.RequestedAction = action;
 
             //CoopUtils.SendMessage(message, _host);
@@ -47,7 +47,7 @@ namespace Sapp
         {
 
             client.ReceiveTimeout = timeoutInMili;
-            
+            DataContainer dataFromClient = null;
             MemoryStream stream = null;
 
             try
@@ -67,12 +67,11 @@ namespace Sapp
             catch (Exception e)
             {
                 Logger.Log("NETWORK ERROR: " + e.Message, true);
+                return null;
                 //DataContainer disconnect = new DataContainer();
                // disconnect.RequestedAction = CoopUtils.DISCONNECT;
                 //return disconnect;
             }
-
-            DataContainer dataFromClient = null;
 
             try
             {
@@ -96,11 +95,10 @@ namespace Sapp
         {
             
             MemoryStream stream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
+            //BinaryFormatter formatter = new BinaryFormatter();
 
             try
             {
-                String strXML = null;
                 XmlSerializer xmlS = new XmlSerializer(typeof(DataContainer));
                 XmlTextWriter xmlTW = new XmlTextWriter(stream, Encoding.UTF8);
 
@@ -109,11 +107,11 @@ namespace Sapp
 
                 //return ms.ToArray();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Logger.Log("NETWORK ERROR: " + e.Message, true);
             }
-
+            /*
             try
             {
                 formatter.Serialize(stream, message);
@@ -121,7 +119,7 @@ namespace Sapp
             catch (Exception e)
             {
                 Logger.Log("NETWORK ERROR: " + e.Message, true);
-            }
+            }*/
 
             byte[] bytes = stream.ToArray();
             byte[] requestLen = BitConverter.GetBytes((Int32)bytes.Length);
