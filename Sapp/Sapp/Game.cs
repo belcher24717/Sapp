@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Diagnostics;
+using System.IO;
 
 namespace Sapp
 {
@@ -94,6 +95,12 @@ namespace Sapp
             return appID;
         }
 
+        // Newly added. Implemented because custom games may need to be re-set on Snowflake load...
+        public void SetAppId(Int64 appId)
+        {
+            this.appID = appId;
+        }
+
         public override string ToString()
         {
             return this.title;
@@ -115,13 +122,12 @@ namespace Sapp
                 Process.Start("steam://run/" + appID);
             else
             {
-                try
-                {
+                if (File.Exists(FilePath))
                     Process.Start(FilePath);
-                }
-                catch (Exception)
+                else
                 {
-                    //TODO: log/show some error, file may have been deleted or moved. 
+                    DisplayMessage dm = new DisplayMessage("Executable Not Found", "The executable may have been moved or deleted.", System.Windows.Forms.MessageBoxButtons.OK);
+                    dm.ShowDialog();
                 }
             }
         }

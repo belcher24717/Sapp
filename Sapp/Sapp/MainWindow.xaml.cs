@@ -130,6 +130,20 @@ namespace Sapp
                 onlyPlayInstalledGames = getOnlyPlayInstalled.OnlyPlayInstalledGames;
 
                 BlanketUpdate(GetTagApplicationMethod());
+
+                updateCustomGameAppId();
+            }
+        }
+
+        //Newly added. Custom games that are updated may change in size. Updating their appId ensures Custom games can be played using the Connect feature...
+        private void updateCustomGameAppId()
+        {
+            foreach (Game game in gamePool)
+            {
+                if (game.GetAppID() < 0)
+                {
+                    game.SetAppId(-(Int64)(new System.IO.FileInfo(game.FilePath).Length));
+                }
             }
         }
 
