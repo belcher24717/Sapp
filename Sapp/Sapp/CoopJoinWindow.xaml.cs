@@ -61,5 +61,10 @@ namespace Sapp
         {
             this.DragMove();
         }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            txtIpAddress.Focus();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,9 +48,14 @@ namespace Sapp
                 //only try and fill it with something if the settings file is not there, or corrupted
                 if (settings.UserID == null)
                 {
-                    string testPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam";
-                    if(File.Exists(testPath + @"\config\loginusers.vdf"))
-                        txtSteamPath.Text = testPath;
+                    tabColumns.IsEnabled = false;
+                    tabCustom.IsEnabled = false;
+                    tabFilter.IsEnabled = false;
+
+                    RegistryKey regKey = Registry.CurrentUser;
+                    regKey = regKey.OpenSubKey(@"Software\Valve\Steam");
+                    if(regKey != null)
+                        txtSteamPath.Text = regKey.GetValue("SteamPath").ToString();
 
                     //Default to user information tab when we don't have that information already (First run)
                     tcSettingsTab.SelectedIndex = 2;

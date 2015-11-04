@@ -51,6 +51,10 @@ namespace Sapp
             DataContainer dataFromClient = null;
             MemoryStream stream = null;
 
+            //in case something blows
+            DataContainer badData = new DataContainer();
+            badData.RequestedAction = CoopUtils.DISCONNECT;
+
             try
             {
                 //get the length of the message
@@ -67,8 +71,8 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR: " + e.Message, true);
-                return null;
+                Logger.Log("NETWORK ERROR ProcessMessage: " + e.Message, true);
+                return badData;
             }
 
             try
@@ -80,8 +84,8 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR: " + e.Message, true);
-                return null;
+                Logger.Log("NETWORK ERROR ProcessMessage: " + e.Message, true);
+                return badData;
             }
 
             return dataFromClient;
@@ -101,7 +105,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR: " + e.Message, true);
+                Logger.Log("NETWORK ERROR SendMessage:" + e.Message, true);
             }
 
             byte[] bytes = stream.ToArray();
@@ -115,7 +119,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR: " + e.Message, true);
+                Logger.Log("NETWORK ERROR SendMessage: " + e.Message, true);
             }
 
             stream.Position = 0;

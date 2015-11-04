@@ -546,6 +546,7 @@ namespace Sapp
         {
             while (!populateGamesSuccessful)
             {
+
                 if (MessageBox.Show("There was an error populating the game pool.\n\n\tWould you like to retry?", "Oops!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     populateGamesSuccessful = PopulateGames();

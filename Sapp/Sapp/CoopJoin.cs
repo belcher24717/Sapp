@@ -111,10 +111,10 @@ namespace Sapp
             CoopUtils.SendMessage(message, _host);
             DataContainer passwordOK = CoopUtils.ProcessMessage(_host, 10 * 1000);
 
-            if (passwordOK == null)
+            if (passwordOK == null || (passwordOK != null && passwordOK.RequestedAction.Equals(CoopUtils.DISCONNECT)))
             {
                 //no response
-                DisplayMessage msg = new DisplayMessage("Join Notification", "Host sent a bad request", System.Windows.Forms.MessageBoxButtons.OK);
+                DisplayMessage msg = new DisplayMessage("Join Notification", "Host did not reply", System.Windows.Forms.MessageBoxButtons.OK);
                 msg.ShowDialog();
                 goto StopListening;
             }
@@ -181,7 +181,7 @@ namespace Sapp
 
             while (_listening)
             {
-                Thread.Sleep(250);
+                Thread.Sleep(100);
 
                 if (_host == null || !_host.Connected)
                     goto StopListening;

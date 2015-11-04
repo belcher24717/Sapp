@@ -121,15 +121,16 @@ namespace Sapp
             TcpClient clientJoining;
             FriendsList.GetInstance().AddFriend(_nickname);
 
+            Logger.Log("HOST: hosting", true);
+
             while (_listening)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(100);
                 clientJoining = null;
                 if (listener.Pending())
                 {
                     clientJoining = listener.AcceptTcpClient();
-                    string temp = IPAddress.Parse(((IPEndPoint)clientJoining.Client.RemoteEndPoint).Address.ToString()).ToString();
-                    Logger.Log("HOST: Recieved message from " + temp, true);
+                    string clientIP = IPAddress.Parse(((IPEndPoint)clientJoining.Client.RemoteEndPoint).Address.ToString()).ToString();
 
                     DataContainer message = CoopUtils.ProcessMessage(clientJoining, 10 * 1000);
 
@@ -141,8 +142,7 @@ namespace Sapp
                     //wrong password, continue looping
                     if (message.RequestedAction.Equals(CoopUtils.DISCONNECT))
                     {
-                        _clientsRegistered.Unregister(temp);
-                        _clientsRegistered.RefreshCollectiveGames();
+                        DisconnectClient(clientIP);
                     }
                     else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
@@ -194,6 +194,12 @@ namespace Sapp
             SetListening(false);
             FriendsList.GetInstance().ClearList();
             CoopUtils.CollectivePool = null;
+        }
+
+        private void DisconnectClient(string ip)
+        {
+            _clientsRegistered.Unregister(ip);
+            _clientsRegistered.RefreshCollectiveGames();
         }
 
         public void UpdateJoinedFriends()

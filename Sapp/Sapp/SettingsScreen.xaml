@@ -17,7 +17,7 @@
 
         <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="373" Background="{x:Null}" 
                     Margin="0,15,0,0" BorderBrush="{DynamicResource BGGradient}">
-            <TabItem Header="Filter Settings" Width="92" Style="{DynamicResource TopTabs}">
+            <TabItem x:Name="tabFilter" Header="Filter Settings" Width="92" Style="{DynamicResource TopTabs}">
                 <Grid>
 
                     <Label Content="FILTER SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
@@ -36,7 +36,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Columns" Width="66" Style="{DynamicResource TopTabs}">
+            <TabItem x:Name="tabColumns" Header="Columns" Width="66" Style="{DynamicResource TopTabs}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="39*"/>
@@ -51,25 +51,25 @@
                   VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="User Information" Width="109" Style="{DynamicResource TopTabs}">
+            <TabItem x:Name="tabUser" Header="User Information" Width="109" Style="{DynamicResource TopTabs}">
                 <Grid>
 
                     <Label Content="USER INFORMATION" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
-                    <TextBox x:Name="txtUserID" HorizontalAlignment="Left" Height="26" Margin="86,52,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190"/>
-                    <TextBox x:Name="txtSteamPath" HorizontalAlignment="Left" Height="26" Margin="86,83,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190"/>
+                    <TextBox x:Name="txtUserID" TabIndex="1" HorizontalAlignment="Left" Height="26" Margin="86,52,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190"/>
+                    <TextBox x:Name="txtSteamPath" TabIndex="2" HorizontalAlignment="Left" Height="26" Margin="86,83,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190"/>
 
                     <Label Content="User Name:" HorizontalAlignment="Left" Margin="13,52,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="13,83,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
-                    <Button Content="Browse" BorderThickness="0"
+                    <Button Content="Browse" BorderThickness="0" TabIndex="3"
 			         HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,13,35" Click="btnBrowseClicked" />
+			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,10,60" Click="btnBrowseClicked" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Custom Games" HorizontalAlignment="Left" Width="100" Style="{DynamicResource TopTabs}">
+            <TabItem x:Name="tabCustom" Header="Custom Games" HorizontalAlignment="Left" Width="100" Style="{DynamicResource TopTabs}">
                 <Grid>
-                    <Label Content="ADD CUSTOM GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+                    <Label Content="CUSTOM GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
                     <Button x:Name="button_addcustomgame" Margin="288,129,10,10" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click">
                         
                     </Button>
@@ -82,11 +82,11 @@
         </TabControl>
 
 
-        <Button Content="Accept" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
+        <Button Content="Accept" BorderThickness="0" TabIndex="4" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
 			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="10,0,225,10.333" Click="btnAcceptClicked"/>
 
-        <Button Content="Cancel" BorderThickness="0"
+        <Button Content="Cancel" BorderThickness="0" TabIndex="5"
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
 			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,10,10.333" Click="btnCancelClicked" />
 

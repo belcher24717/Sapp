@@ -38,6 +38,8 @@ namespace Sapp
                     break;
                 }
             }
+            if (_clients.Count == 0)
+                CoopUtils.CollectivePool = null;
         }
 
         public void Register(TcpClient client, Int64[] clientsGames, string name)
