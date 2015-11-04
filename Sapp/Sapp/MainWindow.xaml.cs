@@ -372,6 +372,11 @@ namespace Sapp
             BlanketUpdate(GetTagApplicationMethod());
         } // end cbChecked_OnlyInstalled()
 
+        private void BlanketUpdate()
+        {
+            BlanketUpdate(GetTagApplicationMethod());
+        }
+
         private void BlanketUpdate(TagApplicationMethod method)
         {
             if (tagsCheckedExclude == null || tagsCheckedInclude == null)
@@ -903,6 +908,7 @@ namespace Sapp
                 return;
 
             FriendsList.GetInstance().SetList(ref tbFriendsConnected, ref lblNumFriends);
+            CoopHost.GetInstance().SetBlanketUpdateMethod(BlanketUpdate);
 
             CoopHostWindow chw = new CoopHostWindow();
             chw.ShowDialog();

@@ -15,7 +15,8 @@ namespace Sapp
         //private cant remember, but save the joiners info to send them messages
         private JoinObserver _clientsRegistered;
         private static CoopHost _instance = null;
-
+        private delegate void BlanketUpdateDelegate();
+        BlanketUpdateDelegate _blanketUpdate;
         private bool _gamePoolChanged;
 
         public const int MAX_ALLOWED_IN_LOBBY = 10; //+1 which is the host for a total of 8
@@ -36,6 +37,11 @@ namespace Sapp
                 _instance = new CoopHost();
 
             return _instance;
+        }
+
+        public void SetBlanketUpdateMethod(Action method)
+        {
+            _blanketUpdate = new BlanketUpdateDelegate(method);
         }
 
         public void StartHost()
@@ -117,7 +123,7 @@ namespace Sapp
 
             while (_listening)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(50);
                 clientJoining = null;
                 if (listener.Pending())
                 {
@@ -172,6 +178,7 @@ namespace Sapp
                         _clientsRegistered.Register(clientJoining, gameIDs, message.Name);
                         _clientsRegistered.AddNewGamesToJoinedGames(gameIDs);
                         Logger.Log("HOST: Client " + message.Name + " joined lobby." , true);
+                        //RunBlanketUpdate();
                     }
                 }
 
@@ -186,6 +193,7 @@ namespace Sapp
             listener.Stop();
             SetListening(false);
             FriendsList.GetInstance().ClearList();
+            CoopUtils.CollectivePool = null;
         }
 
         public void UpdateJoinedFriends()
@@ -217,12 +225,12 @@ namespace Sapp
             _gamePoolChanged = true;
         }
 
-        /*TODO: update on client join
-        private Delegate _blanketUpdate;
+        //TODO: update on client join
+        
 
         private void RunBlanketUpdate()
         {
-
-        }*/
+            _blanketUpdate();
+        }
     }
 }
