@@ -117,10 +117,10 @@ namespace Sapp
 
         public void AddList(List<Game> games)
         {
-            foreach (Game game in games)
+            for(int i = 0; i < games.Count; i++)
             {
-                if(!base.Contains(game))
-                    base.Add(game);
+                if (!base.Contains(games[i]))
+                    base.Add(games[i]);
             }
 
             OnChanged(EventArgs.Empty);
