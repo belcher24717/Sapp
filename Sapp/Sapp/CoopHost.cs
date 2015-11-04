@@ -141,7 +141,7 @@ namespace Sapp
                     else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
                         //-1 to include the host
-                        if (true || _clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
+                        if (_clientsRegistered.GetNumberInLobby() >= MAX_ALLOWED_IN_LOBBY - 1)
                         {
                             reply.PasswordOK = false;
                             reply.RequestedAction = CoopUtils.LOBBY_FULL;
@@ -153,9 +153,9 @@ namespace Sapp
                             reply.PasswordOK = message.Password.Equals(_password);
 
                             if (CoopUtils.CollectivePool == null)
-                                reply.Games = MainWindow.GetAllGames();
+                                reply.Games = MainWindow.GetAllGames().GetIDList();
                             else
-                                reply.Games = CoopUtils.CollectivePool;
+                                reply.Games = CoopUtils.CollectivePool.GetIDList();
 
                             CoopUtils.SendMessage(reply, clientJoining);
 
@@ -168,8 +168,9 @@ namespace Sapp
                     }
                     else if(message.RequestedAction.Equals(CoopUtils.FINALIZE_REGISTER))
                     {
-                        _clientsRegistered.Register(clientJoining, (GamesList)message.Games, message.Name);
-                        _clientsRegistered.AddNewGamesToJoinedGames((GamesList)message.Games);
+                        Int64[] gameIDs = GamesList.ConvertIDList((string)message.Games);
+                        _clientsRegistered.Register(clientJoining, gameIDs, message.Name);
+                        _clientsRegistered.AddNewGamesToJoinedGames(gameIDs);
                         Logger.Log("HOST: Client " + message.Name + " joined lobby." , true);
                     }
                 }
@@ -206,7 +207,7 @@ namespace Sapp
         {
             DataContainer message = new DataContainer();
             message.RequestedAction = CoopUtils.UPDATE_GAME_POOL;
-            message.Games = MainWindow.GetGamePool();
+            message.Games = (string)MainWindow.GetGamePool().GetIDList();
 
             SendMessageToClients(message);
         }

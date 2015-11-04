@@ -126,6 +126,36 @@ namespace Sapp
             OnChanged(EventArgs.Empty);
         }
 
+        public string GetIDList()
+        {
+            string idList = "";
+
+            for (int i = 0; i < base.Count; i++)
+                idList += String.Format("{0}{1}", base[i].GetAppID(), i+1 != base.Count ? "," : "");
+
+            return idList;
+        }
+
+        public Int64[] GetIDArray()
+        {
+            Int64[] idArray = new Int64[this.Count];
+
+            for (int i = 0; i < idArray.Length; i++)
+                idArray[i] = base[i].GetAppID();
+            return idArray;
+        }
+
+        public static Int64[] ConvertIDList(string list)
+        {
+            string[] splitList = list.Split(',');
+            Int64[] newList = new Int64[splitList.Length];
+
+            for (int i = 0; i < newList.Length; i++)
+                newList[i] = Int64.Parse(splitList[i]);
+
+            return newList;
+        }
+
         public void SetList(List<Game> games)
         {
             base.Clear();

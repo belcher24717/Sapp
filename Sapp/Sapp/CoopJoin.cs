@@ -92,11 +92,6 @@ namespace Sapp
             Thread join = new Thread(new ThreadStart(CoopJoinThread));
             join.SetApartmentState(ApartmentState.STA);
             join.Start();
-
-            /*Task.Factory.StartNew(() =>
-            {
-                CoopJoinThread();
-            });*/
         }
 
         public void CoopJoinThread()
@@ -151,8 +146,22 @@ namespace Sapp
                         msg.ShowDialog();
                         goto StopListening;
                     }
-                    List<Game> testSimilarGames = _myGames.Intersect(  (GamesList)passwordOK.Games, new GameEqualityComparer()  ).ToList();
-                    if (testSimilarGames.Count == 0)
+
+
+                    List<Int64> testSimilarGames = null;
+
+                    try
+                    {
+                        testSimilarGames = _myGames.GetIDArray().Intersect(GamesList.ConvertIDList(passwordOK.Games.ToString()), new GameEqualityComparer()).ToList();
+                    }
+                    catch
+                    {
+                        DisplayMessage msg = new DisplayMessage("Join Notification", "Host sent a bad request", System.Windows.Forms.MessageBoxButtons.OK);
+                        msg.ShowDialog();
+                        goto StopListening;
+                    }
+
+                    if (testSimilarGames == null || testSimilarGames.Count == 0)
                     {
                         //No similar games
                         DisplayMessage msg = new DisplayMessage("Join Notification", "Host has no matching games", System.Windows.Forms.MessageBoxButtons.OK);
@@ -196,7 +205,7 @@ namespace Sapp
                     if (hostMessage.Games == null)
                         continue;
 
-                    UpdateGamePool((GamesList)hostMessage.Games);
+                    UpdateGamePool((string)hostMessage.Games);
                 }
 
                 else if (hostMessage.RequestedAction.Equals(CoopUtils.LAUNCH))
@@ -228,18 +237,23 @@ namespace Sapp
             return _justDisconnected;
         }
 
-        private void UpdateGamePool(GamesList games)
+        private void UpdateGamePool(string games)
         {
             if (_removedPoolUpdater == null || _removedPool == null || _gamePool == null || _gamePoolUpdater == null)
                 return;
 
             GamesList gamePool = new GamesList();
             GamesList removedPool = new GamesList();
-            //TODO Test with reference to GamesList instead. 
+
+            //put everything in removed
             removedPool.AddList((GamesList)_removedPool.ItemsSource);
             removedPool.AddList((GamesList)_gamePool.ItemsSource);
-            gamePool.AddList(games);
-            removedPool.RemoveList(games);
+
+            GamesList gamesForGamePool = GameUtilities.IntersectLists(removedPool, GamesList.ConvertIDList(games));
+
+            //add the games we want to the game pool, take those ones out of the removed pool
+            gamePool.AddList(gamesForGamePool);
+            removedPool.RemoveList(gamesForGamePool);
 
             _gamePoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _gamePool.ItemsSource = gamePool));
             _removedPoolUpdater.Invoke(DispatcherPriority.Normal, (Action)(() => _removedPool.ItemsSource = removedPool));

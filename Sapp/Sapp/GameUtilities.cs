@@ -626,7 +626,24 @@ namespace Sapp
 
             return games;
         }
+         
+        public static GamesList IntersectLists(GamesList oldList, Int64[] gameIds)
+        {
+            GamesList tempList = new GamesList();
+
+            foreach (Game g in oldList)
+            {
+                if (gameIds.Contains(g.GetAppID()))
+                    tempList.Add(g);
+            }
+
+            return tempList;
+        }
+    
     }
+
+
+
 
     class HelperThread
     {
