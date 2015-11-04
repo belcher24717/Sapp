@@ -147,8 +147,14 @@ namespace Sapp
 
         public static Int64[] ConvertIDList(string list)
         {
+            if (list == null)
+                return new Int64[0];
+
             string[] splitList = list.Split(',');
-            Int64[] newList = new Int64[splitList.Length];
+
+            int length = splitList[0].Equals("") ? 0 : splitList.Length;
+
+            Int64[] newList = new Int64[length];
 
             for (int i = 0; i < newList.Length; i++)
                 newList[i] = Int64.Parse(splitList[i]);
