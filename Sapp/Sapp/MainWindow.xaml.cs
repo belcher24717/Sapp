@@ -372,9 +372,9 @@ namespace Sapp
             BlanketUpdate(GetTagApplicationMethod());
         } // end cbChecked_OnlyInstalled()
 
-        private void BlanketUpdate()
+        public void BlanketUpdate()
         {
-            BlanketUpdate(GetTagApplicationMethod());
+            Dispatcher.Invoke(new Action(() =>{BlanketUpdate(GetTagApplicationMethod());}) );
         }
 
         private void BlanketUpdate(TagApplicationMethod method)

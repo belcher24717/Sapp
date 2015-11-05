@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Sapp
 {
@@ -15,8 +16,7 @@ namespace Sapp
         //private cant remember, but save the joiners info to send them messages
         private JoinObserver _clientsRegistered;
         private static CoopHost _instance = null;
-        private delegate void BlanketUpdateDelegate();
-        BlanketUpdateDelegate _blanketUpdate;
+        Action _blanketUpdate;
         private bool _gamePoolChanged;
 
         public const int MAX_ALLOWED_IN_LOBBY = 10; //+1 which is the host for a total of 8
@@ -41,7 +41,7 @@ namespace Sapp
 
         public void SetBlanketUpdateMethod(Action method)
         {
-            _blanketUpdate = new BlanketUpdateDelegate(method);
+            _blanketUpdate = method;
         }
 
         public void StartHost()
@@ -178,7 +178,7 @@ namespace Sapp
                         _clientsRegistered.Register(clientJoining, gameIDs, message.Name);
                         _clientsRegistered.AddNewGamesToJoinedGames(gameIDs);
                         Logger.Log("HOST: Client " + message.Name + " joined lobby." , true);
-                        //RunBlanketUpdate();
+                        RunBlanketUpdate();
                     }
                 }
 
@@ -231,12 +231,10 @@ namespace Sapp
             _gamePoolChanged = true;
         }
 
-        //TODO: update on client join
-        
-
         private void RunBlanketUpdate()
         {
-            _blanketUpdate();
+            if (_blanketUpdate != null)
+                _blanketUpdate.Invoke();
         }
     }
 }
