@@ -56,8 +56,8 @@
 
                     <Label Content="USER INFORMATION" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
-                    <TextBox x:Name="txtUserID" TabIndex="1" HorizontalAlignment="Left" Height="26" Margin="86,52,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190"/>
-                    <TextBox x:Name="txtSteamPath" TabIndex="2" HorizontalAlignment="Left" Height="26" Margin="86,83,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190"/>
+                    <TextBox x:Name="txtUserID" TabIndex="1" HorizontalAlignment="Left" Height="26" Margin="86,52,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
+                    <TextBox x:Name="txtSteamPath" TabIndex="2" HorizontalAlignment="Left" Height="26" Margin="86,83,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
 
                     <Label Content="User Name:" HorizontalAlignment="Left" Margin="13,52,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="13,83,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>

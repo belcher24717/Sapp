@@ -221,6 +221,7 @@ namespace Sapp
             }
 
             StopListening:
+                SendDisconnectToHost();
                 SetListening(false);
                 CloseHost();
                 FriendsList.GetInstance().ClearList();
@@ -264,8 +265,11 @@ namespace Sapp
 
         public void Disconnect()
         {
-            FriendsList.GetInstance().ClearList();
+            SetListening(false);
+        }
 
+        public void SendDisconnectToHost()
+        {
             if (!_listening || _host == null)
             {
                 SetListening(false);
@@ -277,15 +281,14 @@ namespace Sapp
                 //refresh the connection socket so the message will send
                 if (_host.Connected)
                 {
-                    CloseHost();
                     if (TryOpenHost())
                     {
                         //dont need password to disconnect
                         DataContainer message = CoopUtils.ConstructMessage(CoopUtils.DISCONNECT, "", null);
                         CoopUtils.SendMessage(message, _host);
                         Thread.Sleep(100);
-                        CloseHost();
                     }
+                    CloseHost();
                 }
             }
             catch
@@ -305,8 +308,12 @@ namespace Sapp
         {
             try
             {
-                _host = new TcpClient(_ipJoining, _port);
-                return true;
+                _host = new TcpClient();
+                var result = _host.BeginConnect(_ipJoining, _port, null, null);
+
+                bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(3));
+                //_host = new TcpClient(_ipJoining, _port);
+                return success;
             }
             catch
             {

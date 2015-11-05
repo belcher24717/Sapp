@@ -19,7 +19,7 @@ namespace Sapp
         Action _blanketUpdate;
         private bool _gamePoolChanged;
 
-        public const int MAX_ALLOWED_IN_LOBBY = 10; //+1 which is the host for a total of 8
+        public const int MAX_ALLOWED_IN_LOBBY = 8; //+1 which is the host for a total of 8
 
         private CoopHost() : base(7780, "")
         {

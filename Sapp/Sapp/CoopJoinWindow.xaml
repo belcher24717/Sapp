@@ -14,7 +14,7 @@
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
         <Label Content="JOIN A FRIENDS SESSION" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold" MouseDown="MouseDownOnWindow"/>
         <Label Content="* IP Address" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtIpAddress" TabIndex="1" TextWrapping="Wrap" Margin="10,72,128,0" Height="25" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtIpAddress" TabIndex="1" Margin="10,72,128,0" Height="25" VerticalAlignment="Top" MaxLines="1"/>
         
         <Button Content="Join" BorderThickness="0" TabIndex="5" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
@@ -24,11 +24,11 @@
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
 			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,10,10.333" Click="btnCancelClicked" />
         <Label Content="* Port" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtPort" TabIndex="3" TextWrapping="Wrap" Margin="10,127,147,0" Height="25" VerticalAlignment="Top" Text="7780"/>
+        <TextBox x:Name="txtPort" TabIndex="3" Margin="10,127,147,0" Height="25" VerticalAlignment="Top" Text="7780" MaxLines="1"/>
         <Label Content="Password" HorizontalAlignment="Left" Margin="95,102,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtPassword" TabIndex="4" TextWrapping="Wrap" Margin="94,127,10,0" Height="25" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPassword" TabIndex="4" Margin="94,127,10,0" Height="25" VerticalAlignment="Top" MaxLines="1" MaxLength="32"/>
         <Label Content="Nickname" HorizontalAlignment="Left" Margin="120,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtNickname" TabIndex="2" TextWrapping="NoWrap" Margin="113,72,10,0" Height="25" VerticalAlignment="Top" MaxLength="13"/>
+        <TextBox x:Name="txtNickname" TabIndex="2" TextWrapping="NoWrap" Margin="113,72,10,0" Height="25" VerticalAlignment="Top" MaxLength="13" MaxLines="1"/>
        
 
 
