@@ -25,6 +25,11 @@ namespace Sapp
         {
             InitializeComponent();
             gameList = list;
+
+            Settings settings = Settings.GetInstance();
+            txtIpAddress.Text = settings.JoinIpAddress;
+            txtNickname.Text = settings.JoinNickname.Equals("") ? settings.UserID : settings.JoinNickname;
+            txtPort.Text = "" + settings.JoinPort;
         }
 
         private void btnAcceptClicked(object sender, RoutedEventArgs e)
@@ -38,6 +43,13 @@ namespace Sapp
             {
                 return;
             }
+
+            Settings settings = Settings.GetInstance();
+
+            settings.JoinNickname = txtNickname.Text;
+            settings.JoinPort = port;
+            settings.JoinIpAddress = txtIpAddress.Text;
+            settings.Save();
 
             CoopJoin tryJoin = CoopJoin.GetInstance();
 

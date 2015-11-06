@@ -22,6 +22,11 @@ namespace Sapp
         public CoopHostWindow()
         {
             InitializeComponent();
+
+            Settings settings = Settings.GetInstance();
+
+            txtNickname.Text = settings.HostNickname.Equals("") ? settings.UserID : settings.HostNickname;
+            txtPort.Text = "" + settings.HostPort;
         }
 
         private void btnHostClicked(object sender, RoutedEventArgs e)
@@ -35,6 +40,12 @@ namespace Sapp
             {
                 return;
             }
+
+            Settings settings = Settings.GetInstance();
+
+            settings.HostNickname = txtNickname.Text;
+            settings.HostPort = port;
+            settings.Save();
 
             CoopHost host = CoopHost.GetInstance();
 

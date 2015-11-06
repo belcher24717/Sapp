@@ -88,6 +88,58 @@ namespace Sapp
             }
         }
 
+        //Joining
+        private string joinIpAddress;
+        public string JoinIpAddress
+        {
+            get { return joinIpAddress; }
+            set
+            {
+                joinIpAddress = value;
+            }
+        }
+
+        private string joinNickname;
+        public string JoinNickname
+        {
+            get { return joinNickname; }
+            set
+            {
+                joinNickname = value;
+            }
+        }
+
+        private int joinPort;
+        public int JoinPort
+        {
+            get { return joinPort; }
+            set
+            {
+                joinPort = value;
+            }
+        }
+
+        //Hosting
+        private string hostNickname;
+        public string HostNickname
+        {
+            get { return hostNickname; }
+            set
+            {
+                hostNickname = value;
+            }
+        }
+
+        private int hostPort;
+        public int HostPort
+        {
+            get { return hostPort; }
+            set
+            {
+                hostPort = value;
+            }
+        }
+
         #endregion
 
         private static bool userWasChanged;
@@ -103,6 +155,9 @@ namespace Sapp
             tagApplication = TagApplicationMethod.ContainsAll;
             gamePoolRemoveKeyBinding = Key.D;
             onlyPlayInstalledGames = false;
+            hostPort = joinPort = 7780;
+            hostNickname = joinNickname = "";
+            joinIpAddress = "";
         }
 
         public static Settings GetInstance()
@@ -151,7 +206,7 @@ namespace Sapp
             }
             catch
             {
-                MessageBox.Show("Settings not saved, an error occured");
+                Logger.Log("Settings not saved, an error occured");
             }
         }
 
@@ -167,7 +222,8 @@ namespace Sapp
             }
             catch
             {
-                MessageBox.Show("User Name could not be found. Be sure to login to Steam.");
+                DisplayMessage msg = new DisplayMessage("Oops!", "User Name could not be found. Be sure to login to Steam.", System.Windows.Forms.MessageBoxButtons.OK);
+                msg.ShowDialog();
                 return false;
             }
 
