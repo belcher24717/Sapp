@@ -222,7 +222,7 @@ namespace Sapp
             }
             catch
             {
-                DisplayMessage msg = new DisplayMessage("Oops!", "User Name could not be found. Be sure to login to Steam.", System.Windows.Forms.MessageBoxButtons.OK);
+                DisplayMessage msg = new DisplayMessage("User file not found", "Please verify Steam path.", System.Windows.Forms.MessageBoxButtons.OK);
                 msg.ShowDialog();
                 return false;
             }
@@ -252,7 +252,8 @@ namespace Sapp
 
             if (!foundName)
             {
-                MessageBox.Show("User Name could not be found. Be sure to login to Steam.");
+                DisplayMessage msg = new DisplayMessage("User Name not found", "Must login to Steam with this account.", System.Windows.Forms.MessageBoxButtons.OK);
+                msg.ShowDialog();
                 return false;
             }
 

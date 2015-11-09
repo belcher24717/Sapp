@@ -81,6 +81,12 @@ namespace Sapp
             get;
         }
 
+        public bool Multiplayer
+        {
+            get;
+            set;
+        }
+
         //start with just title and either build the rest in later, or add them here
         public Game(string title, Int64 appid, bool installed)
         {

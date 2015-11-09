@@ -605,13 +605,15 @@ namespace Sapp
                 loadBarTags.ForceClose();
                 Logger.Log("END: Tag Loading", true);
 
+                foreach (Game g in games)
+                    if (g.ContainsTag(Tags.NoTags) && games.Count(x => x.Title.Equals(g.Title)) > 1)
+                        g.IsDLC = true;
             }
 
             if (!Directory.Exists(Settings.FILE_LOCATION))
                 Directory.CreateDirectory(Settings.FILE_LOCATION);
 
             SaveGameList(games, userID, "games");
-
 
             Offline:
 
@@ -643,8 +645,6 @@ namespace Sapp
     }
 
 
-
-
     class HelperThread
     {
         private Int64 appID;
@@ -660,6 +660,9 @@ namespace Sapp
         {
             try
             {
+                //assume failure
+                theList.GetGame(appID).TaggingFailed = true;
+
                 string htmlToParse;
                 int startIndex;
                 int endIndex;
@@ -708,13 +711,14 @@ namespace Sapp
 
                     theList.GetGame(appID).AddTag(tagToAdd.Trim());
                 }
+
+                //TODO: mark games as multiplayer.
+
                 theList.GetGame(appID).TaggingFailed = false;
             }
             catch (WebException we)
             {
                 Logger.Log("ERROR: <GameUtilities.AddTags> Lost internet connection during execution: " + we.Message, true);
-                theList.GetGame(appID).TaggingFailed = true;
-                //TODO: Exit program execution here to a retry/exit window
             }
             catch(Exception exception)
             {
