@@ -138,11 +138,22 @@ namespace Sapp
         //Newly added. Custom games that are updated may change in size. Updating their appId ensures Custom games can be played using the Connect feature...
         private void updateCustomGameAppId()
         {
+            //TODO: Maybe run through list and create list of custom games...
+            //      Then run through each custom game and update...
+            //      Then load the file, delete these games if found and then save out these games for persistence of update...
             foreach (Game game in gamePool)
             {
                 if (game.GetAppID() < 0)
                 {
-                    game.SetAppId(-(Int64)(new System.IO.FileInfo(game.FilePath).Length));
+                    if (File.Exists(game.FilePath))
+                    {
+                        game.SetAppId(-(Int64)(new System.IO.FileInfo(game.FilePath).Length));
+                    }
+                    else
+                    {
+                        //TODO: Can't just do this, need to save it out after all games are
+                        game.isInstalled = false;
+                    }
                 }
             }
         }
@@ -476,7 +487,7 @@ namespace Sapp
                 if (onlyInstalledIsChecked)
                 {
                     
-                    if (!game.IsInstalled())
+                    if (!game.isInstalled)
                     {
                         gamesToRemove.Add(game);
                         continue;
