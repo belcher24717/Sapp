@@ -1,0 +1,12 @@
+﻿Todo:
+
+Urgent:
+- remove single game stopped working after one remove (BUG)
+x autofill nickname with steam login name
+x auto filter out single player games in lobby
+- make option to manually mark as installed and not installed
+x if we have no tags, and duplicate title, remove the game, mark it as dlc.
+x pop out instead of slide out (when revealing removed pool). Start maximized?
+
+Non-urgent:
+- Change networking to use MCF

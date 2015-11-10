@@ -437,7 +437,7 @@ namespace Sapp
                 if(CoopUtils.CollectivePool != null)
                 {
                     foreach (Game game in gamePool)
-                        if (!CoopUtils.CollectivePool.Contains(game))
+                        if (!CoopUtils.CollectivePool.Contains(game) || !game.Multiplayer)
                             gamesToRemove.Add(game);
 
                     //remove them so they arent removed twice
@@ -825,34 +825,23 @@ namespace Sapp
             {
                 btnOpenHiddenGamesArrow.Content = "<";
 
-                //BEFORE SLIDE: Show the add/remove buttons while the window is not expanded
+                //BEFORE POP: Show the add/remove buttons while the window is not expanded
                 btnAddAll.Visibility = Visibility.Visible;
                 btnAddGame.Visibility = Visibility.Visible;
                 btnRemoveAll.Visibility = Visibility.Visible;
                 btnRemoveGame.Visibility = Visibility.Visible;
 
                 this.MaxWidth = MAX_WINDOW_SIZE;
-                while (this.Width < MAX_WINDOW_SIZE)
-                {
-                    this.Width += 5;
-                    System.Windows.Forms.Application.DoEvents();
-                }
                 this.MinWidth = MAX_WINDOW_SIZE;
             }
             else
             {
                 btnOpenHiddenGamesArrow.Content = ">";
-               
-                
+
                 this.MinWidth = MIN_WINDOW_SIZE;
-                while (this.Width > MIN_WINDOW_SIZE)
-                {
-                    this.Width -= 5;
-                    System.Windows.Forms.Application.DoEvents();
-                }
                 this.MaxWidth = MIN_WINDOW_SIZE;
 
-                //AFTER SLIDE: Hide the add/remove buttons while the window is not expanded
+                //AFTER POP: Hide the add/remove buttons while the window is not expanded
                 btnAddAll.Visibility = Visibility.Hidden;
                 btnAddGame.Visibility = Visibility.Hidden;
                 btnRemoveAll.Visibility = Visibility.Hidden;

@@ -685,6 +685,13 @@ namespace Sapp
                 ReceiveStream.Close();
                 readStream.Close();
 
+                if (htmlToParse.IndexOf("http://store.steampowered.com/search/?category2=24&snr=1_5_9__423") > 0 || //Local Co-op
+                   htmlToParse.IndexOf("http://store.steampowered.com/search/?category2=1&snr=1_5_9__423") > 0 || //Multi-player
+                   htmlToParse.IndexOf("http://store.steampowered.com/search/?category2=9&snr=1_5_9__423") > 0) //Co-op
+                {
+                    theList.GetGame(appID).Multiplayer = true;
+                }
+
                 startIndex = htmlToParse.IndexOf("glance_tags popular_tags");
                 endIndex = htmlToParse.IndexOf("app_tag add_button");
 
@@ -711,8 +718,6 @@ namespace Sapp
 
                     theList.GetGame(appID).AddTag(tagToAdd.Trim());
                 }
-
-                //TODO: mark games as multiplayer.
 
                 theList.GetGame(appID).TaggingFailed = false;
             }
