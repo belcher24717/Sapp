@@ -41,6 +41,7 @@ namespace Sapp
                 //going to have to add this for each new checkbox...
                 cbHoursPlayed.IsChecked = settings.GetColumnsToShow().Contains(cbHoursPlayed.Content.ToString());
                 cbHoursPlayedLast2Weeks.IsChecked = settings.GetColumnsToShow().Contains(cbHoursPlayedLast2Weeks.Content.ToString());
+                cbIsInstalled.IsChecked = settings.GetColumnsToShow().Contains(cbIsInstalled.Content.ToString());
 
                 //only installed
                 cbOnlyInstalled.IsChecked = settings.OnlyPlayInstalledGames;
@@ -160,6 +161,12 @@ namespace Sapp
                 settings.AddColumn(cbHoursPlayedLast2Weeks.Content.ToString());
             else
                 settings.RemoveColumn(cbHoursPlayedLast2Weeks.Content.ToString());
+
+            //Is Installed
+            if ((bool)cbIsInstalled.IsChecked)
+                settings.AddColumn(cbIsInstalled.Content.ToString());
+            else
+                settings.RemoveColumn(cbIsInstalled.Content.ToString());
 
             #endregion
 

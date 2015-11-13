@@ -79,12 +79,12 @@ namespace Sapp
                 return;
 
             //Get all the hosts games
-            Int64[] newCollectiveGames = MainWindow.GetAllGames().GetIDArray();
+            Int64[] newCollectiveGames = MainWindow.GetAllMultiplayerGames().GetIDArray();
 
             foreach (JoinObserverClient client in _clients)
                 newCollectiveGames = newCollectiveGames.Intersect(client.GetGames(), new GameEqualityComparer()).ToArray<Int64>();
 
-            CoopUtils.CollectivePool = GameUtilities.IntersectLists(MainWindow.GetAllGames(), newCollectiveGames);
+            CoopUtils.CollectivePool = GameUtilities.IntersectLists(MainWindow.GetAllMultiplayerGames(), newCollectiveGames);
         }
 
         public void AddNewGamesToJoinedGames(Int64[] games)
@@ -95,13 +95,13 @@ namespace Sapp
             if (CoopUtils.CollectivePool == null)
             {
                 CoopUtils.CollectivePool = new GamesList();
-                matchingIDs = MainWindow.GetAllGames().GetIDArray().Intersect(games, new GameEqualityComparer()).ToArray<Int64>();
+                matchingIDs = MainWindow.GetAllMultiplayerGames().GetIDArray().Intersect(games, new GameEqualityComparer()).ToArray<Int64>();
             }
             else
                 matchingIDs = CoopUtils.CollectivePool.GetIDArray().Intersect(games, new GameEqualityComparer()).ToArray<Int64>();
                 //CoopUtils.CollectivePool.SetList((CoopUtils.CollectivePool.Intersect(games, new GameEqualityComparer())).ToList());
 
-            CoopUtils.CollectivePool.SetList(GameUtilities.IntersectLists(MainWindow.GetAllGames(), matchingIDs));
+            CoopUtils.CollectivePool.SetList(GameUtilities.IntersectLists(MainWindow.GetAllMultiplayerGames(), matchingIDs));
         }
     }//TODO: write a setlist in gameslist
 

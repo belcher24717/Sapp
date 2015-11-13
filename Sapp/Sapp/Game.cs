@@ -13,19 +13,10 @@ namespace Sapp
     public class Game : IComparable<Game>, IEquatable<Game>
     {
         // maybe consolidate these attributes into a GameProperties object?
-        
-//        private List<string> genre;
         private Int64 appID;
-        
-        //private bool isInstalled;
         private int lastTimePlayed;
-        
-        //these might be looked up at run time
-
         private List<GameUtilities.Tags> tagList;
-//        private bool singlePlayer;
-//        private bool multiplayer;
-//        private bool cooperative;
+
         public bool IsDLC
         {
             get;
@@ -33,7 +24,7 @@ namespace Sapp
         }
 
         // newly added... adds the ability to set isInstalled of the game, specifically if it's a custom game who's path can't be found
-        public bool isInstalled
+        public bool IsInstalled
         {
             get;
             set;
@@ -92,7 +83,7 @@ namespace Sapp
         {
             this.title = title;
             this.appID = appid;
-            this.isInstalled = installed;
+            this.IsInstalled = installed;
 
             this.Last2Weeks = 0;
             this.HoursPlayed = 0;
@@ -140,7 +131,7 @@ namespace Sapp
                     Process.Start(FilePath);
                 else
                 {
-                    this.isInstalled = false;
+                    this.IsInstalled = false;
                     DisplayMessage dm = new DisplayMessage("Executable Not Found", "The executable may have been moved or deleted.", System.Windows.Forms.MessageBoxButtons.OK);
                     dm.ShowDialog();
                 }
@@ -214,7 +205,7 @@ namespace Sapp
 
         public void SetInstallState(bool state)
         {
-            isInstalled = state;
+            IsInstalled = state;
         }
     }
 }

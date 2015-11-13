@@ -270,8 +270,9 @@ namespace Sapp
             try
             {
                 XmlTextReader test = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+                
                 //XmlTextReader test = new XmlTextReader("http://hahahaha.com");
-                test.Read();
+                test.Read();//Froze here?
             }
             catch
             {
@@ -364,9 +365,11 @@ namespace Sapp
             {
                 if (reader != null)
                     reader.Close();
+
+                initLoadBar.ForceClose();
             }
 
-            initLoadBar.ForceClose();
+            
 
             #endregion
 

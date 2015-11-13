@@ -159,7 +159,7 @@ namespace Sapp
                             reply.PasswordOK = message.Password.Equals(_password);
 
                             if (CoopUtils.CollectivePool == null)
-                                reply.Games = MainWindow.GetAllGames().GetIDList();
+                                reply.Games = MainWindow.GetAllMultiplayerGames().GetIDList();
                             else
                                 reply.Games = CoopUtils.CollectivePool.GetIDList();
 

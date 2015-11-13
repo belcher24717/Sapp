@@ -7,6 +7,7 @@ x auto filter out single player games in lobby
 - make option to manually mark as installed and not installed
 x if we have no tags, and duplicate title, remove the game, mark it as dlc.
 x pop out instead of slide out (when revealing removed pool). Start maximized?
+x coophost sends all its games for comparison. Need to send only multiplayer since no single are allowed in lobby
 
 Non-urgent:
 - Change networking to use MCF

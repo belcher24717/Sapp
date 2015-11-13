@@ -45,10 +45,12 @@
 
                     <Label Content="ADDITIONAL COLUMNS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
-                    <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="13,52,0,0" 
+                    <CheckBox Name="cbHoursPlayed" Content="Hours Played" HorizontalAlignment="Left" Margin="13,45,0,0" 
                   VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
-                    <CheckBox x:Name="cbHoursPlayedLast2Weeks" Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="13,82,0,0" 
+                    <CheckBox x:Name="cbHoursPlayedLast2Weeks" Content="Last 2 Weeks" HorizontalAlignment="Left" Margin="13,65,0,0" 
                   VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
+                    <CheckBox x:Name="cbIsInstalled" Content="Is Installed" HorizontalAlignment="Left" Margin="13,85,0,0" 
+                    	VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabUser" Header="User Information" Width="109" Style="{DynamicResource TopTabs}">

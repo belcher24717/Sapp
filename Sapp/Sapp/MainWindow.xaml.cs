@@ -122,9 +122,9 @@ namespace Sapp
                 //hoursLast2WeeksHandler = new HoursHandler(ref chkbxHoursPlayedLast2Weeks, ref lblPreHoursPlayedLast2Weeks,
                 //    ref lblPostHoursPlayedLast2Weeks, ref combobox_HoursPlayedLast2Weeks, ref textbox_HoursPlayedLast2Weeks);
 
-                this.Width = MIN_WINDOW_SIZE;
-                this.MaxWidth = MIN_WINDOW_SIZE;
-                this.MinWidth = MIN_WINDOW_SIZE;
+                this.Width = MAX_WINDOW_SIZE;
+                this.MaxWidth = MAX_WINDOW_SIZE;
+                this.MinWidth = MAX_WINDOW_SIZE;
 
                 Settings getOnlyPlayInstalled = Settings.GetInstance();
                 onlyPlayInstalledGames = getOnlyPlayInstalled.OnlyPlayInstalledGames;
@@ -152,7 +152,7 @@ namespace Sapp
                     else
                     {
                         //TODO: Can't just do this, need to save it out after all games are
-                        game.isInstalled = false;
+                        game.IsInstalled = false;
                     }
                 }
             }
@@ -226,6 +226,26 @@ namespace Sapp
             {
                 gamePool.RemoveNoNotify(gamePool.GetGame(id));
             }
+        }
+
+        public static GamesList GetAllMultiplayerGames()
+        {
+            if (gamePool == null || removedPool == null)
+                return null;
+
+            GamesList multiplayerGames = new GamesList();
+            multiplayerGames.AddList(gamePool);
+            multiplayerGames.AddList(removedPool);
+
+            for (int i = 0; i < multiplayerGames.Count; i++)
+            {
+                if (!multiplayerGames[i].Multiplayer)
+                {
+                    multiplayerGames.RemoveAt(i);
+                    i--;
+                }
+            }
+            return multiplayerGames;
         }
 
         public static GamesList GetAllGames()
@@ -487,7 +507,7 @@ namespace Sapp
                 if (onlyInstalledIsChecked)
                 {
                     
-                    if (!game.isInstalled)
+                    if (!game.IsInstalled)
                     {
                         gamesToRemove.Add(game);
                         continue;
@@ -833,6 +853,8 @@ namespace Sapp
 
                 this.MaxWidth = MAX_WINDOW_SIZE;
                 this.MinWidth = MAX_WINDOW_SIZE;
+
+                btnOpenHiddenGamesArrow.ToolTip = "Hide Removed";
             }
             else
             {
@@ -846,6 +868,8 @@ namespace Sapp
                 btnAddGame.Visibility = Visibility.Hidden;
                 btnRemoveAll.Visibility = Visibility.Hidden;
                 btnRemoveGame.Visibility = Visibility.Hidden;
+
+                btnOpenHiddenGamesArrow.ToolTip = "Show Removed";
             }
         }
 

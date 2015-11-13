@@ -44,10 +44,24 @@ namespace Sapp
 
         public void AddColumn(string colName)
         {
-            DataGridTextColumn c1 = new DataGridTextColumn();
-            c1.Header = AddSpaces(colName);
-            c1.Binding = new Binding(colName.Replace(" ", String.Empty));
-            theGrid.Columns.Add(c1);
+            System.Reflection.PropertyInfo prop = typeof(Game).GetProperty(colName.Replace(" ", String.Empty));
+            String boolType = typeof(bool).Name;
+            String colType = prop.PropertyType.Name;
+
+            if (colType.Equals(boolType))
+            {
+                DataGridCheckBoxColumn c1 = new DataGridCheckBoxColumn();
+                c1.Header = AddSpaces(colName);
+                c1.Binding = new Binding(colName.Replace(" ", String.Empty));
+                theGrid.Columns.Add(c1);
+            }
+            else
+            {
+                DataGridTextColumn c1 = new DataGridTextColumn();
+                c1.Header = AddSpaces(colName);
+                c1.Binding = new Binding(colName.Replace(" ", String.Empty));
+                theGrid.Columns.Add(c1);
+            }
         }
 
         public void RemoveColumn(string colName)
