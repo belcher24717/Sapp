@@ -114,9 +114,6 @@
     <Compile Include="DisplayMessage.xaml.cs">
       <DependentUpon>DisplayMessage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FilenameTypein.xaml.cs">
-      <DependentUpon>FilenameTypein.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FriendsList.cs" />
     <Compile Include="GamesList.cs" />
     <Compile Include="GameUtilities.cs" />
@@ -148,10 +145,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DisplayMessage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FilenameTypein.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

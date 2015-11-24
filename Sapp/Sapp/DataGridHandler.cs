@@ -45,7 +45,7 @@ namespace Sapp
         public void AddColumn(string colName)
         {
             System.Reflection.PropertyInfo prop = typeof(Game).GetProperty(colName.Replace(" ", String.Empty));
-            String boolType = typeof(bool).Name;
+            String boolType = typeof(bool?).Name;
             String colType = prop.PropertyType.Name;
 
             if (colType.Equals(boolType))
@@ -53,6 +53,7 @@ namespace Sapp
                 DataGridCheckBoxColumn c1 = new DataGridCheckBoxColumn();
                 c1.Header = AddSpaces(colName);
                 c1.Binding = new Binding(colName.Replace(" ", String.Empty));
+                c1.IsReadOnly = false;
                 theGrid.Columns.Add(c1);
             }
             else

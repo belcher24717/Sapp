@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -291,6 +292,14 @@ namespace Sapp
 
         public void AddColumn(string col)
         {
+            //if the property doesnt exist, dont add the column
+            try
+            {
+                Type gameType = typeof(Game);
+                PropertyInfo myPropInfo = gameType.GetProperty(col);
+            }
+            catch{return;}
+
             if (columnsToShow == null)
                 columnsToShow = new List<string>();
 

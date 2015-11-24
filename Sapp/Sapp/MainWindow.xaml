@@ -11,8 +11,7 @@
 			Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BGGradient}" Height="510" StrokeThickness="0" Margin="0,0,0,0" MouseUp="MouseUpOnWindow"/>
 
         <DataGrid SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="186,79,0,49" 
-			x:Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289" KeyDown="pool_datagrid_KeyDown" 
-                  >
+			x:Name="dgGamePool" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Width="289" KeyDown="pool_datagrid_KeyDown">
 
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -129,11 +128,11 @@
 
         <Button BorderThickness="0" Content="&lt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left" 
 			HorizontalContentAlignment="Center" Margin="480,260,0,226" x:Name="btnAddGame" SnapsToDevicePixels="True" 
-			Width="50" Click="btnAddGame_Click" ToolTip="Add Game" Visibility="Hidden"/>
+			Width="50" Click="btnAddGame_Click" ToolTip="Add Game"/>
 
         <Button BorderThickness="0" Content="&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left"
 			HorizontalContentAlignment="Center" Margin="480,197,0,289" x:Name="btnRemoveGame" SnapsToDevicePixels="True" 
-			VerticalAlignment="Center" Width="50" Click="btnRemoveGame_Click" ToolTip="Remove Game" Visibility="Hidden"/>
+			VerticalAlignment="Center" Width="50" Click="btnRemoveGame_Click" ToolTip="Remove Game"/>
 
         <Button BorderThickness="0" Content="×" FlowDirection="LeftToRight" Height="25" Width="25" HorizontalAlignment="Right"
 			HorizontalContentAlignment="Center" x:Name="btnExit" SnapsToDevicePixels="True" Click="btnExit_Click" FontSize="22" FontFamily="Vani" ToolTip="Close" Background="{x:Null}" Style="{StaticResource MenuButton}" VerticalAlignment="Top"/>
@@ -163,21 +162,17 @@
 
         <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Left" 
 			HorizontalContentAlignment="Center" Margin="480,289,0,195" x:Name="btnAddAll" SnapsToDevicePixels="True" 
-			Width="50" Click="btnClickAddAll" ToolTip="Add All" Visibility="Hidden"/>
+			Width="50" Click="btnClickAddAll" ToolTip="Add All"/>
 
         <Button BorderThickness="0" Content="&gt;&gt;" FlowDirection="LeftToRight" Height="24" HorizontalAlignment="Left"
 			HorizontalContentAlignment="Center" Margin="480,226,0,260" x:Name="btnRemoveAll" SnapsToDevicePixels="True" 
-			VerticalAlignment="Center" Width="50" Click="btnClickRemoveAll" ToolTip="Remove All" Visibility="Hidden"/>
-
-
-        <Rectangle Margin="0,25,2,0" MouseDown="MouseDownOnWindow"
-			Stroke="{DynamicResource MainBorderColor}" StrokeThickness="0" HorizontalAlignment="Right" Width="20" />
+			VerticalAlignment="Center" Width="50" Click="btnClickRemoveAll" ToolTip="Remove All"/>
 
         <Button x:Name="btnOpenHiddenGamesArrow" Content="&lt;" HorizontalAlignment="Right" Margin="0,79,7,49" Width="12" Click="btnOpenHiddenGames_Click" Height="382" ToolTip="Hide Removed" />
 
         <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" MouseUp="MouseUpOnWindow" MouseDown="MouseDownOnWindow"/>
-        
+
         <TextBox x:Name="textbox_searchfilter" TextWrapping="WrapWithOverflow" Margin="348,50,0,0" Background="{StaticResource PrimaryColor}"
                      Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Width="126" GotFocus="txtFilterSearch_OnGotFocus" LostFocus="txtFilterSearch_OnLostFocus" Height="19" VerticalAlignment="Top"/>
 
@@ -186,7 +181,6 @@
             <TabItem Header="Tags" x:Name="Tags" IsSelected="True">
                 <Grid>
                     <ScrollViewer Margin="0,0,-3,0">
-
                         <StackPanel>
                             <Label Content="I want to" Foreground="{StaticResource TextColor}" FontSize="10" Margin="19,-6,0,0"/>
 
@@ -301,7 +295,7 @@
 
         </TabControl>
 
-        <Button BorderThickness="0" Content="Save List" FlowDirection="LeftToRight" Height="25" 
+        <Button BorderThickness="0" Content="Save List" FlowDirection="LeftToRight" Height="25" ToolTip="Save this exact games list"
 			HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnSaveList" SnapsToDevicePixels="True" 
 			VerticalAlignment="Bottom" Width="65" Click="btnSaveGamePool" Margin="186,0,0,12"/>
         <Button BorderThickness="0" Content="Load List" FlowDirection="LeftToRight" Height="25" 

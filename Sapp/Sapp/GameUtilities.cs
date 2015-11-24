@@ -159,7 +159,6 @@ namespace Sapp
             else if (tag.Equals("Sci-fi"))
                 return Tags.SciFi;
 
-
             else if (tag.Equals("Utilities"))
                 return Tags.Utilities;
             else if (tag.Equals("No Tags"))//Game no longer on steam (under that appid)
@@ -169,14 +168,59 @@ namespace Sapp
 
         } // end CreateTag
 
-        public static bool IsInstalled(int id)
+        public static bool IsInstalled(Int64 id)
         {
             var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App " + id);
 
             if (key == null)
                 return false;
-            return true;
-        
+
+            return true; 
+        }
+
+        public static void VerifyInstalledGames(GamesList games)
+        {
+            string gamesLocation = Settings.GetInstance().SteamLocation + @"\steamapps\common";
+
+            if (!Directory.Exists(gamesLocation))
+                return;
+
+            string[] tempGamePaths = Directory.GetDirectories(gamesLocation);
+            List<string> gameTitles = new List<string>();
+
+            foreach (string s in tempGamePaths)
+                gameTitles.Add(FixGameTitle(new DirectoryInfo(s).Name));
+
+            foreach (Game g in games)
+            {
+                if(g.IsInstalled == false)
+                    g.IsInstalled = gameTitles.Contains(FixGameTitle(g.Title));
+            }
+        }
+
+        private static string FixGameTitle(string gameName)
+        {
+            gameName = gameName.ToLower();
+            gameName = gameName.Replace(" ", "");
+            gameName = gameName.Replace("(TM)", "");
+            gameName = gameName.Replace("™", "");
+            gameName = gameName.Replace("(R)", "");
+            gameName = gameName.Replace("®", "");
+            gameName = gameName.Replace(":", "");
+            gameName = gameName.Replace("(", "");
+            gameName = gameName.Replace(")", "");
+            gameName = gameName.Replace("_", "");
+            gameName = gameName.Replace("-", "");
+            gameName = gameName.Replace("!", "");
+            gameName = gameName.Replace(".", "");
+            gameName = gameName.Replace("'", "");
+            gameName = gameName.Replace("\"", "");
+
+            gameName = gameName.Replace("&", "and");
+            gameName = gameName.Replace("gameoftheyear", "goty");
+            gameName = gameName.Replace("gotyedition", "goty");
+
+            return gameName;
         }
 
         public static void SaveGameList(GamesList games, string fileName, string fileExtention, bool useFileNameAsPath = false)
@@ -329,7 +373,6 @@ namespace Sapp
                             else
                             {
                                 games.GetGame(appid).Last2Weeks = 0;
-                                games.GetGame(appid).SetInstallState(GameUtilities.IsInstalled(appid));
                             }
                         }
 
@@ -368,8 +411,6 @@ namespace Sapp
 
                 initLoadBar.ForceClose();
             }
-
-            
 
             #endregion
 
@@ -629,9 +670,38 @@ namespace Sapp
                 }
             }
 
+            foreach (Game g in games)
+            {
+                g.SetInstallState(GameUtilities.IsInstalled(g.GetAppID()));
+            }
+            UpdateCustomGameAppId(games);
+            VerifyInstalledGames(games);
+
             return games;
         }
-         
+
+        //Newly added. Custom games that are updated may change in size. Updating their appId ensures Custom games can be played using the Connect feature...
+        private static void UpdateCustomGameAppId(GamesList games)
+        {
+            //TODO: Maybe run through list and create list of custom games...
+            //      Then run through each custom game and update...
+            //      Then load the file, delete these games if found and then save out these games for persistence of update...
+            foreach (Game game in games)
+            {
+                if (game.GetAppID() < 0)
+                {
+                    if (File.Exists(game.FilePath))
+                    {
+                        game.SetAppId(-(Int64)(new System.IO.FileInfo(game.FilePath).Length));
+                    }
+                    else
+                    {
+                        game.IsInstalled = false;
+                    }
+                }
+            }
+        }
+
         public static GamesList IntersectLists(GamesList oldList, Int64[] gameIds)
         {
             GamesList tempList = new GamesList();
@@ -646,7 +716,6 @@ namespace Sapp
         }
     
     }
-
 
     class HelperThread
     {

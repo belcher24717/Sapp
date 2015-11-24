@@ -7,12 +7,11 @@
         <SolidColorBrush x:Key="PrimaryColor">#FF262626</SolidColorBrush>
         <Color x:Key="SecondaryColor">#FF203C58</Color>
 
-
         <SolidColorBrush x:Key="BordersColor">Gray</SolidColorBrush>
         <SolidColorBrush x:Key="TextColor">#FFCFCFCF</SolidColorBrush>
 
         <!--Dis Border Gradient doe-->
-        <SolidColorBrush x:Key="MainBorderColor">#19344e</SolidColorBrush>
+        <SolidColorBrush x:Key="MainBorderColor">#19344E</SolidColorBrush>
 
         <!--Dis BG Gradient doe-->
         <LinearGradientBrush x:Key="BGGradient" StartPoint="0.5,0" EndPoint="0.5,1">
@@ -93,8 +92,6 @@
         </Style>
         <!--Menu Button Style-->
 
-
-
         <!--Control colors-->
         <Color x:Key="ControlColor">#FF46464C</Color>
         <Color x:Key="ControlMouseOverColor">#FF203C58</Color>
@@ -107,8 +104,6 @@
         <Color x:Key="DisabledControlColor">#FF262626</Color>
         <Color x:Key="DisabledForegroundColor">#FF262626</Color>
 
-        
-        
         <!--ComboBox-->
         <ControlTemplate x:Key="ComboBoxToggleButton"
                  TargetType="{x:Type ToggleButton}">
@@ -349,8 +344,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--ComboBox-->
 
-        
         <!--Side Tabs-->
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="ClipToBounds" Value="True"/>
@@ -455,7 +450,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <!--ScrollBar Sytle-->
+        
         <!--ScrollBars-->
         <Style x:Name="DarkScrollBar" TargetType="{x:Type ScrollBar}">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -515,9 +511,9 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>       
-        
-        
+        </Style>
+        <!--ScrollBars-->
+
     </Application.Resources>
 </Application>
     

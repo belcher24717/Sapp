@@ -24,7 +24,7 @@ namespace Sapp
         }
 
         // newly added... adds the ability to set isInstalled of the game, specifically if it's a custom game who's path can't be found
-        public bool IsInstalled
+        public bool? IsInstalled
         {
             get;
             set;
