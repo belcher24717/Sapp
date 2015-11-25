@@ -15,6 +15,21 @@ namespace Sapp
 
         public static void Log(string message, bool includeDataTime = false)
         {
+            WriteLog("LOG: " + message, includeDataTime);
+        }
+
+        public static void LogError(string message, bool includeDataTime = false)
+        {
+            WriteLog("ERROR: " + message, includeDataTime);
+        }
+
+        public static void LogWarning(string message, bool includeDataTime = false)
+        {
+            WriteLog("WARN: " + message, includeDataTime);
+        }
+
+        private static void WriteLog(string message, bool includeDataTime = false)
+        {
             if (DebugMode)
             {
                 try
@@ -31,10 +46,9 @@ namespace Sapp
                 }
                 catch
                 {
-
+                    //well shit
                 }
             }
-
         }
     }
 }

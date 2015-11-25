@@ -8,6 +8,9 @@ x auto filter out single player games in lobby
 x if we have no tags, and duplicate title, remove the game, mark it as dlc.
 x pop out instead of slide out (when revealing removed pool). Start maximized?
 x coophost sends all its games for comparison. Need to send only multiplayer since no single are allowed in lobby
+- MORE logging
+- make games editable in custom games
+- change whole project to 'snowflake'
 
 Non-urgent:
 - Change networking to use MCF

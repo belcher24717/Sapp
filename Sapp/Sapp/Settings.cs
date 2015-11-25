@@ -183,7 +183,7 @@ namespace Sapp
             catch (SerializationException se)
             {
                 sr.Close();
-                Logger.Log("In Settings.Initialize: " + se.ToString());
+                Logger.LogError("<Settings.Initialize>: " + se.ToString());
                 throw new SerializationException();
             }
             sr.Close();
@@ -205,9 +205,9 @@ namespace Sapp
                 sw.Close();
                 Logger.Log("Successful Save");
             }
-            catch
+            catch(Exception e)
             {
-                Logger.Log("Settings not saved, an error occured");
+                Logger.LogError("Settings not saved: " + e.Message);
             }
         }
 

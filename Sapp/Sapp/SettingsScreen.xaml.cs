@@ -123,7 +123,7 @@ namespace Sapp
             Settings settings = Settings.GetInstance();
             if (settings == null)
             {
-                Logger.Log("ERROR: <SettingsScreen.btnAcceptClicked> Settings reference is null");
+                Logger.LogError("<SettingsScreen.btnAcceptClicked> Settings reference is null");
                 return;
             }
 

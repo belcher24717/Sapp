@@ -245,7 +245,7 @@ namespace Sapp
             }
             catch(Exception e)
             {
-                Logger.Log("ERROR <GameUtilities.SaveGameList> Problem saving - " + e.ToString());
+                Logger.LogError("<GameUtilities.SaveGameList> Problem saving - " + e.ToString());
                 if (sw != null)
                     sw.Close();
             }
@@ -280,7 +280,7 @@ namespace Sapp
                 }
                 catch (Exception e)
                 {
-                    Logger.Log("ERROR: <GameUtilities.LoadGameList> Problem loading in GameUtilities.LoadGameList - " + e.ToString());
+                    Logger.LogError("<GameUtilities.LoadGameList> Problem loading: " + e.ToString());
                     if (sr != null)
                         sr.Close();
                 }
@@ -323,6 +323,7 @@ namespace Sapp
                 if (games.Count == 0)
                     return null;
 
+                Logger.LogWarning("Offline, skipping game check");
                 goto Offline;
             }
 
@@ -333,6 +334,7 @@ namespace Sapp
 
             LoadingBar initLoadBar = new LoadingBar("Updating play time...");
             initLoadBar.Show();
+            initLoadBar.Activate();
 
             int appid = 0;
 
@@ -391,9 +393,9 @@ namespace Sapp
                 }
 
             }
-            catch (WebException)
+            catch (WebException we)
             {
-                Logger.Log("ERROR: <GameUtilities.PopulateList> Internet connection was lost during game information acquisition.", true);
+                Logger.LogError("<GameUtilities.PopulateList> Internet connection was lost during game information acquisition: " + we.Message, true);
 
                 //TODO: Exit execution to retry/exit window
                 if (addedNewGames)
@@ -416,242 +418,266 @@ namespace Sapp
 
             #region Checking Flagged DLC
 
-            List<Int64> failedDLCs = games.ReturnFailedDlcCheckList();
-
-            if (failedDLCs.Count != 0)
+            try
             {
-                Logger.Log("START: Check Flagged DLC");
+                List<Int64> failedDLCs = games.ReturnFailedDlcCheckList();
 
-                // games is the list of potential DLC
-                Task[] tasks = new Task[failedDLCs.Count];
-                HelperThread.theList = games;
-
-                // used to assign a thread to its array position
-                int number = 0;
-
-                foreach (int appIdOfGame in failedDLCs)
+                if (failedDLCs.Count != 0)
                 {
-                    tasks[number] = Task.Factory.StartNew(() =>
+                    Logger.Log("START: Check Flagged DLC", true);
+
+                    // games is the list of potential DLC
+                    Task[] tasks = new Task[failedDLCs.Count];
+                    HelperThread.theList = games;
+
+                    // used to assign a thread to its array position
+                    int number = 0;
+
+                    foreach (int appIdOfGame in failedDLCs)
                     {
-                        var sacThread = new HelperThread(appIdOfGame);
-                        sacThread.WeedOutDLC(null);
-
-                    });
-                    number++;
-                }
-
-                //start the loading bar so they see something happening
-                int counter = failedDLCs.Count;
-                LoadingBar loadBar = new LoadingBar(counter, "Checking For Unmarked DLC...");
-                loadBar.Show();
-
-                List<Task> taskWatcher = new List<Task>();
-                taskWatcher.AddRange(tasks);
-
-                while (taskWatcher.Count > 0)
-                {
-                    for (int j = 0; j < taskWatcher.Count; j++)
-                    {
-                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                        tasks[number] = Task.Factory.StartNew(() =>
                         {
-                            taskWatcher.RemoveAt(j);
-                            j--;
-                            loadBar.Progress();
-                        }
+                            var sacThread = new HelperThread(appIdOfGame);
+                            sacThread.WeedOutDLC(null);
+
+                        });
+                        number++;
                     }
-                    Application.DoEvents();
+
+                    //start the loading bar so they see something happening
+                    int counter = failedDLCs.Count;
+                    LoadingBar loadBar = new LoadingBar(counter, "Checking For Unmarked DLC...");
+                    loadBar.Show();
+
+                    List<Task> taskWatcher = new List<Task>();
+                    taskWatcher.AddRange(tasks);
+
+                    while (taskWatcher.Count > 0)
+                    {
+                        for (int j = 0; j < taskWatcher.Count; j++)
+                        {
+                            if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                            {
+                                taskWatcher.RemoveAt(j);
+                                j--;
+                                loadBar.Progress();
+                            }
+                        }
+                        Application.DoEvents();
+                    }
+
+                    taskWatcher.Clear();
+                    HelperThread.theList = null;
+                    loadBar.ForceClose();
+
+                    Logger.Log("END: Check Flagged DLC", true);
                 }
-
-                taskWatcher.Clear();
-                HelperThread.theList = null;
-                loadBar.ForceClose();
-
-                Logger.Log("END: Check Flagged DLC");
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("While Checking Flagged DLC an error occurred: " + e.Message);
             }
 
             #endregion
 
             #region Checking Flagged Tagging
 
-            List<Int64> failedTags = games.ReturnFailedTaggingList();
-
-            if (failedTags.Count != 0)
+            try
             {
-                List<Task> taskWatcher = new List<Task>();
-                Task[] tasks = new Task[games.Count];
-                HelperThread.theList = games;
+                List<Int64> failedTags = games.ReturnFailedTaggingList();
 
-                tasks = new Task[failedTags.Count];
-                HelperThread.theList = games;
-                int number = 0;
-
-                foreach (Int64 gameID in failedTags)
+                if (failedTags.Count != 0)
                 {
-                    tasks[number] = Task.Factory.StartNew(() =>
-                    {
-                        var sacThread = new HelperThread(gameID);
-                        sacThread.AddTags(null);
-                    });
-                    number++;
-                }
+                    List<Task> taskWatcher = new List<Task>();
+                    Task[] tasks = new Task[games.Count];
+                    HelperThread.theList = games;
 
-                taskWatcher.AddRange(tasks);
+                    tasks = new Task[failedTags.Count];
+                    HelperThread.theList = games;
+                    int number = 0;
 
-                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Re-Tagging Games...");
-                loadBarTags.Show();
-
-                while (taskWatcher.Count > 0)
-                {
-                    for (int j = 0; j < taskWatcher.Count; j++)
-                    {
-                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
-                        {
-                            taskWatcher.RemoveAt(j);
-                            j--;
-                            loadBarTags.Progress();
-                        }
-                    }
-                    Application.DoEvents();
-                }
-
-                foreach (Int64 gameID in failedTags)
-                {
-                    if (games.GetGame(gameID).ContainsTag(Tags.Utilities))
-                        games.GetGame(gameID).IsUtility = true;
-                }
-
-                HelperThread.theList = null;
-            }
-
-            #endregion
-
-            if (addedNewGames)
-            {
-                Logger.Log("START: DLC Removal", true);
-
-                #region Weed Out DLC
-
-                // games is the list of potential DLC
-                Task[] tasks = new Task[games.Count];
-                HelperThread.theList = games;
-
-                //gets rid of dlc, using multiple threads (tasks)
-                int number = 0;
-
-                foreach (Game g in newlyAddedGames)
-                {
-                    if (g.HoursPlayed == 0)
+                    foreach (Int64 gameID in failedTags)
                     {
                         tasks[number] = Task.Factory.StartNew(() =>
                         {
-                            var sacThread = new HelperThread(g.GetAppID());
-                            sacThread.WeedOutDLC(null);
-
-                        });
-                        number++;
-                    }
-                }
-
-                int counter = 0;
-                while (tasks[counter] != null)
-                    counter++;
-
-                LoadingBar loadBar = new LoadingBar(counter, "Marking DLC...");
-                loadBar.Show();
-
-                Task[] noNullTasks = new Task[counter];
-
-                for (int i = 0; i < counter; i++)
-                    noNullTasks[i] = tasks[i];
-
-                List<Task> taskWatcher = new List<Task>();
-                taskWatcher.AddRange(noNullTasks);
-
-                while (taskWatcher.Count > 0)
-                {
-                    for (int j = 0; j < taskWatcher.Count; j++)
-                    {
-                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
-                        {
-                            taskWatcher.RemoveAt(j);
-                            j--;
-                            loadBar.Progress();
-                        }
-                    }
-                    Application.DoEvents();
-                }
-
-                taskWatcher.Clear();
-                HelperThread.theList = null;
-
-                #endregion
-
-                loadBar.ForceClose();
-                Logger.Log("END: DLC Removal", true);
-
-                Logger.Log("START: Tag Loading", true);
-
-                #region Load Tags
-
-                int numDLC = 0;
-
-                foreach (Game g in newlyAddedGames)
-                    if (g.IsDLC)
-                        numDLC++;
-
-                //- counter to count the dlc we will skip -- Because DLC does not have tags
-                tasks = new Task[newlyAddedGames.Count - numDLC];
-                HelperThread.theList = games;
-                number = 0;
-
-                foreach (Game game in newlyAddedGames)
-                {
-                    if (!game.IsDLC)
-                    {
-                        tasks[number] = Task.Factory.StartNew(() =>
-                        {
-                            var sacThread = new HelperThread(game.GetAppID());
+                            var sacThread = new HelperThread(gameID);
                             sacThread.AddTags(null);
                         });
                         number++;
                     }
-                }
 
-                taskWatcher.AddRange(tasks);
+                    taskWatcher.AddRange(tasks);
 
-                LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Tagging Games...");
-                loadBarTags.Show();
+                    LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Re-Tagging Games...");
+                    loadBarTags.Show();
 
-                while (taskWatcher.Count > 0)
-                {
-                    for (int j = 0; j < taskWatcher.Count; j++)
+                    while (taskWatcher.Count > 0)
                     {
-                        if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                        for (int j = 0; j < taskWatcher.Count; j++)
                         {
-                            taskWatcher.RemoveAt(j);
-                            j--;
-                            loadBarTags.Progress();
+                            if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                            {
+                                taskWatcher.RemoveAt(j);
+                                j--;
+                                loadBarTags.Progress();
+                            }
+                        }
+                        Application.DoEvents();
+                    }
+
+                    foreach (Int64 gameID in failedTags)
+                    {
+                        if (games.GetGame(gameID).ContainsTag(Tags.Utilities))
+                            games.GetGame(gameID).IsUtility = true;
+                    }
+
+                    HelperThread.theList = null;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("While Checking Flagged Tags an error occurred: " + e.Message);
+            }
+
+            #endregion
+
+            try
+            {
+                if (addedNewGames)
+                {
+                    Logger.Log("START: DLC Removal", true);
+
+                    #region Weed Out DLC
+
+                    // games is the list of potential DLC
+                    Task[] tasks = new Task[games.Count];
+                    HelperThread.theList = games;
+
+                    //gets rid of dlc, using multiple threads (tasks)
+                    int number = 0;
+
+                    foreach (Game g in newlyAddedGames)
+                    {
+                        if (g.HoursPlayed == 0)
+                        {
+                            tasks[number] = Task.Factory.StartNew(() =>
+                            {
+                                var sacThread = new HelperThread(g.GetAppID());
+                                sacThread.WeedOutDLC(null);
+
+                            });
+                            number++;
                         }
                     }
-                    Application.DoEvents();
+
+                    int counter = 0;
+                    while (tasks[counter] != null)
+                        counter++;
+
+                    LoadingBar loadBar = new LoadingBar(counter, "Marking DLC...");
+                    loadBar.Show();
+                    loadBar.Activate();
+
+                    Task[] noNullTasks = new Task[counter];
+
+                    for (int i = 0; i < counter; i++)
+                        noNullTasks[i] = tasks[i];
+
+                    List<Task> taskWatcher = new List<Task>();
+                    taskWatcher.AddRange(noNullTasks);
+
+                    while (taskWatcher.Count > 0)
+                    {
+                        for (int j = 0; j < taskWatcher.Count; j++)
+                        {
+                            if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                            {
+                                taskWatcher.RemoveAt(j);
+                                j--;
+                                loadBar.Progress();
+                            }
+                        }
+                        Application.DoEvents();
+                    }
+
+                    taskWatcher.Clear();
+                    HelperThread.theList = null;
+
+                    #endregion
+
+                    loadBar.ForceClose();
+                    Logger.Log("END: DLC Removal", true);
+
+                    Logger.Log("START: Tag Loading", true);
+
+                    #region Load Tags
+
+                    int numDLC = 0;
+
+                    foreach (Game g in newlyAddedGames)
+                        if (g.IsDLC)
+                            numDLC++;
+
+                    //- counter to count the dlc we will skip -- Because DLC does not have tags
+                    tasks = new Task[newlyAddedGames.Count - numDLC];
+                    HelperThread.theList = games;
+                    number = 0;
+
+                    foreach (Game game in newlyAddedGames)
+                    {
+                        if (!game.IsDLC)
+                        {
+                            tasks[number] = Task.Factory.StartNew(() =>
+                            {
+                                var sacThread = new HelperThread(game.GetAppID());
+                                sacThread.AddTags(null);
+                            });
+                            number++;
+                        }
+                    }
+
+                    taskWatcher.AddRange(tasks);
+
+                    LoadingBar loadBarTags = new LoadingBar(taskWatcher.Count, "Tagging Games...");
+                    loadBarTags.Show();
+                    loadBarTags.Activate();
+
+                    while (taskWatcher.Count > 0)
+                    {
+                        for (int j = 0; j < taskWatcher.Count; j++)
+                        {
+                            if (taskWatcher[j].Status == TaskStatus.RanToCompletion || taskWatcher[j].Status == TaskStatus.Faulted)
+                            {
+                                taskWatcher.RemoveAt(j);
+                                j--;
+                                loadBarTags.Progress();
+                            }
+                        }
+                        Application.DoEvents();
+                    }
+
+                    foreach (Game game in newlyAddedGames)
+                    {
+                        if (game.ContainsTag(Tags.Utilities))
+                            game.IsUtility = true;
+                    }
+
+                    HelperThread.theList = null;
+
+                    #endregion
+
+                    loadBarTags.ForceClose();
+                    Logger.Log("END: Tag Loading", true);
+
+                    foreach (Game g in games)
+                        if (g.ContainsTag(Tags.NoTags) && games.Count(x => x.Title.Equals(g.Title)) > 1)
+                            g.IsDLC = true;
                 }
-
-                foreach (Game game in newlyAddedGames)
-                {
-                    if (game.ContainsTag(Tags.Utilities))
-                        game.IsUtility = true;
-                }
-
-                HelperThread.theList = null;
-
-                #endregion
-
-                loadBarTags.ForceClose();
-                Logger.Log("END: Tag Loading", true);
-
-                foreach (Game g in games)
-                    if (g.ContainsTag(Tags.NoTags) && games.Count(x => x.Title.Equals(g.Title)) > 1)
-                        g.IsDLC = true;
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("While creating new games an error occurred: " + e.Message);
+                return null;
             }
 
             if (!Directory.Exists(Settings.FILE_LOCATION))
@@ -795,7 +821,7 @@ namespace Sapp
             }
             catch (WebException we)
             {
-                Logger.Log("ERROR: <GameUtilities.AddTags> Lost internet connection during execution: " + we.Message, true);
+                Logger.LogError("<GameUtilities.AddTags> Lost internet connection during execution: " + we.Message, true);
             }
             catch(Exception exception)
             {
@@ -859,11 +885,11 @@ namespace Sapp
             }
             catch (WebException we)
             {
-                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> WebExeption during DLC removal. \nappID: " + appID + " \nmessage: " + we.Message, true);
+                Logger.LogError("<GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> WebExeption during DLC removal. \nappID: " + appID + " \nmessage: " + we.Message, true);
 
                 theList.GetGame(appID).DlcCheckFailed = true;
             }
-            catch (Exception e) { Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> \nappID: " + appID + " \nmessage: " + e.Message, true); }
+            catch (Exception e) { Logger.LogError("<GameUtilities.WeedOutDLC.WeedOutDLCStoreCheck> \nappID: " + appID + " \nmessage: " + e.Message, true); }
 
             return successful;
         }
@@ -895,11 +921,11 @@ namespace Sapp
             }
             catch (WebException we)
             {
-                Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCCommunityCheck> WebExeption during DLC removal. \nappID: " + appID + " \nmessage: " + we.Message, true);
+                Logger.LogError("<GameUtilities.WeedOutDLC.WeedOutDLCCommunityCheck> WebExeption during DLC removal. \nappID: " + appID + " \nmessage: " + we.Message, true);
 
                 theList.GetGame(appID).DlcCheckFailed = true;
             }
-            catch (Exception e) { Logger.Log("ERROR: <GameUtilities.WeedOutDLC.WeedOutDLCCommunityCheck> \nappID: " + appID + " \nmessage: " + e.Message, true); }
+            catch (Exception e) { Logger.LogError("<GameUtilities.WeedOutDLC.WeedOutDLCCommunityCheck> \nappID: " + appID + " \nmessage: " + e.Message, true); }
 
             return successful;
         }

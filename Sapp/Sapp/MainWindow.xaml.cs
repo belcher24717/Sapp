@@ -86,13 +86,13 @@ namespace Sapp
                 }
                 catch (FileNotFoundException fileNotFound)
                 {
-                    Logger.Log("ERROR: <MainWindow.MainWindow> Settings File Not Found", true);
+                    Logger.LogWarning("<MainWindow.MainWindow> Settings File Not Found", true);
                     SettingsScreen ss = new SettingsScreen(gamePool, removedPool);
                     windowAccepted = ss.ShowDialog();
                 }
                 catch (SerializationException serializationFailed)
                 {
-                    Logger.Log("ERROR: <MainWindow.MainWindow> Settings File Corrupted", true);
+                    Logger.LogWarning("<MainWindow.MainWindow> Settings File Corrupted", true);
                     SettingsScreen ss = new SettingsScreen(gamePool, removedPool);
                     windowAccepted = ss.ShowDialog();
                 }
@@ -676,7 +676,7 @@ namespace Sapp
                     textToVerify = textbox_HoursPlayed.Text;
                 else
                 {
-                    Logger.Log("ERROR: <MainWindow.HoursTextChanged> HoursTextChanged event fired, but not from any handled Textbox.", true);
+                    Logger.LogWarning("<MainWindow.HoursTextChanged> HoursTextChanged event fired, but not from any handled Textbox.", true);
                     return;
                 }
 
@@ -995,12 +995,6 @@ namespace Sapp
 
             }
 
-        }
-
-        private void event_FriendLobbyChanged(object sender, DataTransferEventArgs e)
-        {
-            lblNumFriends.Content = "(" + (tbFriendsConnected.Text.Split('\n').Length - 1) + "/13)";
-            BlanketUpdate(GetTagApplicationMethod());
         }
 
     }

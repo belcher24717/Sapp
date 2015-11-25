@@ -67,7 +67,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR ProcessMessage: " + e.Message, true);
+                Logger.LogError("<CoopUtils.ProcessMessage>: " + e.Message, true);
                 return null;
             }
 
@@ -80,7 +80,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR ProcessMessage: " + e.Message, true);
+                Logger.LogError("<CoopUtils.ProcessMessage>: " + e.Message, true);
             }
 
             return dataFromClient;
@@ -100,7 +100,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR SendMessage:" + e.Message, true);
+                Logger.LogError("<CoopUtils.SendMessage>: " + e.Message, true);
             }
 
             byte[] bytes = stream.ToArray();
@@ -114,7 +114,7 @@ namespace Sapp
             }
             catch (Exception e)
             {
-                Logger.Log("NETWORK ERROR SendMessage: " + e.Message, true);
+                Logger.LogError("<CoopUtils.SendMessage>: " + e.Message, true);
             }
 
             stream.Position = 0;
