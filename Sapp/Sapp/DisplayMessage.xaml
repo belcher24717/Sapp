@@ -13,14 +13,14 @@
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
         <Label x:Name="lblMessageHeader" Content="Error" Margin="3,3,3,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" MouseDown="MouseDownOnWindow"/>
-        <Label x:Name="lblMessage" Content="" Margin="23,59,23,74" Foreground="{StaticResource TextColor}"/>
+        <Label x:Name="lblMessage" Content="Ah, what a terrible night to have a curse" Margin="23,59,23,74" Foreground="{StaticResource TextColor}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
         <Button BorderThickness="0" Content="Yes" FlowDirection="LeftToRight" Height="25" 
-			HorizontalAlignment="Left" HorizontalContentAlignment="Center" x:Name="btnYes" SnapsToDevicePixels="True" 
-			VerticalAlignment="Bottom" Width="80" Click="btnYesClicked" Margin="20,0,0,10"/>
+			HorizontalAlignment="Right" HorizontalContentAlignment="Center" x:Name="btnYes" SnapsToDevicePixels="True" 
+			VerticalAlignment="Bottom" Width="80" Click="btnYesClicked" Margin="0,0,20,10"/>
 
         <Button BorderThickness="0" Content="No" FlowDirection="LeftToRight" Height="25" HorizontalContentAlignment="Center" x:Name="btnNo" SnapsToDevicePixels="True" 
-			VerticalAlignment="Bottom" Click="btnNoOkayClicked" Margin="0,0,20,10" HorizontalAlignment="Right" Width="80"/>
+			VerticalAlignment="Bottom" Click="btnNoOkayClicked" Margin="20,0,0,10" HorizontalAlignment="Left" Width="80"/>
         <Button BorderThickness="0" Content="OK" FlowDirection="LeftToRight" Height="25" HorizontalContentAlignment="Center" x:Name="btnOkay" SnapsToDevicePixels="True" 
 			VerticalAlignment="Bottom" Click="btnNoOkayClicked" Margin="127,0,127,10"/>
 

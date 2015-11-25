@@ -16,7 +16,7 @@
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
         <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="373" Background="{x:Null}" 
-                    Margin="0,15,0,0" BorderBrush="{DynamicResource BGGradient}">
+                    Margin="0,15,0,0" BorderBrush="{DynamicResource BordersColor}" BorderThickness="0,0,0,1">
             <TabItem x:Name="tabFilter" Header="Filter Settings" Width="92" Style="{DynamicResource TopTabs}">
                 <Grid>
 
@@ -66,18 +66,18 @@
 
                     <Button Content="Browse" BorderThickness="0" TabIndex="3"
 			         HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,10,60" Click="btnBrowseClicked" />
+			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,7,61" Click="btnBrowseClicked" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabCustom" Header="Custom Games" HorizontalAlignment="Left" Width="100" Style="{DynamicResource TopTabs}">
                 <Grid>
                     <Label Content="CUSTOM GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
-                    <Button x:Name="button_addcustomgame" Margin="288,129,10,10" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click">
+                    <Button x:Name="button_addcustomgame" Margin="0,135,7,0" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top">
                         
                     </Button>
-                    <Button x:Name="button_editcustomgame" Margin="218,129,80,10" Height="25" Width="65" Content="Edit" Click="button_editcustomgame_Click"/>
-                    <ListBox x:Name="listbox_customgames" HorizontalAlignment="Left" Height="81" Margin="10,33,0,0" VerticalAlignment="Top" Width="343" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
-                    <Button x:Name="button_removecustomgame" Margin="10,129,288,10" Height="25" Width="65" Content="Remove" Click="button_removecustomgame_Click"/>
+                    <Button x:Name="button_editcustomgame" Margin="0,135,80,0" Height="25" Width="65" Content="Edit" Click="button_editcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listbox_customgames" HorizontalAlignment="Left" Height="81" Margin="13,33,0,0" VerticalAlignment="Top" Width="344" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
+                    <Button x:Name="button_removecustomgame" Margin="7,135,0,0" Height="25" Width="65" Content="Remove" Click="button_removecustomgame_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
 
@@ -85,12 +85,12 @@
 
 
         <Button Content="Accept" BorderThickness="0" TabIndex="4" Canvas.Left="478" Canvas.Top="320" 
-			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="10,0,225,10.333" Click="btnAcceptClicked"/>
+			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,10,10" Click="btnAcceptClicked"/>
 
         <Button Content="Cancel" BorderThickness="0" TabIndex="5"
-			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,10,10.333" Click="btnCancelClicked" />
+			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="10,0,0,10" Click="btnCancelClicked" />
 
 
     </Grid>
