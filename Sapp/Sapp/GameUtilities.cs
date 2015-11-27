@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -311,24 +312,11 @@ namespace Sapp
 
             #region Read In Game Data
 
-            try
-            {
-                XmlTextReader test = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
-                
-                //XmlTextReader test = new XmlTextReader("http://hahahaha.com");
-                test.Read();//Froze here?
-            }
-            catch
-            {
-                if (games.Count == 0)
-                    return null;
-
-                Logger.LogWarning("Offline, skipping game check");
-                goto Offline;
-            }
-
             //the username will have to be entered by the user manually the first time.
-            XmlTextReader reader = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+            XmlTextReader reader = GetXmlReader(userID);
+            if (reader == null)
+                goto Offline;
+
             //76561198027181438 JOHNNY
             //76561198054602483 NICKS
 
@@ -340,26 +328,27 @@ namespace Sapp
 
             try
             {
-
-                //TODO: Make reading page elemnts more reliable (in case page format changes)
                 while (reader.Read())
                 {
-
+                    
                     if (XmlNodeType.Element == reader.NodeType)
                     {
-
+                        if (reader.Name.Equals("meta"))
+                        {
+                            Logger.LogWarning("Private profile, skipping game retrieval");
+                            //private profile, we've been redirected
+                            goto Offline;
+                        }
                         if (reader.Name.Equals("appID"))
                         {
                             reader.Read();
 
-                            //might throw try/catch here
                             //Logger.Log("AppID: " + reader.Value);
                             appid = int.Parse(reader.Value);
 
-                            reader.Read();
-                            reader.Read();
-                            reader.Read();
-                            reader.Read();
+                            while(reader.NodeType != XmlNodeType.CDATA)
+                              reader.Read();
+
                             string gameName = reader.Value;
 
                             //Logger.Log("Game: " + gameName);
@@ -377,7 +366,6 @@ namespace Sapp
                                 games.GetGame(appid).Last2Weeks = 0;
                             }
                         }
-
                         else if (reader.Name.Equals("hoursLast2Weeks"))
                         {
                             reader.Read();
@@ -396,15 +384,18 @@ namespace Sapp
             catch (WebException we)
             {
                 Logger.LogError("<GameUtilities.PopulateList> Internet connection was lost during game information acquisition: " + we.Message, true);
-
+                goto Offline;
                 //TODO: Exit execution to retry/exit window
-                if (addedNewGames)
-                    return null; //TODO: go to Retry/Exit window
+                /*if (addedNewGames)
+                    return null;
                 else if (games == null || games.Count == 0)
-                    return null; //TODO: go to Retry/Exit window
+                    return null;
                 else
-                    return games;
-
+                    return games;*/
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("<GameUtilities.PopulateList> An error occured: " + e.Message);
             }
             finally
             {
@@ -704,6 +695,61 @@ namespace Sapp
             VerifyInstalledGames(games);
 
             return games;
+        }
+
+        private static XmlTextReader GetXmlReader(string userID)
+        {
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            httpClientHandler.AllowAutoRedirect = false;
+
+            HttpClient client;
+            string responseString;
+            Uri redirection;
+            XmlTextReader reader = null;
+
+            try
+            {
+                //XmlTextReader test = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+                client = new HttpClient(httpClientHandler);
+                client.BaseAddress = new Uri("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+                Task<HttpResponseMessage> test = client.GetAsync("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+                test.Wait(1000);
+                if (test.Exception != null)
+                    throw test.Exception;
+
+                redirection = test.Result.Headers.Location;
+
+                if (redirection != null)
+                {
+                    //check if private profile
+                }
+
+                Task<string> responseTest = test.Result.Content.ReadAsStringAsync();
+                responseString = responseTest.Result;
+            }
+            catch
+            {
+                Logger.LogWarning("Offline, skipping game check");
+                return null;
+            }
+
+            //check if profile is private if it is use last else, otherwise you can use the redirection if its not null
+
+            if (responseString.Contains(userID))
+            {
+                TextReader tr = new StringReader(responseString);
+                reader = new XmlTextReader(tr);
+            }
+            else if (redirection != null)
+            {
+                reader = new XmlTextReader(redirection.ToString() + "/games?tab=all&xml=1");
+            }
+            else
+            {
+               reader = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
+            }
+                
+            return reader;
         }
 
         //Newly added. Custom games that are updated may change in size. Updating their appId ensures Custom games can be played using the Connect feature...
