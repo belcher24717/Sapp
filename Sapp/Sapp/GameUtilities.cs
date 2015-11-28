@@ -765,6 +765,7 @@ namespace Sapp
                     if (File.Exists(game.FilePath))
                     {
                         game.SetAppId(-(Int64)(new System.IO.FileInfo(game.FilePath).Length));
+                        game.IsInstalled = true;
                     }
                     else
                     {
