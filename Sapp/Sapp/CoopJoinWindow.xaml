@@ -12,7 +12,7 @@
 
         <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
-        <Label Content="JOIN A FRIENDS SESSION" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold" MouseDown="MouseDownOnWindow"/>
+        <Label Content="JOIN A FRIEND SESSION" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold" MouseDown="MouseDownOnWindow"/>
         <Label Content="* IP Address" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
         <TextBox x:Name="txtIpAddress" TabIndex="1" Margin="10,72,128,0" Height="25" VerticalAlignment="Top" MaxLines="1"/>
         

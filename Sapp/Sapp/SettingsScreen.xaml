@@ -15,9 +15,9 @@
         <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
-        <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="373" Background="{x:Null}" 
+        <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="374" Background="{x:Null}" 
                     Margin="0,15,0,0" BorderBrush="{DynamicResource BordersColor}" BorderThickness="0,0,0,1">
-            <TabItem x:Name="tabFilter" Header="Filter Settings" Width="92" Style="{DynamicResource TopTabs}">
+            <TabItem x:Name="tabFilter" Header="Filter" Width="47" Style="{DynamicResource TopTabs}">
                 <Grid>
 
                     <Label Content="FILTER SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
@@ -53,7 +53,7 @@
                     	VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabUser" Header="User Information" Width="109" Style="{DynamicResource TopTabs}">
+            <TabItem x:Name="tabUser" Header="User Info" Width="68" Style="{DynamicResource TopTabs}">
                 <Grid>
 
                     <Label Content="USER INFORMATION" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
@@ -66,7 +66,7 @@
 
                     <Button Content="Browse" BorderThickness="0" TabIndex="3"
 			         HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,7,61" Click="btnBrowseClicked" />
+			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,13,60" Click="btnBrowseClicked" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabCustom" Header="Custom Games" HorizontalAlignment="Left" Width="100" Style="{DynamicResource TopTabs}">
@@ -86,11 +86,11 @@
 
         <Button Content="Accept" BorderThickness="0" TabIndex="4" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,10,10" Click="btnAcceptClicked"/>
+			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,83,10.333" Click="btnAcceptClicked"/>
 
         <Button Content="Cancel" BorderThickness="0" TabIndex="5"
 			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="10,0,0,10" Click="btnCancelClicked" />
+			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="299,0,0,10.333" Click="btnCancelClicked" />
 
 
     </Grid>

@@ -327,7 +327,7 @@ namespace Sapp
                     Logger.LogWarning("Offline, skipping game check");
                     if (Settings.GetInstance().DisplayOfflineMessage)
                     {
-                        DisplayMessage privMessage = new DisplayMessage("Offline", "Skipping game check because network if offline", MessageBoxButtons.OK, true);
+                        DisplayMessage privMessage = new DisplayMessage("Offline", "Skipping game check, could not access internet", MessageBoxButtons.OK, true);
                         Settings.GetInstance().DisplayOfflineMessage = (bool)privMessage.ShowDialog();
                     }
                     goto Offline;
