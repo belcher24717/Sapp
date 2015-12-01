@@ -1,16 +1,21 @@
 ﻿Todo:
 
 Urgent:
-- remove single game stopped working after one remove (BUG)
-x autofill nickname with steam login name
-x auto filter out single player games in lobby
-- make option to manually mark as installed and not installed
-x if we have no tags, and duplicate title, remove the game, mark it as dlc.
-x pop out instead of slide out (when revealing removed pool). Start maximized?
-x coophost sends all its games for comparison. Need to send only multiplayer since no single are allowed in lobby
 - MORE logging
 - make games editable in custom games
+	- make option to manually mark as installed and not installed
 - change whole project to 'snowflake'
 
 Non-urgent:
-- Change networking to use MCF
+- change networking to use MCF
+- make a "reset" for games tags
+- remove single game stopped working after one remove (BUG)
+
+Done:
+x autofill nickname with steam login name
+x auto filter out single player games in lobby
+x if we have no tags, and duplicate title, remove the game, mark it as dlc.
+x pop out instead of slide out (when revealing removed pool). Start maximized?
+x coophost sends all its games for comparison. Need to send only multiplayer since no single are allowed in lobby
+x display a message for offline and private, allow option to not show this message again.
+x fix settings "refresh" currently it will try to refresh the first time snowflake loads and you open and accept options

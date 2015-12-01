@@ -20,9 +20,11 @@
 			VerticalAlignment="Bottom" Width="80" Click="btnYesClicked" Margin="0,0,20,10"/>
 
         <Button BorderThickness="0" Content="No" FlowDirection="LeftToRight" Height="25" HorizontalContentAlignment="Center" x:Name="btnNo" SnapsToDevicePixels="True" 
-			VerticalAlignment="Bottom" Click="btnNoOkayClicked" Margin="20,0,0,10" HorizontalAlignment="Left" Width="80"/>
+			VerticalAlignment="Bottom" Click="btnNoClicked" Margin="20,0,0,10" HorizontalAlignment="Left" Width="80"/>
         <Button BorderThickness="0" Content="OK" FlowDirection="LeftToRight" Height="25" HorizontalContentAlignment="Center" x:Name="btnOkay" SnapsToDevicePixels="True" 
-			VerticalAlignment="Bottom" Click="btnNoOkayClicked" Margin="127,0,127,10"/>
+			VerticalAlignment="Bottom" Click="btnOkClicked" Margin="127,0,127,10"/>
+        <CheckBox x:Name="cbxDontShow" Content="Don't show this message again" HorizontalAlignment="Left" 
+                  Margin="20,104,0,0"  Visibility="Hidden" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
     </Grid>
 </Window>

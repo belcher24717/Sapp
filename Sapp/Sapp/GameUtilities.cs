@@ -312,22 +312,30 @@ namespace Sapp
 
             #region Read In Game Data
 
-            //the username will have to be entered by the user manually the first time.
-            XmlTextReader reader = GetXmlReader(userID);
-            if (reader == null)
-                goto Offline;
-
-            //76561198027181438 JOHNNY
-            //76561198054602483 NICKS
-
-            LoadingBar initLoadBar = new LoadingBar("Updating play time...");
-            initLoadBar.Show();
-            initLoadBar.Activate();
-
-            int appid = 0;
-
+            LoadingBar initLoadBar = null;
+            XmlTextReader reader = null;
             try
             {
+                initLoadBar = new LoadingBar("Updating play time...");
+                initLoadBar.Show();
+                initLoadBar.Activate();
+
+                //the username will have to be entered by the user manually the first time.
+                reader = GetXmlReader(userID);
+                if (reader == null)
+                {
+                    Logger.LogWarning("Offline, skipping game check");
+                    if (Settings.GetInstance().DisplayOfflineMessage)
+                    {
+                        DisplayMessage privMessage = new DisplayMessage("Offline", "Skipping game check because network if offline", MessageBoxButtons.OK, true);
+                        Settings.GetInstance().DisplayOfflineMessage = (bool)privMessage.ShowDialog();
+                    }
+                    goto Offline;
+                }
+                //76561198027181438 JOHNNY
+                //76561198054602483 NICKS
+                int appid = 0;
+
                 while (reader.Read())
                 {
                     
@@ -336,7 +344,11 @@ namespace Sapp
                         if (reader.Name.Equals("meta"))
                         {
                             Logger.LogWarning("Private profile, skipping game retrieval");
-                            //private profile, we've been redirected
+                            if (Settings.GetInstance().DisplayPrivateMessage)
+                            {
+                                DisplayMessage privMessage = new DisplayMessage("Private Profile", "Skipping game retrieval because profile is private", MessageBoxButtons.OK, true);
+                                Settings.GetInstance().DisplayPrivateMessage = (bool)privMessage.ShowDialog();
+                            }
                             goto Offline;
                         }
                         if (reader.Name.Equals("appID"))
@@ -385,13 +397,6 @@ namespace Sapp
             {
                 Logger.LogError("<GameUtilities.PopulateList> Internet connection was lost during game information acquisition: " + we.Message, true);
                 goto Offline;
-                //TODO: Exit execution to retry/exit window
-                /*if (addedNewGames)
-                    return null;
-                else if (games == null || games.Count == 0)
-                    return null;
-                else
-                    return games;*/
             }
             catch (Exception e)
             {
@@ -401,8 +406,8 @@ namespace Sapp
             {
                 if (reader != null)
                     reader.Close();
-
-                initLoadBar.ForceClose();
+                if (initLoadBar != null)
+                    initLoadBar.ForceClose();
             }
 
             #endregion
@@ -699,38 +704,41 @@ namespace Sapp
 
         private static XmlTextReader GetXmlReader(string userID)
         {
+            CancellationTokenSource cancelClient = new CancellationTokenSource();
+
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             httpClientHandler.AllowAutoRedirect = false;
-
-            HttpClient client;
-            string responseString;
+            
+            string responseString = "";
             Uri redirection;
             XmlTextReader reader = null;
+            Task<HttpResponseMessage> test = null;
 
             try
             {
-                //XmlTextReader test = new XmlTextReader("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
-                client = new HttpClient(httpClientHandler);
-                client.BaseAddress = new Uri("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
-                Task<HttpResponseMessage> test = client.GetAsync("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
-                test.Wait(1000);
-                if (test.Exception != null)
-                    throw test.Exception;
-
-                redirection = test.Result.Headers.Location;
-
-                if (redirection != null)
+                using (HttpClient client = new HttpClient(httpClientHandler))
                 {
-                    //check if private profile
-                }
+                    client.BaseAddress = new Uri("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
 
-                Task<string> responseTest = test.Result.Content.ReadAsStringAsync();
-                responseString = responseTest.Result;
+                    cancelClient.CancelAfter(3000);
+                    test = client.GetAsync("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1", cancelClient.Token);
+
+                    test.Wait(3000);
+                    redirection = test.Result.Headers.Location;
+                    responseString = test.Result.Content.ReadAsStringAsync().Result;
+                    responseString = test.Result.Content.ToString();
+                }
             }
             catch
             {
-                Logger.LogWarning("Offline, skipping game check");
                 return null;
+            }
+            finally
+            {
+                if (test != null)
+                    test.Dispose();
+
+                cancelClient.Cancel();
             }
 
             //check if profile is private if it is use last else, otherwise you can use the redirection if its not null

@@ -141,6 +141,27 @@ namespace Sapp
             }
         }
 
+        //show messages
+        private bool displayPrivateMessage;
+        public bool DisplayPrivateMessage
+        {
+            get { return displayPrivateMessage; }
+            set
+            {
+                displayPrivateMessage = value;
+            }
+        }
+
+        private bool displayOfflineMessage;
+        public bool DisplayOfflineMessage
+        {
+            get { return displayOfflineMessage; }
+            set
+            {
+                displayOfflineMessage = value;
+            }
+        }
+
         #endregion
 
         private static bool userWasChanged;
@@ -159,6 +180,8 @@ namespace Sapp
             hostPort = joinPort = 7780;
             hostNickname = joinNickname = "";
             joinIpAddress = "";
+            displayPrivateMessage = true;
+            displayOfflineMessage = true;
         }
 
         public static Settings GetInstance()
@@ -260,7 +283,8 @@ namespace Sapp
 
             temp = temp.Trim('\"', ' ', '\t');
 
-            if(steamID64 == null || !steamID64.Equals(temp))
+            //this happens if you delete the settings and rerun, and go into options and accept, it will try to update
+            if(steamID64 != null && !steamID64.Equals(temp))
                 userWasChanged = true;
 
             steamID64 = temp;
@@ -277,7 +301,6 @@ namespace Sapp
             }
 
             return false;
-            
         }
 
         public bool ShouldRefreshGamePoolOnly()

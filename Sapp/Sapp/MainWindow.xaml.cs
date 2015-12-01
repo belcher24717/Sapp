@@ -126,8 +126,10 @@ namespace Sapp
                 this.MaxWidth = MAX_WINDOW_SIZE;
                 this.MinWidth = MAX_WINDOW_SIZE;
 
-                Settings getOnlyPlayInstalled = Settings.GetInstance();
-                onlyPlayInstalledGames = getOnlyPlayInstalled.OnlyPlayInstalledGames;
+                onlyPlayInstalledGames = Settings.GetInstance().OnlyPlayInstalledGames;
+
+                //Do a quick save at the start to save any message settings that may have occured.
+                Settings.GetInstance().Save();
 
                 BlanketUpdate(GetTagApplicationMethod());
             }

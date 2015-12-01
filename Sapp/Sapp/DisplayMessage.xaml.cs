@@ -20,7 +20,7 @@ namespace Sapp
     public partial class DisplayMessage : Window
     {
 
-        public DisplayMessage(String messageHeader, String message, System.Windows.Forms.MessageBoxButtons buttons)
+        public DisplayMessage(String messageHeader, String message, System.Windows.Forms.MessageBoxButtons buttons, bool showDontShow = false)
         {
             InitializeComponent();
 
@@ -36,11 +36,26 @@ namespace Sapp
                 btnNo.Visibility = System.Windows.Visibility.Hidden;
                 btnYes.Visibility = System.Windows.Visibility.Hidden;
             }
+            if (showDontShow)
+            {
+                cbxDontShow.Visibility = System.Windows.Visibility.Visible;
+                lblMessage.Margin = new Thickness(23, 52, 23, 81);
+            }
         }
 
-        private void btnNoOkayClicked(object sender, RoutedEventArgs e)
+        private void btnNoClicked(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+            this.Close();
+        }
+
+        private void btnOkClicked(object sender, RoutedEventArgs e)
+        {
+            if (cbxDontShow.Visibility == System.Windows.Visibility.Visible)
+                DialogResult = !cbxDontShow.IsChecked;
+            else
+                DialogResult = false;
+
             this.Close();
         }
 
