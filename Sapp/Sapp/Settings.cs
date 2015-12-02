@@ -25,7 +25,6 @@ namespace Sapp
 
         public static String FILE_LOCATION = @".\bin";
 
-
         #region Properties
 
         private bool onlyPlayInstalledGames;
@@ -169,6 +168,12 @@ namespace Sapp
         private static List<string> columnsToShow;
 
         private static Settings thisInstance = new Settings();
+
+        public enum Wizard
+        {
+            Custom,
+            Edit
+        };
 
         private Settings()
         {

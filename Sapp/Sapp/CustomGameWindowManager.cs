@@ -26,9 +26,20 @@ namespace Sapp
 
         private const string TEXT_COLOR = "#FFCFCFCF";
 
-        public CustomGameWindowManager(SettingsScreen settings, GamesList gamePool, GamesList removedPool, Game game = null)
+        public CustomGameWindowManager(Settings.Wizard enumType, SettingsScreen settings, GamesList gamePool, GamesList removedPool, Game game = null)
         {
             _wizard = new CustomGameWizard();
+
+            switch (enumType)
+            {
+                case Settings.Wizard.Custom:
+                    _wizard.label_wizardheader.Content = "CUSTOM GAME WIZARD";
+                    break;
+                case Settings.Wizard.Edit:
+                    _wizard.label_wizardheader.Content = "EDIT GAME";
+                    break;
+            }
+
             _settings = settings;
             _gamePool = gamePool;
             _removedPool = removedPool;

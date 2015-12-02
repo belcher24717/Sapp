@@ -37,6 +37,19 @@ namespace Sapp
             PopulateCheckboxes();
 
             tagsToApply = new List<string>();
+
+            CenterWindowOnScreen();
+        }
+
+        //CREDIT: http://stackoverflow.com/questions/4019831/how-do-you-center-your-main-window-in-wpf
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         private void HideTabHeaders()

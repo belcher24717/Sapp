@@ -16,15 +16,15 @@
                 <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
-        <Label Content="CUSTOM GAME WIZARD" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="label_wizardheader" Content="" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
         <TabControl x:Name="tabcontrol_customgame" HorizontalAlignment="Left" Height="231" Margin="11,33,0,0" VerticalAlignment="Top" Width="300" Background="{x:Null}">
 
             <TabItem Header="Initialize">
                 <Grid>
-                    <Label x:Name="label_gamename" Content="Name:*" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="label_gamename" Content="Name:*" HorizontalAlignment="Left" Margin="5,42,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <TextBox x:Name="textbox_gamename" TabIndex="1" HorizontalAlignment="Left" Height="23" Margin="10,67,0,0" VerticalAlignment="Top" Width="270" MaxLines="1" MaxLength="32"/>
-                    <Label x:Name="label_location" Content="Game .exe Location:*" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="label_location" Content="Game .exe Location:*" HorizontalAlignment="Left" Margin="5,97,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <TextBox x:Name="textbox_location" TabIndex="2" HorizontalAlignment="Left" Height="23" Margin="11,122,0,0" VerticalAlignment="Top" Width="203" MaxLines="1"/>
                     <Button x:Name="button_browse" Content="Browse" HorizontalAlignment="Left" Margin="219,122,0,0" VerticalAlignment="Top" Width="60" Height="23" Click="button_browse_Click"/>
                     <Label x:Name="label_error1" Content="Label" Width="268" Margin="11,150,0,0" RenderTransformOrigin="0.04,4.357" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFF90404" Visibility="Hidden"/>

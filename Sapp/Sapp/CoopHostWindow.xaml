@@ -24,12 +24,12 @@
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
 			Width="65" x:Name="btnCancel" SnapsToDevicePixels="True" Margin="0,0,10,10.333" Click="btnCancelClicked" />
         
-        <Label Content="* Port" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtPort" TabIndex="1" Margin="10,72,147,0" Height="25" VerticalAlignment="Top" Text="7780" MaxLines="1"/>
-        <Label Content="Password (Optional)" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtPassword" TabIndex="3" Margin="10,129,10,0" Height="25" VerticalAlignment="Top" MaxLines="1" MaxLength="32"/>
-        <Label Content="Nickname" HorizontalAlignment="Left" Margin="95,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-        <TextBox x:Name="txtNickname" TabIndex="2" Margin="95,72,10,0" Height="25" VerticalAlignment="Top" MaxLength="13" MaxLines="1"/>
+        <Label Content="* Port" HorizontalAlignment="Left" Margin="6,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <TextBox x:Name="txtPort" TabIndex="1" Margin="10,72,147,0" Height="20" VerticalAlignment="Top" Text="7780" MaxLines="1"/>
+        <Label Content="Password (Optional)" HorizontalAlignment="Left" Margin="5,103,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <TextBox x:Name="txtPassword" TabIndex="3" Margin="10,129,10,0" Height="20" VerticalAlignment="Top" MaxLines="1" MaxLength="32"/>
+        <Label Content="Nickname" HorizontalAlignment="Left" Margin="90,47,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+        <TextBox x:Name="txtNickname" TabIndex="2" Margin="95,72,10,0" Height="20" VerticalAlignment="Top" MaxLength="13" MaxLines="1"/>
 
 
 

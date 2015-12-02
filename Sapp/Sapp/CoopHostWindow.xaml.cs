@@ -25,7 +25,7 @@ namespace Sapp
 
             Settings settings = Settings.GetInstance();
 
-            txtNickname.Text = settings.HostNickname.Equals("") ? settings.UserID : settings.HostNickname;
+            txtNickname.Text = (settings.HostNickname == null || settings.HostNickname.Equals("")) ? settings.UserID : settings.HostNickname;
             txtPort.Text = "" + settings.HostPort;
         }
 

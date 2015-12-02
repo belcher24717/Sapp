@@ -28,7 +28,7 @@ namespace Sapp
 
             Settings settings = Settings.GetInstance();
             txtIpAddress.Text = settings.JoinIpAddress;
-            txtNickname.Text = settings.JoinNickname.Equals("") ? settings.UserID : settings.JoinNickname;
+            txtNickname.Text = (settings.HostNickname == null || settings.HostNickname.Equals("")) ? settings.UserID : settings.JoinNickname;
             txtPort.Text = "" + settings.JoinPort;
         }
 

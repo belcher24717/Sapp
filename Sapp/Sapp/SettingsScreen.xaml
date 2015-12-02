@@ -23,16 +23,16 @@
                     <Label Content="FILTER SETTINGS" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
                     <CheckBox x:Name="cbOnlyInstalled" Content="Only Play Installed Games" HorizontalAlignment="Left" 
-                    		VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Margin="18,52,0,0"
+                    		VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Margin="13,52,0,0"
                               FlowDirection= "LeftToRight"/>
 
-                    <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="13,82,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="155,84,0,0" VerticalAlignment="Top" Width="96" 
+                    <Label Content="Tag Application Method:" HorizontalAlignment="Left" Margin="10,79,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <ComboBox x:Name="cbxTagMethod" HorizontalAlignment="Left" Margin="149,79,0,0" VerticalAlignment="Top" Width="96" 
                   BorderThickness="0" Height="23" DropDownClosed="tagApplication_closed" >
                         <ComboBoxItem>Contains All</ComboBoxItem>
                         <ComboBoxItem>Contains Any</ComboBoxItem>
                     </ComboBox>
-                    <Label x:Name="lblFilters" Content="Filter" HorizontalAlignment="Left" Margin="251,82,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="lblFilters" Content="Filter" HorizontalAlignment="Left" Margin="245,79,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
                 </Grid>
             </TabItem>
@@ -61,23 +61,32 @@
                     <TextBox x:Name="txtUserID" TabIndex="1" HorizontalAlignment="Left" Height="26" Margin="86,52,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
                     <TextBox x:Name="txtSteamPath" TabIndex="2" HorizontalAlignment="Left" Height="26" Margin="86,83,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
 
-                    <Label Content="User Name:" HorizontalAlignment="Left" Margin="13,52,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="13,83,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label Content="User Name:" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
                     <Button Content="Browse" BorderThickness="0" TabIndex="3"
 			         HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,13,60" Click="btnBrowseClicked" />
+			         Width="65" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,24,61" Click="btnBrowseClicked" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabCustom" Header="Custom Games" HorizontalAlignment="Left" Width="100" Style="{DynamicResource TopTabs}">
                 <Grid>
                     <Label Content="CUSTOM GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
-                    <Button x:Name="button_addcustomgame" Margin="0,135,7,0" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top">
-                        
-                    </Button>
-                    <Button x:Name="button_editcustomgame" Margin="0,135,80,0" Height="25" Width="65" Content="Edit" Click="button_editcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                    <ListBox x:Name="listbox_customgames" HorizontalAlignment="Left" Height="81" Margin="13,33,0,0" VerticalAlignment="Top" Width="344" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
-                    <Button x:Name="button_removecustomgame" Margin="7,135,0,0" Height="25" Width="65" Content="Remove" Click="button_removecustomgame_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textbox_customsearchfilter" TextWrapping="WrapWithOverflow" Margin="231,10,0,0" Background="{StaticResource PrimaryColor}"
+                        Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Width="126" GotFocus="txtFilterSearch_OnGotFocus" LostFocus="txtFilterSearch_OnLostFocus" Height="19" VerticalAlignment="Top"/>
+                    <Button x:Name="button_addcustomgame" Margin="0,135,13,0" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <Button x:Name="button_editcustomgame" Margin="0,135,83,0" Height="25" Width="65" Content="Edit" Click="button_editcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listbox_customgames" HorizontalAlignment="Left" Height="97" Margin="13,33,0,0" VerticalAlignment="Top" Width="344" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
+                    <Button x:Name="button_removecustomgame" Margin="13,135,0,0" Height="25" Width="65" Content="Remove" Click="button_removecustomgame_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabGames" Header="Edit Games" Style="{DynamicResource TopTabs}">
+                <Grid>
+                    <Label Content="EDIT GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+                    <TextBox x:Name="textbox_editsearchfilter" TextWrapping="WrapWithOverflow" Margin="231,10,0,0" Background="{StaticResource PrimaryColor}"
+                        Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Width="126" GotFocus="txtFilterSearch_OnGotFocus" LostFocus="txtFilterSearch_OnLostFocus" Height="19" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listbox_editgames" HorizontalAlignment="Left" Height="97" Margin="13,33,0,0" VerticalAlignment="Top" Width="344" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
+                    <Button x:Name="button_editgame" Margin="0,135,13,0" Height="25" Width="65" Content="Edit" Click="button_editgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
 
@@ -86,7 +95,7 @@
 
         <Button Content="Accept" BorderThickness="0" TabIndex="4" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,83,10.333" Click="btnAcceptClicked"/>
+			Width="65" x:Name="btnAccept" SnapsToDevicePixels="True" Margin="0,0,80,10.333" Click="btnAcceptClicked"/>
 
         <Button Content="Cancel" BorderThickness="0" TabIndex="5"
 			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
