@@ -719,8 +719,6 @@ namespace Sapp
                 using (HttpClient client = new HttpClient(httpClientHandler))
                 {
                     client.BaseAddress = new Uri("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1");
-
-                    cancelClient.CancelAfter(3000);
                     test = client.GetAsync("http://steamcommunity.com/profiles/" + userID + "/games?tab=all&xml=1", cancelClient.Token);
 
                     test.Wait(3000);
@@ -729,7 +727,7 @@ namespace Sapp
                     responseString = test.Result.Content.ToString();
                 }
             }
-            catch
+            catch(Exception e)
             {
                 return null;
             }

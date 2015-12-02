@@ -12,6 +12,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.Xml;
+using System.ComponentModel;
 
 namespace Sapp
 {
@@ -25,9 +26,32 @@ namespace Sapp
         public static string LAUNCH = "LAUNCH";
         public static string FINALIZE_REGISTER = "FINALIZE_REGISTER";
 
-        public static bool HostListening = false;
-        public static bool JoinListening = false;
+        public static CoopUIUpdater DisconnectBinding = new CoopUIUpdater();
+
+        private static bool _hostListening = false;
+        public static bool HostListening
+        {
+            get { return _hostListening; }
+            set
+            {
+                _hostListening = value;
+                DisconnectBinding.UpdateInFriendSession();
+            }
+        }
+
+        private static bool _joinListening = false;
+        public static bool JoinListening
+        {
+            get { return _joinListening; }
+            set
+            {
+                _joinListening = value;
+                DisconnectBinding.UpdateInFriendSession();
+            }
+        }
+
         public static GamesList CollectivePool = null;
+
         //seperate this stuff out, most should be in CoopJoin or CoopHost
 
         //encryption
@@ -119,10 +143,24 @@ namespace Sapp
 
             stream.Position = 0;
         }
+    }
 
+    public class CoopUIUpdater : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        public bool InFriendSession
+        {
+            get 
+            {
+                return CoopUtils.HostListening || CoopUtils.JoinListening; 
+            }
+        }
 
-
-        
+        public void UpdateInFriendSession()
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("InFriendSession"));
+        }
     }
 }

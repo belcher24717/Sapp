@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -49,6 +50,11 @@ namespace Sapp
 
         private string lastEnteredText;
 
+        /*private Visibility DisconnectVisibility
+        {
+            get { return CoopUtils.HostListening || CoopUtils.JoinListening ? Visibility.Visible : Visibility.Hidden; }
+        }*/
+
         public MainWindow()
         {
 
@@ -66,7 +72,6 @@ namespace Sapp
 
             while (!settingsLoaded)
             {
-
                 try
                 {
                     Settings.Initialize();
@@ -393,8 +398,9 @@ namespace Sapp
             if (CoopJoin.GetInstance().IsJoined())
                 return;
             else if (CoopJoin.GetInstance().JustDisconnected())
+            {
                 RelinkPools();
-
+            }
             bool thereAreTagsChecked = (tagsCheckedInclude.Count + tagsCheckedExclude.Count >= 1) ? true : false;
             bool onlyInstalledIsChecked = onlyPlayInstalledGames;
             bool hoursPlayedIsEnabled = (bool)cb_HoursPlayed.IsChecked;
@@ -998,7 +1004,6 @@ namespace Sapp
             }
 
         }
-
     }
 
 }

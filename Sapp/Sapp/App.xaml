@@ -43,6 +43,8 @@
         <!--SCROLL BAR COLORS-->
         <SolidColorBrush x:Key="ScrollBarColor">#FF46464C</SolidColorBrush>
 
+        <!--DISCONNECT BOOLEAN-->
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
         <!--Button Style-->
         <Style TargetType="{x:Type Button}">
