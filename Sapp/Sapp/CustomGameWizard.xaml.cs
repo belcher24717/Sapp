@@ -128,11 +128,16 @@ namespace Sapp
                 label_finalnamedisplay.Content = textbox_gamename.Text;
                 int index = textbox_location.Text.LastIndexOf('\\');
                 label_finalexeselecteddisplay.Content = textbox_location.Text.Substring(index + 1);
-                textbox_tags.Text = "";
+
+                textbox_tags.Items.Clear();
                 foreach (string str in tagsToApply)
                 {
-                    textbox_tags.Text += str + '\n';
+                    ListBoxItem tag = new ListBoxItem();
+                    tag.Content = str;
+                    tag.Focusable = false;
+                    textbox_tags.Items.Add(tag);
                 }
+
                 button_Next.Content = "Finish";
             }
 
