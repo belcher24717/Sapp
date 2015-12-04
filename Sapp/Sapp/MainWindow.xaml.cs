@@ -573,6 +573,7 @@ namespace Sapp
             }
 
             checkboxesActive = true;
+            this.Activate();//bring the window to the front
         }
 
         private void HostUpdate()
