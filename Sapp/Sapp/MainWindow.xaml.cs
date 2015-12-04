@@ -221,7 +221,7 @@ namespace Sapp
 
             for (int i = 0; i < multiplayerGames.Count; i++)
             {
-                if (!multiplayerGames[i].Multiplayer)
+                if (!multiplayerGames[i].IsMultiplayerGame())
                 {
                     multiplayerGames.RemoveAt(i);
                     i--;
@@ -1003,6 +1003,11 @@ namespace Sapp
 
             }
 
+        }
+
+        private void btnAddEditGames_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not Yet Implemented");
         }
     }
 

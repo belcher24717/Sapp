@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Xml.Serialization;
 using System.Xml;
 using System.ComponentModel;
+using System.Media;
 
 namespace Sapp
 {
@@ -27,6 +28,8 @@ namespace Sapp
         public static string FINALIZE_REGISTER = "FINALIZE_REGISTER";
 
         public static CoopUIUpdater DisconnectBinding = new CoopUIUpdater();
+
+        private static SoundPlayer _soundPlayer = new SoundPlayer();
 
         private static bool _hostListening = false;
         public static bool HostListening
@@ -142,6 +145,23 @@ namespace Sapp
             }
 
             stream.Position = 0;
+        }
+
+        public static void PlaySound(UnmanagedMemoryStream sound)
+        {
+            try
+            {
+                _soundPlayer.Stream = sound;
+                _soundPlayer.Play();
+
+            }
+            catch
+            {/*dont care*/}
+            finally
+            {
+                if (_soundPlayer.Stream != null)
+                    _soundPlayer.Stream.Close();
+            }
         }
     }
 

@@ -203,6 +203,7 @@
     <Resource Include="Resources\CogWhite.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Controller.png" />
     <Resource Include="Resources\snowflake_noAAOutline.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +225,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ControllerWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DisconnectSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ConnectSound.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

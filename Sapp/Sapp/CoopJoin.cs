@@ -175,6 +175,7 @@ namespace Sapp
                         message = CoopUtils.ConstructMessage(CoopUtils.FINALIZE_REGISTER, _password, _myGames);
                         message.Name = _nickname;
                         CoopUtils.SendMessage(message, _host);//TODO:what if this doenst get sent? (times out)
+                        CoopUtils.PlaySound(Properties.Resources.ConnectSound);
                     }
                 }
             }
@@ -192,8 +193,8 @@ namespace Sapp
                     continue;
 
                 if (hostMessage.RequestedAction.Equals(CoopUtils.DISCONNECT))
-                    SetListening(false);
-
+                    SetListening(false, true);
+                
                 else if (hostMessage.RequestedAction.Equals(CoopUtils.UPDATE))
                 {
                     if (hostMessage.Name != null)
@@ -265,7 +266,7 @@ namespace Sapp
 
         public void Disconnect()
         {
-            SetListening(false);
+            SetListening(false, true);
         }
 
         public void SendDisconnectToHost()
@@ -321,10 +322,12 @@ namespace Sapp
             }
         }
 
-        public void SetListening(bool val)
+        public void SetListening(bool val, bool playSound = false)
         {
             CoopUtils.JoinListening = val;
             _listening = val;
+            if (val == false && playSound)
+                CoopUtils.PlaySound(Properties.Resources.DisconnectSound);
         }
 
         public void ToggleAllowLaunch(bool changeTo)

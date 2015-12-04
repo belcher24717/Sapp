@@ -1,6 +1,9 @@
 ﻿Todo:
 
 Urgent:
+- dont focus testboxes when first entering tab for custom and edit
+- look over selection colors in edit listview (custom too?)
+- move custom and edit to a new window
 - MORE logging
 - make games editable in custom games
 	- make option to manually mark as installed and not installed
@@ -19,3 +22,5 @@ x pop out instead of slide out (when revealing removed pool). Start maximized?
 x coophost sends all its games for comparison. Need to send only multiplayer since no single are allowed in lobby
 x display a message for offline and private, allow option to not show this message again.
 x fix settings "refresh" currently it will try to refresh the first time snowflake loads and you open and accept options
+x find a way to make host multiplayer pool either go through, or ignore custom games
+- add sounds to connect and disconnect for host (and maybe join?)

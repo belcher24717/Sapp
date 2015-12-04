@@ -1,7 +1,9 @@
 ﻿using DataOverNetwork;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -52,11 +54,6 @@ namespace Sapp
             Thread host = new Thread(new ThreadStart(CoopHostThread));
             host.SetApartmentState(ApartmentState.STA);
             host.Start();
-
-            /*Task.Factory.StartNew(() =>
-            {
-                CoopHostThread();
-            });*/
         }
 
         public void StopHost()
@@ -143,6 +140,7 @@ namespace Sapp
                     if (message.RequestedAction.Equals(CoopUtils.DISCONNECT))
                     {
                         DisconnectClient(clientIP);
+                        CoopUtils.PlaySound(Properties.Resources.DisconnectSound);
                     }
                     else if (message.RequestedAction.Equals(CoopUtils.PRE_REGISTER))
                     {
@@ -178,6 +176,7 @@ namespace Sapp
                         _clientsRegistered.Register(clientJoining, gameIDs, message.Name);
                         _clientsRegistered.AddNewGamesToJoinedGames(gameIDs);
                         Logger.Log("HOST: Client " + message.Name + " joined lobby." , true);
+                        CoopUtils.PlaySound(Properties.Resources.ConnectSound);
                         RunBlanketUpdate();
                     }
                 }
@@ -211,8 +210,10 @@ namespace Sapp
             SendMessageToClients(message);
         }
 
-        public void SetListening(bool val)
+        public void SetListening(bool val, bool playSound = false)
         {
+            if (val == false && playSound)
+                CoopUtils.PlaySound(Properties.Resources.DisconnectSound);
             CoopUtils.HostListening = val;
             _listening = val;
         }

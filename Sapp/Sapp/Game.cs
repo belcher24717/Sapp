@@ -15,7 +15,7 @@ namespace Sapp
         // maybe consolidate these attributes into a GameProperties object?
         private Int64 appID;
         private int lastTimePlayed;
-        private List<GameUtilities.Tags> tagList;
+        private List<GameUtilities.Tags> _tagList;
 
         public bool IsDLC
         {
@@ -90,7 +90,7 @@ namespace Sapp
             IsDLC = false;
             DlcCheckFailed = false;
 
-            tagList = new List<GameUtilities.Tags>();
+            _tagList = new List<GameUtilities.Tags>();
  //           PopulateTags(tags);
         }
 
@@ -143,7 +143,7 @@ namespace Sapp
             GameUtilities.Tags newTag = GameUtilities.CreateTag(tag);
 
             if (newTag != GameUtilities.Tags.NullTag)
-                tagList.Add(newTag);
+                _tagList.Add(newTag);
 
             else
             {
@@ -153,18 +153,18 @@ namespace Sapp
 
         public void RemoveTag(string tag)
         {
-            tagList.Remove(GameUtilities.CreateTag(tag));
+            _tagList.Remove(GameUtilities.CreateTag(tag));
         }
 
         //overload
         public void RemoveTag(GameUtilities.Tags tag)
         {
-            tagList.Remove(tag);
+            _tagList.Remove(tag);
         }
 
         public List<GameUtilities.Tags> GetTags()
         {
-            return tagList;
+            return _tagList;
         }
 
         //This method will have 2 behaviors based on settings
@@ -174,7 +174,7 @@ namespace Sapp
             {
                 foreach (GameUtilities.Tags tag in tagsApplied)
                 {
-                    if (!tagList.Contains(tag))
+                    if (!_tagList.Contains(tag))
                         return false;
                 }
                 return true;
@@ -183,7 +183,7 @@ namespace Sapp
             else if (method == TagApplicationMethod.ContainsOne)
             {
                 foreach (GameUtilities.Tags tag in tagsApplied)
-                    if (tagList.Contains(tag))
+                    if (_tagList.Contains(tag))
                         return true;
             }
 
@@ -192,7 +192,7 @@ namespace Sapp
 
         public bool ContainsTag(GameUtilities.Tags tag) // overload
         {
-            if (tagList.Contains(tag))
+            if (_tagList.Contains(tag))
                 return true;
 
             return false;
@@ -206,6 +206,20 @@ namespace Sapp
         public void SetInstallState(bool state)
         {
             IsInstalled = state;
+        }
+
+        public bool IsMultiplayerGame()
+        {
+            if (appID > 0)
+                return Multiplayer;
+            
+            bool mp = _tagList.Contains(GameUtilities.Tags.Multiplayer) || 
+                      _tagList.Contains(GameUtilities.Tags.CoOp) || 
+                      _tagList.Contains(GameUtilities.Tags.MMO) || 
+                      _tagList.Contains(GameUtilities.Tags.MassivelyMultiplayer) || 
+                      _tagList.Contains(GameUtilities.Tags.NoTags);
+
+            return mp;
         }
     }
 }
