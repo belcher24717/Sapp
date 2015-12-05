@@ -177,7 +177,7 @@
             </Image>
 
         </Button>
-        
+
         <Button BorderThickness="0" Content="&lt;&lt;" FlowDirection="LeftToRight" Height="26" HorizontalAlignment="Left" 
 			HorizontalContentAlignment="Center" Margin="480,289,0,195" x:Name="btnAddAll" SnapsToDevicePixels="True" 
 			Width="50" Click="btnClickAddAll" ToolTip="Add All"/>
@@ -261,36 +261,33 @@
             <TabItem Header="Hours" x:Name="Hours">
                 <Grid>
                     <StackPanel>
-                        <Expander x:Name="hoursPlayedExpander" Header="Hours Played" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}">
-                            <Grid Background="{StaticResource PrimaryColor}">
-                                <CheckBox x:Name="cb_HoursPlayed" Content="Enable" Margin="3,6,27,0" Foreground="{StaticResource TextColor}" Checked="CheckboxEnableChanged_Hours" Unchecked="CheckboxEnableChanged_Hours" Width="65" Height="20" VerticalAlignment="Top"/>
-                                <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="-2,19,-2,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
-                                <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" Height="20"
-									Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="5,39,0,0" VerticalContentAlignment="Center" Text="&gt;=" SnapsToDevicePixels="True" ScrollViewer.CanContentScroll="True" Style="{DynamicResource {x:Type ComboBox}}" OverridesDefaultStyle="True" UseLayoutRounding="False" BorderThickness="0"
+                        <Grid Background="{StaticResource PrimaryColor}" Margin="0">
+                            <Label Content="HOURS PLAYED" Foreground="{DynamicResource TextColor}" FontWeight="Bold" FontSize="11"/>
+                            <CheckBox x:Name="cb_HoursPlayed" Content="Enable" Margin="3,26,27,0" Foreground="{StaticResource TextColor}" Checked="CheckboxEnableChanged_Hours" Unchecked="CheckboxEnableChanged_Hours" Width="65" Height="20" VerticalAlignment="Top" FontSize="11"/>
+                            <Label x:Name="lblPreHoursPlayed" Content="Only show games with" Margin="3,39,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                            <ComboBox x:Name="combobox_HoursPlayed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" Height="20"
+									Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged" Margin="10,59,0,0" VerticalContentAlignment="Center" Text="&gt;=" SnapsToDevicePixels="True" ScrollViewer.CanContentScroll="True" Style="{DynamicResource {x:Type ComboBox}}" OverridesDefaultStyle="True" UseLayoutRounding="False" BorderThickness="0"
                                          >
-                                    <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
-                                </ComboBox>
-                                <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" Margin="55,39,0,0" RenderTransformOrigin="0.05,0.562" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="6,55,0,-4" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
-                            </Grid>
-                        </Expander>
+                                <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
+                            </ComboBox>
+                            <TextBox x:Name="textbox_HoursPlayed" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" Margin="60,59,0,0" RenderTransformOrigin="0.05,0.562" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Label x:Name="lblPostHoursPlayed" Content="hours of play time." HorizontalAlignment="Left" Margin="11,75,0,-4" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                        </Grid>
 
-                        <Expander x:Name="last2WeeksExpander" Header="Last 2 Weeks" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top"  Foreground="{StaticResource TextColor}">
-                            <Grid Background="{StaticResource PrimaryColor}">
-                                <CheckBox x:Name="cb_HoursPlayedLast2Weeks" Content="Enable" Margin="3,4,27,0" Foreground="{StaticResource TextColor}" Unchecked="CheckboxEnableChanged_Hours" Checked="CheckboxEnableChanged_Hours" Width="65" Height="20" VerticalAlignment="Top"/>
-                                <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="-2,19,-2,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
-                                <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="5,39,0,0" VerticalAlignment="Top" Width="40" Height="20"
+                        <Grid Background="{StaticResource PrimaryColor}" Margin="0,10,0,0">
+                            <Label Content="LAST TWO WEEKS" Foreground="{DynamicResource TextColor}" FontWeight="Bold" FontSize="11"/>
+                            <CheckBox x:Name="cb_HoursPlayedLast2Weeks" Content="Enable" Margin="3,24,27,0" Foreground="{StaticResource TextColor}" Unchecked="CheckboxEnableChanged_Hours" Checked="CheckboxEnableChanged_Hours" Width="65" Height="20" VerticalAlignment="Top" FontSize="11"/>
+                            <Label x:Name="lblPreHoursPlayedLast2Weeks" Content="Only show games with" HorizontalAlignment="Left" Margin="3,39,0,0" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}"/>
+                            <ComboBox x:Name="combobox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Width="40" Height="20"
 									Visibility="Visible" FontSize="10" SelectedIndex="0" SelectionChanged="HoursGtLgComboBoxChanged">
-                                    <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center"/>
-                                    <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
-                                </ComboBox>
-                                <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="20" Margin="50,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label x:Name="lblPostHoursPlayedLast2Weeks" Content="hours of play time &#xD;&#xA;in the last 2 weeks." HorizontalAlignment="Left" Margin="6,55,0,-4" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}" Width="84" Height="35" />
-                               
-                            
-                            </Grid>
-                        </Expander>
+                                <ComboBoxItem Content="&gt;=" FontSize="11" HorizontalAlignment="Center"/>
+                                <ComboBoxItem Content="&lt;=" FontSize="11" HorizontalAlignment="Center"/>
+                            </ComboBox>
+                            <TextBox x:Name="textbox_HoursPlayedLast2Weeks" HorizontalAlignment="Left" Height="20" Margin="55,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" FontSize="9" Visibility="Visible" Text="0" TextChanged="HoursTextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Label x:Name="lblPostHoursPlayedLast2Weeks" Content="hours of play time &#xD;&#xA;in the last 2 weeks." HorizontalAlignment="Left" Margin="11,75,0,-4" VerticalAlignment="Top" FontSize="9" Visibility="Visible" Foreground="{StaticResource TextColor}" Width="84" Height="35" />
+                        </Grid>
+
                     </StackPanel>
                 </Grid>
                 <!-- visibility -->
@@ -301,7 +298,7 @@
                     <Button x:Name="btnHost" Content="Host" Click="btnHostClick" Margin="55,8,9,0" Height="20" VerticalAlignment="Top"/>
                     <Button x:Name="btnJoin" Content="Join" Click="btnJoinClick" Margin="9,8,55,0" Height="20" VerticalAlignment="Top"/>
                     <Button x:Name="btnDisconnect" Content="Disconnect" Click="btnDisconnectClick" Margin="9,201,9,0" Height="20" VerticalAlignment="Top" Visibility="{Binding InFriendSession, Source={x:Static local:CoopUtils.DisconnectBinding}, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
-                    
+
                     <Label Content="Friends" Height="28" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <Label x:Name="lblNumFriends"  Content="" Height="28" HorizontalAlignment="Left" Margin="51,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" />
                     <Label Content="__________________________________" Height="28" HorizontalAlignment="Left" Margin="5,37,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
