@@ -209,7 +209,7 @@ namespace Sapp
             games.Add(customGame);
             GameUtilities.SaveGameList(games, myId, "games");
             _gamePool.Add(customGame);
-            _settings.addCustomGame(customGame);
+            _settings.AddCustomGame(customGame);
 
             ExitWizard();
         }

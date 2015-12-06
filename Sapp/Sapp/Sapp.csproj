@@ -93,6 +93,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomizeGamesWindow.xaml.cs">
+      <DependentUpon>CustomizeGamesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Border.xaml.cs">
       <DependentUpon>Border.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerificationClass.cs" />
+    <Page Include="CustomizeGamesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Border.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

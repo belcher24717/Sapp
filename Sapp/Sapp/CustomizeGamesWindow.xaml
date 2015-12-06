@@ -1,0 +1,47 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Sapp" x:Class="Sapp.CustomizeGamesWindow"
+        Title="Customize Games" Height="256.889" Width="374" WindowStyle = "None" 
+        AllowsTransparency="True" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        x:Name="CustomizeGamesWin">
+
+    <Grid Margin="0,0,0,-0.333">
+
+        <Rectangle HorizontalAlignment="Stretch" x:Name="MainRectangle" Stroke="{DynamicResource MainBorderColor}" VerticalAlignment="Stretch" MouseDown="MouseDownOnWindow" 
+			Canvas.Left="0" Canvas.Top="0" Fill="{DynamicResource BGGradient}" StrokeThickness="0" Margin="0,0,0,0"/>
+
+        <local:Border x:Name="MainWindowBorder" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
+    		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
+
+        <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="374" Background="{x:Null}" 
+                    Margin="0,15,0,0" BorderBrush="{DynamicResource BordersColor}" BorderThickness="0,0,0,1">
+            <TabItem x:Name="tabCustom" Header="Custom Games" HorizontalAlignment="Left" Width="100" Style="{DynamicResource TopTabs}">
+                <Grid>
+                    <Label Content="CUSTOM GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+                    <TextBox x:Name="textbox_customsearchfilter" TextWrapping="WrapWithOverflow" Margin="231,10,0,0" Background="{StaticResource PrimaryColor}"
+                        Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Width="126" GotFocus="txtFilterSearch_OnGotFocus" LostFocus="txtFilterSearch_OnLostFocus" Height="19" VerticalAlignment="Top"/>
+                    <Button x:Name="button_addcustomgame" Margin="0,135,13,0" Height="25" Width="65" Content="Add" Click="button_addcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <Button x:Name="button_editcustomgame" Margin="0,135,83,0" Height="25" Width="65" Content="Edit" Click="button_editcustomgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listbox_customgames" HorizontalAlignment="Left" Height="97" Margin="13,33,0,0" VerticalAlignment="Top" Width="344" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
+                    <Button x:Name="button_removecustomgame" Margin="13,135,0,0" Height="25" Width="65" Content="Remove" Click="button_removecustomgame_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabGames" Header="Edit Games" Style="{DynamicResource TopTabs}">
+                <Grid>
+                    <Label Content="EDIT GAMES" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
+                    <TextBox x:Name="textbox_editsearchfilter" TextWrapping="WrapWithOverflow" Margin="231,10,0,0" Background="{StaticResource PrimaryColor}"
+                        Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Width="126" GotFocus="txtFilterSearch_OnGotFocus" LostFocus="txtFilterSearch_OnLostFocus" Height="19" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listbox_editgames" HorizontalAlignment="Left" Height="97" Margin="13,33,0,0" VerticalAlignment="Top" Width="344" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryColor}"/>
+                    <Button x:Name="button_editgame" Margin="0,135,13,0" Height="25" Width="65" Content="Edit" Click="button_editgame_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <Button Content="Ok" BorderThickness="0" TabIndex="5"
+			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
+			Width="65" x:Name="btnOk" SnapsToDevicePixels="True" Margin="299,0,0,10.333" Click="btnOk_Clicked" />
+
+
+    </Grid>
+</Window>

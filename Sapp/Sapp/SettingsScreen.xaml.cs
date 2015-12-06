@@ -78,9 +78,9 @@ namespace Sapp
             textbox_customsearchfilter.TextChanged += new TextChangedEventHandler(txtSearchFilter_TextChanged);
             textbox_editsearchfilter.TextChanged += new TextChangedEventHandler(txtSearchFilter_TextChanged);
 
-            populateCustomGamesList();
-            populateEditGamesList();
-            CenterWindowOnScreen();
+            PopulateCustomGamesList();
+            PopulateEditGamesList();
+            //CenterWindowOnScreen();
         }
 
         //CREDIT: http://stackoverflow.com/questions/4019831/how-do-you-center-your-main-window-in-wpf
@@ -94,7 +94,7 @@ namespace Sapp
             this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
-        private void populateEditGamesList()
+        private void PopulateEditGamesList()
         {
 
             if (games == null)
@@ -115,7 +115,7 @@ namespace Sapp
             }
         }
 
-        private void populateCustomGamesList()
+        private void PopulateCustomGamesList()
         {
 
             if (games == null)
@@ -146,7 +146,7 @@ namespace Sapp
             
         }
 
-        public void addCustomGame(Game game)
+        public void AddCustomGame(Game game)
         {
             if (!_customGames.Contains(game))
             {
@@ -155,7 +155,7 @@ namespace Sapp
             }
         }
 
-        public void removeCustomGame(Game game)
+        public void RemoveCustomGame(Game game)
         {
             if (_customGames.Contains(game))
             {
@@ -341,21 +341,21 @@ namespace Sapp
             }
         }
 
-        private void updateList(TextBox tb)
+        private void UpdateList(TextBox tb)
         {
 
             if (tb.Name.ToLower().Contains("custom") && !tb.Text.Equals(FILTER_TEXT))
             {
 
-                iterateListItems(tb, new List<Game>(_customGames), listbox_customgames);
+                IterateListItems(tb, new List<Game>(_customGames), listbox_customgames);
             }
             else if (tb.Name.ToLower().Contains("edit") && !tb.Text.Equals(FILTER_TEXT))
             {
-                iterateListItems(tb, new List<Game>(_editGames), listbox_editgames);
+                IterateListItems(tb, new List<Game>(_editGames), listbox_editgames);
             }
         }
 
-        private void iterateListItems(TextBox tb, List<Game> list, ListBox listView)
+        private void IterateListItems(TextBox tb, List<Game> list, ListBox listView)
         {
             List<Game> trimmedList = new List<Game>(list);
             foreach (Game game in list)
@@ -386,7 +386,7 @@ namespace Sapp
                 editTextFilterActive = true;
             }
 
-            updateList(tb);
+            UpdateList(tb);
 
             if (tb.Focusable)
                 tb.Focus();
