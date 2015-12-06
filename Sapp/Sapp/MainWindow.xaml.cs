@@ -419,13 +419,13 @@ namespace Sapp
 
             #region hours pre-setup
 
-            if (hoursPlayedIsEnabled)
+            if (hoursPlayedIsEnabled && !textbox_HoursPlayed.Text.Equals(String.Empty))
             {
                 hoursPlayedHours = Double.Parse(textbox_HoursPlayed.Text);
                 hoursPlayedGreaterThan = (combobox_HoursPlayed.SelectedIndex == 0) ? true : false;
             }
 
-            if (last2WeeksIsEnabled)
+            if (last2WeeksIsEnabled && !textbox_HoursPlayedLast2Weeks.Text.Equals(String.Empty))
             {
                 last2WeeksHours = Double.Parse(textbox_HoursPlayedLast2Weeks.Text);
                 last2WeeksGreaterThan = (combobox_HoursPlayedLast2Weeks.SelectedIndex == 0) ? true : false;
@@ -710,6 +710,8 @@ namespace Sapp
 
         private bool Verify(string text)
         {
+            if(text.Equals(String.Empty))
+                return true;
             return VerificationClass.VerifyHours(text);
         }
 
