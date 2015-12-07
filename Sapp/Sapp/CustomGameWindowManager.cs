@@ -16,31 +16,44 @@ namespace Sapp
     {
 
         public CustomGameWizard _wizard;
-        private SettingsScreen _settings;
+        private CustomizeGamesWindow _gamesWindow;
         private TabControl _wizardTab;
         private SolidColorBrush baseColor;
         private long _fileSizeInBytes;
         private Game _game;
         private GamesList _gamePool;
         private GamesList _removedPool;
+        private Settings.Wizard _wizardType;
 
         private const string TEXT_COLOR = "#FFCFCFCF";
 
-        public CustomGameWindowManager(Settings.Wizard enumType, SettingsScreen settings, GamesList gamePool, GamesList removedPool, Game game = null)
+        // might be able to remove Settings.Wizard enumType since game will always be passed when editing. Can keep though incase more enums are added...
+        public CustomGameWindowManager(Settings.Wizard enumType, CustomizeGamesWindow gamesWindow, GamesList gamePool, GamesList removedPool, Game game = null)
         {
             _wizard = new CustomGameWizard();
+            _wizardType = enumType;
 
-            switch (enumType)
+            switch (_wizardType)
             {
-                case Settings.Wizard.Custom:
+                case Settings.Wizard.Add:
                     _wizard.label_wizardheader.Content = "CUSTOM GAME WIZARD";
                     break;
                 case Settings.Wizard.Edit:
+                    //TODO: This is hardcoded, make a better way of dealing with these 2 cases. Possibly a more dedicated Factory than CustomGameWindowManager that it uses to create its Wizard?
                     _wizard.label_wizardheader.Content = "EDIT GAME";
+                    // if game is not custom, hide .exe location feature...
+                    if (game != null && game.GetAppID() > 0)
+                    {
+                        _wizard.textbox_location.Visibility = System.Windows.Visibility.Hidden;
+                        _wizard.textbox_location.IsEnabled = false;
+                        _wizard.button_browse.Visibility = System.Windows.Visibility.Hidden;
+                        _wizard.button_browse.IsEnabled = false;
+                        _wizard.label_location.Visibility = System.Windows.Visibility.Hidden;
+                    }
                     break;
             }
 
-            _settings = settings;
+            _gamesWindow = gamesWindow;
             _gamePool = gamePool;
             _removedPool = removedPool;
             _wizardTab = _wizard.tabcontrol_customgame;
@@ -53,6 +66,7 @@ namespace Sapp
                 _game = game;
                 autoPopulateInfo();
             }
+
         }
 
         private void autoPopulateInfo()
@@ -89,11 +103,7 @@ namespace Sapp
             }
             else if (curTab == 1)
             {
-                if (VerifyTagsTab())
-                {
-                    Next();
-                    ResetTab(curTab);
-                }
+                Next();
             }
             else if (curTab == 2)
                 FinalizeGame();          
@@ -148,14 +158,14 @@ namespace Sapp
                 _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
                 return false;
             }
-            else if (_wizard.textbox_location.Text.Equals(""))
+            else if (_wizardType != Settings.Wizard.Edit && _wizard.textbox_location.Text.Equals(""))
             {
                 _wizard.label_location.Foreground = System.Windows.Media.Brushes.Red;
                 _wizard.label_error1.Content = "You must choose a file.";
                 _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
                 return false;
             }
-            else if (!File.Exists(_wizard.textbox_location.Text))
+            else if (_wizardType != Settings.Wizard.Edit && !File.Exists(_wizard.textbox_location.Text))
             {
                 _wizard.label_location.Foreground = System.Windows.Media.Brushes.Red;
                 _wizard.label_error1.Content = "That file does not exist.";
@@ -166,6 +176,7 @@ namespace Sapp
             return true;
         }
 
+        /*
         private bool VerifyTagsTab()
         {
             bool valid = false;
@@ -187,29 +198,47 @@ namespace Sapp
 
             return valid;
         }
-
+        */
         private void FinalizeGame()
         {
-            Game customGame = new Game(_wizard.textbox_gamename.Text, -(_wizard.getFileSize()), true); //name, id, isInstalled
-
-            customGame.FilePath = _wizard.textbox_location.Text;
-            foreach (string tag in _wizard.tagsToApply)
-                customGame.AddTag(tag);
-
+            Game game = null;
             string myId = Settings.GetInstance().SteamID64.ToString();
             GamesList games = GameUtilities.LoadGameList(myId, "games");
 
-            if (_game != null)
+            if (_wizardType == Settings.Wizard.Add)
             {
+                game = new Game(_wizard.textbox_gamename.Text, -(_wizard.getFileSize()), true); //name, id, isInstalled
+                game.FilePath = _wizard.textbox_location.Text;
+            }
+            else if (_wizardType == Settings.Wizard.Edit)
+            {
+                game = _game;
+                game.ClearTags();
+
                 games.Remove(_game);
                 _gamePool.Remove(_game);
                 _removedPool.Remove(_game);
             }
+            else
+            {
+                Logger.LogError("<CustomGameWindowManager.FinalizeGame> Wizard had an invalid type (Niether Custom or Edit)", false);
+                ExitWizard();
+            }
 
-            games.Add(customGame);
+            if (_wizard.tagsToApply.Count == 0)
+            {
+                game.AddTag(GameUtilities.Tags.NoTags);
+            }
+            else
+                foreach (string tag in _wizard.tagsToApply)
+                    game.AddTag(tag);
+
+            games.Add(game);
             GameUtilities.SaveGameList(games, myId, "games");
-            _gamePool.Add(customGame);
-            _settings.AddCustomGame(customGame);
+            _gamePool.Add(game);
+
+            if (game.GetAppID() < 0)
+                _gamesWindow.AddCustomGame(game);
 
             ExitWizard();
         }

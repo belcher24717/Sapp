@@ -20,19 +20,41 @@ namespace Sapp
     public partial class CustomizeGamesWindow : Window
     {
         private const string FILTER_TEXT = "Text Filter...";
-        bool customTextFilterActive;
-        bool editTextFilterActive;
+        bool textFilterActive;
+
+        private GamesList _gamePool;
+        private GamesList _removedPool;
 
         private List<Game> games;
         private List<Game> _customGames = new List<Game>();
         private List<Game> _editGames = new List<Game>();
 
-        public CustomizeGamesWindow()
+        public CustomizeGamesWindow(GamesList gamePool, GamesList removedPool)
         {
             InitializeComponent();
             games = MainWindow.GetAllGames();
             PopulateCustomGamesList();
             PopulateEditGamesList();
+
+            SetDefaultFilterText(textbox_customsearchfilter);
+            SetDefaultFilterText(textbox_editsearchfilter);
+
+            _gamePool = gamePool;
+            _removedPool = removedPool;
+        }
+
+        private void tcSettingsTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabControl tits = e.OriginalSource as TabControl;
+            TabItem tabSelected = tits == null ? null : tits.SelectedItem as TabItem;
+            if(tabSelected != null && tabSelected.Focusable)
+                tabSelected.Focus();
+        }
+
+        private void SetDefaultFilterText(TextBox tb)
+        {
+            tb.Text = FILTER_TEXT;
+            tb.Foreground = Brushes.Gray;
         }
 
         private void btnOk_Clicked(object sender, RoutedEventArgs e)
@@ -42,22 +64,85 @@ namespace Sapp
 
         private void button_addcustomgame_Click(object sender, RoutedEventArgs e)
         {
-
+            CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Add, this, _gamePool, _removedPool);
+            manager._wizard.SetManager(manager);
+            manager._wizard.ShowDialog();
         }
 
         private void button_editcustomgame_Click(object sender, RoutedEventArgs e)
         {
-
+            if (listbox_customgames.SelectedIndex < 0)
+            {
+                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a Custom Game first to edit.", System.Windows.Forms.MessageBoxButtons.OK);
+                dm.ShowDialog();
+            }
+            else
+            {
+                int index = listbox_customgames.SelectedIndex;
+                CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Edit, this, _gamePool, _removedPool, _customGames[index]);
+                manager._wizard.SetManager(manager);
+                manager._wizard.ShowDialog();
+            }
         }
 
         private void button_removecustomgame_Click(object sender, RoutedEventArgs e)
         {
+            if (listbox_customgames.SelectedIndex < 0)
+            {
+                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a Custom Game first to remove.", System.Windows.Forms.MessageBoxButtons.OK);
+                dm.ShowDialog();
+            }
+            else
+            {
+                DisplayMessage dm = new DisplayMessage("Remove Custom Game...",
+                                                       "Are you sure you want to remove " + listbox_customgames.SelectedItem.ToString() + "?",
+                                                       System.Windows.Forms.MessageBoxButtons.YesNo);
+                if ((bool)(dm.ShowDialog()))
+                {
+                    int index = listbox_customgames.SelectedIndex;
+                    Game gameToRemove = _customGames[index];
 
+                    _gamePool.Remove(gameToRemove);
+                    _removedPool.Remove(gameToRemove);
+
+                    //Remove game from persistence...
+                    string myId = Settings.GetInstance().SteamID64.ToString();
+                    GamesList games = GameUtilities.LoadGameList(myId, "games");
+                    games.Remove(gameToRemove);
+                    GameUtilities.SaveGameList(games, myId, "games");
+
+                    RemoveCustomGame(gameToRemove);
+                }
+            }
         }
 
         private void button_editgame_Click(object sender, RoutedEventArgs e)
         {
+            if (listbox_editgames.SelectedIndex < 0)
+            {
+                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a game first to edit.", System.Windows.Forms.MessageBoxButtons.OK);
+                dm.ShowDialog();
+            }
+            else
+            {
+                //int index = listbox_editgames.SelectedIndex;
+                int index;
+                for (index = 0; index < _editGames.Count; index++)
+                {
+                    if (_editGames[index].Title.Equals(listbox_editgames.SelectedItem.ToString()))
+                        break;
+                }
 
+                if (index == _editGames.Count)
+                {
+                    Logger.LogError("<CustomGameWizard.button_editgame_Click> Could not find the game to edit using name to name comparison between _editGames[index] and listbox.SelectedItem", false);
+                    return;
+                }
+                
+                CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Edit, this, _gamePool, _removedPool, games[index]);
+                manager._wizard.SetManager(manager);
+                manager._wizard.ShowDialog();
+            }
         }
 
         private void MouseDownOnWindow(object sender, MouseButtonEventArgs e)
@@ -87,22 +172,14 @@ namespace Sapp
                 //disable TextChanged event
                 tb.TextChanged -= txtSearchFilter_TextChanged;
 
-                tb.Text = FILTER_TEXT;
-                tb.Foreground = Brushes.Gray;
-                if (tb.Name.ToLower().Contains("custom"))
-                {
-                    customTextFilterActive = false;
-                }
-                else if (tb.Name.ToLower().Contains("edit"))
-                {
-                    editTextFilterActive = false;
-                }
+                SetDefaultFilterText(tb);
+                textFilterActive = false;
             }
             else
             {
                 if (tb.Text.Equals(FILTER_TEXT))
                 {
-                    if ((tb.Name.ToLower().Contains("custom") && !customTextFilterActive) || (tb.Name.ToLower().Contains("edit") && !editTextFilterActive))
+                    if (!textFilterActive)
                     {
                         tb.Text = "";
                         tb.Foreground = Brushes.White;
@@ -119,14 +196,7 @@ namespace Sapp
         {
             TextBox tb = (TextBox)sender;
 
-            if (tb.Name.ToLower().Contains("custom"))
-            {
-                customTextFilterActive = true;
-            }
-            else if (tb.Name.ToLower().Contains("edit"))
-            {
-                editTextFilterActive = true;
-            }
+            textFilterActive = true;
 
             UpdateList(tb);
 
@@ -136,24 +206,22 @@ namespace Sapp
 
         private void UpdateList(TextBox tb)
         {
-
             if (tb.Name.ToLower().Contains("custom") && !tb.Text.Equals(FILTER_TEXT))
             {
-
-                IterateListItems(tb, new List<Game>(_customGames), listbox_customgames);
+                IterateListItems(tb.Text, new List<Game>(_customGames), listbox_customgames);
             }
             else if (tb.Name.ToLower().Contains("edit") && !tb.Text.Equals(FILTER_TEXT))
             {
-                IterateListItems(tb, new List<Game>(_editGames), listbox_editgames);
+                IterateListItems(tb.Text, new List<Game>(_editGames), listbox_editgames);
             }
         }
 
-        private void IterateListItems(TextBox tb, List<Game> list, ListBox listView)
+        private void IterateListItems(string text, List<Game> list, ListBox listView)
         {
             List<Game> trimmedList = new List<Game>(list);
             foreach (Game game in list)
             {
-                if (!game.Title.ToLower().Contains(tb.Text.ToLower()))
+                if (!game.Title.ToLower().Contains(text.ToLower()))
                 {
                     trimmedList.Remove(game);
                 }
@@ -225,15 +293,21 @@ namespace Sapp
                 _customGames.Add(game);
                 listbox_customgames.Items.Add(game.ToString());
             }
+
+            if (!_editGames.Contains(game))
+            {
+                _editGames.Add(game);
+                listbox_editgames.Items.Add(game.ToString());
+            }
         }
 
         public void RemoveCustomGame(Game game)
         {
-            if (_customGames.Contains(game))
-            {
-                _customGames.Remove(game);
-                listbox_customgames.Items.Remove(game.ToString());
-            }
+            _customGames.Remove(game);
+            _editGames.Remove(game);
+            listbox_customgames.Items.Remove(game.ToString());
+            listbox_editgames.Items.Remove(game.ToString());
         }
+
     }
 }

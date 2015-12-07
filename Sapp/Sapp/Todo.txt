@@ -1,12 +1,10 @@
 ﻿Todo:
 
 Urgent:
-- dont focus testboxes when first entering tab for custom and edit
 - look over selection colors in edit listview (custom too?)
-- move custom and edit to a new window
+- remove dead custom/edit code in settingsscreen
 - MORE logging
-- make games editable in custom games
-	- make option to manually mark as installed and not installed
+- make edit game option to manually mark as installed and not installed - make true as null
 - change whole project to 'snowflake'
 
 Non-urgent:
@@ -15,6 +13,11 @@ Non-urgent:
 - remove single game stopped working after one remove (BUG)
 
 Done:
+x move custom and edit to a new window
+x make games editable in custom games
+x fix "No Tags" tag in custom game creation
+x save settings on exit
+x dont focus testboxes when first entering tab for custom and edit
 x autofill nickname with steam login name
 x auto filter out single player games in lobby
 x if we have no tags, and duplicate title, remove the game, mark it as dlc.

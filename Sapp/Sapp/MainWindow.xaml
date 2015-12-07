@@ -327,14 +327,14 @@
                 <!-- visibility -->
             </TabItem>
 
-            <TabItem Header="Connect" x:Name="Connect">
+            <TabItem Header="Friends  " x:Name="Connect">
                 <Grid>
                     <Button x:Name="btnHost" Content="Host" Click="btnHostClick" Margin="55,8,9,0" Height="20" VerticalAlignment="Top"/>
                     <Button x:Name="btnJoin" Content="Join" Click="btnJoinClick" Margin="9,8,55,0" Height="20" VerticalAlignment="Top"/>
                     <Button x:Name="btnDisconnect" Content="Disconnect" Click="btnDisconnectClick" Margin="9,201,9,0" Height="20" VerticalAlignment="Top" Visibility="{Binding InFriendSession, Source={x:Static local:CoopUtils.DisconnectBinding}, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
 
-                    <Label Content="Friends" Height="28" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <Label x:Name="lblNumFriends"  Content="" Height="28" HorizontalAlignment="Left" Margin="51,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" />
+                    <Label Content="Lobby" Height="28" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label x:Name="lblNumFriends"  Content="" Height="28" HorizontalAlignment="Left" Margin="49,32,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" />
                     <Label Content="__________________________________" Height="28" HorizontalAlignment="Left" Margin="5,37,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
                     <TextBlock x:Name="tbFriendsConnected" Margin="9,60,9,0" Height="131" VerticalAlignment="Top"/>
                     <Label Content="__________________________________" Height="25" HorizontalAlignment="Left" Margin="5,176,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
@@ -354,7 +354,7 @@
 
         <Button Content="Clear Filters" BorderThickness="0" 
 			HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 
-			Width="74" x:Name="btnClear" SnapsToDevicePixels="True" Margin="91,0,0,12" Click="btnClear_Click"/>
+			Width="74" x:Name="btnClear" SnapsToDevicePixels="True" Margin="72,0,0,12" Click="btnClear_Click"/>
 
         <Button Content="Play!" BorderThickness="0" Canvas.Left="478" Canvas.Top="320" 
 			HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" Height="25" 

@@ -144,7 +144,16 @@ namespace Sapp
 
             if (newTag != GameUtilities.Tags.NullTag)
                 _tagList.Add(newTag);
+            else
+            {
+                // maybe do something if it's a null tag!
+            }
+        }
 
+        public void AddTag(GameUtilities.Tags tag)
+        {
+            if (tag != GameUtilities.Tags.NullTag)
+                _tagList.Add(tag);
             else
             {
                 // maybe do something if it's a null tag!
@@ -160,6 +169,11 @@ namespace Sapp
         public void RemoveTag(GameUtilities.Tags tag)
         {
             _tagList.Remove(tag);
+        }
+
+        public void ClearTags()
+        {
+            _tagList.Clear();
         }
 
         public List<GameUtilities.Tags> GetTags()

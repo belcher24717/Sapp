@@ -133,9 +133,6 @@ namespace Sapp
 
                 onlyPlayInstalledGames = Settings.GetInstance().OnlyPlayInstalledGames;
 
-                //Do a quick save at the start to save any message settings that may have occured.
-                Settings.GetInstance().Save();
-
                 BlanketUpdate(GetTagApplicationMethod());
             }
         }
@@ -560,7 +557,6 @@ namespace Sapp
         {
             while (!populateGamesSuccessful)
             {
-
                 if (MessageBox.Show("There was an error populating the game pool.\n\n\tWould you like to retry?", "Oops!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     populateGamesSuccessful = PopulateGames();
@@ -571,6 +567,9 @@ namespace Sapp
                     break;
                 }
             }
+
+            if (!Settings.GetInstance().StartWithFullWindow)
+                btnOpenHiddenGames_Click(null, new RoutedEventArgs());
 
             checkboxesActive = true;
             this.Activate();//bring the window to the front
@@ -841,6 +840,8 @@ namespace Sapp
                 this.MinWidth = MAX_WINDOW_SIZE;
 
                 btnOpenHiddenGamesArrow.ToolTip = "Hide Removed";
+
+                Settings.GetInstance().StartWithFullWindow = true;
             }
             else
             {
@@ -856,6 +857,8 @@ namespace Sapp
                 btnRemoveGame.Visibility = Visibility.Hidden;
 
                 btnOpenHiddenGamesArrow.ToolTip = "Show Removed";
+
+                Settings.GetInstance().StartWithFullWindow = false;
             }
         }
 
@@ -902,6 +905,9 @@ namespace Sapp
 
         private void event_closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            //Do a quick save at the start to save any message settings that may have occured.
+            Settings.GetInstance().Save();
+
             if (CoopHost.GetInstance().IsHosting())
             {
                 CoopHost.GetInstance().StopHost();
@@ -1010,7 +1016,8 @@ namespace Sapp
 
         private void btnAddEditGames_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not Yet Implemented");
+            CustomizeGamesWindow addEditGames = new CustomizeGamesWindow(gamePool, removedPool);
+            addEditGames.ShowDialog();
         }
     }
 

@@ -84,7 +84,6 @@
                             <CheckBox Content="Survival" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxSurvival" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Checked="Checkbox_Checked" Unchecked="Checkbox_Unchecked"/>
                             <CheckBox Content="Tactical" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxTactical" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Checked="Checkbox_Checked" Unchecked="Checkbox_Unchecked"/>
                             <CheckBox Content="Turn-Based" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxTurnBased" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Checked="Checkbox_Checked" Unchecked="Checkbox_Unchecked"/>
-                            <CheckBox Content="No Tags" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="chkbxNoTags" IsChecked="False" Height="16" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" Checked="Checkbox_Checked" Unchecked="Checkbox_Unchecked"/>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>

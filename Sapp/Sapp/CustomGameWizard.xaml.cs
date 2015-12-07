@@ -130,14 +130,23 @@ namespace Sapp
                 label_finalexeselecteddisplay.Content = textbox_location.Text.Substring(index + 1);
 
                 textbox_tags.Items.Clear();
-                foreach (string str in tagsToApply)
+                if (tagsToApply.Count == 0)
                 {
                     ListBoxItem tag = new ListBoxItem();
-                    tag.Content = str;
+                    tag.Content = "No Tags";
                     tag.Focusable = false;
                     textbox_tags.Items.Add(tag);
                 }
-
+                else
+                {
+                    foreach (string str in tagsToApply)
+                    {
+                        ListBoxItem tag = new ListBoxItem();
+                        tag.Content = str;
+                        tag.Focusable = false;
+                        textbox_tags.Items.Add(tag);
+                    }
+                }
                 button_Next.Content = "Finish";
             }
 
@@ -167,6 +176,8 @@ namespace Sapp
         private void button_browse_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.OpenFileDialog();
+            dialog.DefaultExt = ".exe";
+            dialog.Filter = "EXE files (*.exe)|*.exe";
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

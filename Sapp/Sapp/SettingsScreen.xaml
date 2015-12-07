@@ -14,7 +14,7 @@
     		Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}"/>
 
         <TabControl x:Name="tcSettingsTab" HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="374" Background="{x:Null}" 
-                    Margin="0,15,0,0" BorderBrush="{DynamicResource BordersColor}" BorderThickness="0,0,0,1">
+                    Margin="0,15,0,0" BorderBrush="{DynamicResource BordersColor}" BorderThickness="0,0,0,1" SelectionChanged="tcSettingsTab_SelectionChanged">
             <TabItem x:Name="tabFilter" Header="Filter" Width="47" Style="{DynamicResource TopTabs}">
                 <Grid>
 

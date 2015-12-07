@@ -27,6 +27,13 @@ namespace Sapp
 
         #region Properties
 
+        private bool startWithFullWindow;
+        public bool StartWithFullWindow
+        {
+            get { return startWithFullWindow; }
+            set { startWithFullWindow = value; }
+        }
+
         private bool onlyPlayInstalledGames;
         public bool OnlyPlayInstalledGames
         {
@@ -42,10 +49,7 @@ namespace Sapp
         public Key GamePoolRemoveKeyBinding
         {
             get { return gamePoolRemoveKeyBinding; }
-            set
-            {
-                 gamePoolRemoveKeyBinding = value;
-            }
+            set { gamePoolRemoveKeyBinding = value; }
         }
 
         private string userID;
@@ -171,10 +175,11 @@ namespace Sapp
 
         public enum Wizard
         {
-            Custom,
+            Add,
             Edit
         };
 
+        //defaults, only built if it does not exist
         private Settings()
         {
             userWasChanged = false;
@@ -187,6 +192,7 @@ namespace Sapp
             joinIpAddress = "";
             displayPrivateMessage = true;
             displayOfflineMessage = true;
+            startWithFullWindow = true;
         }
 
         public static Settings GetInstance()

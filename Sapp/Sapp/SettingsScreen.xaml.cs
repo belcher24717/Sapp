@@ -94,6 +94,13 @@ namespace Sapp
             this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
+        private void tcSettingsTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabItem tabSelected = ((e.OriginalSource as TabControl).SelectedItem as TabItem);
+            if (tabSelected.Focusable)
+                tabSelected.Focus();
+        }
+
         private void PopulateEditGamesList()
         {
 
@@ -267,9 +274,9 @@ namespace Sapp
 
         private void button_addcustomgame_Click(object sender, RoutedEventArgs e)
         {
-            CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Custom, this, _gamePool, _removedPool);
-            manager._wizard.SetManager(manager);
-            manager._wizard.ShowDialog();
+            //CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Custom, this, _gamePool, _removedPool);
+            //manager._wizard.SetManager(manager);
+            //manager._wizard.ShowDialog();
         }
 
         private void tagApplication_closed(object sender, EventArgs e)
@@ -289,10 +296,10 @@ namespace Sapp
             }
             else
             {
-                int index = listbox_customgames.SelectedIndex;
-                CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Custom, this, _gamePool, _removedPool, _customGames[index]);
-                manager._wizard.SetManager(manager);
-                manager._wizard.ShowDialog();
+               // int index = listbox_customgames.SelectedIndex;
+                //CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Custom, this, _gamePool, _removedPool, _customGames[index]);
+               // manager._wizard.SetManager(manager);
+                //manager._wizard.ShowDialog();
             }
         }
 
@@ -334,10 +341,10 @@ namespace Sapp
             }
             else
             {
-                int index = listbox_editgames.SelectedIndex;
-                CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Edit, this, _gamePool, _removedPool, games[index]);
-                manager._wizard.SetManager(manager);
-                manager._wizard.ShowDialog();
+               // int index = listbox_editgames.SelectedIndex;
+               // CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Edit, this, _gamePool, _removedPool, games[index]);
+               // manager._wizard.SetManager(manager);
+               // manager._wizard.ShowDialog();
             }
         }
 
