@@ -20,26 +20,12 @@ namespace Sapp
     /// </summary>
     public partial class SettingsScreen : Window
     {
-        private List<Game> _customGames = new List<Game>();
-        //private List<Game> _shallowCustomGames = new List<Game>();
-        private List<Game> _editGames = new List<Game>();
-        //private List<Game> _shallowEditGames = new List<Game>();
-
-        private static List<Game> games = new List<Game>();
-        private GamesList _gamePool;
-        private GamesList _removedPool;
-        private bool customTextFilterActive;
-        private bool editTextFilterActive;
         private const string FILTER_TEXT = "Text Filter...";
 
         public SettingsScreen(GamesList gamePool, GamesList removedPool)
         {
             InitializeComponent();
             Settings settings = Settings.GetInstance();
-            games = MainWindow.GetAllGames();
-
-            _gamePool = gamePool;
-            _removedPool = removedPool;
 
             if (settings != null)
             {
@@ -59,7 +45,6 @@ namespace Sapp
                 if (settings.UserID == null)
                 {
                     tabColumns.IsEnabled = false;
-                    tabCustom.IsEnabled = false;
                     tabFilter.IsEnabled = false;
 
                     RegistryKey regKey = Registry.CurrentUser;
@@ -73,102 +58,14 @@ namespace Sapp
 
                 tagApplication_closed(null, null);
             }
-
-            //event handlers...
-            textbox_customsearchfilter.TextChanged += new TextChangedEventHandler(txtSearchFilter_TextChanged);
-            textbox_editsearchfilter.TextChanged += new TextChangedEventHandler(txtSearchFilter_TextChanged);
-
-            PopulateCustomGamesList();
-            PopulateEditGamesList();
-            //CenterWindowOnScreen();
-        }
-
-        //CREDIT: http://stackoverflow.com/questions/4019831/how-do-you-center-your-main-window-in-wpf
-        private void CenterWindowOnScreen()
-        {
-            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            this.Left = (screenWidth / 2) - (windowWidth / 2);
-            this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         private void tcSettingsTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TabItem tabSelected = ((e.OriginalSource as TabControl).SelectedItem as TabItem);
-            if (tabSelected.Focusable)
+            TabControl tabControl = e.OriginalSource as TabControl;
+            TabItem tabSelected = tabControl == null ? null : tabControl.SelectedItem as TabItem;
+            if (tabSelected != null && tabSelected.Focusable)
                 tabSelected.Focus();
-        }
-
-        private void PopulateEditGamesList()
-        {
-
-            if (games == null)
-                return;
-
-            _editGames = games;
-
-            // if there ARE games...
-            if (_editGames.Capacity > 0)
-            {
-                foreach (Game game in games)
-                {
-                    if (!listbox_editgames.Items.Contains(game.ToString()))
-                    {
-                        listbox_editgames.Items.Add(game.ToString());
-                    }
-                }
-            }
-        }
-
-        private void PopulateCustomGamesList()
-        {
-
-            if (games == null)
-                return;
-
-            foreach (Game game in games)
-            {
-                if (game.GetAppID() < 0)
-                {
-                    if (!_customGames.Contains(game))
-                    {
-                        _customGames.Add(game);
-                    }
-                }
-            }
-
-            // if there ARE custom games...
-            if (_customGames.Capacity > 0)
-            {
-                foreach (Game game in _customGames)
-                {
-                    if (!listbox_customgames.Items.Contains(game.ToString()))
-                    {
-                        listbox_customgames.Items.Add(game.ToString());
-                    }
-                }
-            }
-            
-        }
-
-        public void AddCustomGame(Game game)
-        {
-            if (!_customGames.Contains(game))
-            {
-                _customGames.Add(game);
-                listbox_customgames.Items.Add(game.ToString());
-            }
-        }
-
-        public void RemoveCustomGame(Game game)
-        {
-            if (_customGames.Contains(game))
-            {
-                _customGames.Remove(game);
-                listbox_customgames.Items.Remove(game.ToString());
-            }
         }
 
         private void btnAcceptClicked(object sender, RoutedEventArgs e)
@@ -272,13 +169,6 @@ namespace Sapp
 
         }
 
-        private void button_addcustomgame_Click(object sender, RoutedEventArgs e)
-        {
-            //CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Custom, this, _gamePool, _removedPool);
-            //manager._wizard.SetManager(manager);
-            //manager._wizard.ShowDialog();
-        }
-
         private void tagApplication_closed(object sender, EventArgs e)
         {
             if (cbxTagMethod.SelectedIndex == 0)
@@ -286,170 +176,7 @@ namespace Sapp
             else
                 lblFilters.Content = "Filter";
         }
-
-        private void button_editcustomgame_Click(object sender, RoutedEventArgs e)
-        {
-            if (listbox_customgames.SelectedIndex < 0)
-            {
-                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a Custom Game first to edit.", System.Windows.Forms.MessageBoxButtons.OK);
-                dm.ShowDialog();
-            }
-            else
-            {
-               // int index = listbox_customgames.SelectedIndex;
-                //CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Custom, this, _gamePool, _removedPool, _customGames[index]);
-               // manager._wizard.SetManager(manager);
-                //manager._wizard.ShowDialog();
-            }
-        }
-
-        private void button_removecustomgame_Click(object sender, RoutedEventArgs e)
-        {
-            if (listbox_customgames.SelectedIndex < 0)
-            {
-                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a Custom Game first to remove.", System.Windows.Forms.MessageBoxButtons.OK);
-                dm.ShowDialog();
-            }
-            else
-            {
-                DisplayMessage dm = new DisplayMessage("Remove Custom Game...", 
-                                                       "Are you sure you want to remove " + listbox_customgames.SelectedItem.ToString() + "?", 
-                                                       System.Windows.Forms.MessageBoxButtons.YesNo);
-                if ((bool)(dm.ShowDialog()))
-                {
-                    int index = listbox_customgames.SelectedIndex;
-                    listbox_customgames.Items.RemoveAt(index);
-                    _gamePool.Remove(_customGames[index]);
-                    _removedPool.Remove(_customGames[index]);
-
-                    //Remove game from persistence...
-                    string myId = Settings.GetInstance().SteamID64.ToString();
-                    GamesList games = GameUtilities.LoadGameList(myId, "games");
-                    games.Remove(_customGames[index]);
-                    _customGames.RemoveAt(index);
-                    GameUtilities.SaveGameList(games, myId, "games");
-                }
-            }
-        }
-
-        private void button_editgame_Click(object sender, RoutedEventArgs e)
-        {
-            if (listbox_editgames.SelectedIndex < 0)
-            {
-                DisplayMessage dm = new DisplayMessage("No Game Selected...", "You must select a game first to edit.", System.Windows.Forms.MessageBoxButtons.OK);
-                dm.ShowDialog();
-            }
-            else
-            {
-               // int index = listbox_editgames.SelectedIndex;
-               // CustomGameWindowManager manager = new CustomGameWindowManager(Settings.Wizard.Edit, this, _gamePool, _removedPool, games[index]);
-               // manager._wizard.SetManager(manager);
-               // manager._wizard.ShowDialog();
-            }
-        }
-
-        private void UpdateList(TextBox tb)
-        {
-
-            if (tb.Name.ToLower().Contains("custom") && !tb.Text.Equals(FILTER_TEXT))
-            {
-
-                IterateListItems(tb, new List<Game>(_customGames), listbox_customgames);
-            }
-            else if (tb.Name.ToLower().Contains("edit") && !tb.Text.Equals(FILTER_TEXT))
-            {
-                IterateListItems(tb, new List<Game>(_editGames), listbox_editgames);
-            }
-        }
-
-        private void IterateListItems(TextBox tb, List<Game> list, ListBox listView)
-        {
-            List<Game> trimmedList = new List<Game>(list);
-            foreach (Game game in list)
-            {
-                if (!game.Title.ToLower().Contains(tb.Text.ToLower()))
-                {
-                    trimmedList.Remove(game);
-                }
-            }
-
-            listView.Items.Clear();
-            foreach(Game game in trimmedList)
-            {
-                listView.Items.Add(game.ToString());
-            }
-        }
-
-        private void txtSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-
-            if (tb.Name.ToLower().Contains("custom"))
-            {
-                customTextFilterActive = true;
-            }
-            else if (tb.Name.ToLower().Contains("edit"))
-            {
-                editTextFilterActive = true;
-            }
-
-            UpdateList(tb);
-
-            if (tb.Focusable)
-                tb.Focus();
-        }
-
-        private void txtFilterSearch_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            UpdateTextFilterSettings(sender, false);
-        }
-
-        private void txtFilterSearch_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            if (String.IsNullOrEmpty(tb.Text))
-            {
-                UpdateTextFilterSettings(sender, true);
-            }
-        }
-
-        private void UpdateTextFilterSettings(object sender, bool lostFocus)
-        {
-            TextBox tb = (TextBox)sender;
-            if (lostFocus)
-            {
-                //disable TextChanged event
-                tb.TextChanged -= txtSearchFilter_TextChanged;
-
-                tb.Text = FILTER_TEXT;
-                tb.Foreground = Brushes.Gray;
-                if (tb.Name.ToLower().Contains("custom"))
-                {
-                    customTextFilterActive = false;
-                }
-                else if (tb.Name.ToLower().Contains("edit"))
-                {
-                    editTextFilterActive = false;
-                }
-            }
-            else
-            {
-                if (tb.Text.Equals(FILTER_TEXT))
-                {
-                    if ((tb.Name.ToLower().Contains("custom") && !customTextFilterActive) || (tb.Name.ToLower().Contains("edit") && !editTextFilterActive))
-                    {
-                        tb.Text = "";
-                        tb.Foreground = Brushes.White;
-
-                        //enable TextChanged event
-                        tb.TextChanged += txtSearchFilter_TextChanged;
-                    }
-                }
-            }
-
-        }
-
-    // end SettingsScreen
-    }
+    
+    }// end SettingsScreen
 
 }

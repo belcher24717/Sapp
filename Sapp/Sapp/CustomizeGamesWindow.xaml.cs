@@ -45,9 +45,9 @@ namespace Sapp
 
         private void tcSettingsTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TabControl tits = e.OriginalSource as TabControl;
-            TabItem tabSelected = tits == null ? null : tits.SelectedItem as TabItem;
-            if(tabSelected != null && tabSelected.Focusable)
+            TabControl tabControl = e.OriginalSource as TabControl;
+            TabItem tabSelected = tabControl == null ? null : tabControl.SelectedItem as TabItem;
+            if (tabSelected != null && tabSelected.Focusable)
                 tabSelected.Focus();
         }
 
