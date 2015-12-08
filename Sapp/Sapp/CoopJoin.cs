@@ -266,12 +266,13 @@ namespace Sapp
 
         public void Disconnect()
         {
+            SendDisconnectToHost();
             SetListening(false, true);
         }
 
         public void SendDisconnectToHost()
         {
-            if (_host == null)
+            if (!_listening || _host == null)
             {
                 SetListening(false);
                 return;

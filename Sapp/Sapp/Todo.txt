@@ -5,6 +5,7 @@ Urgent:
 - make edit game option to manually mark as installed and not installed - make true as null
 - change whole project to 'snowflake'
 - verify hosting and custom games work together with the new multiplayer changes
+- check if custom game exe is a shortcut, if so get the target and use it instead
 
 Non-urgent:
 - change networking to use MCF
@@ -26,4 +27,5 @@ x display a message for offline and private, allow option to not show this messa
 x fix settings "refresh" currently it will try to refresh the first time snowflake loads and you open and accept options
 x find a way to make host multiplayer pool either go through, or ignore custom games
 x remove dead custom/edit code in settingsscreen
-- add sounds to connect and disconnect for host (and maybe join?)
+x add sounds to connect and disconnect for host (and maybe join?)
+x make sure joined players cannot hit play 

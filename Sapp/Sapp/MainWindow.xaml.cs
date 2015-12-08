@@ -324,6 +324,9 @@ namespace Sapp
         //maybe move this logic into util?
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
+            if (CoopUtils.JoinListening)
+                return;
+
             if (gamePool.Count == 0)
             {
                 DisplayMessage noGames = new DisplayMessage("Play Error", "There are no games in the game pool!", System.Windows.Forms.MessageBoxButtons.OK);
@@ -339,7 +342,6 @@ namespace Sapp
                 CoopHost.GetInstance().Launch(gamePool[choiceGame].GetAppID());
 
             this.WindowState = WindowState.Minimized;
-
         }
 
         private void checkboxChanged(object sender, RoutedEventArgs e)

@@ -124,7 +124,15 @@ namespace Sapp
         public void Launch()
         {
             if (appID >= 0)
-                Process.Start("steam://run/" + appID);
+            {
+                try
+                { Process.Start("steam://run/" + appID); }
+                catch (Exception e)
+                {
+                    Logger.LogError("The launch of " + this.Title + " failed. Reason: " + e.Message, true);
+                }
+
+            }
             else
             {
                 if (File.Exists(FilePath))

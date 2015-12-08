@@ -258,7 +258,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Hours" x:Name="Hours">
+            <TabItem Header="Hours " x:Name="Hours">
                 <Grid>
                     <StackPanel>
                         <Grid Background="{StaticResource PrimaryColor}" Margin="0" Height="100">
