@@ -118,6 +118,8 @@ namespace Sapp
             TcpClient clientJoining;
             FriendsList.GetInstance().AddFriend(_nickname);
 
+            CoopUtils.PlaySound(Properties.Resources.ConnectSound);
+
             Logger.Log("HOST: hosting", true);
 
             while (_listening)
