@@ -1,11 +1,10 @@
 ﻿Todo:
 
 Urgent:
-- look over selection colors in edit listview (custom too?)
-- remove dead custom/edit code in settingsscreen
 - MORE logging
 - make edit game option to manually mark as installed and not installed - make true as null
 - change whole project to 'snowflake'
+- verify hosting and custom games work together with the new multiplayer changes
 
 Non-urgent:
 - change networking to use MCF
@@ -26,4 +25,5 @@ x coophost sends all its games for comparison. Need to send only multiplayer sin
 x display a message for offline and private, allow option to not show this message again.
 x fix settings "refresh" currently it will try to refresh the first time snowflake loads and you open and accept options
 x find a way to make host multiplayer pool either go through, or ignore custom games
+x remove dead custom/edit code in settingsscreen
 - add sounds to connect and disconnect for host (and maybe join?)
