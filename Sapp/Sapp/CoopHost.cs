@@ -61,7 +61,7 @@ namespace Sapp
             SendMessageToClients(CoopUtils.DISCONNECT, -1);
             Thread.Sleep(100);
             _clientsRegistered.StopHosting();
-            SetListening(false);
+            SetListening(false, true);
         }
 
         public void Launch(Int64 appID)
