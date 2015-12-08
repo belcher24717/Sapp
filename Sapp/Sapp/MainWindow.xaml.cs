@@ -437,7 +437,7 @@ namespace Sapp
                 if(CoopUtils.CollectivePool != null)
                 {
                     foreach (Game game in gamePool)
-                        if (!CoopUtils.CollectivePool.Contains(game) || !game.Multiplayer)
+                        if (!CoopUtils.CollectivePool.Contains(game) || !game.IsMultiplayerGame())
                             gamesToRemove.Add(game);
 
                     //remove them so they arent removed twice

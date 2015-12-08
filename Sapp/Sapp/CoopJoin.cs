@@ -271,7 +271,7 @@ namespace Sapp
 
         public void SendDisconnectToHost()
         {
-            if (!_listening || _host == null)
+            if (_host == null)
             {
                 SetListening(false);
                 return;
