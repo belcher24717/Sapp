@@ -24,10 +24,16 @@ namespace Sapp
         }
 
         // newly added... adds the ability to set isInstalled of the game, specifically if it's a custom game who's path can't be found
-        public bool? IsInstalled
+        public bool IsInstalled
         {
             get;
-            set;
+            private set;
+        }
+
+        public bool IsInstalledManually
+        {
+            get;
+            private set;
         }
 
         public bool IsUtility
@@ -225,9 +231,13 @@ namespace Sapp
             return this.appID == other.GetAppID();
         }
 
-        public void SetInstallState(bool state)
+        public void SetIsInstalled(bool installed, bool manual = false)
         {
-            IsInstalled = state;
+            if (!IsInstalledManually || manual)
+                IsInstalled = installed;
+
+            if (manual)
+                IsInstalledManually = !IsInstalledManually;
         }
 
         public bool IsMultiplayerGame()

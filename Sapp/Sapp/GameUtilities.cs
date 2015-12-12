@@ -195,7 +195,7 @@ namespace Sapp
             foreach (Game g in games)
             {
                 if(g.IsInstalled == false)
-                    g.IsInstalled = gameTitles.Contains(FixGameTitle(g.Title));
+                    g.SetIsInstalled(gameTitles.Contains(FixGameTitle(g.Title)));
             }
         }
 
@@ -338,7 +338,6 @@ namespace Sapp
 
                 while (reader.Read())
                 {
-                    
                     if (XmlNodeType.Element == reader.NodeType)
                     {
                         if (reader.Name.Equals("meta"))
@@ -694,7 +693,7 @@ namespace Sapp
 
             foreach (Game g in games)
             {
-                g.SetInstallState(GameUtilities.IsInstalled(g.GetAppID()));
+                g.SetIsInstalled(GameUtilities.IsInstalled(g.GetAppID()));
             }
             UpdateCustomGameAppId(games);
             VerifyInstalledGames(games);
@@ -771,11 +770,11 @@ namespace Sapp
                     if (File.Exists(game.FilePath))
                     {
                         game.SetAppId(-(Int64)(new System.IO.FileInfo(game.FilePath).Length));
-                        game.IsInstalled = true;
+                        game.SetIsInstalled(true);
                     }
                     else
                     {
-                        game.IsInstalled = false;
+                        game.SetIsInstalled(false);
                     }
                 }
             }
