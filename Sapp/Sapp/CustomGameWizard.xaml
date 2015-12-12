@@ -28,6 +28,7 @@
                     <TextBox x:Name="textbox_location" TabIndex="2" HorizontalAlignment="Left" Height="23" Margin="11,122,0,0" VerticalAlignment="Top" Width="203" MaxLines="1"/>
                     <Button x:Name="button_browse" Content="Browse" HorizontalAlignment="Left" Margin="219,122,0,0" VerticalAlignment="Top" Width="60" Height="23" Click="button_browse_Click"/>
                     <Label x:Name="label_error1" Content="Label" Width="268" Margin="11,150,0,0" RenderTransformOrigin="0.04,4.357" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFF90404" Visibility="Hidden"/>
+                    <CheckBox x:Name="checkbox_isinstalled" Content="Is Installed" Width="100" Margin="11,106,183,79" Foreground="{StaticResource TextColor}" Checked="checkstate_changed" Unchecked="checkstate_changed" />
                 </Grid>
             </TabItem>
 
@@ -111,7 +112,6 @@
                     </ListBox>
                 </Grid>
             </TabItem>
-
         </TabControl>
 
         <Button x:Name="button_Next" TabIndex="3" Content="Next &gt;" Margin="249,269,14,10" Click="button_next_Click"/>

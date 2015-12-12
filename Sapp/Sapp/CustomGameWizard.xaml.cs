@@ -26,6 +26,7 @@ namespace Sapp
         private List<CheckBox> checkboxes;
         public List<string> tagsToApply;
         private Int64 _fileSizeInBytes;
+        private bool isInstalledChanged;
 
         public CustomGameWizard()
         {
@@ -37,6 +38,7 @@ namespace Sapp
             PopulateCheckboxes();
 
             tagsToApply = new List<string>();
+            isInstalledChanged = false;
 
             CenterWindowOnScreen();
         }
@@ -213,6 +215,16 @@ namespace Sapp
         private void button_next_Click(object sender, RoutedEventArgs e)
         {
             _manager.Transition();
+        }
+
+        private void checkstate_changed(object sender, RoutedEventArgs e)
+        {
+            isInstalledChanged = !isInstalledChanged;
+        }
+
+        public bool DidIsInstalledChange()
+        {
+            return isInstalledChanged;
         }
 
     }

@@ -41,6 +41,7 @@ namespace Sapp
                 case Settings.Wizard.Edit:
                     //TODO: This is hardcoded, make a better way of dealing with these 2 cases. Possibly a more dedicated Factory than CustomGameWindowManager that it uses to create its Wizard?
                     _wizard.label_wizardheader.Content = "EDIT GAME";
+                    _wizard.checkbox_isinstalled.Visibility = System.Windows.Visibility.Visible;
                     // if game is not custom, hide .exe location feature...
                     if (game != null && game.GetAppID() > 0)
                     {
@@ -49,6 +50,14 @@ namespace Sapp
                         _wizard.button_browse.Visibility = System.Windows.Visibility.Hidden;
                         _wizard.button_browse.IsEnabled = false;
                         _wizard.label_location.Visibility = System.Windows.Visibility.Hidden;
+                    }
+                    else
+                    {
+                        //Left, Top, Right, Bottom - double
+                        System.Windows.Thickness margin = _wizard.checkbox_isinstalled.Margin;
+                        margin.Bottom -= 50;
+                        margin.Top += 50;
+                        _wizard.checkbox_isinstalled.Margin = margin;
                     }
                     break;
             }
@@ -64,6 +73,7 @@ namespace Sapp
             if (game != null)
             {
                 _game = game;
+                _game.SetIsInstalled(game.IsInstalled, false);
                 autoPopulateInfo();
             }
 
@@ -73,6 +83,7 @@ namespace Sapp
         {
             _wizard.textbox_gamename.Text = _game.Title;
             _wizard.textbox_location.Text = _game.FilePath;
+            _wizard.checkbox_isinstalled.IsChecked = _game.IsInstalled;
 
             List<CheckBox> checkboxes = _wizard.GetCheckboxList();
             List<GameUtilities.Tags> tags = _game.GetTags();
@@ -176,29 +187,6 @@ namespace Sapp
             return true;
         }
 
-        /*
-        private bool VerifyTagsTab()
-        {
-            bool valid = false;
-            List<CheckBox> cbList = _wizard.GetCheckboxList();
-
-            foreach (CheckBox cb in cbList)
-            {
-                if ((bool)(cb.IsChecked))
-                {
-                    valid = true;
-                    break;
-                }
-            }
-
-            if (!valid)
-                _wizard.label_customizeheader.Foreground = System.Windows.Media.Brushes.Red;
-            else
-                _wizard.label_customizeheader.Foreground = baseColor;
-
-            return valid;
-        }
-        */
         private void FinalizeGame()
         {
             Game game = null;
@@ -213,6 +201,12 @@ namespace Sapp
             else if (_wizardType == Settings.Wizard.Edit)
             {
                 game = _game;
+
+                if (_wizard.DidIsInstalledChange())
+                {
+                    game.SetIsInstalled(game.IsInstalled, true);
+                }
+
                 game.ClearTags();
 
                 games.Remove(_game);
