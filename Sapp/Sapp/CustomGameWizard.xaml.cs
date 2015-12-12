@@ -227,5 +227,9 @@ namespace Sapp
             return isInstalledChanged;
         }
 
+        public string GetGameTitle()
+        {
+            return textbox_gamename.Text;
+        }
     }
 }

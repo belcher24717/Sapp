@@ -204,9 +204,9 @@ namespace Sapp
 
                 if (_wizard.DidIsInstalledChange())
                 {
-                    game.SetIsInstalled(game.IsInstalled, true);
+                    game.SetIsInstalled(!game.IsInstalled, true);
                 }
-
+                game.ChangeTitle(_wizard.GetGameTitle());
                 game.ClearTags();
 
                 games.Remove(_game);

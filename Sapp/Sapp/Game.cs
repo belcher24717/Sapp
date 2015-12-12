@@ -116,12 +116,11 @@ namespace Sapp
             return this.title;
         }
 
-        /*
-        public bool IsInstalled()
+        public void ChangeTitle(string newTitle)
         {
-            return isInstalled;
+            title = newTitle;
         }
-        */
+
         public int CompareTo(Game other)
         {
             return this.ToString().CompareTo(other.ToString());
@@ -233,10 +232,16 @@ namespace Sapp
 
         public void SetIsInstalled(bool installed, bool manual = false)
         {
-            if (!IsInstalledManually || manual)
+            if (installed && !manual)
+            {
+                IsInstalled = installed;
+                IsInstalledManually = false;
+            }
+
+            else if (!IsInstalledManually || manual)
                 IsInstalled = installed;
 
-            if (manual)
+            else if (manual)
                 IsInstalledManually = !IsInstalledManually;
         }
 
