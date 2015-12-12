@@ -11,6 +11,8 @@ Non-urgent:
 - change networking to use MCF
 - make a "reset" for games tags
 - remove single game stopped working after one remove (BUG)
+- make steam games 'resetable' allow to reset to default for tags and name
+- remember all ips entered, dropdown them when textbox is clicked, allow for deletion of ips too
 
 Done:
 x move custom and edit to a new window

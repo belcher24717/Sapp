@@ -208,7 +208,7 @@ namespace Sapp
                 }
                 game.ChangeTitle(_wizard.GetGameTitle());
                 game.ClearTags();
-
+                 
                 games.Remove(_game);
                 _gamePool.Remove(_game);
                 _removedPool.Remove(_game);
