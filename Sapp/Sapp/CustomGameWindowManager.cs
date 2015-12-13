@@ -24,6 +24,7 @@ namespace Sapp
         private GamesList _gamePool;
         private GamesList _removedPool;
         private Settings.Wizard _wizardType;
+        private string _originalName;
 
         private const string TEXT_COLOR = "#FFCFCFCF";
 
@@ -42,23 +43,37 @@ namespace Sapp
                     //TODO: This is hardcoded, make a better way of dealing with these 2 cases. Possibly a more dedicated Factory than CustomGameWindowManager that it uses to create its Wizard?
                     _wizard.label_wizardheader.Content = "EDIT GAME";
                     _wizard.checkbox_isinstalled.Visibility = System.Windows.Visibility.Visible;
+                    _originalName = game.Title;
                     // if game is not custom, hide .exe location feature...
                     if (game != null && game.GetAppID() > 0)
                     {
+                        // If the game was determined to be installed programmatically, do not allow the user to say the game is not installed.
+                        if (!game.IsInstalledManually)
+                        {
+                            disableIsInstalled();
+                        }
                         _wizard.textbox_location.Visibility = System.Windows.Visibility.Hidden;
                         _wizard.textbox_location.IsEnabled = false;
                         _wizard.button_browse.Visibility = System.Windows.Visibility.Hidden;
                         _wizard.button_browse.IsEnabled = false;
                         _wizard.label_location.Visibility = System.Windows.Visibility.Hidden;
                     }
-                    else
+                    else // game is custom
                     {
                         //Left, Top, Right, Bottom - double
-                        System.Windows.Thickness margin = _wizard.checkbox_isinstalled.Margin;
-                        margin.Bottom -= 50;
-                        margin.Top += 50;
-                        _wizard.checkbox_isinstalled.Margin = margin;
+
+                        // NOTE: Changes below are because, for now, we are not allowing them to mark a custom game as uninstalled. If they move their installation, they can
+                        //       simply change the .exe file location. If they uninstall the game, they can simply remove the game. There is no need to keep track of isInstalled.
+
+                        //System.Windows.Thickness margin = _wizard.checkbox_isinstalled.Margin;
+                        //margin.Bottom -= 50;
+                        //margin.Top += 50;
+                        //_wizard.checkbox_isinstalled.Margin = margin;
+                        disableIsInstalled();
                     }
+                    _game = game;
+                    _game.SetIsInstalled(game.IsInstalled, false);
+                    autoPopulateInfo();
                     break;
             }
 
@@ -70,13 +85,19 @@ namespace Sapp
             baseColor = new SolidColorBrush();
             baseColor.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(TEXT_COLOR);
 
-            if (game != null)
-            {
-                _game = game;
-                _game.SetIsInstalled(game.IsInstalled, false);
-                autoPopulateInfo();
-            }
+//            if (game != null)
+//            {
+//                _game = game;
+//                _game.SetIsInstalled(game.IsInstalled, false);
+//                autoPopulateInfo();
+//            }
 
+        }
+
+        private void disableIsInstalled()
+        {
+            _wizard.checkbox_isinstalled.IsEnabled = false;
+            _wizard.checkbox_isinstalled.Visibility = System.Windows.Visibility.Hidden;
         }
 
         private void autoPopulateInfo()
@@ -155,7 +176,7 @@ namespace Sapp
                 _wizard.label_error1.Visibility = System.Windows.Visibility.Visible;
                 return false;
             }
-            else if (_wizard.textbox_gamename.Text.Length > 32)
+            else if (!_wizard.textbox_gamename.Text.Equals(_originalName) && _wizard.textbox_gamename.Text.Length > 32)
             {
                 _wizard.label_gamename.Foreground = System.Windows.Media.Brushes.Red;
                 _wizard.label_error1.Content = "Name must be 32 characters or less.";

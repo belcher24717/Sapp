@@ -118,14 +118,19 @@ namespace Sapp
 
         private void TabChangedEvent(object sender, RoutedEventArgs e)
         {
-            // reset
-            button_back.IsEnabled = true;
-            button_Next.Content = "Next >";
-
             // special cases
             if (tabcontrol_customgame.SelectedIndex == 0)
+            {
+                // reset
                 button_back.IsEnabled = false;
-            else if (tabcontrol_customgame.SelectedIndex == 2)
+            }
+            else 
+            {
+                button_back.IsEnabled = true;
+                button_Next.Content = "Next >";
+            }
+
+            if (tabcontrol_customgame.SelectedIndex == 2)
             {
                 label_finalnamedisplay.Content = textbox_gamename.Text;
                 int index = textbox_location.Text.LastIndexOf('\\');
