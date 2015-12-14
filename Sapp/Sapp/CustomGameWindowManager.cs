@@ -223,11 +223,7 @@ namespace Sapp
             else if (_wizardType == Settings.Wizard.Edit)
             {
                 game = _game;
-
-                if (_wizard.DidIsInstalledChange())
-                {
-                    game.SetIsInstalled((bool)(_wizard.checkbox_isinstalled.IsChecked), true);
-                }
+                game.SetIsInstalled((bool)(_wizard.checkbox_isinstalled.IsChecked), _wizard.DidIsInstalledChange());
                 game.ChangeTitle(_wizard.GetGameTitle());
                 game.ClearTags();
                  
