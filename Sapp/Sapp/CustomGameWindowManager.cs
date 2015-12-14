@@ -86,6 +86,13 @@ namespace Sapp
             baseColor = new SolidColorBrush();
             baseColor.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(TEXT_COLOR);
 
+//            if (game != null)
+//            {
+//                _game = game;
+//                _game.SetIsInstalled(game.IsInstalled, false);
+//                autoPopulateInfo();
+//            }
+
         }
 
         private void disableIsInstalled()
