@@ -48,7 +48,7 @@ namespace Sapp
                     if (game != null && game.GetAppID() > 0)
                     {
                         // If the game was determined to be installed programmatically, do not allow the user to say the game is not installed.
-                        if (game.IsInstalled == true && game.IsInstalledManually)
+                        if (game.IsInstalled == true && !game.IsInstalledManually)
                         {
                             disableIsInstalled();
                         }

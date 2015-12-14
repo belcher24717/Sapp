@@ -241,7 +241,7 @@ namespace Sapp
             else if (!IsInstalledManually || manual)
                 IsInstalled = installed;
 
-            else if (manual)
+            if (manual)
                 IsInstalledManually = !IsInstalledManually;
         }
 
