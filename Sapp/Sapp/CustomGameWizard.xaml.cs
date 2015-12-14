@@ -43,6 +43,12 @@ namespace Sapp
             CenterWindowOnScreen();
         }
 
+        public void SetIsInstalledHandlers()
+        {
+            checkbox_isinstalled.Checked += new RoutedEventHandler(checkstate_changed);
+            checkbox_isinstalled.Unchecked += new RoutedEventHandler(checkstate_changed);
+        }
+
         //CREDIT: http://stackoverflow.com/questions/4019831/how-do-you-center-your-main-window-in-wpf
         private void CenterWindowOnScreen()
         {

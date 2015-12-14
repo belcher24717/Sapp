@@ -74,6 +74,7 @@ namespace Sapp
                     _game = game;
                     _game.SetIsInstalled(game.IsInstalled, false);
                     autoPopulateInfo();
+                    _wizard.SetIsInstalledHandlers();
                     break;
             }
 
