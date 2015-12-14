@@ -1020,6 +1020,7 @@ namespace Sapp
         {
             CustomizeGamesWindow addEditGames = new CustomizeGamesWindow(gamePool, removedPool);
             addEditGames.ShowDialog();
+            BlanketUpdate();
         }
     }
 
