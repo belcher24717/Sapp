@@ -155,16 +155,14 @@ namespace Sapp
 
         private void btnBrowseClicked(object sender, RoutedEventArgs e)
         {
-            string testPath = "";
-
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
 
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                testPath = dialog.SelectedPath;
-            
+            System.Windows.Forms.DialogResult dr = dialog.ShowDialog();
 
-            txtSteamPath.Text = testPath;
-            if (!File.Exists(testPath + @"\config\loginusers.vdf"))
+            if (dr != System.Windows.Forms.DialogResult.Cancel)
+                txtSteamPath.Text = dialog.SelectedPath;
+
+            if (!txtSteamPath.Text.Equals("") && !File.Exists(txtSteamPath.Text + @"\config\loginusers.vdf"))
                 MessageBox.Show("Invalid Steam path selected.");
 
         }

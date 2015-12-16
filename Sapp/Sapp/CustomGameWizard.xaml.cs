@@ -195,8 +195,10 @@ namespace Sapp
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 textbox_location.Text = dialog.FileName;
-                _fileSizeInBytes = new FileInfo(dialog.FileName).Length;
-
+                FileInfo fi = new FileInfo(dialog.FileName);
+                _fileSizeInBytes = fi.Length;
+                //_fileSizeInBytes = new FileInfo(dialog.FileName).Length;
+                
                 if (textbox_gamename.Text.Equals(""))
                 {
                     string filename = dialog.SafeFileName;

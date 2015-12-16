@@ -38,6 +38,7 @@ namespace Sapp
             {
                 case Settings.Wizard.Add:
                     _wizard.label_wizardheader.Content = "CUSTOM GAME WIZARD";
+                    disableIsInstalled();
                     break;
                 case Settings.Wizard.Edit:
                     //TODO: This is hardcoded, make a better way of dealing with these 2 cases. Possibly a more dedicated Factory than CustomGameWindowManager that it uses to create its Wizard?
