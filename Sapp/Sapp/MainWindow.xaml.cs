@@ -117,8 +117,12 @@ namespace Sapp
                 Logger.Log("START: Populating Games", true);
 
                 populateGamesSuccessful = PopulateGames();
+                string message = populateGamesSuccessful ? "END: Populating Games" : "FAIL: Populating Games. Exiting.";
 
-                Logger.Log("END: Populating Games", true);
+                Logger.Log(message, true);
+
+                if (!populateGamesSuccessful)
+                    this.Close();
 
                 //TODO: Make all the checkboxes, and then all references to a list here.
                 //This list will make management of all checkboxes easy (seperate by type, like: tag filters, intalled only, hours played, etc)
@@ -188,8 +192,11 @@ namespace Sapp
             gamePool = GameUtilities.PopulateGames(steamid64);
 
             if (gamePool == null)
+            {
+                DisplayMessage message = new DisplayMessage("An Error Occured", "Try deleting your games file (*.gp)", System.Windows.Forms.MessageBoxButtons.OK);
+                message.ShowDialog();
                 return false;
-
+            }
             gamePool.Changed += new ChangedEventHandler(gamePool_Changed);
             gamePoolHandler.Bind(gamePool);
 
