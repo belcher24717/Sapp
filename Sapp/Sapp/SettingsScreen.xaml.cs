@@ -174,6 +174,26 @@ namespace Sapp
             else
                 lblFilters.Content = "Filter";
         }
+
+        private void SteamUserName_QMarkHoverEnter(object sender, MouseEventArgs e)
+        {
+            questionBubble_SteamUserName.Fill = FindResource("ButtonHoverColor") as SolidColorBrush;
+        }
+
+        private void SteamUserName_QMarkHoverLeave(object sender, MouseEventArgs e)
+        {
+            questionBubble_SteamUserName.Fill = FindResource("ButtonColor") as SolidColorBrush;
+        }
+
+        private void SteamPath_QMarkHoverEnter(object sender, MouseEventArgs e)
+        {
+            questionBubble_SteamPath.Fill = FindResource("ButtonHoverColor") as SolidColorBrush;
+        }
+
+        private void SteamPath_QMarkHoverLeave(object sender, MouseEventArgs e)
+        {
+            questionBubble_SteamPath.Fill = FindResource("ButtonColor") as SolidColorBrush;
+        }
     
     }// end SettingsScreen
 

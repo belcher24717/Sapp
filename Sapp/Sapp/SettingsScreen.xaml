@@ -56,16 +56,22 @@
 
                     <Label Content="USER INFORMATION" HorizontalAlignment="Left" Margin="8,2,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" FontSize="16" FontWeight="Bold"/>
 
-                    <TextBox x:Name="txtUserID" TabIndex="1" HorizontalAlignment="Left" Height="26" Margin="80,52,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
-                    <TextBox x:Name="txtSteamPath" TabIndex="2" HorizontalAlignment="Left" Height="25" Margin="80,83,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
+                    <TextBox x:Name="txtUserID" TabIndex="1" HorizontalAlignment="Left" Height="26" Margin="10,59,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
+                    <TextBox x:Name="txtSteamPath" TabIndex="2" HorizontalAlignment="Left" Height="25" Margin="10,118,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="190" MaxLines="1"/>
 
-                    <Label Content="User Name:" HorizontalAlignment="Left" Margin="5,52,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
-                    <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="5,82,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label Content="User Name:" HorizontalAlignment="Left" Margin="7,36,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
+                    <Label Content="Steam Path:" HorizontalAlignment="Left" Margin="7,95,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}"/>
 
-                    <Button Content="Browse" BorderThickness="0" TabIndex="3" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,10,31" Click="btnBrowseClicked" HorizontalAlignment="Right" Width="65" Height="25" VerticalAlignment="Bottom" />
+                    <Button Content="Browse" BorderThickness="0" TabIndex="3" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,8,25" Click="btnBrowseClicked" HorizontalAlignment="Right" Width="65" Height="25" VerticalAlignment="Bottom" />
+
+                    <Ellipse Name="questionBubble_SteamUserName" Stroke="{StaticResource TextColor}" Fill="{StaticResource ButtonColor}" Height="13" Width="13" Margin="77,41,188,114" />
+                    <Label Content="?" HorizontalAlignment="Left" Margin="76,34,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" MouseEnter="SteamUserName_QMarkHoverEnter" MouseLeave="SteamUserName_QMarkHoverLeave" ToolTip="Login name for Steam"/>
+                    
+                    <Ellipse x:Name="questionBubble_SteamPath" Stroke="{StaticResource TextColor}" Fill="{StaticResource ButtonColor}" Height="13" Width="13" Margin="77,100,188,55" />
+                    <Label Content="?" HorizontalAlignment="Left" Margin="76,93,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" MouseEnter="SteamPath_QMarkHoverEnter" MouseLeave="SteamPath_QMarkHoverLeave" ToolTip="Path to Steam folder"/>
+
                 </Grid>
             </TabItem>
-
         </TabControl>
 
 
