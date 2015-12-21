@@ -65,10 +65,10 @@
                     <Button Content="Browse" BorderThickness="0" TabIndex="3" HorizontalContentAlignment="Center" FlowDirection="LeftToRight" x:Name="btnBrowse" SnapsToDevicePixels="True" Margin="0,0,8,25" Click="btnBrowseClicked" HorizontalAlignment="Right" Width="65" Height="25" VerticalAlignment="Bottom" />
 
                     <Ellipse Name="questionBubble_SteamUserName" Stroke="{StaticResource TextColor}" Fill="{StaticResource ButtonColor}" Height="13" Width="13" Margin="77,41,188,114" />
-                    <Label Content="?" HorizontalAlignment="Left" Margin="76,34,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" MouseEnter="SteamUserName_QMarkHoverEnter" MouseLeave="SteamUserName_QMarkHoverLeave" ToolTip="Login name for Steam"/>
+                    <Label Content="?" HorizontalAlignment="Left" Margin="77,34,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" MouseEnter="SteamUserName_QMarkHoverEnter" MouseLeave="SteamUserName_QMarkHoverLeave" ToolTip="Login name for Steam"/>
                     
                     <Ellipse x:Name="questionBubble_SteamPath" Stroke="{StaticResource TextColor}" Fill="{StaticResource ButtonColor}" Height="13" Width="13" Margin="77,100,188,55" />
-                    <Label Content="?" HorizontalAlignment="Left" Margin="76,93,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" MouseEnter="SteamPath_QMarkHoverEnter" MouseLeave="SteamPath_QMarkHoverLeave" ToolTip="Path to Steam folder"/>
+                    <Label Content="?" HorizontalAlignment="Left" Margin="77,93,0,0" VerticalAlignment="Top" Foreground="{StaticResource TextColor}" MouseEnter="SteamPath_QMarkHoverEnter" MouseLeave="SteamPath_QMarkHoverLeave" ToolTip="Path to Steam folder"/>
 
                 </Grid>
             </TabItem>
