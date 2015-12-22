@@ -186,7 +186,7 @@ namespace Sapp
             onlyInstalledWasChanged = false;
             tagApplication = TagApplicationMethod.ContainsAll;
             gamePoolRemoveKeyBinding = Key.D;
-            onlyPlayInstalledGames = false;
+            onlyPlayInstalledGames = true;
             hostPort = joinPort = 7780;
             hostNickname = joinNickname = "";
             joinIpAddress = "";
